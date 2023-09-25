@@ -2,17 +2,25 @@
 import "./sass/main.scss";
 
 // Import some Bootstrap components
-import MainMenu from './MainMenu';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import MainMenu from './components/MainMenu';
+import StartView from './views/StartView';
+import Footer from './components/Footer';
+import { Container, Row, Col } from 'react-bootstrap';
 
 export default function App() {
   return <>
-    <MainMenu />
+    <MainMenu /> 
     <Container className="mt-5">
       <Row>
         <Col>
-          <h1>Hello!</h1>
-          <p>There you are...</p>
+          <StartView />
+        </Col>
+      </Row>
+    </Container>
+    <Container className="position-absolute bottom-0">
+      <Row>
+        <Col>
+          <Footer />
         </Col>
       </Row>
     </Container>
