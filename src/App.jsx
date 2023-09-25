@@ -2,9 +2,9 @@
 import "./sass/main.scss";
 
 // Import some Bootstrap components
-import MainMenu from './MainMenu';
-import StartView from './StartView';
-import Footer from './Footer';
+import MainMenu from './components/MainMenu';
+import StartView from './views/StartView';
+import Footer from './components/Footer';
 import { Container, Row, Col } from 'react-bootstrap';
 
 export default function App() {
