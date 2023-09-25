@@ -1,5 +1,6 @@
 import { Outlet, Link } from 'react-router-dom';
 
+/* Är bara en test sida, radera den när den inte behövs! */
 export default function TestView() {
     return (
         <>
