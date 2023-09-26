@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Container, Row, Col } from 'react-bootstrap';
 
-const Omview = () => {
+const AboutView = () => {
 
     return (
         <Container className="mt-5">
@@ -37,4 +37,4 @@ const Omview = () => {
 
 }
 
-export default Omview;
+export default AboutView;
