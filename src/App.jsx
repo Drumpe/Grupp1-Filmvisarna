@@ -9,7 +9,7 @@ import AboutView from './views/AboutView';
 import { Routes, Route} from "react-router-dom";
 import ViewHolder from "./ViewHolder";
 import AccountView  from "./views/AccountView";
-
+import TheaterView from "./views/TheaterView";
 
 export default function App() {
   return (
@@ -20,6 +20,7 @@ export default function App() {
         <Route path="/AboutView" element={<AboutView />} />
         <Route path="/MovieView" element={<MovieView />} />
         <Route path="/AccountView" element={<AccountView />} />
+        <Route path="/TheaterView" element={<TheaterView />} />
 
         {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
