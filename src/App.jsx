@@ -17,7 +17,6 @@ export default function App() {
         <Route index element={<StartView />} />
         <Route path="/ConfirmedView" element={<ConfirmedView />} />
         <Route path="/OmView" element={<OmView />} />
-
         <Route path="/AccountView" element={<AccountView />} />
 
         {/* Using path="*"" means "match anything", so this route
