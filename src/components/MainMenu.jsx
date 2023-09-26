@@ -25,10 +25,10 @@ export default function MainMenu() {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="#action1">Visas nu</Nav.Link>
-                  <Nav.Link href="#action2">Mitt konto</Nav.Link>
-                  <Nav.Link href="#action2">Avboka</Nav.Link>
-                  <Nav.Link href="#action2">Om oss</Nav.Link>
+                  <Nav.Link href="/StartView">Visas nu</Nav.Link>
+                  <Nav.Link href="/AccountView">Mitt konto</Nav.Link>
+                  <Nav.Link href="/">Avboka</Nav.Link>
+                  <Nav.Link href="/AboutView">Om oss</Nav.Link>
                   {/* <NavDropdown
                     title="Dropdown"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
