@@ -126,6 +126,7 @@ const MyComponent = () => {
                         <option value="3">Pensionär (120 kr)</option>
                     </Form.Select>
                     <Button variant="secondary mt-1">Lägg till</Button>{' '}
+                     Antal biljetter: (x) st | Totalpris: (x) kr
                 </Col>
             </Row>
             <Row>
