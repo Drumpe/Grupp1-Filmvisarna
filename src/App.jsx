@@ -2,27 +2,26 @@
 import "./sass/main.scss";
 
 // Import some Bootstrap components
-import MainMenu from './components/MainMenu';
 import StartView from './views/StartView';
-import Footer from './components/Footer';
-import { Container, Row, Col } from 'react-bootstrap';
+import ConfirmedView from './views/ConfirmedView';
+import OmView from './views/OmView';
+import { Routes, Route} from "react-router-dom";
+import ViewHolder from "./ViewHolder";
+
 
 export default function App() {
-  return <>
-    <MainMenu /> 
-    <Container className="mt-5">
-      <Row>
-        <Col>
-          <StartView />
-        </Col>
-      </Row>
-    </Container>
-    <Container className="position-absolute bottom-0">
-      <Row>
-        <Col>
-          <Footer />
-        </Col>
-      </Row>
-    </Container>
-  </>;
+  return (
+    <Routes>
+      <Route path="/" element={<ViewHolder />} >
+        <Route index element={<StartView />} />
+        <Route path="/ConfirmedView" element={<ConfirmedView />} />
+        <Route path="/OmView" element={<OmView />} />
+
+        {/* Using path="*"" means "match anything", so this route
+                acts like a catch-all for URLs that we don't have explicit
+                routes for. */}
+        <Route path="*" element={<StartView />} />
+      </Route>
+    </Routes>
+  );
 }
