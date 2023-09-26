@@ -120,20 +120,38 @@ const MyComponent = () => {
             </Row>
 
             <Row>
-                <Col>
+            <Col>
+                Välj typ av biljett
+
+                <Form.Select aria-label="Default select example">
+      <option>Biljettyp</option>
+      <option value="1">Normal (140 kr)</option>
+      <option value="2">Barn (80 kr)</option>
+      <option value="3">Pensionär (120 kr)</option>
+    </Form.Select>
+    <Button variant="secondary mt-1">Lägg till</Button>{' '}
+                </Col>
+            </Row>
+<Row><Col></Col></Row>
+            <Row>
+            <Col className="d-flex justify-content-center mt-3">
                 <Form>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Antal platser:</Form.Label>
-        <Form.Control type="email" placeholder="Ange antal" />
-        <Form.Text className="text-muted">
-        </Form.Text>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+        <Form.Label>Email-adress</Form.Label>
+        <Form.Control type="email" placeholder="name@example.com" />
       </Form.Group>
-      </Form>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+      <Form.Text id="passwordHelpBlock" muted>
+       För att kunna boka måste du ange en giltig mailadress.
+      </Form.Text>
+      </Form.Group>
+    </Form>
+
                 </Col>
             </Row>
 <Row>
 <Col className="d-flex justify-content-center">
-   <Button variant="secondary">Genomför bokning</Button>{' '}
+   <Button variant="secondary">Bekräfta bokning</Button>{' '}
    </Col>
 </Row>
       
