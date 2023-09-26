@@ -7,6 +7,7 @@ import ConfirmedView from './views/ConfirmedView';
 import AboutView from './views/AboutView';
 import { Routes, Route} from "react-router-dom";
 import ViewHolder from "./ViewHolder";
+import AccountView  from "./views/AccountView";
 
 
 export default function App() {
@@ -16,6 +17,8 @@ export default function App() {
         <Route index element={<StartView />} />
         <Route path="/ConfirmedView" element={<ConfirmedView />} />
         <Route path="/AboutView" element={<AboutView />} />
+
+        <Route path="/AccountView" element={<AccountView />} />
 
         {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
