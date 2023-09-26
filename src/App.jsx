@@ -4,6 +4,7 @@ import "./sass/main.scss";
 // Import some Bootstrap components
 import StartView from './views/StartView';
 import ConfirmedView from './views/ConfirmedView';
+import MovieView from './views/MovieView'
 import AboutView from './views/AboutView';
 import { Routes, Route} from "react-router-dom";
 import ViewHolder from "./ViewHolder";
@@ -16,8 +17,8 @@ export default function App() {
       <Route path="/" element={<ViewHolder />} >
         <Route index element={<StartView />} />
         <Route path="/ConfirmedView" element={<ConfirmedView />} />
+        <Route path="/MovieView" element={<MovieView/>} />
         <Route path="/AboutView" element={<AboutView />} />
-
         <Route path="/AccountView" element={<AccountView />} />
 
         {/* Using path="*"" means "match anything", so this route
