@@ -27,7 +27,7 @@ export default function MainMenu() {
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <Nav.Link href="/StartView">Visas nu</Nav.Link>
                   <Nav.Link href="/AccountView">Mitt konto</Nav.Link>
-                  <Nav.Link href="/">Avboka</Nav.Link>
+                  <Nav.Link href="/CancelView">Avboka</Nav.Link>
                   <Nav.Link href="/AboutView">Om oss</Nav.Link>
                   {/* <NavDropdown
                     title="Dropdown"
