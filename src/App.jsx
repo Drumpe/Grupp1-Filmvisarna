@@ -17,8 +17,8 @@ export default function App() {
       <Route path="/" element={<ViewHolder />} >
         <Route index element={<StartView />} />
         <Route path="/ConfirmedView" element={<ConfirmedView />} />
-        <Route path="/MovieView" element={<MovieView/>} />
         <Route path="/AboutView" element={<AboutView />} />
+        <Route path="/MovieView" element={<MovieView />} />
         <Route path="/AccountView" element={<AccountView />} />
 
         {/* Using path="*"" means "match anything", so this route
