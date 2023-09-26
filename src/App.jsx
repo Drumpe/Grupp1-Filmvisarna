@@ -4,14 +4,13 @@ import "./sass/main.scss";
 // Import some Bootstrap components
 import MainMenu from './components/MainMenu';
 import StartView from './views/StartView';
-import Omview from "./views/omview";
 import Footer from './components/Footer';
 import { Container, Row, Col } from 'react-bootstrap';
 
 export default function App() {
   return <>
     <MainMenu /> 
-    <Container className="mt-0">
+    <Container className="mt-5">
       <Row>
         <Col>
           <StartView />
