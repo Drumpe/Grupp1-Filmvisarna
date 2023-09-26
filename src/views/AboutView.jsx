@@ -3,7 +3,7 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import { Container, Row, Col, Image } from 'react-bootstrap';
 
-const Omview = () => {
+const AboutView = () => {
     return (
         <Container>
             <Row>
@@ -33,5 +33,5 @@ const Omview = () => {
     );
 };
 
-export default Omview;
+export default AboutView;
 

@@ -4,8 +4,10 @@ import "./sass/main.scss";
 // Import some Bootstrap components
 import MainMenu from './components/MainMenu';
 import StartView from './views/StartView';
+import AboutView from "./views/AboutView";
 import Footer from './components/Footer';
 import { Container, Row, Col } from 'react-bootstrap';
+
 
 export default function App() {
   return <>
