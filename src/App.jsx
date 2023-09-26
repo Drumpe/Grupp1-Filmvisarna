@@ -17,7 +17,7 @@ export default function App() {
       <Route path="/" element={<ViewHolder />} >
         <Route index element={<StartView />} />
         <Route path="/ConfirmedView" element={<ConfirmedView />} />
-        <Route path="/OmView" element={<OmView />} />
+        <Route path="/AboutView" element={<AboutView />} />
 
         <Route path="/AccountView" element={<AccountView />} />
 
