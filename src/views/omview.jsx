@@ -24,7 +24,7 @@ const Omview = () => {
                     <p>Välkommen till vår filmwebbplats! Vi brinner för film och vill dela vår kärlek till film med dig.</p>
                     <p>Vårt uppdrag är att förse dig med den senaste filmen och information om kommande släpp. Vi hoppas kunna hjälpa dig att upptäcka nya.</p>
                     <p>vårt team består av: Ola, Yassein, Patrik, Arsha, Albin, Jimmie</p>
-                    <Button className="mb-3" variant="primary" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Liten present</Button>
+                    
                     <Card className="mt-3">
                     <Card.Title>Kontat info</Card.Title>
                     <Card.Body>Filmvisarna@mail.com   <br /> 07000000 </Card.Body>
