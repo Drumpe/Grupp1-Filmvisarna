@@ -1,5 +1,6 @@
 import Card from 'react-bootstrap/Card';
 import { Container, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export default function StartView() {
 return (
@@ -7,43 +8,41 @@ return (
 		<h1>Visas nu</h1>
 		<Row>
 			<Col>
-				<a href="#">
+				<Link to="/MovieView">
 					<Card style={{  }}>
 					<Card.Img variant="top" src="holder.js/100px180" />
 					<Card.Body>
 					</Card.Body>
 					<Card.Title>Card Title</Card.Title>
 					</Card>
-				</a>
-
-				<a href="#">
+				</Link>
+				<Link to="/MovieView">
 					<Card style={{  }}>
 					<Card.Img variant="top" src="holder.js/100px180" />
 					<Card.Body>
 					</Card.Body>
 					<Card.Title>Card Title</Card.Title>
 					</Card>
-				</a>
+				</Link>
 			</Col>
 
 			<Col>
-				<a href="#">
+			<Link to="/MovieView">
 					<Card style={{  }}>
 					<Card.Img variant="top" src="holder.js/100px180" />
 					<Card.Body>
 					</Card.Body>
 					<Card.Title>Card Title</Card.Title>
 					</Card>
-				</a>
-
-				<a href="#">
+				</Link>
+				<Link to="/MovieView">
 					<Card style={{  }}>
 					<Card.Img variant="top" src="holder.js/100px180" />
 					<Card.Body>
 					</Card.Body>
 					<Card.Title>Card Title</Card.Title>
 					</Card>
-				</a>
+				</Link>
 			</Col>
 		</Row>
 	</Container>
