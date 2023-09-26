@@ -4,6 +4,7 @@ import "./sass/main.scss";
 // Import some Bootstrap components
 import StartView from './views/StartView';
 import ConfirmedView from './views/ConfirmedView';
+import OmView from './views/OmView';
 import { Routes, Route} from "react-router-dom";
 import ViewHolder from "./ViewHolder";
 
@@ -14,7 +15,7 @@ export default function App() {
       <Route path="/" element={<ViewHolder />} >
         <Route index element={<StartView />} />
         <Route path="/ConfirmedView" element={<ConfirmedView />} />
-        {/*<Route path="/test" element={<TestView />} />*/}
+        <Route path="/OmView" element={<OmView />} />
 
         {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit

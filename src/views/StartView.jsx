@@ -7,7 +7,7 @@ return (
 		<h1>Visas nu</h1>
 		<Row>
 			<Col>
-				<a href="/om">
+				<a href="#">
 					<Card style={{  }}>
 					<Card.Img variant="top" src="holder.js/100px180" />
 					<Card.Body>
@@ -16,7 +16,7 @@ return (
 					</Card>
 				</a>
 
-				<a href="/test">
+				<a href="#">
 					<Card style={{  }}>
 					<Card.Img variant="top" src="holder.js/100px180" />
 					<Card.Body>
