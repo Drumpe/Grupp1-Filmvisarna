@@ -21,5 +21,11 @@ $info: $pink;
 $light: $white;
 $dark: #090a09;
 
+$font-family-base: 'Latin Modern Sans', 'Futura', Helvetica, Arial, sans-serif;
+h1, h2, h3, h4, h5 {
+  font-family: 'Latin Modern Sans Bold', 'Futura', Helvetica, Arial, sans-serif; 
+  font-weight: 700;
+}
+
 // Import Bootstrap
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
