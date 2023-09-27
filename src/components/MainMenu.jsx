@@ -11,7 +11,7 @@ return (
         <Container fluid>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
           <Navbar.Brand href="/StartView">
-            <img src="/public/logo_img/svg/filmvisarna-logo-purple.svg" className="d-block custom-logo-navbar"></img>
+            <img src="/public/logo_img/png/filmvisarna-logo-icon.png" className="d-block custom-logo-navbar"></img>
           </Navbar.Brand>
           <div></div>
           <Navbar.Offcanvas
