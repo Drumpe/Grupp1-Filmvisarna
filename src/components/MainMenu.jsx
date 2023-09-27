@@ -6,7 +6,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 export default function MainMenu() {
   return (
     <>
-      {[false].map((expand) => (
+      {["lg"].map((expand) => (
         <Navbar 
           key={expand} expand={expand} 
           className="mb-3 navbar-dark"
