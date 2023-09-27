@@ -1,20 +1,9 @@
 // Variable overrides changing the look of Bootstrap
 // "theming Bootstrap"
 
-$theme-colors: (
-  "primary": #b200ff,
-  "secondary": #5519fd,
-  "success": #00c548, 
-  "danger": #df1e1c,
-  "warning": #efa304,
-  "info": #c679db,
-  "light": #fcf3ff,
-  "dark": #090a09,
-);
+ /*$body-bg: black;
+$body-color: #eee; */
 
-$body-bg: #090a09;
-$body-color: #fcf3ff;
-
-/* $font-family-base: 'Latin Modern Sans'; */
+// $font-family-base: 'Roboto Slab';
 // Import Bootstrap
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
