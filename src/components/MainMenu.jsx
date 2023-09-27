@@ -6,22 +6,30 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 export default function MainMenu() {
   return (
     <>
-      {[false].map((expand) => (
-        <Navbar key={expand} expand={expand} className="mb-3">
+      {["lg"].map((expand) => (
+        <Navbar 
+          key={expand} expand={expand} 
+          className="mb-3 navbar-dark"
+          >
 
           <Container fluid>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
-            <Navbar.Brand href="#">Filmvisarna</Navbar.Brand>
+            <Navbar.Brand href="/StartView">
+                <div className="h6 text-secondary custom-text-logo text-center m-0">
+                  <img src="/public/img/logo/filmvisarna-logo-icon.png" className="d-block custom-logo-navbar mx-auto"></img>
+                  Filmvisarna
+                </div>
+            </Navbar.Brand>
             <div></div>
             <Navbar.Offcanvas
               id={`offcanvasNavbar-expand-${expand}`}
               aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
               placement="start"
+              data-bs-theme="dark"
+              className="bg-dark text-light"
             >
               <Offcanvas.Header closeButton>
-                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                  Offcanvas
-                </Offcanvas.Title>
+                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}></Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
