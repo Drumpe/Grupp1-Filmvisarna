@@ -12,11 +12,11 @@ export default function StartView() {
 					<option value="7">7</option>
 					<option value="13">13</option>
 					<option value="15">15</option>
-					<option value="18">18</option>
+					<option value="18" selected>Alla</option>
 				</select>
 			</Row>
 			<Row className="align-items-center">
-				<Col className='col-6 col-lg-3'>
+				<Col className='col-6 col-lg-3'> 
 					<Link to="/MovieView" className="link-light link-underline-opacity-25 link-underline-opacity-75-hover">
 						<Card>
 							<Card.Img className="top rounded ratio-6x9" alt='Awake' src="/img/poster/awake.jpg" />
