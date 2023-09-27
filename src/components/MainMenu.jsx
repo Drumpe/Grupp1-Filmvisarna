@@ -18,7 +18,6 @@ return (
             id={`offcanvasNavbar-expand-${expand}`}
             aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
             placement="start"
-            data-bs-theme="dark"
             className="bg-dark text-light"
           >
             <Offcanvas.Header closeButton>
