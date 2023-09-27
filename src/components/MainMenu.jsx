@@ -19,17 +19,20 @@ return (
             aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
             placement="start"
             className="bg-dark text-light"
+            data-bs-theme="dark"
           >
             <Offcanvas.Header closeButton>
               <Offcanvas.Title 
-                id={`offcanvasNavbarLabel-expand-${expand}`}>
-                {/* <div className="justify-content-center align-items-center h6 text-center text-primary">
+                id={`offcanvasNavbarLabel-expand-${expand}`}
+                className="m-0 p-0"
+              >
+                <div className="justify-content-center align-items-center h6 text-center text-secondary m-0 p-0">
                   <img src="/public/logo_img/png/filmvisarna-logo-icon.png" className="d-block custom-logo-offcanvas mb-2"></img>
                   Filmvisarna
-                </div> */}
+                </div>
               </Offcanvas.Title>
             </Offcanvas.Header>
-            <Offcanvas.Body>
+            <Offcanvas.Body className="pt-0">
               <Nav className="justify-content-end flex-grow-1 pe-3">
                 <Nav.Link href="/StartView">Visas nu</Nav.Link>
                 <Nav.Link href="/AccountView">Mitt konto</Nav.Link>
