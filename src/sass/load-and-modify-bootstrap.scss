@@ -33,7 +33,8 @@ h1, h2, h3, h4, h5 {
   color: $white;
 }
 
-$color-mode-type: data;
+$body-bg: $dark;
+$body-color: $light;
 
 /* @include color-mode(dark) {
   .element {
