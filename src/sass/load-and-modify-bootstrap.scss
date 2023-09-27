@@ -1,20 +1,25 @@
 // Variable overrides changing the look of Bootstrap
 // "theming Bootstrap"
 
-$theme-colors: (
-  "primary": #b200ff,
-  "secondary": #5519fd,
-  "success": #00c548, 
-  "danger": #df1e1c,
-  "warning": #efa304,
-  "info": #c679db,
-  "light": #fcf3ff,
-  "dark": #090a09,
-);
+$blue: #0032d7;
+$purple: #b200ff;
+$indigo: #5519fd;
+$green: #00c548;
+$red: #df1e1c;
+$orange: #efa304;
+$pink: #c679db;
+$white: #fcf3ff;
+$gray: #8e918e;
+$gray-dark: #3d3e3d;
 
-$body-bg: #090a09;
-$body-color: #fcf3ff;
+$primary: $purple;
+$secondary: $indigo;
+$success: $green; 
+$danger: $red;
+$warning: $orange;
+$info: $pink;
+$light: $white;
+$dark: #090a09;
 
-/* $font-family-base: 'Latin Modern Sans'; */
 // Import Bootstrap
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
