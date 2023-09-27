@@ -53,11 +53,10 @@ function BasicExample() {
         <Row>
             <Col>
                 <Link to='/ConfirmedView'>
-                    <Button className='offset-1 mt-1' variant="primary" style={{width: '25rem'}}>
+                    <Button className='offset-1 mt-2' variant="primary" style={{width: '25rem'}}>
                         Välj visning
                     </Button>{''}
                 </Link>
-                
             </Col>
         </Row>
     </Container>
