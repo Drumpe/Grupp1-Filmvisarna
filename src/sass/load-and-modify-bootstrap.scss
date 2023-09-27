@@ -22,10 +22,11 @@ $info: $pink;
 $light: $white;
 $dark: $black;
 
-$font-family-base: 'Latin Modern Sans', 'Futura', Helvetica, Arial, sans-serif;
+$font-family-base: var(--custom-primary-font-sans);
+
 h1, h2, h3, h4, h5 {
-  font-family: 'Latin Modern Sans Bold', 'Futura', Helvetica, Arial, sans-serif; 
-  font-weight: 700;
+  font-family: var(--custom-primary-font-sans-bold);
+  font-weight: bold;
 }
 
 // Import Bootstrap
