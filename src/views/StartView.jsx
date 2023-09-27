@@ -10,7 +10,7 @@ return (
 			<Col className='col-6 col-lg-3'>
 				<Link to="/MovieView" className="link-light">
 					<Card >
-					<Card.Img variant="top rounded" alt='Awake' src="/poster_img/awake.jpg" />
+					<Card.Img variant="top rounded" alt='Awake' src="/public/img/poster/awake.jpg" />
 					<Card.Title variant="text-center">Awake</Card.Title>
 					</Card>
 				</Link>
@@ -18,7 +18,7 @@ return (
 			<Col className='col-6 col-lg-3' >
 				<Link to="/MovieView" className="link-light">
 					<Card >
-					<Card.Img variant="top rounded" alt='A Mystery' src="/poster_img/a_mystery.jpg" />
+					<Card.Img variant="top rounded" alt='A Mystery' src="/public/img/poster/a_mystery.jpg" />
 					<Card.Title variant="text-center">A Mystery</Card.Title>
 					</Card>
 				</Link>
@@ -26,7 +26,7 @@ return (
 			<Col className='col-6 col-lg-3' >
 				<Link to="/MovieView" className="link-light">
 					<Card >
-					<Card.Img variant="top rounded" alt='Pulp Fiction' src="/poster_img/pulp_fiction.jpg" />
+					<Card.Img variant="top rounded" alt='Pulp Fiction' src="/public/img/poster/pulp_fiction.jpg" />
 					<Card.Title variant="text-center" >Pulp Fiction</Card.Title>
 					</Card>
 				</Link>
@@ -34,7 +34,7 @@ return (
 			<Col className='col-6 col-lg-3' >
 				<Link to="/MovieView" className="link-light">
 					<Card >
-					<Card.Img variant="top rounded" alt='Tron' src="/poster_img/tron.jpg" />
+					<Card.Img variant="top rounded" alt='Tron' src="/public/img/poster/tron.jpg" />
 					<Card.Title variant="text-center">TRON</Card.Title>
 					</Card>
 				</Link>
@@ -42,7 +42,7 @@ return (
 			<Col className='col-6 col-lg-3'>
 				<Link to="/MovieView" className="link-light">
 					<Card >
-					<Card.Img variant="top rounded" alt='The shawshank redemption' src="/poster_img/the_shawshank_redemption.jpg" />
+					<Card.Img variant="top rounded" alt='The shawshank redemption' src="/public/img/poster/the_shawshank_redemption.jpg" />
 					<Card.Title variant="text-center">The shawshank redemption</Card.Title>
 					</Card>
 				</Link>
@@ -50,7 +50,7 @@ return (
 			<Col className='col-6 col-lg-3'>
 				<Link to="/MovieView" className="link-light">
 					<Card >
-					<Card.Img variant="top rounded" alt='The shining' src="/poster_img/the_shining.jpg" />
+					<Card.Img variant="top rounded" alt='The shining' src="/public/img/poster/the_shining.jpg" />
 					<Card.Title variant="text-center">The shining</Card.Title>
 					</Card>
 				</Link>
