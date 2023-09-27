@@ -7,7 +7,7 @@ export default function MainMenu() {
 return (
   <>
     {[false].map((expand) => (
-      <Navbar key={expand} expand={expand} className="mb-3 bg-dark text-light">
+      <Navbar data-bs-theme="dark" key={expand} expand={expand} className="mb-3 bg-dark text-light">
         <Container fluid>
           <Navbar.Toggle className="border-0" aria-controls={`offcanvasNavbar-expand-${expand}`} />
           <Navbar.Brand href="/StartView" className="text-primary">
@@ -18,6 +18,7 @@ return (
             id={`offcanvasNavbar-expand-${expand}`}
             aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
             placement="start"
+            data-bs-theme="dark"
             className="bg-dark text-light"
           >
             <Offcanvas.Header closeButton>
