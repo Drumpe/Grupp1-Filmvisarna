@@ -15,7 +15,7 @@ export default function MainMenu() {
           <Container fluid>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             <Navbar.Brand href="/StartView">
-              <div className="justify-content-center align-items-center h4 text-center text-secondary">
+              <div className="justify-content-center align-items-center h4 text-center text-secondary custom-text-logo">
                 <img src="/public/img/logo/filmvisarna-logo-icon.png" className="d-block custom-logo-navbar mb-1"></img>
                 Filmvisarna
               </div>
