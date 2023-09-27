@@ -14,7 +14,12 @@ export default function MainMenu() {
 
           <Container fluid>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
-            <Navbar.Brand href="#">Filmvisarna</Navbar.Brand>
+            <Navbar.Brand href="/StartView">
+              <div className="justify-content-center align-items-center h4 text-center text-secondary">
+                <img src="/public/img/logo/filmvisarna-logo-icon.png" className="d-block custom-logo-navbar mb-1"></img>
+                Filmvisarna
+              </div>
+            </Navbar.Brand>
             <div></div>
             <Navbar.Offcanvas
               id={`offcanvasNavbar-expand-${expand}`}
@@ -24,9 +29,7 @@ export default function MainMenu() {
               className="bg-dark text-light"
             >
               <Offcanvas.Header closeButton>
-                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                  Offcanvas
-                </Offcanvas.Title>
+                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}></Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
