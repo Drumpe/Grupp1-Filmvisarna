@@ -29,5 +29,8 @@ h1, h2, h3, h4, h5 {
   font-weight: bold;
 }
 
+$body-bg: $dark;
+$body-color: $light;
+
 // Import Bootstrap
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
