@@ -14,11 +14,11 @@ export default function MainMenu() {
 
           <Container fluid>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
-            <Navbar.Brand className="d-block" href="/StartView">
-                <div className="h6 text-secondary custom-text-logo text-center m-0">
-                  <img src="/public/img/logo/filmvisarna-logo-icon.png" className="d-block custom-logo-navbar mx-auto"></img>
-                  Filmvisarna
-                </div>
+            <Navbar.Brand href="/StartView">
+              <div className="h6 text-secondary custom-text-logo text-center m-0">
+                <img src="/public/img/logo/filmvisarna-logo-icon.png" className="d-block custom-logo-navbar mx-auto"></img>
+                Filmvisarna
+              </div>
             </Navbar.Brand>
             <div></div>
             <Navbar.Offcanvas
@@ -32,11 +32,11 @@ export default function MainMenu() {
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}></Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
-                <Nav className="justify-content-center flex-grow-1">
+                <Nav className="justify-content-center flex-grow-1 ">
                   <span className="nav-link">
-                    <Nav.Link className="d-inline" href="/LoginView">Logga in</Nav.Link>
-                    <p className="d-inline nav-link m-0"> / </p>
-                    <Nav.Link className="d-inline" href="/RegisterView">Bli medlem</Nav.Link>
+                    <Nav.Link className="d-inline p-0 m-0" href="/LoginView">Logga in</Nav.Link>
+                    <p className="d-inline p-0 m-0"> / </p>
+                    <Nav.Link className="d-inline p-0 m-0" href="/RegisterView">Bli medlem</Nav.Link>
                   </span>
                 
                   <Nav.Link href="/AccountView">Mitt konto</Nav.Link>
