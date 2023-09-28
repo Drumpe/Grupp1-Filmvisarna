@@ -4,74 +4,62 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from 'react-router-dom';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 function BasicExample() {
   return (
-    <div>
-        <Container className="d-flex justify-content-center ">
-            <Row>
-                <Col>
-                <Card style={{ width: '25rem', height: '15rem' }}>
-                <Card.Body>
-                    <Image src="holder.js/171x180" rounded />
-                </Card.Body>
+<Container >
+        <Row>
+            <Col className='offset-1'>
+                <Card style={{width: '90%', height: '15rem' }}>
+                    <Card.Body >
+                        <Image src="holder.js/171x180" rounded />
+                    </Card.Body>
                 </Card>
-                </Col>
-            </Row>
-        </Container>
-        <Container>
-            <Row>
-                <Col className='d-flex mt-5 custom-movieTitle-Paddig'>
-                    <div>
-                        <h1> Filmtitel</h1>
-                        <h4 className='mt-4'>information om filmen</h4>
-                    </div>
-                    
-                </Col>
-            </Row>
-        </Container>
-        <Container>
-            <Row>
-                <Col className='d-flex mt-3 custom-movieTitle-Paddig'>
-                    <h2>Köp biljetter</h2>
-                </Col>
-            </Row>
-        </Container>
-        <Container>
-            <Row>
-                <Col className='d-flex custom-movieTitle-Paddig mt-3'>
-                    <div>
-                        <Dropdown>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                Välj dag
-                            </Dropdown.Toggle>
+            </Col>
+        </Row>
+        <Row>
+            <Col className='offset-1 mt-2'>
+                <h1> Filmtitel</h1>
+                <h4>Om filmen</h4>
+                <h5>info om filmen,info om filmen,info om filmen,info om filmen,info om filmen,</h5>
+            </Col>
+        </Row>
+        <Row>
+            <Col className='offset-1 mt-2' >
+                <Dropdown>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        Datum
+                    </Dropdown.Toggle>
 
-                            <Dropdown.Menu>
-                                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </div>
-                </Col>
-            </Row>
-        </Container>
-        <Container>
-            <Row>
-                <Col className='d-flex mt-2 custom-movieTitle-Paddig'>
-                    <div className="mb-2">
-                        <Link to='/TheatherView'>
-                            <Button variant="primary" size="lg">
-                                Välj plats
-                            </Button>{''}
-                        </Link>
-                    </div>
-                    
-                </Col>
-            </Row>
-        </Container>
-        </div>
-    
+                    <Dropdown.Menu>
+                        <Dropdown.Item href="#/action-1">29/9</Dropdown.Item>
+                        <Dropdown.Item href="#/action-2">01/10</Dropdown.Item>
+                        <Dropdown.Item href="#/action-3">02/10</Dropdown.Item>
+                    </Dropdown.Menu>                                                                            
+                </Dropdown>
+            </Col>
+        </Row>
+        <Row>
+            <Col>
+                <Card className='offset-1 mt-1' style={{ width: '25rem' }}>
+                    <ListGroup variant="flush">
+                        <ListGroup.Item>12:00 Salong 1</ListGroup.Item>
+                        <ListGroup.Item>16:00 Salong 2</ListGroup.Item>
+                    </ListGroup>
+                </Card>
+            </Col>
+        </Row>
+        <Row>
+            <Col>
+                <Link to='/ConfirmedView'>
+                    <Button className='offset-1 mt-2' variant="primary" style={{width: '25rem'}}>
+                        Välj visning
+                    </Button>{''}
+                </Link>
+            </Col>
+        </Row>
+    </Container>
   );
 }
 
