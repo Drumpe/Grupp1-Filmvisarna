@@ -3,8 +3,15 @@ import "./sass/main.scss";
 
 // Import some Bootstrap components
 import StartView from './views/StartView';
-import Footer from './components/Footer';
-import { Container, Row, Col } from 'react-bootstrap';
+import ConfirmedView from './views/ConfirmedView';
+import MovieView from './views/MovieView'
+import AboutView from './views/AboutView';
+import { Routes, Route} from "react-router-dom";
+import ViewHolder from "./ViewHolder";
+import AccountView  from "./views/AccountView";
+import TheaterView from "./views/TheaterView";
+import CancelView from "./views/CancelView";
+
 
 export default function App() {
   return (
@@ -12,9 +19,11 @@ export default function App() {
       <Route path="/" element={<ViewHolder />} >
         <Route index element={<StartView />} />
         <Route path="/ConfirmedView" element={<ConfirmedView />} />
-        <Route path="/OmView" element={<OmView />} />
+        <Route path="/AboutView" element={<AboutView />} />
+        <Route path="/MovieView" element={<MovieView />} />
         <Route path="/AccountView" element={<AccountView />} />
-
+        <Route path="/TheaterView" element={<TheaterView />} />
+        <Route path="/CancelView" element={<CancelView />} />
         {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
                 routes for. */}
