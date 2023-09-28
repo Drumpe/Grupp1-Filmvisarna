@@ -40,8 +40,10 @@ export default function RegisterView() {
             <Col className="mx-auto text-center">
                 <Button variant="primary" size="lg">
                     Registera
-                </Button>{' '}
-                <button type="submit" className="btn btn-primary col-3">Avbryt</button>  
+                </Button>
+                <Button  variant="secondary link" href="/StartView" size="lg">
+                    Avbryt
+                </Button>
             </Col>
         </>
     );
