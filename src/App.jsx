@@ -9,6 +9,7 @@ import AboutView from './views/AboutView';
 import { Routes, Route} from "react-router-dom";
 import ViewHolder from "./ViewHolder";
 import AccountView  from "./views/AccountView";
+import RegisterView from "./views/RegisterView";
 import TheaterView from "./views/TheaterView";
 import CancelView from "./views/CancelView";
 
@@ -24,6 +25,7 @@ export default function App() {
         <Route path="/AccountView" element={<AccountView />} />
         <Route path="/TheaterView" element={<TheaterView />} />
         <Route path="/CancelView" element={<CancelView />} />
+        <Route path="/RegisterView" element={<RegisterView />} />
         {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
                 routes for. */}

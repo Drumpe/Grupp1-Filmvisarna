@@ -37,6 +37,7 @@ export default function MainMenu() {
                   <Nav.Link href="/AccountView">Mitt konto</Nav.Link>
                   <Nav.Link href="/CancelView">Avboka</Nav.Link>
                   <Nav.Link href="/AboutView">Om oss</Nav.Link>
+                  <Nav.Link href="/RegisterView">Registrera</Nav.Link>
                   {/* <NavDropdown
                     title="Dropdown"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
