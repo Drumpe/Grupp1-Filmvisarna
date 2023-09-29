@@ -38,7 +38,7 @@ export default function RegisterView() {
                 </Form>
             </Container>
             <Col className="mx-auto text-center">
-                <Button variant="primary" size="lg">
+                <Button variant="primary" href="/LoginView" size="lg">
                     Registera
                 </Button>
                 <Button  variant="secondary link" href="/StartView" size="lg">
