@@ -9,7 +9,7 @@ const AboutView = () => {
         <Container >
             <Row> 
                 <Col className='mx-auto text-center'>
-                    <Image src="/public/img/Aboutposter/shakeee.jpg" thumbnail />
+                    <Image src="/public/img/Aboutposter/About-pic-with-pop.jpg" thumbnail />
                 </Col>
             </Row>
             <Row>
