@@ -1,5 +1,4 @@
 import { Container, Row, Col } from 'react-bootstrap';
-import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -10,23 +9,27 @@ function BasicExample() {
   return (
 <Container >
         <Row>
-            <Col className='offset-1'>
-                <Card style={{width: '90%', height: '15rem' }}>
-                    <Card.Body >
-                        <Image src="holder.js/171x180" rounded />
+            <Col className='offset-2'>
+                <Card style={{width: '14rem'}} >
+					<Card.Img variant="top rounded" alt='Awake' src="/public/img/poster/awake.jpg" />
+				</Card>
+            </Col>
+        </Row>
+        <Row>
+            <Col className='offset-1 mt-2'>
+                <Card style={{ width: '28rem' }}>
+                    <Card.Body>
+                    <Card.Title>Awake</Card.Title>
+                        <Card.Text className='mt-3'>
+                            En global händelse har förstört människors förmåga att somna och en före detta soldat 
+                            kämpar för att rädda sin familj, alltmedan samhället och hennes tankar faller isär.
+                        </Card.Text>
                     </Card.Body>
                 </Card>
             </Col>
         </Row>
         <Row>
-            <Col className='offset-1 mt-2'>
-                <h1> Filmtitel</h1>
-                <h4>Om filmen</h4>
-                <h5>info om filmen,info om filmen,info om filmen,info om filmen,info om filmen,</h5>
-            </Col>
-        </Row>
-        <Row>
-            <Col className='offset-1 mt-2' >
+            <Col className='offset-1 mt-2' style={{paddingLeft: '35px'}} >
                 <Dropdown>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                         Datum
@@ -52,7 +55,7 @@ function BasicExample() {
         </Row>
         <Row>
             <Col>
-                <Link to='/ConfirmedView'>
+                <Link to='/TheaterView'>
                     <Button className='offset-1 mt-2' variant="primary" style={{width: '25rem'}}>
                         Välj visning
                     </Button>{''}
