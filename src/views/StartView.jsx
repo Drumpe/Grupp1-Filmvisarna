@@ -6,14 +6,15 @@ export default function StartView() {
 	return (
 		<>
 			<Row>
-				<h1 className="mb-2 text-primary col-6">Visas nu</h1>
-				<label className='col-3 me-0'>Åldersgräns&nbsp;</label>
-				<select className="form-select w-auto me-0 col-auto" aria-label="Small select">
-					<option value="7">7</option>
-					<option value="13">13</option>
+				<Col>
+				<h1 className="mb-2 text-primary d-inline-block">Visas nu</h1>
+				<select className="form-select text-secondary me-2 w-auto d-inline-block float-end">
+					<option value="18" selected>Åldersgräns</option>
 					<option value="15">15</option>
-					<option value="18" selected>Alla</option>
+					<option value="13">13</option>
+					<option value="7">7</option>
 				</select>
+				</Col>
 			</Row>
 			<Row className="align-items-center">
 				<Col className='col-6 col-lg-3'> 
