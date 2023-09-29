@@ -6,11 +6,13 @@ import { Container, Row, Col } from 'react-bootstrap';
 export default function PageHolder() {
   return (
     <>
-    <header>
-      <MainMenu />
+      <header>
+        <MainMenu />
       </header>
-      <main className="mt-5">
-        <Outlet context={[]}/>
+      <main>
+        <Container className="mt-5">
+          <Outlet context={[]} />
+        </Container>
       </main>
       <footer className="container-fluid">
         <Footer />
