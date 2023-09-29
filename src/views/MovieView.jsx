@@ -9,7 +9,7 @@ function BasicExample() {
   return (
 <Container >
         <Row>
-            <Col className='offset-2'>
+            <Col className='offset-2' style={{paddingLeft: '20px'}}>
                 <Card style={{width: '14rem'}} >
 					<Card.Img variant="top rounded" alt='Awake' src="/public/img/poster/awake.jpg" />
 				</Card>
@@ -17,7 +17,7 @@ function BasicExample() {
         </Row>
         <Row>
             <Col className='offset-1 mt-2'>
-                <Card style={{ width: '28rem' }}>
+                <Card className='bg-transparent text-light' style={{ width: '28rem' }}>
                     <Card.Body>
                     <Card.Title>Awake</Card.Title>
                         <Card.Text className='mt-3'>
@@ -29,7 +29,7 @@ function BasicExample() {
             </Col>
         </Row>
         <Row>
-            <Col className='offset-1 mt-2' style={{paddingLeft: '35px'}} >
+            <Col className='offset-1 mt-2' style={{paddingLeft: '25px'}} >
                 <Dropdown>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                         Datum
@@ -45,18 +45,18 @@ function BasicExample() {
         </Row>
         <Row>
             <Col>
-                <Card className='offset-1 mt-1' style={{ width: '25rem' }}>
+                <Card className='offset-1 mt-2 bg-transparent text-light' style={{ width: '28rem'} }>
                     <ListGroup variant="flush">
-                        <ListGroup.Item>12:00 Salong 1</ListGroup.Item>
-                        <ListGroup.Item>16:00 Salong 2</ListGroup.Item>
+                        <ListGroup.Item className='bg-transparent text-light'>Tid: 12:00 | Salong 1 </ListGroup.Item>
+                        <ListGroup.Item className='bg-transparent text-light'>Tid: 16:00 | Salong 2</ListGroup.Item>
                     </ListGroup>
                 </Card>
             </Col>
         </Row>
         <Row>
-            <Col>
+            <Col style={{paddingLeft: '20px'}}>
                 <Link to='/TheaterView'>
-                    <Button className='offset-1 mt-2' variant="primary" style={{width: '25rem'}}>
+                    <Button className='offset-2 mt-2' variant="primary" style={{width: '15rem'}}>
                         Välj visning
                     </Button>{''}
                 </Link>
