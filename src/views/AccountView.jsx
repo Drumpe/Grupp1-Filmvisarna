@@ -10,23 +10,23 @@ export default function AccountView() {
        <Container className="my-4">
             <Row>
                 <Col className="mx-auto text-center">
-                    <h1>Temp:Username</h1>
+                    <h1>Förnamn Efternamn</h1> 
                 </Col>
             </Row>
             <Row style={{marginTop: '5rem'}}>
                 <Col className="mx-auto text-center">
                     <h3>kommande bokningar</h3>
-                    <p>Movie 1</p>
-                    <p>Movie 2</p>
-                    <p>Movie 3</p>
+                    <p>Film 1</p>
+                    <p>Film 2</p>
+                    <p>Film 3</p>
                 </Col>
             </Row>
             <Row style={{marginTop: '5rem'}}>
                 <Col className="past-bookings text-center">
                     <h3>Tidigare bokningar</h3>
-                    <p>Movie 1</p>
-                    <p>Movie 2</p>
-                    <p>Movie 3</p>
+                    <p>Film 1</p>
+                    <p>Film 2</p>
+                    <p>Film 3</p>
                 </Col>
             </Row>
          </Container>     
