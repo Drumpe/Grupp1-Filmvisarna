@@ -1,12 +1,20 @@
-
 :root {
     --custom-primary-font-sans: 'Latin Modern Sans', 'Futura', Helvetica, Arial, sans-serif;
     --custom-primary-font-sans-bold: 'Latin Modern Sans Bold', 'Futura', Helvetica, Arial, sans-serif;
 }
+
+.custom-movieTitle-Paddig {
+    padding-left: 2.5rem;
+}
+
+.custom-movieDropDown-padding {
+    padding-left: 1rem;
+}
+
 .custom-logo-navbar {
     height: 2.4em;
     margin-bottom: .4em;
-    transform: translateX(-.1em);  // IS LOGO REALLY CENTERED???
+    transform: translateX(-.1em); // IS LOGO REALLY CENTERED???
 }
 
 .custom-text-logo {
@@ -14,3 +22,7 @@
     letter-spacing: .12em;
 }
 
+// Fix för aspect ratio på bilderna i StartView
+.ratio-6x9 {
+    aspect-ratio: 6/9;
+}
