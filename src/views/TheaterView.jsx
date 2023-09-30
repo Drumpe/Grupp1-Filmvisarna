@@ -1,39 +1,62 @@
 import React from 'react';
+import { useState } from 'react';
 import { Container, Row, Col, ButtonToolbar, ButtonGroup, Button, CloseButton, Form } from 'react-bootstrap';
 
 const MyComponent = () => {
+    const [barnTickets, setBarnTickets] = useState(0);
+    const [ordinareTickets, setOrdinareTickets] = useState(0);
+    const [pensionarTickets, setPensionarTickets] = useState(0);
+
+    const increaseCount = (category) => {
+        switch (category) {
+            case 'barn':
+                setBarnTickets(barnTickets + 1);
+                break;
+            case 'ordinare':
+                setOrdinareTickets(ordinareTickets + 1);
+                break;
+            case 'pensionar':
+                setPensionarTickets(pensionarTickets + 1);
+                break;
+            default:
+                break;
+        }
+    };
+    const decreaseCount = (category) => {
+        switch (category) {
+            case 'barn':
+                if (barnTickets > 0) {
+                    setBarnTickets(barnTickets - 1);
+                }
+                break;
+            case 'ordinare':
+                if (ordinareTickets > 0) {
+                    setOrdinareTickets(ordinareTickets - 1);
+                }
+
+                break;
+            case 'pensionar':
+                if (pensionarTickets > 0) {
+                    setPensionarTickets(pensionarTickets - 1);
+                }
+                break;
+            default:
+                break;
+        }
+    };
     return (
         <Container className="mt-5">
+
             <Row>
-                <Col className="col-4 text-end">
-                    <CloseButton />
-                </Col>
                 <Col className="col-5 text-end">
                     <Button variant="outline-secondary">
                         Tillbaka
                     </Button>{' '}
+                    <CloseButton />
                 </Col>
             </Row>
             <Row>
-                <Col className="d-flex justify-content-center mb-3">
-
-                    <h1>Salongsvy</h1>
-                </Col>
-            </Row>
-            <Row>
-                <Col className="d-flex justify-content-center">
-                    <div className="button-container">
-                        <ButtonToolbar className="mb-2" aria-label="Toolbar with Button groups">
-                            <ButtonGroup className="me-2" aria-label="First group">
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                            </ButtonGroup>
-                        </ButtonToolbar>
-                    </div>
+                <Col className="d-flex justify-content-center mb-3 mt-3">
                 </Col>
             </Row>
             <Row>
@@ -117,16 +140,66 @@ const MyComponent = () => {
                 </Col>
             </Row>
             <Row>
+                <Col className="d-flex justify-content-center">
+                    <div className="button-container">
+                        <ButtonToolbar className="mb-2" aria-label="Toolbar with Button groups">
+                            <ButtonGroup className="me-2" aria-label="First group">
+                                <Button variant="secondary me-2">O</Button>
+                                <Button variant="secondary me-2">O</Button>
+                                <Button variant="secondary me-2">O</Button>
+                                <Button variant="secondary me-2">O</Button>
+                                <Button variant="secondary me-2">O</Button>
+                                <Button variant="secondary me-2">O</Button>
+                            </ButtonGroup>
+                        </ButtonToolbar>
+                    </div>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="mt-3 d-flex justify-content-center">
+                    <span style={{ fontSize: '25px' }}>Välj antal biljetter</span>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="col-3 offset-4">
+                    <span style={{ fontSize: '22px' }}>Barn</span>
+                </Col>
                 <Col>
-                    Välj typ av biljett
-                    <Form.Select aria-label="Default select example">
-                        <option>Biljettyp</option>
-                        <option value="1">Normal (140 kr)</option>
-                        <option value="2">Barn (80 kr)</option>
-                        <option value="3">Pensionär (120 kr)</option>
-                    </Form.Select>
-                    <Button variant="secondary mt-1">Lägg till</Button>{' '}
-                     Antal biljetter: (x) st | Totalpris: (x) kr
+                    <Button onClick={() => increaseCount('barn')} variant="primary me-2">
+                        +
+                    </Button>
+                    {barnTickets}&nbsp;
+                    <Button onClick={() => decreaseCount('barn')} variant="danger">
+                        --
+                    </Button>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="col-3 offset-4 mt-3">
+                    <span style={{ fontSize: '22px' }}>Ordinarie</span>
+                </Col>
+                <Col className="col mt-3">
+                    <Button onClick={() => increaseCount('ordinare')} variant="primary me-2">
+                        +
+                    </Button>
+                    {ordinareTickets}&nbsp;
+                    <Button onClick={() => decreaseCount('ordinare')} variant="danger">
+                        --
+                    </Button>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="col-3 offset-4 mt-3">
+                    <span style={{ fontSize: '22px' }}>Pensionär</span>
+                </Col>
+                <Col className="col mt-3">
+                    <Button onClick={() => increaseCount('pensionar')} variant="primary me-2">
+                        +
+                    </Button>
+                    {pensionarTickets}&nbsp;
+                    <Button onClick={() => decreaseCount('pensionar')} variant="danger">
+                        --
+                    </Button>
                 </Col>
             </Row>
             <Row>
@@ -145,11 +218,15 @@ const MyComponent = () => {
                 </Col>
             </Row>
             <Row>
-                <Col className="d-flex justify-content-center">
+                <Col className="d-flex justify-content-center mt-3">
+                    <span style={{ fontSize: '22px' }}>Summa: </span>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="d-flex justify-content-center mt-3">
                     <Button variant="secondary">Bekräfta bokning</Button>{' '}
                 </Col>
             </Row>
-
         </Container>
     );
 };
