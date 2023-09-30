@@ -14,8 +14,8 @@ export default function LoginView() {
       </div>
         <div className="my-3 mx-3">
           <Form>
-            <Form.Label>Användarnamn</Form.Label>
-            <Form.Control type="Username" className='rounded-0'/>
+            <Form.Label>E-post</Form.Label>
+            <Form.Control type="email" className='rounded-0'/>
             <Form.Label>Lösenord</Form.Label>
             <Form.Control type="Password" className='rounded-0'/>
           </Form>
