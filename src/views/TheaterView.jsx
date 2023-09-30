@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Container, Row, Col, ButtonToolbar, ButtonGroup, Button, CloseButton, Form } from 'react-bootstrap';
 
 const MyComponent = () => {
@@ -224,7 +225,10 @@ const MyComponent = () => {
             </Row>
             <Row>
                 <Col className="d-flex justify-content-center mt-3">
+                <Link to='/ConfirmedView'>
                     <Button variant="secondary">Bekräfta bokning</Button>{' '}
+                    </Link>
+                    
                 </Col>
             </Row>
         </Container>
