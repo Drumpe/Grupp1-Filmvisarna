@@ -1,8 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { Link } from 'react-router-dom';
-import RegisterView from './RegisterView';
+
 
 
 
