@@ -16,7 +16,7 @@ export default function MainMenu() {
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             <Navbar.Brand href="/StartView">
               <div className="h6 text-secondary custom-text-logo text-center m-0">
-                <img src="/public/img/logo/filmvisarna-logo-icon.png" className="d-block custom-logo-navbar mx-auto"></img>
+                <img src="/img/logo/filmvisarna-logo-icon.png" className="d-block custom-logo-navbar mx-auto"></img>
                 Filmvisarna
               </div>
             </Navbar.Brand>
