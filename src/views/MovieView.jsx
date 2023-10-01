@@ -4,20 +4,21 @@ import Card from 'react-bootstrap/Card';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Image from 'react-bootstrap/Image';
 
 function BasicExample() {
   return (
-<Container >
+    <Container >
         <Row>
-            <Col className='offset-2' style={{paddingLeft: '20px'}}>
-                <Card style={{width: '14rem'}} >
-					<Card.Img variant="top rounded" alt='Awake' src="/public/img/poster/awake.jpg" />
-				</Card>
+            <Col className='d-flex justify-content-center'>
+                <Card >
+                    <Image style={{width: '35em', height: '20em'}} src="/img/poster/awake.jpg"  fluid rounded />
+                </Card>
             </Col>
         </Row>
         <Row>
-            <Col className='offset-1 mt-2'>
-                <Card className='bg-transparent text-light' style={{ width: '28rem' }}>
+            <Col className=' d-flex justify-content-center'>
+                <Card className='bg-transparent text-light' style={{ width: '25rem' }}>
                     <Card.Body>
                     <Card.Title>Awake</Card.Title>
                         <Card.Text className='mt-3'>
@@ -29,7 +30,7 @@ function BasicExample() {
             </Col>
         </Row>
         <Row>
-            <Col className='offset-1 mt-2' style={{paddingLeft: '25px'}} >
+            <Col className=' d-flex justify-content-center' >
                 <Dropdown>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                         Datum
@@ -44,8 +45,8 @@ function BasicExample() {
             </Col>
         </Row>
         <Row>
-            <Col>
-                <Card className='offset-1 mt-2 bg-transparent text-light' style={{ width: '28rem'} }>
+            <Col className=' d-flex justify-content-center'>
+                <Card className='mt-2 bg-transparent text-light' style={{ width: '25rem'} }>
                     <ListGroup variant="flush">
                         <ListGroup.Item className='bg-transparent text-light'>Tid: 12:00 | Salong 1 </ListGroup.Item>
                         <ListGroup.Item className='bg-transparent text-light'>Tid: 16:00 | Salong 2</ListGroup.Item>
@@ -54,9 +55,9 @@ function BasicExample() {
             </Col>
         </Row>
         <Row>
-            <Col style={{paddingLeft: '20px'}}>
+            <Col className=' d-flex justify-content-center'>
                 <Link to='/TheaterView'>
-                    <Button className='offset-2 mt-2' variant="primary" style={{width: '15rem'}}>
+                    <Button className=' mt-2' variant="primary" style={{width: '25rem'}}>
                         Välj visning
                     </Button>{''}
                 </Link>
