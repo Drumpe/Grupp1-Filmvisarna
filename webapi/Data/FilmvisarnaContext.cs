@@ -6,16 +6,16 @@ namespace webapi.Data
     public class FilmvisarnaContext : DbContext
     {
 
-        public DbSet<Booking> Bookings { get; set; }
-        public DbSet<BookingXSeat> BookingsXSeats { get; set; }
-        public DbSet<Genre> Genres { get; set; }
-        public DbSet<Movie> Movies {get; set;}
-        public DbSet<MovieXGenre> MoviesXGenres {get; set;}
-        public DbSet<PriceCategory> PriceCategories {get; set;}
-        public DbSet<Screening> Screenings {get; set;}
-        public DbSet<Seat> Seats {get; set;}
-        public DbSet<Theater> Theaters {get; set;}
-        public DbSet<User> Users {get; set;}
+        public DbSet<Booking> bookings { get; set; }
+        public DbSet<BookingXSeat> bookingsXSeats { get; set; }
+        public DbSet<Genre> genres { get; set; }
+        public DbSet<Movie> movies {get; set;}
+        public DbSet<MovieXGenre> moviesxgenres {get; set;}
+        public DbSet<PriceCategory> priceCategories {get; set;}
+        public DbSet<Screening> screenings {get; set;}
+        public DbSet<Seat> seats {get; set;}
+        public DbSet<Theater> theaters {get; set;}
+        public DbSet<User> users {get; set;}
 
         public FilmvisarnaContext(DbContextOptions options) : base(options){ }
 
