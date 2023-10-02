@@ -8,7 +8,6 @@ public class Seat
     public int Row { get; set; }
     public bool IsAvaliable { get; set; }
 
-
     // Navigation property
     public Theater Theater { get; set; }
     public ICollection<BookingXSeat> BookingXSeats { get; set; }

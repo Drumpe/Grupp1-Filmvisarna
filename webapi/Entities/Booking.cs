@@ -8,7 +8,6 @@ public class Booking
    public int UserId { get; set; }
    public int ScreeningId { get; set; }
 
-
    // Navigation properties
    public User User { get; set; }
    public Screening Screening { get; set; }
