@@ -13,15 +13,15 @@ export default function AccountView() {
                     <h1>Förnamn Efternamn</h1> 
                 </Col>
             </Row>
-            <Row style={{marginTop: '5rem'}}>
+            <Row className="mt-5">
                 <Col className="mx-auto text-center">
-                    <h3>kommande bokningar</h3>
+                    <h3>Kommande bokningar</h3>
                     <p>Film 1</p>
                     <p>Film 2</p>
                     <p>Film 3</p>
                 </Col>
             </Row>
-            <Row style={{marginTop: '5rem'}}>
+            <Row className="mt-5">
                 <Col className="past-bookings text-center">
                     <h3>Tidigare bokningar</h3>
                     <p>Film 1</p>
