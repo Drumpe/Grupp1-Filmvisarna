@@ -4,7 +4,6 @@ namespace webapi.Entities;
 
 public class BookingXSeat
 {
-    public int Id { get; set; }
     [ForeignKey("BookingId")]
     public int BookingId { get; set; }
     [ForeignKey("SeatId")]

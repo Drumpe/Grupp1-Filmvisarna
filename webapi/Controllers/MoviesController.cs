@@ -16,22 +16,20 @@ namespace YourNamespace.Controllers
             _context = context;
         }
 
-        //Get movies bara från movie table
+        //Get detailed movie view
         [HttpGet()]
         public async Task<IActionResult> ListAllMovies()
         {
-            var result = await _context.Genres     
-                // .Include(m => m.MoviesXGenres)
-                // .ThenInclude(mxg => mxg.Genre)
+            var result = await _context.movies     
                 .Select(v => new
                 {   
                     Id = v.Id,
-                    Movie = v.Name,
-                    // Genre = v.MoviesXGenres.Select(mxg => mxg.Genre.Name)
-                    // .FirstOrDefault(),
-                    // Duration = v.Duration,
-                    // AgeLimit = v.AgeLimit,
-                    // Plot = JObject.Parse(v.Description)["plot"].ToString(), 
+                    Movie = v.Name,                              
+                    Duration = v.Duration,
+                    AgeLimit = v.AgeLimit,
+                    Description = JObject.Parse(v.Description)["description"].ToString(), 
+                    Genre = v.MoviesXGenres.Select(mxg => mxg.Genre.Name)
+                    .FirstOrDefault()
                 })
                 .ToListAsync();
 
