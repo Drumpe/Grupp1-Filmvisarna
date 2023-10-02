@@ -1,7 +1,10 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace webapi.Entities;
 
 public class Seat
 {
+    [Column("SeatId")]
     public int Id { get; set; }
     public int TheaterId { get; set; }
     public int Number { get; set; }

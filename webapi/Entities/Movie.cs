@@ -6,9 +6,8 @@ namespace webapi.Entities;
 
 public class Movie {
     
-    [Key]
     [Column("MovieId")]
-    public int MovieId { get; set; }
+    public int Id { get; set; }
     public string Name {get; set;}
     public int Duration { get; set; }
     public string Description { get; set; }
