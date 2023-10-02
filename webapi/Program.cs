@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using ministers_of_sweden.api.Data;
+using webapi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
