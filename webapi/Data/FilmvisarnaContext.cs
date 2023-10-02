@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using webapi.Entities;
 
-namespace ministers_of_sweden.api.Data
+namespace webapi.Data
 {
     public class FilmvisarnaContext : DbContext
     {
@@ -18,6 +18,12 @@ namespace ministers_of_sweden.api.Data
         public DbSet<User> Users {get; set;}
 
         public FilmvisarnaContext(DbContextOptions options) : base(options){ }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+        modelBuilder.Entity<MovieXGenre>()
+        .HasKey(m => new { m.MovieId, m.GenreId });
+}
 
     }
 }
