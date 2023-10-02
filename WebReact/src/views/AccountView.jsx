@@ -7,32 +7,28 @@ import Row from 'react-bootstrap/Row';
 
 export default function AccountView() {
     return (
-        <>
-            <Container>
-                <Row>
-                    <Col xs={6} md={4}>
-                        <Image src="holder.js/171x180" thumbnail />
-                    </Col>
-                    <Col xs={6} md={8}>
-                        <h1 className="text-right">Username</h1>
-                    </Col>
-                </Row>
-            </Container>
-            <div className="bookings">
-                <div className="current-bookings">
-                    <h3>Current Bookings</h3>
-                    <p>Movie 1</p>
-                    <p>Movie 2</p>
-                    <p>Movie 3</p>
-                </div>
-            </div>
-
-            <div className="past-bookings text-center">
-                <h3>Past Bookings</h3>
-                <p>Movie 1</p>
-                <p>Movie 2</p>
-                <p>Movie 3</p>
-            </div>
-        </>
+       <Container className="my-4">
+            <Row>
+                <Col className="mx-auto text-center">
+                    <h1>Förnamn Efternamn</h1> 
+                </Col>
+            </Row>
+            <Row className="mt-5">
+                <Col className="mx-auto text-center">
+                    <h3>Kommande bokningar</h3>
+                    <p>Film 1</p>
+                    <p>Film 2</p>
+                    <p>Film 3</p>
+                </Col>
+            </Row>
+            <Row className="mt-5">
+                <Col className="past-bookings text-center">
+                    <h3>Tidigare bokningar</h3>
+                    <p>Film 1</p>
+                    <p>Film 2</p>
+                    <p>Film 3</p>
+                </Col>
+            </Row>
+         </Container>     
     );
 }

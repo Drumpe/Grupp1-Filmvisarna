@@ -1,32 +1,36 @@
 import { Container, Row, Col } from 'react-bootstrap';
-import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Image from 'react-bootstrap/Image';
 
 function BasicExample() {
   return (
-<Container >
+    <Container >
         <Row>
-            <Col className='offset-1'>
-                <Card style={{width: '90%', height: '15rem' }}>
-                    <Card.Body >
-                        <Image src="holder.js/171x180" rounded />
+            <Col className='d-flex justify-content-center'>
+                <Card >
+                    <Image style={{width: '35em', height: '20em'}} src="/img/poster/awake.jpg"  fluid rounded />
+                </Card>
+            </Col>
+        </Row>
+        <Row>
+            <Col className=' d-flex justify-content-center'>
+                <Card className='bg-transparent text-light' style={{ width: '25rem' }}>
+                    <Card.Body>
+                    <Card.Title>Awake</Card.Title>
+                        <Card.Text className='mt-3'>
+                            En global händelse har förstört människors förmåga att somna och en före detta soldat 
+                            kämpar för att rädda sin familj, alltmedan samhället och hennes tankar faller isär.
+                        </Card.Text>
                     </Card.Body>
                 </Card>
             </Col>
         </Row>
         <Row>
-            <Col className='offset-1 mt-2'>
-                <h1> Filmtitel</h1>
-                <h4>Om filmen</h4>
-                <h5>info om filmen,info om filmen,info om filmen,info om filmen,info om filmen,</h5>
-            </Col>
-        </Row>
-        <Row>
-            <Col className='offset-1 mt-2' >
+            <Col className=' d-flex justify-content-center' >
                 <Dropdown>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                         Datum
@@ -41,19 +45,19 @@ function BasicExample() {
             </Col>
         </Row>
         <Row>
-            <Col>
-                <Card className='offset-1 mt-1' style={{ width: '25rem' }}>
+            <Col className=' d-flex justify-content-center'>
+                <Card className='mt-2 bg-transparent text-light' style={{ width: '25rem'} }>
                     <ListGroup variant="flush">
-                        <ListGroup.Item>12:00 Salong 1</ListGroup.Item>
-                        <ListGroup.Item>16:00 Salong 2</ListGroup.Item>
+                        <ListGroup.Item className='bg-transparent text-light'>Tid: 12:00 | Salong 1 </ListGroup.Item>
+                        <ListGroup.Item className='bg-transparent text-light'>Tid: 16:00 | Salong 2</ListGroup.Item>
                     </ListGroup>
                 </Card>
             </Col>
         </Row>
         <Row>
-            <Col>
-                <Link to='/ConfirmedView'>
-                    <Button className='offset-1 mt-2' variant="primary" style={{width: '25rem'}}>
+            <Col className=' d-flex justify-content-center'>
+                <Link to='/TheaterView'>
+                    <Button className=' mt-2' variant="primary" style={{width: '25rem'}}>
                         Välj visning
                     </Button>{''}
                 </Link>
