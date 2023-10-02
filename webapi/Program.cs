@@ -1,4 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using ministers_of_sweden.api.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+//Add database support
+builder.Services.AddDbContext<FilmvisarnaContext>(options => {
+    var connectionString = builder.Configuration.GetConnectionString("WebApiDatabase");
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});;
+
+
 
 // Add services to the container.
 
