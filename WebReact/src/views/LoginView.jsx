@@ -20,7 +20,7 @@ export default function LoginView() {
             <Form.Control type="Password" className='rounded-0'/>
           </Form>
         </div>
-      <p className='text-center'>Inte medlem ännu? <Link to="./RegisterView">Bli medlem</Link></p>
+      <p className='text-center'>Inte medlem ännu? <Link to="/RegisterView">Bli medlem</Link></p>
         <div className='d-flex justify-content-center my-5 mb-2'>
                 <Button variant="secondary" size="lg">
                     Logga in

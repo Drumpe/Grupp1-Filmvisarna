@@ -9,10 +9,8 @@ export default function PageHolder() {
       <header>
         <MainMenu />
       </header>
-      <main>
-        <Container className="mt-5">
+      <main className="container mt-5">
           <Outlet context={[]} />
-        </Container>
       </main>
       <footer className="container-fluid">
         <Footer />

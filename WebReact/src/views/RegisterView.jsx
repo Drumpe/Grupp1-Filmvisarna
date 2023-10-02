@@ -11,7 +11,7 @@ export default function RegisterView() {
         <>
             <Container>
                 <Col className="mx-auto text-center">
-                    <Image src="/public/img/logo/filmvisarna-logo-icon.png" roundedCircle style={{ width: '100px', height: '100px' }} />
+                    <Image src="/img/logo/filmvisarna-logo-icon.png" roundedCircle style={{ width: '100px', height: '100px' }} />
                 </Col>
                 <h1 className="text-center">Bli Medlem</h1>
                 <Form className="mx-auto">
