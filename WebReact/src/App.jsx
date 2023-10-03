@@ -1,6 +1,3 @@
-// Only import your sass in App (not every component)
-import "./sass/main.scss";
-
 // Import some Bootstrap components
 import StartView from './views/StartView';
 import AboutView from './views/AboutView';
