@@ -22,6 +22,7 @@ import TheaterView from "./views/TheaterView";
 /// 'path' and 'label' needed by the menu system
 export const views = [
   {path: '/', label: 'Visas nu', element: <StartView />},
+  {path: '/StartView', label: 'Visas nu', element: <StartView />},
   {path: '/AboutView', label: 'Om oss', element: <AboutView /> },
   {path: '/AccountView', label: 'Mitt konto', element: <AccountView />},
   {path: '/CancelView', label: 'Avboka', element: <CancelView />},
