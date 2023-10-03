@@ -36,6 +36,7 @@ namespace YourNamespace.Controllers
                     Subtitles = JObject.Parse(v.Description)["subtitles"].ToString(),                
                     Duration = v.Duration,
                     AgeLimit = v.AgeLimit,
+                    Images = JObject.Parse(v.Description)["images"].ToObject<List<string>>()
                     //TODO: Reviews= JObject.Parse(v.Description)["reviews"].ToString()
                 })
                 .ToListAsync();
