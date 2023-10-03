@@ -1,37 +1,38 @@
-// Import some Bootstrap components
-import StartView from './views/StartView';
-import AboutView from './views/AboutView';
-import AccountView  from "./views/AccountView";
-import CancelView from "./views/CancelView";
-import ConfirmedView from './views/ConfirmedView';
-import LoginView from "./views/LoginView"
-import MovieView from './views/MovieView'
-import RegisterView from "./views/RegisterView";
-import TheaterView from "./views/TheaterView";
-import ViewHolder from "./ViewHolder";
-import { Routes, Route} from "react-router-dom";
-
+import { Outlet } from 'react-router-dom';
+// imports common components here
+import MainMenu from './components/MainMenu'; 
+import Footer from './components/Footer';
+import { useState, useEffect } from 'react';
+import { get } from './utilsAndHooks/rest';
 
 export default function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<ViewHolder />} >
-        <Route index element={<StartView />} />
+  // global state
+  const [globals, setGlobals] = useState({
+    movies: []
+  });
 
-        <Route path="/AboutView" element={<AboutView />} />
-        <Route path="/AccountView" element={<AccountView />} />
-        <Route path="/CancelView" element={<CancelView />} />
-        <Route path="/ConfirmedView" element={<ConfirmedView />} />  
-        <Route path="/LoginView" element={<LoginView />} />
-        <Route path="/MovieView" element={<MovieView />} />
-        <Route path="/RegisterView" element={<RegisterView />} />
-        <Route path="/TheaterView" element={<TheaterView />} />
+  // this is where we will fetch all globals
+  // our rest utility (./utilsAndHooks/rest) is providing the fetch functions  
+  // '/api' in rest utility will translate into our api through proxy in vite.config.js
+  useEffect(() => {
+    (async () => {
+      setGlobals({
+        ...globals,
+        movies: await get('movies')
+      });
+    })();
+  }, []);
 
-        {/* Using path="*"" means "match anything", so this route
-                acts like a catch-all for URLs that we don't have explicit
-                routes for. */}
-        <Route path="*" element={<StartView />} />
-      </Route>
-    </Routes>
-  );
+  // this is: ViewHolder translated into new return
+  return <>
+  <header>
+    <MainMenu />
+  </header>
+  <main className="container mt-5">
+    <Outlet context={globals} />
+  </main>
+  <footer className="container-fluid">
+    <Footer />
+  </footer>
+  </>;
 }
