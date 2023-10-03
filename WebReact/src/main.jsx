@@ -28,7 +28,7 @@ export const views = [
   {path: '/CancelView', label: 'Avboka', element: <CancelView />},
   {path: '/ConfirmedView', label: 'Bokningsbekräftelse', element: <ConfirmedView />},
   {path: '/LoginView', label: 'Logga in', element: <LoginView />},
-  {path: '/MovieView', label: 'Filmbeskrivning', element: <MovieView />},
+  {path: '/MovieView/:movieId', label: 'Filmbeskrivning', element: <MovieView />},
   {path: '/RegisterView', label: 'Bli medlem', element: <RegisterView /> },
   {path: '/TheaterView', label: 'Skapa bokning', element: <TheaterView />},
 ];
