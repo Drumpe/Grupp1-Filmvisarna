@@ -11,9 +11,9 @@ export default function App() {
     movies: []
   });
 
-  // this is where we will fetch all globals
-  // our rest utility (./utilsAndHooks/rest) is providing the fetch functions  
-  // '/api' in rest utility will translate into our api through proxy in vite.config.js
+  /// this is where we will fetch all globals
+  /// our rest utility (./utilsAndHooks/rest) is providing the fetch functions  
+  /// '/api' in rest utility will translate into our api through proxy in vite.config.js
   useEffect(() => {
     (async () => {
       setGlobals({
