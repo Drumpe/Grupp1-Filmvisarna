@@ -10,7 +10,6 @@ Usage:
 ------
 Logo size will adapt after text size; for example, use className="h4" in parent
 */
-
 .custom-logo-navbar {
     height: 2.4em;
     margin-bottom: .4em;
@@ -21,6 +20,8 @@ Logo size will adapt after text size; for example, use className="h4" in parent
     font-family: 'Latin Modern Sans Demi Cond', 'Futura', Helvetica, Arial, sans-serif;
     letter-spacing: .12em;
 }
+
+/* End Logo */
 
 // Fix för aspect ratio på bilderna i StartView
 .ratio-6x9 {
