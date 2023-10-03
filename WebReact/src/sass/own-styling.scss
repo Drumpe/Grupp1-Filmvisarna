@@ -1,8 +1,15 @@
 :root {
     --custom-primary-font-sans: 'Latin Modern Sans', 'Futura', Helvetica, Arial, sans-serif;
     --custom-primary-font-sans-bold: 'Latin Modern Sans Bold', 'Futura', Helvetica, Arial, sans-serif;
+    --custom-navbar-toggler-icon-bg: url("/img/ui/ui-hamburger.svg");
+    --custom-btn-close-bg: url("/img/ui/ui-close.svg");
 }
 
+/* Logo 
+Usage:
+------
+Logo size will adapt after text size; for example, use className="h4" in parent
+*/
 .custom-logo-navbar {
     height: 2.4em;
     margin-bottom: .4em;
@@ -13,6 +20,26 @@
     font-family: 'Latin Modern Sans Demi Cond', 'Futura', Helvetica, Arial, sans-serif;
     letter-spacing: .12em;
 }
+
+/* End Logo */
+
+/* Custom UI elements */
+
+.navbar-toggler-icon {
+    background-image: var(--custom-navbar-toggler-icon-bg);
+}
+
+.btn-close {
+    background-image: var(--custom-btn-close-bg);
+    opacity: 1;
+}
+
+.navbar-toggler-icon:hover,
+.btn-close:hover {
+    opacity: 0.75;
+}
+
+/* End Custom UI elements */
 
 // Fix för aspect ratio på bilderna i StartView
 .ratio-6x9 {
