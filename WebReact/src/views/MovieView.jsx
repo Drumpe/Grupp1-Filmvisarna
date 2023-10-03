@@ -6,13 +6,17 @@ import { Link } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Image from 'react-bootstrap/Image';
 
+import { useOutletContext } from 'react-router-dom';
+
 function BasicExample() {
+    const { movies } = useOutletContext();
+
   return (
     <Container >
         <Row>
             <Col className='d-flex justify-content-center'>
                 <Card >
-                    <Image style={{width: '35em', height: '20em'}} src="/img/poster/awake.jpg"  fluid rounded />
+                    <Image style={{width: '35em', height: '20em'}} src="/img/poster/pulp_fiction.jpg"  fluid rounded />
                 </Card>
             </Col>
         </Row>
@@ -20,11 +24,8 @@ function BasicExample() {
             <Col className=' d-flex justify-content-center'>
                 <Card className='bg-transparent text-light' style={{ width: '25rem' }}>
                     <Card.Body>
-                    <Card.Title>Awake</Card.Title>
-                        <Card.Text className='mt-3'>
-                            En global händelse har förstört människors förmåga att somna och en före detta soldat 
-                            kämpar för att rädda sin familj, alltmedan samhället och hennes tankar faller isär.
-                        </Card.Text>
+                    <Card.Title>{movies[3].movie}</Card.Title>
+                        <Card.Text className='mt-3'>{movies[3].description}</Card.Text>
                     </Card.Body>
                 </Card>
             </Col>
