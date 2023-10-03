@@ -235,3 +235,22 @@ const MyComponent = () => {
     );
 };
 export default MyComponent;
+
+const populateSeats = (id) => {
+    //get json för id
+    const jsonObjekt = JSON.parse(/* input json */);
+
+    /** vilken data behövs?
+     *  salongsid för valet kommer från movieView->screenings
+     *  salongsNamn, stol, rad och upptagen?
+     */
+
+    //Nedan inte på långa vägar färdig
+ 
+    // SalongsNamn
+    //För varje rad
+    //Placera ut stol (upptagen)
+    seats.map((seat) => (
+        <Button variant="secondary me-2">O</Button>
+    ));
+}
