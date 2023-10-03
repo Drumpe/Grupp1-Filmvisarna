@@ -18,7 +18,7 @@ namespace YourNamespace.Controllers
         }
 
         //Get every screening available for specific movie
-        [HttpGet("movies/{movieId}/screenings")]
+        [HttpGet("{movieId}/screenings")]
         public async Task<IActionResult> GetMovieScreenings(int movieId)
         {
             var movieInfo = await _context.movies
