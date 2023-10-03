@@ -2,10 +2,10 @@
 // "theming Bootstrap"
 
 $blue: #0032d7;
-$purple: #b200ff;
+$purple: #c439ff;
 $indigo: #5519fd;
 $green: #00c548;
-$red: #df1e1c;
+$red: #ff0400;
 $orange: #efa304;
 $pink: #c679db;
 $white: #fcf3ff;
@@ -33,6 +33,13 @@ body {
   background-image: url("/img/bg/bg-1.jpg");
   background-repeat: no-repeat;
   background-size: contain;
+}
+
+@media screen and (min-width: 992px) {
+  body {
+    background-position: center;
+    background-size: cover;
+  }
 }
 
 $body-bg: $dark;
