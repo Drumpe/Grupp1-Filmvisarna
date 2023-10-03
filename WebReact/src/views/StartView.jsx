@@ -22,10 +22,10 @@ export default function StartView() {
 			</Row>
 
 			<Row className="align-items-center">
-				{movies.map(({ id, movie }) => 
+				{movies.map(({ id, movie, images }) => 
 					<Col className="col-6 col-lg-3" key={id}>
 						<Link to={`/MovieView/${id}`} className="link-light link-underline-opacity-25 link-underline-opacity-75-hover">
-						<Card.Img className="top rounded ratio-6x9" alt='Awake' src="/img/poster/awake.jpg" />
+						<Card.Img className="top rounded ratio-6x9" alt={`${movie}`} src={`/img/poster/${images[0]}`} />
 						<Card.Title className="text-center">{movie}</Card.Title>
 						</Link>
 					</Col>)}
