@@ -10,7 +10,11 @@ import { useOutletContext, useParams } from 'react-router-dom';
 
 function BasicExample() {
 		const { movies } = useOutletContext();
-		const { movieId } = useParams();
+		let { movieId } = useParams();
+
+		if (movieId > 0) {
+			movieId -= 1;
+		}
 
 	return (
 		<Container >
