@@ -21,7 +21,7 @@ function BasicExample() {
 				<Row>
 						<Col className='d-flex justify-content-center'>
 								<Card >
-										<Image style={{width: '35em', height: '20em'}} src="/img/poster/pulp_fiction.jpg"  fluid rounded />
+										<Image style={{width: '50vw'}} src={`/img/poster/${movies[movieId].images[0]}`}  fluid rounded />
 								</Card>
 						</Col>
 				</Row>
