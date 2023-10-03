@@ -17,18 +17,25 @@ namespace YourNamespace.Controllers
             _context = context;
         }
 
-        //Get detailed movie view
-        [HttpGet()]
-        public async Task<IActionResult> GetScreeningByMovieId()
+        //Get every screening available for specific movie
+        [HttpGet("movies/{movieId}/screenings")]
+        public async Task<IActionResult> GetMovieScreenings(int movieId)
         {
-            var result = await _context.screenings     
-                .Select(v => new
-                {   
-                    Id = v.Id
+            var movieInfo = await _context.movies
+                .Where(m => m.Id == movieId)
+                .Select(m => new
+                {
+                    MovieName = m.Name,
+                    Screenings = m.Screenings.Select(s => s.DateAndTime).ToList()
                 })
-                .ToListAsync();
+                .FirstOrDefaultAsync();
 
-            return Ok(result);
+            if (movieInfo == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(movieInfo);
         }
     }
 }
