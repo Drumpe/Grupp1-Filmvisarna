@@ -13,7 +13,7 @@ export default function StartView() {
 				<Col>
 				<h1 className="mb-4 text-primary d-inline-block">Visas nu</h1>
 				<select className="form-select text-secondary me-2 w-auto d-inline-block float-end">
-					<option value="18" selected>Åldersgräns</option>
+					<option defaultValue="18">Åldersgräns</option>
 					<option value="15">15</option>
 					<option value="13">13</option>
 					<option value="7">7</option>
