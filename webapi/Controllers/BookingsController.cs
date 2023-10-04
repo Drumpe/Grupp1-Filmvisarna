@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using webapi.Data;
+using webapi.Entities;
+using webapi.ViewModels;
 
 namespace YourNamespace.Controllers
 {
@@ -47,6 +49,48 @@ namespace YourNamespace.Controllers
 
             return Ok(result);
         }
+        [HttpPost()]
+        public async Task<IActionResult> Post(MakeBookingModel model)
+        {
+            var user = new User
+            {
+                EmailAdress = model.EmailAdress
+            };
+
+            _context.users.Add(user);
+            await _context.SaveChangesAsync();
+
+            var booking = new Booking
+            {
+                ScreeningId = model.ScreeningId,
+                UserId = user.Id,
+                BookingNumber = model.BookingNumber,
+                BookingDateTime = model.BookingDateTime
+            };
+
+            _context.bookings.Add(booking);
+            await _context.SaveChangesAsync();
+
+            foreach (var bookingXSeatModel in model.BookingXSeats)
+            {
+             
+                var seatBookings = new BookingXSeat
+                {
+                    BookingId = booking.Id, 
+                    SeatId = bookingXSeatModel.SeatId,
+                    PriceCategoryId = bookingXSeatModel.PriceCategoryId
+                };
+
+                _context.bookingsXseats.Add(seatBookings);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
 
     }
+
+
 }
