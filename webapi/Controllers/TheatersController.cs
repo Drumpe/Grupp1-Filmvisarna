@@ -28,8 +28,7 @@ namespace YourNamespace.Controllers
                     {
                         SeatId = s.Id,
                         Seat = s.seat,
-                        Row = s.Row,                      
-                        IsBooked = s.BookingXSeats.Any() ? 1 : 0
+                        Row = s.Row,                                             
                     })
                 })
                 .FirstOrDefaultAsync();
