@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using webapi.Data;
+using webapi.Entities;
 
 namespace YourNamespace.Controllers
 {
@@ -18,15 +19,22 @@ namespace YourNamespace.Controllers
         }
 
         //Get every screening available for one specific movie
-        [HttpGet("{movieId}/screenings")]
+        [HttpGet("mov{movieId}/")]
         public async Task<IActionResult> GetMovieScreenings(int movieId)
         {
             var movieInfo = await _context.movies
                 .Where(m => m.Id == movieId)
                 .Select(m => new
                 {
+                    // Id = m.Screenings.Select(s => s.Id).ToList(),
                     MovieName = m.Name,
-                    Screenings = m.Screenings.Select(s => s.DateAndTime).ToList()
+                    //Screenings = m.Screenings.Select(s => s.DateAndTime).ToList(),
+                    Screenings = m.Screenings.Select(s => new
+                    {
+                        Id = s.Id,
+                        DateAndTime = s.DateAndTime
+                    }).ToList()
+
                 })
                 .FirstOrDefaultAsync();
 
@@ -36,7 +44,7 @@ namespace YourNamespace.Controllers
             }
             return Ok(movieInfo);
         }
-        
+
         //Get one specific screening for one specific movie
         [HttpGet("{movieId}/{screeningsId}")]
         public async Task<IActionResult> GetSpecificMovieScreenings(int movieId, int screeningsId)
@@ -60,9 +68,9 @@ namespace YourNamespace.Controllers
             }
             return Ok(movieInfo);
         }
-        
 
-   [HttpGet("{id}")]
+
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetBookedSeatsForScreening(int id)
         {
             var result = await _context.screenings
@@ -87,6 +95,6 @@ namespace YourNamespace.Controllers
 
 
 
-        
+
     }
 }
