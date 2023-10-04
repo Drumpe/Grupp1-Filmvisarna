@@ -9,66 +9,68 @@ import Image from 'react-bootstrap/Image';
 import { useOutletContext, useParams } from 'react-router-dom';
 
 function BasicExample() {
-		const { movies } = useOutletContext();
-		let { movieId } = useParams();
+	const { movies } = useOutletContext();
+	let { movieId } = useParams();
 
-		if (movieId > 0) {
-			movieId -= 1;
-		}
+	if (movieId > 0) {
+		movieId -= 1;
+	}
 
 	return (
 		<Container >
-				<Row>
-						<Col className='d-flex justify-content-center'>
-								<Card >
-										<Image style={{width: '50vw'}} src={`/img/poster/${movies[movieId].images[0]}`}  fluid rounded />
-								</Card>
-						</Col>
-				</Row>
-				<Row>
-						<Col className=' d-flex justify-content-center'>
-								<Card className='bg-transparent text-light' style={{ width: '25rem' }}>
-										<Card.Body>
-										<Card.Title>{movies[movieId].movie}</Card.Title>
-												<Card.Text className='mt-3'>{movies[movieId].description}</Card.Text>
-										</Card.Body>
-								</Card>
-						</Col>
-				</Row>
-				<Row>
-						<Col className=' d-flex justify-content-center' >
-								<Dropdown>
-										<Dropdown.Toggle variant="success" id="dropdown-basic">
-												Datum
-										</Dropdown.Toggle>
+			<Row>
+				<Col className='d-flex justify-content-center'>
+					<Card >
+						<iframe width="420" height="315"
+							src={`https://www.youtube.com/embed/${movies[movieId].trailerURL}?autoplay=1&mute=1`}>
+						</iframe>
+					</Card>
+				</Col>
+			</Row>
+			<Row>
+				<Col className=' d-flex justify-content-center'>
+					<Card className='bg-transparent text-light' style={{ width: '25rem' }}>
+						<Card.Body>
+							<Card.Title>{movies[movieId].movie}</Card.Title>
+							<Card.Text className='mt-3'>{movies[movieId].description}</Card.Text>
+						</Card.Body>
+					</Card>
+				</Col>
+			</Row>
+			<Row>
+				<Col className=' d-flex justify-content-center' >
+					<Dropdown>
+						<Dropdown.Toggle variant="success" id="dropdown-basic">
+							Datum
+						</Dropdown.Toggle>
 
-										<Dropdown.Menu>
-												<Dropdown.Item href="#/action-1">29/9</Dropdown.Item>
-												<Dropdown.Item href="#/action-2">01/10</Dropdown.Item>
-												<Dropdown.Item href="#/action-3">02/10</Dropdown.Item>
-										</Dropdown.Menu>                                                                            
-								</Dropdown>
-						</Col>
-				</Row>
-				<Row>
-						<Col className=' d-flex justify-content-center'>
-								<Card className='mt-2 bg-transparent text-light' style={{ width: '25rem'} }>
-										<ListGroup variant="flush">
-												<ListGroup.Item className='bg-transparent text-light'>Tid: 12:00 | Salong 1 </ListGroup.Item>
-												<ListGroup.Item className='bg-transparent text-light'>Tid: 16:00 | Salong 2</ListGroup.Item>
-										</ListGroup>
-								</Card>
-						</Col>
-				</Row>
-				<Row>
-						<Col className=' d-flex justify-content-center'>
-								<Link to='/TheaterView'>
-										<Button className=' mt-2' variant="primary" style={{width: '25rem'}}>
-												Välj visning
-										</Button>{''}
-								</Link>
-						</Col>
-				</Row>
+						<Dropdown.Menu>
+							<Dropdown.Item href="#/action-1">29/9</Dropdown.Item>
+							<Dropdown.Item href="#/action-2">01/10</Dropdown.Item>
+							<Dropdown.Item href="#/action-3">02/10</Dropdown.Item>
+						</Dropdown.Menu>
+					</Dropdown>
+				</Col>
+			</Row>
+			<Row>
+				<Col className=' d-flex justify-content-center'>
+					<Card className='mt-2 bg-transparent text-light' style={{ width: '25rem' }}>
+						<ListGroup variant="flush">
+							<ListGroup.Item className='bg-transparent text-light'>Tid: 12:00 | Salong 1 </ListGroup.Item>
+							<ListGroup.Item className='bg-transparent text-light'>Tid: 16:00 | Salong 2</ListGroup.Item>
+						</ListGroup>
+					</Card>
+				</Col>
+			</Row>
+			<Row>
+				<Col className=' d-flex justify-content-center'>
+					<Link to='/TheaterView'>
+						<Button className=' mt-2' variant="primary" style={{ width: '25rem' }}>
+							Välj visning
+						</Button>{''}
+					</Link>
+				</Col>
+			</Row>
 		</Container>
 	);
 }

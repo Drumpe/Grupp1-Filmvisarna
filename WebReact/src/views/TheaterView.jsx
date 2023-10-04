@@ -1,7 +1,8 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from "react"
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, ButtonToolbar, ButtonGroup, Button, CloseButton, Form } from 'react-bootstrap';
+import { get } from '../utilsAndHooks/rest';
+
 
 const MyComponent = () => {
     const [barnTickets, setBarnTickets] = useState(0);
@@ -45,6 +46,56 @@ const MyComponent = () => {
                 break;
         }
     };
+
+    const ShowSeats = () => {
+        const [result, setResult] = useState();
+        const [id, setId] = useState(1);
+
+        useEffect(() => {
+            async function fetchData() {
+                try {
+                    var jsonString = await get('theaters/' + id);
+                    var seatsArray = jsonString.seats; // seatsArray[0] SeatId, [1] Seat, [2] Row , [3] Kanske blir bokad
+
+                    // Organisera seats by rows
+                    const rows = {};
+                    seatsArray.forEach((element) => {
+                        if (!rows[element.row]) {
+                            rows[element.row] = [];
+                        }
+                        rows[element.row].push(element);
+                    });
+
+                    const rowElements = Object.keys(rows).map((rowNumber) => (
+                        <Row key={rowNumber}>
+                            {/*<Col className="col-2">Rad {rowNumber}</Col>*/}
+                            <Col className="d-flex justify-content-center">
+                                <ButtonToolbar className="mb-2" aria-label="Toolbar with Button groups">
+                                    <ButtonGroup className="me-2" aria-label="First group">
+                                        {rows[rowNumber].map((seatElement) => (
+                                            <Button variant="secondary me-2" key={seatElement.seatId}>{seatElement.seat}</Button>
+                                        ))}
+                                    </ButtonGroup>
+                                </ButtonToolbar>
+                            </Col>
+                        </Row >
+                    ));
+                    setResult(
+                        <div>
+                            <h3 className="text-center">{jsonString.theater}</h3>
+                            <br/>
+                            {rowElements}
+                        </div>
+                    );
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+            fetchData();
+        }, []);
+        return <>{result}</>
+    }
+
     return (
         <Container className="mt-5">
 
@@ -60,102 +111,9 @@ const MyComponent = () => {
                 <Col className="d-flex justify-content-center mb-3 mt-3">
                 </Col>
             </Row>
-            <Row>
-                <Col className="d-flex justify-content-center">
-                    <div className="button-container">
-                        <ButtonToolbar className="mb-2" aria-label="Toolbar with Button groups">
-                            <ButtonGroup className="me-2" aria-label="First group">
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                            </ButtonGroup>
-                        </ButtonToolbar>
-                    </div>
-                </Col>
-            </Row>
-            <Row>
-                <Col className="d-flex justify-content-center">
-                    <div className="button-container">
-                        <ButtonToolbar className="mb-2" aria-label="Toolbar with Button groups">
-                            <ButtonGroup className="me-2" aria-label="First group">
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                            </ButtonGroup>
-                        </ButtonToolbar>
-                    </div>
-                </Col>
-            </Row>
-            <Row>
-                <Col className="d-flex justify-content-center">
-                    <div className="button-container">
-                        <ButtonToolbar className="mb-2" aria-label="Toolbar with Button groups">
-                            <ButtonGroup className="me-2" aria-label="First group">
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                            </ButtonGroup>
-                        </ButtonToolbar>
-                    </div>
-                </Col>
-            </Row>
-            <Row>
-                <Col className="d-flex justify-content-center">
-                    <div className="button-container">
-                        <ButtonToolbar className="mb-2" aria-label="Toolbar with Button groups">
-                            <ButtonGroup className="me-2" aria-label="First group">
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                            </ButtonGroup>
-                        </ButtonToolbar>
-                    </div>
-                </Col>
-            </Row>
-            <Row>
-                <Col className="d-flex justify-content-center">
-                    <div className="button-container">
-                        <ButtonToolbar className="mb-2" aria-label="Toolbar with Button groups">
-                            <ButtonGroup className="me-2" aria-label="First group">
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                            </ButtonGroup>
-                        </ButtonToolbar>
-                    </div>
-                </Col>
-            </Row>
-            <Row>
-                <Col className="d-flex justify-content-center">
-                    <div className="button-container">
-                        <ButtonToolbar className="mb-2" aria-label="Toolbar with Button groups">
-                            <ButtonGroup className="me-2" aria-label="First group">
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                                <Button variant="secondary me-2">O</Button>
-                            </ButtonGroup>
-                        </ButtonToolbar>
-                    </div>
-                </Col>
-            </Row>
+
+            <ShowSeats />
+
             <Row>
                 <Col className="mt-3 d-flex justify-content-center">
                     <span style={{ fontSize: '25px' }}>Välj antal biljetter</span>
@@ -225,32 +183,13 @@ const MyComponent = () => {
             </Row>
             <Row>
                 <Col className="d-flex justify-content-center mt-3">
-                <Link to='/ConfirmedView'>
-                    <Button variant="secondary">Bekräfta bokning</Button>{' '}
+                    <Link to='/ConfirmedView'>
+                        <Button variant="secondary">Bekräfta bokning</Button>{' '}
                     </Link>
-                    
+
                 </Col>
             </Row>
         </Container>
     );
 };
 export default MyComponent;
-
-const populateSeats = (id) => {
-    //get json för id
-    const jsonObjekt = JSON.parse(/* input json */);
-
-    /** vilken data behövs?
-     *  salongsid för valet kommer från movieView->screenings
-     *  salongsNamn, stol, rad och upptagen?
-     */
-
-    //Nedan inte på långa vägar färdig
- 
-    // SalongsNamn
-    //För varje rad
-    //Placera ut stol (upptagen)
-    seats.map((seat) => (
-        <Button variant="secondary me-2">O</Button>
-    ));
-}
