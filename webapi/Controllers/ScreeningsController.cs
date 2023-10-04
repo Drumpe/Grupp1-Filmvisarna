@@ -30,7 +30,7 @@ namespace YourNamespace.Controllers
                 .Select(m => new
                 {
                     MovieName = m.Name,
-                    Screenings = m.Screenings.Select(s => s.DateAndTime.ToLocalTime().ToString("g", culture))
+                    Screenings = m.Screenings.Select(s => s.DateAndTime.ToLocalTime().ToString("f", culture))
                     .ToList()
                 })
                 .FirstOrDefaultAsync();
