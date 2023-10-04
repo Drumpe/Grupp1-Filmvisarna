@@ -37,5 +37,29 @@ namespace YourNamespace.Controllers
 
             return Ok(movieInfo);
         }
+        
+        [HttpGet("{movieId}/{screeningsId}")]
+        public async Task<IActionResult> GetSpecificMovieScreenings(int movieId, int screeningsId)
+        {
+            var movieInfo = await _context.movies
+                .Where(m => m.Id == movieId)
+                .Select(m => new
+                {
+                    MovieName = m.Name,
+                    Screenings = m.Screenings.Where(s => s.Id == screeningsId)
+                    .Select(s => new
+                    {
+                        DateAndTime = s.DateAndTime
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
+
+            if (movieInfo == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(movieInfo);
+        }
     }
 }
