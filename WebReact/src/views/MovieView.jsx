@@ -19,7 +19,7 @@ function BasicExample() {
 		<Container >
 			<Row>
 				<Col className='d-flex justify-content-center'>
-					<div className="w-100 ratio ratio-16x9 mw-100-lg">
+					<div className="w-100 ratio ratio-16x9">
 							<iframe width="100%" height="100%"
 								src={`https://www.youtube.com/embed/${movies[movieId].trailerURL}?autoplay=1&mute=1`}>
 							</iframe>
