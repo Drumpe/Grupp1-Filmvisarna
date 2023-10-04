@@ -33,8 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/webapi/webapi.csproj",
-                "&"
+                "${workspaceFolder}/webapi/webapi.csproj"
             ],
             "problemMatcher": "$msCompile"
         },
