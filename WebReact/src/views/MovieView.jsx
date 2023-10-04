@@ -4,7 +4,6 @@ import Card from 'react-bootstrap/Card';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
-import Image from 'react-bootstrap/Image';
 
 import { useOutletContext, useParams } from 'react-router-dom';
 
