@@ -24,9 +24,6 @@ namespace YourNamespace.Controllers
         [HttpGet("mov{movieId}/")]
         public async Task<IActionResult> GetMovieScreenings(int movieId)
         {
-            //Changing the time to swedish
-            CultureInfo culture = new CultureInfo("sv-SE"); 
-
             var movieInfo = await _context.movies
                 .Where(m => m.Id == movieId)
                 .Select(m => new
