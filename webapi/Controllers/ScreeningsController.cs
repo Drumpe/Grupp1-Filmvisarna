@@ -17,7 +17,7 @@ namespace YourNamespace.Controllers
             _context = context;
         }
 
-        //Get every screening available for specific movie
+        //Get every screening available for one specific movie
         [HttpGet("{movieId}/screenings")]
         public async Task<IActionResult> GetMovieScreenings(int movieId)
         {
@@ -34,10 +34,10 @@ namespace YourNamespace.Controllers
             {
                 return NotFound();
             }
-
             return Ok(movieInfo);
         }
         
+        //Get one specific screening for one specific movie
         [HttpGet("{movieId}/{screeningsId}")]
         public async Task<IActionResult> GetSpecificMovieScreenings(int movieId, int screeningsId)
         {
@@ -58,7 +58,6 @@ namespace YourNamespace.Controllers
             {
                 return NotFound();
             }
-
             return Ok(movieInfo);
         }
     }
