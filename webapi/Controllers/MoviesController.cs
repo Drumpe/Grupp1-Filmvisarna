@@ -26,6 +26,7 @@ namespace YourNamespace.Controllers
                 {   
                     Id = v.Id,
                     Movie = v.Name,   
+                    TrailerURL = v.TrailerURL,
                     Genre = v.MoviesXGenres.Select(mxg => mxg.Genre.Name).FirstOrDefault(),
                     Actors = JObject.Parse(v.Description)["actors"].ToObject<List<string>>(),
                     Director = JObject.Parse(v.Description)["director"].ToString(),      
