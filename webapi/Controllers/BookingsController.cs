@@ -33,11 +33,11 @@ namespace YourNamespace.Controllers
                     Theater = b.Screening.Theater.Name,
                     Tickets = b.BookingXSeats.Select(bxs => new
                     {
-                        TicketNo = bxs.Seat.Id,
+                        Row = bxs.Seat.Row,
+                        Seat = bxs.Seat.seat,
                         Type = bxs.PriceCategory.Name,
                         Price = bxs.PriceCategory.Price,
-                        Seat = bxs.Seat.seat,
-                        Row = bxs.Seat.Row
+                        SeatId = bxs.Seat.Id
                     })
                 })
                 .FirstOrDefaultAsync();
