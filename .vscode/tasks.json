@@ -36,6 +36,27 @@
                 "${workspaceFolder}/webapi/webapi.csproj"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "npm",
+            "command": "npm",
+            "type": "shell",
+            "args": [
+                "run",
+                "dev",
+                "--prefix",
+                "${workspaceFolder}/WebReact"
+            ],
+            "problemMatcher": "$eslint-stylish"
+        },
+        {
+            "label": "run",
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true
+            },
+            "problemMatcher": "$msCompile",
+            "dependsOn": [ "watch", "npm" ]
         }
     ]
 }
