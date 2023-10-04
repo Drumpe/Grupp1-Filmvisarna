@@ -37,5 +37,33 @@ namespace YourNamespace.Controllers
 
             return Ok(movieInfo);
         }
+        
+
+   [HttpGet("{id}")]
+        public async Task<IActionResult> GetBookedSeatsForScreening(int id)
+        {
+            var result = await _context.screenings
+                .Where(v => v.Id == id)
+                .Select(v => new
+                {
+                    Id = v.Id,
+                    Theater = v.Theater.Name,
+                    Movie = v.Movie.Name,
+                    TotalSeatsInTheater = v.Theater.Seats.Count(),
+                    BookedSeats = v.Bookings
+                        .SelectMany(b => b.BookingXSeats)
+                        .Select(bxs => new
+                        {
+                            SeatNumber = bxs.SeatId
+                        })
+                })
+                .FirstOrDefaultAsync();
+
+            return Ok(result);
+        }
+
+
+
+        
     }
 }
