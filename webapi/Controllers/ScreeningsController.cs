@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using webapi.Data;
+using System.Globalization;
 
 namespace YourNamespace.Controllers
 {
@@ -21,12 +22,16 @@ namespace YourNamespace.Controllers
         [HttpGet("{movieId}/screenings")]
         public async Task<IActionResult> GetMovieScreenings(int movieId)
         {
+            //Changing the time to swedish
+            CultureInfo culture = new CultureInfo("sv-SE"); 
+
             var movieInfo = await _context.movies
                 .Where(m => m.Id == movieId)
                 .Select(m => new
                 {
                     MovieName = m.Name,
-                    Screenings = m.Screenings.Select(s => s.DateAndTime).ToList()
+                    Screenings = m.Screenings.Select(s => s.DateAndTime.ToLocalTime().ToString("g", culture))
+                    .ToList()
                 })
                 .FirstOrDefaultAsync();
 
@@ -34,6 +39,7 @@ namespace YourNamespace.Controllers
             {
                 return NotFound();
             }
+
             return Ok(movieInfo);
         }
         
