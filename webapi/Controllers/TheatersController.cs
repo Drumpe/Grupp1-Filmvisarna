@@ -28,11 +28,12 @@ namespace YourNamespace.Controllers
                     {
                         SeatId = s.Id,
                         Seat = s.seat,
-                        Row = s.Row,                                             
+                        Row = s.Row,
+
                     })
                 })
                 .FirstOrDefaultAsync();
-                
+
             return Ok(result);
         }
     }
