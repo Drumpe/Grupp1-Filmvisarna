@@ -87,8 +87,10 @@ namespace YourNamespace.Controllers
                     BookedSeats = v.Bookings
                         .SelectMany(b => b.BookingXSeats)
                         .Select(bxs => new
-                        {
-                            SeatNumber = bxs.SeatId
+                        {                    
+                            SeatId = bxs.SeatId,      
+                            Seat = bxs.Seat.seat,
+                            Row = bxs.Seat.Row
                         })
                 })
                 .FirstOrDefaultAsync();
