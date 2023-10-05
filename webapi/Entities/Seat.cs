@@ -6,10 +6,11 @@ public class Seat
 {
     [Column("SeatId")]
     public int Id { get; set; }
+
+    [ForeignKey("TheaterId")]
     public int TheaterId { get; set; }
-    public int Number { get; set; }
+    public int seat { get; set; }
     public int Row { get; set; }
-    public bool IsAvaliable { get; set; }
 
     // Navigation property
     public Theater Theater { get; set; }
