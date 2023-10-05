@@ -4,7 +4,6 @@ import Card from 'react-bootstrap/Card';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
-import Image from 'react-bootstrap/Image';
 
 import { useOutletContext, useParams } from 'react-router-dom';
 
@@ -20,11 +19,11 @@ function BasicExample() {
 		<Container >
 			<Row>
 				<Col className='d-flex justify-content-center'>
-					<Card >
-						<iframe width="420" height="315"
-							src={`https://www.youtube.com/embed/${movies[movieId].trailerURL}?autoplay=1&mute=1`}>
-						</iframe>
-					</Card>
+					<div className="w-100 ratio ratio-16x9">
+							<iframe width="100%" height="100%"
+								src={`https://www.youtube.com/embed/${movies[movieId].trailerURL}?autoplay=1&mute=1`}>
+							</iframe>
+						</div>
 				</Col>
 			</Row>
 			<Row>
