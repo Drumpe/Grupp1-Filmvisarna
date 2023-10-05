@@ -4,24 +4,44 @@ import Card from 'react-bootstrap/Card';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useOutletContext, useParams} from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { get } from '../utilsAndHooks/rest';
+
+/* async function Screenings(movieId) {
+	//let initialScreenings = { movieName: ``, screenings: [ { id: 0, dateAndTime: ``} ] };
+	return await get(`screenings/${movieId}`);
+} */
 
 function MovieView() {
 	const { movies } = useOutletContext();
 	let { movieId } = useParams();
+	let [screenings, setScreenings] = useState({
+    screenings: []
+  });
 
-	if (movieId > 0) {
+	useEffect(() => {
+		(async () => {
+			setScreenings({
+				...screenings,
+				screenings: await get(`screenings/mov2`)
+			});
+		})();
+	}, []);
+
+	/* if (movieId > 0) {
 		movieId -= 1;
-	}
+	} */
 
 	return (
 		<Container >
 			<Row>
 				<Col className='d-flex justify-content-center'>
+					<h1>{ screenings.screenings.screenings[0].dateAndTime }</h1>
 					<div className="w-100 ratio ratio-16x9">
-							<iframe width="100%" height="100%"
+							{/* <iframe width="100%" height="100%"
 								src={`https://www.youtube.com/embed/${movies[movieId].trailerURL}?autoplay=1&mute=1`}>
-							</iframe>
+							</iframe> */}
 						</div>
 				</Col>
 			</Row>
@@ -29,7 +49,7 @@ function MovieView() {
 				<Col className=' d-flex justify-content-center'>
 					<Card className='bg-transparent text-light' style={{ width: '25rem' }}>
 						<Card.Body>
-							<Card.Title>{movies[movieId].movie}</Card.Title>
+							{/* <Card.Title>{movies[movieId].movie}</Card.Title> */}
 							<Card.Text className='mt-3'>{movies[movieId].description}</Card.Text>
 						</Card.Body>
 					</Card>
