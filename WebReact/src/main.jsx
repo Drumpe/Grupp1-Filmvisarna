@@ -26,7 +26,7 @@ export const views = [
   {path: '/AboutView', label: 'Om oss', element: <AboutView /> },
   {path: '/AccountView', label: 'Mitt konto', element: <AccountView />},
   {path: '/CancelView', label: 'Avboka', element: <CancelView />},
-  {path: '/ConfirmedView', label: 'Bokningsbekräftelse', element: <ConfirmedView />},
+  {path: '/ConfirmedView/:bookingId', label: 'Bokningsbekräftelse', element: <ConfirmedView />},
   {path: '/LoginView', label: 'Logga in', element: <LoginView />},
   {path: '/MovieView/:movieId', label: 'Filmbeskrivning', element: <MovieView />},
   {path: '/RegisterView', label: 'Bli medlem', element: <RegisterView /> },

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from "react"
 import { Container, Row, Col, ButtonToolbar, ButtonGroup, Button, CloseButton, Form } from 'react-bootstrap';
-import { get } from '../utilsAndHooks/rest';
+import { get, post } from '../utilsAndHooks/rest';
 import { Link, useParams } from "react-router-dom";
 
 
@@ -8,18 +8,17 @@ const TheaterView = () => {
     const [barnTickets, setBarnTickets] = useState(0);
     const [ordinareTickets, setOrdinareTickets] = useState(0);
     const [pensionarTickets, setPensionarTickets] = useState(0);
-    let { screeningId } = useParams();
+    const { screeningId } = useParams();
     const [jsonTheater, setJsonTheater] = useState(null);
     const [jsonScreening, setJsonScreening] = useState(null);
     const [wantedSeats, setWantedSeats] = useState([]);
     const [summaState, setSummaState] = useState(0);
+    const [formData, setFormData] = useState({ email: '' });
+    //const [bookingJson, setBookingJson] = useState(null);
+    //const [response, setResponse] = useState(null);
 
     /* TODO:
-    *  Räkna summa rätt
     *  toggle seat color in seatClicked
-    *  varför uppdateras inte wantedSeats direkt?
-    *  emailadressen skall sparas för att kunna skickas
-    *  POST booking
     */
 
     async function fetchAndInit() {
@@ -32,6 +31,15 @@ const TheaterView = () => {
             console.log(err);
             return {};
         }
+    };
+
+    const sendRequest = async () => {
+        /** Här borde göras kontroller innan vi skickar iväg och kolla att resultatet är ok */
+        var booking = createBookingJson();
+        var result = await post('bookings/', booking);
+        //console.log("Last check: "  + result.bookingId );
+        //setResponse(result); //Onödig?
+        window.location.href = 'ConfirmedView/' + result.bookingId;
     };
 
     useEffect(() => {
@@ -47,7 +55,7 @@ const TheaterView = () => {
                 setBarnTickets(barnTickets + 1);
                 checkVarAv();
                 break;
-            case 'ordinare':
+            case 'ordinare': //Kan tas bort
                 setOrdinareTickets(ordinareTickets + 1);
                 checkVarAv();
                 break;
@@ -69,7 +77,7 @@ const TheaterView = () => {
                     checkVarAv();
                 }
                 break;
-            case 'ordinare':
+            case 'ordinare': //Kan tas bort
                 if (ordinareTickets > 0) {
                     setOrdinareTickets(ordinareTickets - 1);
                     checkVarAv();
@@ -87,23 +95,23 @@ const TheaterView = () => {
         }
 
     };
-
+    //När man klickar på ett säte 
     const seatClicked = (seatId) => {
-        console.log("In seatClicked " + wantedSeats.length);
         // toggle wanted seat (toggla färg?)
+        //Kontrollera att sätet inte är valt redan.
+
         //Om seatId in wantedSeats 
+
         if (wantedSeats.find(x => x.seatId === seatId)) {
             setWantedSeats((prevWantedSeats) => prevWantedSeats.filter(seat => seat.seatId !== seatId)); //Ta bort
         } else {
             setWantedSeats((prevWantedSeats) => [...prevWantedSeats, seatId]); //Lägg till
         }
-        console.log("In seatClicked2 " + wantedSeats.length);
         checkVarAv();
     }
 
     /* Skall kolla att Barn och Pensionärer inte överstiger antalet biljetter */
     const checkVarAv = () => {
-        console.log("In checkVarAv");
         if (barnTickets + pensionarTickets > wantedSeats.length) {
             if (pensionarTickets > 0) {
                 decreaseCount('pensionar');
@@ -114,14 +122,58 @@ const TheaterView = () => {
         raknaSumma();
     }
 
-    const raknaSumma = () => {
-        console.log("In raknaSumma:  B: " + barnTickets + " P: " + pensionarTickets + " V: " + wantedSeats.length);
+    // Räkna ut och set summaState som visas i body
+    function raknaSumma() {
+        //console.log("In raknaSumma:  B: " + barnTickets + " P: " + pensionarTickets + " V: " + wantedSeats.length);
         const barnPris = 80;
         const pensionarPris = 120;
         const vuxenPris = 140;
         setSummaState((barnTickets * barnPris) + (pensionarTickets * pensionarPris) + ((wantedSeats.length - barnTickets - pensionarTickets) * vuxenPris));
     }
 
+    function handleSubmit(event) {
+        event.preventDefault();
+        // Access and use formData state for form submission
+        console.log(formData);
+        // You can send the data to an API or perform other actions here
+    }
+    function handleInputChange(event) {
+        const { name, value } = event.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    }
+
+    function makePriceCatsArray() {
+        var result = [];
+        for (let index = 0; index < pensionarTickets; index++) {
+            result.push(3);
+        }
+        for (let index = 0; index < barnTickets; index++) {
+            result.push(2);
+        }
+        for (let index = 0; index < wantedSeats.length - barnTickets - pensionarTickets; index++) {
+            result.push(1);
+        }
+        return result;
+    }
+
+    function createBookingJson() {
+        var tmpArr = [];
+        var priceCat = makePriceCatsArray();
+        var index = 0;
+        wantedSeats.map((tmpSeatId) => (
+            tmpArr.push({ SeatId: tmpSeatId, PriceCategoryId: priceCat[index++] })
+        ));
+        const bookingData = {
+            EmailAdress: formData.email,
+            ScreeningId: screeningId,
+            BookingXSeats: tmpArr,
+        }
+        //setBookingJson(bookingData); //returnerar istället
+        return bookingData;
+    }
 
     const ShowSeats = () => {
         const [result, setResult] = useState();
@@ -152,11 +204,10 @@ const TheaterView = () => {
                         <ButtonToolbar className="mb-2" aria-label="Toolbar with Button groups">
                             <ButtonGroup className="me-2" aria-label="First group">
                                 {rows[rowNumber].map((seatElement) => (
-
                                     //Här skall läggas till onclick så att den (seatId) läggs till i en list med säten_som_skall_bokas
                                     //Färger borde fixas
                                     <Button onClick={() => seatClicked(seatElement.seatId)}
-                                        variant={(seatElement.booked ? "primary" : "secondary") + " me-2"}
+                                        variant={(seatElement.booked ? "primary" : "secondary") + " me-2 opacity-"}
                                         key={seatElement.seatId}
                                         disabled={(!seatElement.booked)} >
                                         {seatElement.seat}
@@ -181,6 +232,11 @@ const TheaterView = () => {
         return <>{result}</>
     }; //End ShowSeats
 
+    //Räkna om summan om något värde ändras
+    useEffect(() => {
+        raknaSumma();
+    }, [summaState, wantedSeats, barnTickets, pensionarTickets]);
+
     return !jsonTheater ? null : (
         <Container className="mt-5">
             <Row>
@@ -200,7 +256,7 @@ const TheaterView = () => {
 
             <Row>
                 <Col className="mt-3 d-flex justify-content-center">
-                    <span style={{ fontSize: '25px' }}>Antal biljetter 3 varav:</span>
+                    <span style={{ fontSize: '25px' }}>Antal biljetter {wantedSeats.length} varav:</span>
                 </Col>
             </Row>
             <Row>
@@ -233,10 +289,10 @@ const TheaterView = () => {
             </Row>
             <Row>
                 <Col className="d-flex justify-content-center mt-3">
-                    <Form>
+                    <Form onSubmit={handleSubmit}>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Form.Label>E-postadress</Form.Label>
-                            <Form.Control type="email" placeholder="name@example.com" />
+                            <Form.Control type="email" name="email" value={formData.email} placeholder="name@example.com" onChange={handleInputChange} />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                             <Form.Text id="passwordHelpBlock" muted>
@@ -253,9 +309,7 @@ const TheaterView = () => {
             </Row>
             <Row>
                 <Col className="d-flex justify-content-center mt-3">
-                    <Link to='/ConfirmedView'>
-                        <Button variant="secondary">Bekräfta bokning</Button>{' '}
-                    </Link>
+                    <Button variant="secondary" onClick={sendRequest}>Bekräfta bokning</Button>{' '}
                 </Col>
             </Row>
         </Container>
