@@ -13,7 +13,10 @@ namespace YourNamespace.Controllers
     {
         private readonly FilmvisarnaContext _context;
         private static CultureInfo sv = new("sv-SE");
-        private static string GetLocalDateTime(DateTime dateTime) => dateTime.ToLocalTime().ToString("f", sv);
+        private static string GetDateTime(DateTime dateTime) => dateTime.ToLocalTime().ToString("f", sv);
+        private static string GetAbbrevDayOfWeek(DateTime dateTime) => dateTime.ToLocalTime().ToString("f", sv).Substring(0, 3);
+        private static string GetDayAndMonth(DateTime dateTime) => dateTime.ToLocalTime().ToString("m", sv);
+        private static string GetTime(DateTime dateTime) => dateTime.ToLocalTime().ToString("t", sv);
 
         public ScreeningsController(FilmvisarnaContext context)
         {
@@ -21,6 +24,8 @@ namespace YourNamespace.Controllers
         }
 
         //Get every screening available for one specific movie
+        // 
+        //          Theater Join is not optimized !!
         [HttpGet("mov{movieId}/")]
         public async Task<IActionResult> GetMovieScreenings(int movieId)
         {   
@@ -28,14 +33,17 @@ namespace YourNamespace.Controllers
                 .Where(m => m.Id == movieId)
                 .Select(m => new
                 {
-                    // Id = m.Screenings.Select(s => s.Id).ToList(),
                     MovieName = m.Name,
-                    //Screenings = m.Screenings.Select(s => s.DateAndTime).ToList(),
                     Screenings = m.Screenings.Select(s => new
                     {
                         Id = s.Id,
-                        DateAndTime = GetLocalDateTime(s.DateAndTime)
-                    }).ToList()
+                        DayOfWeek = GetAbbrevDayOfWeek(s.DateAndTime),
+                        DayAndMonth = GetDayAndMonth(s.DateAndTime),
+                        Time = GetTime(s.DateAndTime),
+                        TheaterId = s.Theater.Id,
+                        TheaterName = s.Theater.Name
+                    })
+                    .ToList()
 
                 })
                 .FirstOrDefaultAsync();
@@ -46,6 +54,33 @@ namespace YourNamespace.Controllers
             }
 
             return Ok(movieInfo);
+        }
+
+        /// <summary>
+        /// alliebeans förslag på ändring
+        /// </summary>
+        [HttpGet("movie/{movieId}")]
+        public async Task<IActionResult> GetMovieScreeningsProposal(int movieId)
+        {   
+            var movieScreenings = await _context.movies
+                .Where(m => m.Id == movieId)
+                .Select(m => new
+                {
+                    Screenings = m.Screenings.Select(s => new
+                    {
+                        Id = s.Id,
+                        DateAndTime = GetDateTime(s.DateAndTime)
+                    }).ToList()
+
+                })
+                .FirstOrDefaultAsync();
+
+            if (movieScreenings == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(movieScreenings);
         }
 
         //Get one specific screening for one specific movie
@@ -60,7 +95,7 @@ namespace YourNamespace.Controllers
                     Screenings = m.Screenings.Where(s => s.Id == screeningsId)
                     .Select(s => new
                     {
-                        DateAndTime = GetLocalDateTime(s.DateAndTime)
+                        DateAndTime = GetDateTime(s.DateAndTime)
                     }).ToList()
                 })
                 .FirstOrDefaultAsync();
