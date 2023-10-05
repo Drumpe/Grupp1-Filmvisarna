@@ -12,6 +12,8 @@ function MovieView() {
     screenings: []
   });
 
+	let [selectedScreening, setSelectedScreening] = useState('');
+
 	useEffect(() => {
 		(async () => {
 			setScreenings({
@@ -61,9 +63,9 @@ function MovieView() {
 
 	/// ScreeningPicker
 	const ScreeningTimeItems = () => {
-		let times = screenings.screenings.screenings.map(times => 
-			<ListGroup.Item href={`#${times.id}`} key={times.id}>
-				{`${times.time} | ${times.theaterName}`}
+		let times = screenings.screenings.screenings.map(screening =>
+			<ListGroup.Item variant="secondary" key={screening.id} className="screening-list-item" as="li" active={selectedScreening === screening.id} action onClick={() => setSelectedScreening(screening.id)}>
+				{`${screening.time} | ${screening.dayAndMonth}, ${capitalize(screening.dayOfWeek)} | ${screening.theaterName}`}
 			</ListGroup.Item>
 			);
 
@@ -97,19 +99,19 @@ function MovieView() {
 							</div>
 						</Col>
 					</Row>
-					<Row>
+
+					{/* <Row>
 						<Col className=' d-flex justify-content-start mb-3'>
 
 							<Dropdown>
 								<Dropdown.Toggle variant="secondary">Välj datum</Dropdown.Toggle>
-		
 								<Dropdown.Menu>
 									<ScreeningDateItems />
 								</Dropdown.Menu>
 							</Dropdown>
 
 						</Col>
-					</Row>
+					</Row> */}
 
 					<Row>
 						<Col className=' d-flex justify-content-center'>
