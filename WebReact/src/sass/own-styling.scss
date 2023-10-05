@@ -39,6 +39,11 @@ Logo size will adapt after text size; for example, use className="h4" in parent
     opacity: 0.75;
 }
 
+.nav-back::before {
+    content: url("/img/ui/ui-backarrow.svg");
+    padding-right: .5em;
+}
+
 /* End Custom UI elements */
 
 // Fix för aspect ratio på bilderna i StartView

@@ -60,8 +60,11 @@ function MovieView() {
 	} else {
 			return (
 				<Container >
+					<Col className='d-flex justify-content-start'>
+							<Link className="nav-back text-info" to="/StartView">Visas nu</Link>
+						</Col>
 					<Row>
-						<Col className='d-flex justify-content-center'>
+						<Col className='d-flex justify-content-center mt-3'>
 							<div className="w-100 ratio ratio-16x9">
 									<iframe width="100%" height="100%"
 										src={`https://www.youtube.com/embed/${movies[idx].trailerURL}?autoplay=0&mute=1`}>
@@ -71,7 +74,7 @@ function MovieView() {
 					</Row>
 					<Row>
 						<Col className='d-flex justify-content-start'>
-							<div className="w-75 mt-4 pb-2">
+							<div className="w-100 mt-4 pb-2">
 								<h1>{movies[idx].movie}</h1>
 								<Description />
 							</div>
