@@ -48,7 +48,7 @@ function MovieView() {
 	const ScreeningTimeItems = () => {
 		let times = screenings.screenings.screenings.map(times => 
 			<ListGroup.Item href={`#${times.id}`} key={times.id}>
-				{`Tid: ${times.time} | ${times.theaterName}`}
+				{`${times.time} | ${times.theaterName}`}
 			</ListGroup.Item>
 			);
 
@@ -76,7 +76,9 @@ function MovieView() {
 						<Col className='d-flex justify-content-start'>
 							<div className="w-100 mt-4 pb-2">
 								<h1>{movies[idx].movie}</h1>
-								<Description />
+								<p className="mt-3">
+									<Description />
+								</p>
 							</div>
 						</Col>
 					</Row>
