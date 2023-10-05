@@ -249,12 +249,12 @@ const TheaterView = () => {
                 <Col className="d-flex justify-content-center mt-3">
                     <Form>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Label>Email-adress</Form.Label>
+                            <Form.Label>E-postadress</Form.Label>
                             <Form.Control type="email" placeholder="name@example.com" />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                             <Form.Text id="passwordHelpBlock" muted>
-                                För att kunna boka måste du ange en giltig mailadress.
+                                För att kunna boka måste du ange en giltig e-postadress.
                             </Form.Text>
                         </Form.Group>
                     </Form>
