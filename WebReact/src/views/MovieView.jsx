@@ -30,16 +30,34 @@ function MovieView() {
 	}
 
 
-	/// ScreeningDateItems
-	const ScreeningDateItems = () => {
-		let items = screenings.screenings.screenings.map(screening =>
+	/// ScreeningDayPicker
+	///  --- Work In Progress ---
+	/* const ScreeningDateItems = () => {
+		const validDays = [];
+		screenings.screenings.screenings.map(days => {
+				if (validDays.indexOf(days.dayAndMonth) === -1) {
+						validDays.push(days)
+				}
+		});
+
+		let items = validDays.map(screening =>
 			<Dropdown.Item key={screening.id}>
 				{`${capitalize(screening.dayOfWeek)}, ${screening.dayAndMonth}`}
 				</Dropdown.Item>
 			);
 
 			return (items);
-	}
+
+			// ALL DAYS
+			let items = screenings.screenings.screenings.map(screening =>
+			<Dropdown.Item key={screening.id}>
+				{`${capitalize(screening.dayOfWeek)}, ${screening.dayAndMonth}`}
+				</Dropdown.Item>
+			);
+
+			return (items);
+
+	} */
 
 	/// ScreeningPicker
 	const ScreeningTimeItems = () => {
