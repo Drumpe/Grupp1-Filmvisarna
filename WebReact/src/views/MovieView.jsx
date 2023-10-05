@@ -10,9 +10,7 @@ import { capitalize } from '../utilsAndHooks/date-formatter';
 function MovieView() {
 	const { movies } = useOutletContext();
 	let { movieId } = useParams();
-	let [screenings, setScreenings] = useState({
-    screenings: []
-  });
+	let [screenings, setScreenings] = useState({ screenings: [] });
 	let [selectedScreening, setSelectedScreening] = useState('');
 
 	useEffect(() => {
@@ -22,7 +20,7 @@ function MovieView() {
 				screenings: await get(`screenings/mov${movieId}`)
 			});
 		})();
-	});
+	}, []);
 
 	const idx = Number.parseInt(movieId) - 1;
 
@@ -64,7 +62,12 @@ function MovieView() {
 	/// ScreeningPicker
 	const ScreeningTimeItems = () => {
 		let times = screenings.screenings.screenings.map(screening =>
-			<ListGroup.Item variant="secondary" key={screening.id} className="screening-list-item" as="li" active={selectedScreening === screening.id} action onClick={() => setSelectedScreening(screening.id)}>
+			<ListGroup.Item variant="secondary" key={screening.id} className="screening-list-item" as="li" active={selectedScreening === screening.id} action onClick={() => {
+				setSelectedScreening('');
+				if (selectedScreening !==  screening.id) {
+					setSelectedScreening(screening.id);
+				}
+			}}>
 				{`${screening.time} | ${screening.dayAndMonth}, ${capitalize(screening.dayOfWeek)} | ${screening.theaterName}`}
 			</ListGroup.Item>
 			);
@@ -72,74 +75,68 @@ function MovieView() {
 			return (times);
 	}
 
-	if (screenings.screenings.screenings === undefined || movies[idx] === undefined) {
-		return null;
-	} else {
-			return (
-				<Container >
-					<Col className='d-flex justify-content-start'>
-							<Link className="nav-back text-info" to="/StartView">Tillbaka</Link>
-						</Col>
-					<Row>
-						<Col className='d-flex justify-content-center mt-3'>
-							<div className="w-100 ratio ratio-16x9">
-									<iframe width="100%" height="100%"
-										src={`https://www.youtube.com/embed/${movies[idx].trailerURL}?autoplay=0&mute=1`}>
-									</iframe>
-								</div>
-						</Col>
-					</Row>
-					<Row>
-						<Col className='d-flex justify-content-start'>
-							<div className="w-100 mt-4 pb-2">
-								<h1>{movies[idx].movie}</h1>
-								<p className="mt-3">
-									<Description />
-								</p>
-							</div>
-						</Col>
-					</Row>
+	return !screenings.screenings.screenings ? null : (
+		<Container >
+			<Col className='d-flex justify-content-start'>
+					<Link className="nav-back text-info" to="/StartView">Tillbaka</Link>
+				</Col>
+			<Row>
+				<Col className='d-flex justify-content-center mt-3'>
+					<div className="w-100 ratio ratio-16x9">
+							{/* <iframe width="100%" height="100%"
+								src={`https://www.youtube.com/embed/${movies[idx].trailerURL}?autoplay=0&mute=1`}>
+							</iframe> */}
+						</div>
+				</Col>
+			</Row>
+			<Row>
+				<Col className='d-flex justify-content-start'>
+					<div className="w-100 mt-4 pb-2">
+						<h1>{movies[idx].movie}</h1>
+						<p className="mt-3">
+							<Description />
+						</p>
+					</div>
+				</Col>
+			</Row>
 
-					{/* <Row>
-						<Col className=' d-flex justify-content-start mb-3'>
+			{/* <Row>
+				<Col className=' d-flex justify-content-start mb-3'>
 
-							<Dropdown>
-								<Dropdown.Toggle variant="secondary">Välj datum</Dropdown.Toggle>
-		
-								<Dropdown.Menu>
-									<ScreeningDateItems />
-								</Dropdown.Menu>
-							</Dropdown>
+					<Dropdown>
+						<Dropdown.Toggle variant="secondary">Välj datum</Dropdown.Toggle>
 
-						</Col>
-					</Row> */}
+						<Dropdown.Menu>
+							<ScreeningDateItems />
+						</Dropdown.Menu>
+					</Dropdown>
 
-					<Row>
-						<Col className=' d-flex justify-content-center'>
+				</Col>
+			</Row> */}
 
-							<div className="w-100 pb-3">
-								<h5 className="border-bottom pb-2 mb-0 fw-bold">Välj visning</h5>
-								<ListGroup variant="flush">
-									<ScreeningTimeItems />
-								</ListGroup>
-							</div>
-						</Col>
-					</Row>
-					<Row>
-						<Col className='d-flex justify-content-center'>
-						<Link style={{pointerEvents: selectedScreening ? '' : 'none'}} to={`/TheaterView/${selectedScreening}`}>
-								<Button className='p-2 mt-2' variant="primary" disabled={
-          selectedScreening.length === 0}>
-									Välj biljett
-								</Button>
-						</Link>
-						</Col>
-					</Row>
-				</Container>
-			);
-		}
-	}
+			<Row>
+				<Col className=' d-flex justify-content-center'>
 
-	
+					<div className="w-100 pb-3">
+						<h5 className="border-bottom pb-2 mb-0 fw-bold">Välj visning</h5>
+						<ListGroup variant="flush">
+							<ScreeningTimeItems />
+						</ListGroup>
+					</div>
+				</Col>
+			</Row>
+			<Row>
+				<Col className='d-flex justify-content-center'>
+				<Link style={{pointerEvents: selectedScreening ? '' : 'none'}} to={`/TheaterView/${selectedScreening}`}>
+						<Button className='p-2 mt-2' variant="primary" disabled={
+			selectedScreening.length === 0}>
+							Välj platser
+						</Button>
+				</Link>
+				</Col>
+			</Row>
+		</Container>
+	);
+}
 
 export default MovieView;
