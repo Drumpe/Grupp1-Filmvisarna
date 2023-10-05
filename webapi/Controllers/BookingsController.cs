@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using webapi.Controllers.Utilities;
 using webapi.Data;
 using webapi.Entities;
 using webapi.ViewModels;
@@ -25,7 +26,7 @@ namespace YourNamespace.Controllers
                 .Select(b => new
                 {
                     BookingNumber = b.BookingNumber,
-                    BookingDate = b.BookingDateTime,
+                    BookingTime = b.BookingDateTime,
                     FirstName = b.User.FirstName,
                     LastName = b.User.LastName,
                     Email = b.User.EmailAdress,
@@ -52,6 +53,9 @@ namespace YourNamespace.Controllers
         [HttpPost()]
         public async Task<IActionResult> Post(MakeBookingModel model)
         {
+            if (await _context.users.SingleOrDefaultAsync(b => b.EmailAdress == model.EmailAdress) is not null)
+            return BadRequest($"A user with the email address {model.EmailAdress} already exists in our system.");
+
             var user = new User
             {
                 EmailAdress = model.EmailAdress
@@ -64,8 +68,8 @@ namespace YourNamespace.Controllers
             {
                 ScreeningId = model.ScreeningId,
                 UserId = user.Id,
-                BookingNumber = model.BookingNumber,
-                BookingDateTime = model.BookingDateTime
+                BookingNumber = BookingNumberGenerator.GenerateRandomBookingNumber(),
+                BookingDateTime = DateTime.Now
             };
 
             _context.bookings.Add(booking);
