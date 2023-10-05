@@ -30,7 +30,7 @@ export const views = [
   {path: '/LoginView', label: 'Logga in', element: <LoginView />},
   {path: '/MovieView/:movieId', label: 'Filmbeskrivning', element: <MovieView />},
   {path: '/RegisterView', label: 'Bli medlem', element: <RegisterView /> },
-  {path: '/TheaterView', label: 'Skapa bokning', element: <TheaterView />},
+  {path: '/TheaterView/:screeningId', label: 'Skapa bokning', element: <TheaterView />},
 ];
 
 const router = createBrowserRouter([
