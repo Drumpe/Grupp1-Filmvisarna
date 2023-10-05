@@ -200,7 +200,7 @@ const TheaterView = () => {
 
             <Row>
                 <Col className="mt-3 d-flex justify-content-center">
-                    <span style={{ fontSize: '25px' }}>Välj antal biljetter</span>
+                    <span style={{ fontSize: '25px' }}>Antal biljetter 3 varav:</span>
                 </Col>
             </Row>
             <Row>
@@ -208,11 +208,11 @@ const TheaterView = () => {
                     <span style={{ fontSize: '22px' }}>Barn</span>
                 </Col>
                 <Col>
-                    <Button onClick={() => decreaseCount('barn')} variant="danger">
+                    <Button onClick={() => decreaseCount('barn')} variant="danger me-2">
                         --
                     </Button>
                     {barnTickets}&nbsp;
-                    <Button onClick={() => increaseCount('barn')} variant="primary me-2">
+                    <Button onClick={() => increaseCount('barn')} variant="primary">
                         +
                     </Button>
                 </Col>
@@ -222,11 +222,11 @@ const TheaterView = () => {
                     <span style={{ fontSize: '22px' }}>Pensionär</span>
                 </Col>
                 <Col className="col mt-3">
-                    <Button onClick={() => decreaseCount('pensionar')} variant="danger">
+                    <Button onClick={() => decreaseCount('pensionar')} variant="danger me-2">
                         --
                     </Button>
                     {pensionarTickets}&nbsp;
-                    <Button onClick={() => increaseCount('pensionar')} variant="primary me-2">
+                    <Button onClick={() => increaseCount('pensionar')} variant="primary">
                         +
                     </Button>
                 </Col>
