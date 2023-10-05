@@ -82,10 +82,10 @@ function MovieView() {
 				</Col>
 			<Row>
 				<Col className='d-flex justify-content-center mt-3'>
-					<div className="w-100 ratio ratio-16x9">
-							{/* <iframe width="100%" height="100%"
+					<div className="w-100 ratio ratio-16x9 mw-mh-lg">
+							<iframe width="100%" height="100%"
 								src={`https://www.youtube.com/embed/${movies[idx].trailerURL}?autoplay=0&mute=1`}>
-							</iframe> */}
+							</iframe>
 						</div>
 				</Col>
 			</Row>
