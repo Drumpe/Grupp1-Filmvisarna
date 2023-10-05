@@ -51,6 +51,14 @@ Logo size will adapt after text size; for example, use className="h4" in parent
     aspect-ratio: 6/9;
 }
 
+/* Screenings listing */
+
+.screening-list-item {
+    cursor: pointer;
+}
+
+/* End Screenings listing */
+
 /* Sticky Footer */
 #root {
     display: flex;

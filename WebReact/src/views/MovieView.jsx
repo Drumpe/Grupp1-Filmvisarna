@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Button, Dropdown, ListGroup } from 'react-bootstrap';
+import {
+	Button, Dropdown, ListGroup
+} from 'react-bootstrap';
 import { useOutletContext, useParams, Link} from 'react-router-dom';
 import { get } from '../utilsAndHooks/rest';
 import { capitalize } from '../utilsAndHooks/date-formatter';
@@ -11,7 +13,6 @@ function MovieView() {
 	let [screenings, setScreenings] = useState({
     screenings: []
   });
-
 	let [selectedScreening, setSelectedScreening] = useState('');
 
 	useEffect(() => {
@@ -58,7 +59,6 @@ function MovieView() {
 			);
 
 			return (items);
-
 	} */
 
 	/// ScreeningPicker
@@ -78,7 +78,7 @@ function MovieView() {
 			return (
 				<Container >
 					<Col className='d-flex justify-content-start'>
-							<Link className="nav-back text-info" to="/StartView">Visas nu</Link>
+							<Link className="nav-back text-info" to="/StartView">Tillbaka</Link>
 						</Col>
 					<Row>
 						<Col className='d-flex justify-content-center mt-3'>
@@ -105,6 +105,7 @@ function MovieView() {
 
 							<Dropdown>
 								<Dropdown.Toggle variant="secondary">Välj datum</Dropdown.Toggle>
+		
 								<Dropdown.Menu>
 									<ScreeningDateItems />
 								</Dropdown.Menu>
@@ -117,6 +118,7 @@ function MovieView() {
 						<Col className=' d-flex justify-content-center'>
 
 							<div className="w-100 pb-3">
+								<h5 className="border-bottom pb-2 mb-0 fw-bold">Välj visning</h5>
 								<ListGroup variant="flush">
 									<ScreeningTimeItems />
 								</ListGroup>
@@ -124,12 +126,13 @@ function MovieView() {
 						</Col>
 					</Row>
 					<Row>
-						<Col className=' d-flex justify-content-center'>
-							<Link to='/TheaterView'>
-								<Button className=' mt-2' variant="primary" style={{ width: '25rem' }}>
-									Välj visning
-								</Button>{''}
-							</Link>
+						<Col className='d-flex justify-content-center'>
+						<Link style={{pointerEvents: selectedScreening ? '' : 'none'}} to={`/TheaterView/${selectedScreening}`}>
+								<Button className='p-2 mt-2' variant="primary" disabled={
+          selectedScreening.length === 0}>
+									Välj biljett
+								</Button>
+						</Link>
 						</Col>
 					</Row>
 				</Container>
