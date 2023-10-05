@@ -1,10 +1,7 @@
-import { Container, Row, Col } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown';
-import { Link } from 'react-router-dom';
-import ListGroup from 'react-bootstrap/ListGroup';
-import { useOutletContext, useParams} from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
+import { Button, Dropdown, ListGroup } from 'react-bootstrap';
+import { useOutletContext, useParams, Link} from 'react-router-dom';
 import { get } from '../utilsAndHooks/rest';
 import { capitalize } from '../utilsAndHooks/date-formatter';
 
