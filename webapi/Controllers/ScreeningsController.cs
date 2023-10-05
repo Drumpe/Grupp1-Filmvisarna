@@ -117,6 +117,7 @@ namespace YourNamespace.Controllers
                 {
                     Id = v.Id,
                     Theater = v.Theater.Name,
+                    TheaterId = v.Theater.Id,
                     Movie = v.Movie.Name,
                     TotalSeatsInTheater = v.Theater.Seats.Count(),
                     BookedSeats = v.Bookings
