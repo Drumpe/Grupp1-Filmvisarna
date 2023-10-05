@@ -19,8 +19,6 @@ const TheaterView = () => {
 
     /* TODO:
     *  toggle seat color in seatClicked
-    *  
-    *  POST booking
     */
 
     async function fetchAndInit() {
@@ -39,8 +37,8 @@ const TheaterView = () => {
         /** Här borde göras kontroller innan vi skickar iväg och kolla att resultatet är ok */
         var booking = createBookingJson();
         var result = await post('bookings/', booking);
-        setResponse(result.json);
-        console.log("RESULTAT: " + result.ok +" " + result.json);
+        //setResponse(result.json); //Onödig?
+        window.location.href = 'ConfirmedView/'+result.bookingId;
     };
 
     useEffect(() => {
@@ -113,7 +111,6 @@ const TheaterView = () => {
 
     /* Skall kolla att Barn och Pensionärer inte överstiger antalet biljetter */
     const checkVarAv = () => {
-        console.log("In checkVarAv");
         if (barnTickets + pensionarTickets > wantedSeats.length) {
             if (pensionarTickets > 0) {
                 decreaseCount('pensionar');
@@ -162,21 +159,18 @@ const TheaterView = () => {
     }
 
     function createBookingJson() {
-        console.log("cst");
         var tmpArr = [];
         var priceCat = makePriceCatsArray();
         var index = 0;
-        console.log("Meep");
         wantedSeats.map((tmpSeatId) => (
             tmpArr.push({ SeatId: tmpSeatId, PriceCategoryId: priceCat[index++] })
         ));
-        console.log("Beep");
         const bookingData = {
             EmailAdress: formData.email,
             ScreeningId: screeningId,
             BookingXSeats: tmpArr,
         }
-        setBookingJson(bookingData);
+        //setBookingJson(bookingData); //returnerar istället
         return bookingData;
     }
 
@@ -237,11 +231,9 @@ const TheaterView = () => {
         return <>{result}</>
     }; //End ShowSeats
 
-    //Debug
+    //Räkna om summan om något värde ändras
     useEffect(() => {
         raknaSumma();
-        console.log("SummaState är nu: ", summaState);
-        console.log("wantedSeats längd: ", wantedSeats.length);
     }, [summaState, wantedSeats, barnTickets, pensionarTickets]);
 
     return !jsonTheater ? null : (
