@@ -89,7 +89,7 @@ const TheaterView = () => {
     };
 
     const seatClicked = (seatId) => {
-        console.log("In seatClicked " + wantedSeats.length );
+        console.log("In seatClicked " + wantedSeats.length);
         // toggle wanted seat (toggla färg?)
         //Om seatId in wantedSeats 
         if (wantedSeats.find(x => x.seatId === seatId)) {
@@ -97,7 +97,7 @@ const TheaterView = () => {
         } else {
             setWantedSeats((prevWantedSeats) => [...prevWantedSeats, seatId]); //Lägg till
         }
-        console.log("In seatClicked2 " + wantedSeats.length );
+        console.log("In seatClicked2 " + wantedSeats.length);
         checkVarAv();
     }
 
@@ -158,7 +158,7 @@ const TheaterView = () => {
                                     <Button onClick={() => seatClicked(seatElement.seatId)}
                                         variant={(seatElement.booked ? "primary" : "secondary") + " me-2"}
                                         key={seatElement.seatId}
-                                        disabled={(!seatElement.booked )} >
+                                        disabled={(!seatElement.booked)} >
                                         {seatElement.seat}
                                     </Button>
                                 ))}
@@ -208,26 +208,12 @@ const TheaterView = () => {
                     <span style={{ fontSize: '22px' }}>Barn</span>
                 </Col>
                 <Col>
-                    <Button onClick={() => increaseCount('barn')} variant="primary me-2">
-                        +
-                    </Button>
-                    {barnTickets}&nbsp;
                     <Button onClick={() => decreaseCount('barn')} variant="danger">
                         --
                     </Button>
-                </Col>
-            </Row>
-            <Row>
-                <Col className="col-3 offset-4 mt-3">
-                    <span style={{ fontSize: '22px' }}>Ordinarie</span>
-                </Col>
-                <Col className="col mt-3">
-                    <Button onClick={() => increaseCount('ordinare')} variant="primary me-2">
+                    {barnTickets}&nbsp;
+                    <Button onClick={() => increaseCount('barn')} variant="primary me-2">
                         +
-                    </Button>
-                    {ordinareTickets}&nbsp;
-                    <Button onClick={() => decreaseCount('ordinare')} variant="danger">
-                        --
                     </Button>
                 </Col>
             </Row>
@@ -236,12 +222,12 @@ const TheaterView = () => {
                     <span style={{ fontSize: '22px' }}>Pensionär</span>
                 </Col>
                 <Col className="col mt-3">
-                    <Button onClick={() => increaseCount('pensionar')} variant="primary me-2">
-                        +
-                    </Button>
-                    {pensionarTickets}&nbsp;
                     <Button onClick={() => decreaseCount('pensionar')} variant="danger">
                         --
+                    </Button>
+                    {pensionarTickets}&nbsp;
+                    <Button onClick={() => increaseCount('pensionar')} variant="primary me-2">
+                        +
                     </Button>
                 </Col>
             </Row>
