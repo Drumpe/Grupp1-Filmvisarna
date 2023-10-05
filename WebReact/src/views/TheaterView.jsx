@@ -37,7 +37,8 @@ const TheaterView = () => {
         /** Här borde göras kontroller innan vi skickar iväg och kolla att resultatet är ok */
         var booking = createBookingJson();
         var result = await post('bookings/', booking);
-        //setResponse(result.json); //Onödig?
+        //console.log("Last check: "  + result.bookingId );
+        //setResponse(result); //Onödig?
         window.location.href = 'ConfirmedView/'+result.bookingId;
     };
 
@@ -54,7 +55,7 @@ const TheaterView = () => {
                 setBarnTickets(barnTickets + 1);
                 checkVarAv();
                 break;
-            case 'ordinare':
+            case 'ordinare': //Kan tas bort
                 setOrdinareTickets(ordinareTickets + 1);
                 checkVarAv();
                 break;
@@ -76,7 +77,7 @@ const TheaterView = () => {
                     checkVarAv();
                 }
                 break;
-            case 'ordinare':
+            case 'ordinare': //Kan tas bort
                 if (ordinareTickets > 0) {
                     setOrdinareTickets(ordinareTickets - 1);
                     checkVarAv();
@@ -123,7 +124,7 @@ const TheaterView = () => {
 
     // Räkna ut och set summaState som visas i body
     function raknaSumma() {
-        console.log("In raknaSumma:  B: " + barnTickets + " P: " + pensionarTickets + " V: " + wantedSeats.length);
+        //console.log("In raknaSumma:  B: " + barnTickets + " P: " + pensionarTickets + " V: " + wantedSeats.length);
         const barnPris = 80;
         const pensionarPris = 120;
         const vuxenPris = 140;
