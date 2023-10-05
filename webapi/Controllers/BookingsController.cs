@@ -54,7 +54,7 @@ namespace YourNamespace.Controllers
         public async Task<IActionResult> Post(MakeBookingModel model)
         {
             if (await _context.users.SingleOrDefaultAsync(b => b.EmailAdress == model.EmailAdress) is not null)
-            return BadRequest($"A user with the email address {model.EmailAdress} already exists in our system.");
+                return BadRequest($"A user with the email address {model.EmailAdress} already exists in our system.");
 
             var user = new User
             {
@@ -77,10 +77,10 @@ namespace YourNamespace.Controllers
 
             foreach (var bookingXSeatModel in model.BookingXSeats)
             {
-             
+
                 var seatBookings = new BookingXSeat
                 {
-                    BookingId = booking.Id, 
+                    BookingId = booking.Id,
                     SeatId = bookingXSeatModel.SeatId,
                     PriceCategoryId = bookingXSeatModel.PriceCategoryId
                 };
@@ -90,7 +90,12 @@ namespace YourNamespace.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok();
+            var response = new
+            {
+                BookingId = booking.Id
+            };
+
+            return Ok(response);
         }
 
 
