@@ -2,10 +2,11 @@ import Card from 'react-bootstrap/Card';
 import { Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function StartView() {
 
-	const { movies } = useOutletContext();
+	const { movies } = useOutletContext()
 
 	return (
 		<>
@@ -22,7 +23,7 @@ export default function StartView() {
 			</Row>
 
 			<Row className="align-items-center">
-				{movies.map(({ id, movie, images }) => 
+				{movies.map(({id, movie, images }) => 
 					<Col className="col-6 col-lg-3 mb-4" key={id}>
 						<Link to={`/MovieView/${id}`} className="link-light link-underline-opacity-25 link-underline-opacity-75-hover">
 						<Card.Img className="top rounded ratio-6x9" alt={`${movie}`} src={`/img/poster/${images[0]}`} />

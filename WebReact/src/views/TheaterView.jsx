@@ -54,7 +54,7 @@ const MyComponent = () => {
         useEffect(() => {
             async function fetchData() {
                 try {
-                    var jsonString = await get('theaters/' + id);
+                    var jsonString = await get('/Bookings/' + id);
                     var seatsArray = jsonString.seats; // seatsArray[0] SeatId, [1] Seat, [2] Row , [3] Kanske blir bokad
 
                     // Organisera seats by rows

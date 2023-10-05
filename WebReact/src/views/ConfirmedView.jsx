@@ -1,22 +1,46 @@
+import { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import { get } from '../utilsAndHooks/rest';
 
 export default function ConfirmedView() {
+        const [id, setId] = useState(82);
+        const [data, setData] = useState({});
+        const [seatfinder, setSeatFinder] = useState([]);
+        const [formatedDate, setFormatedDate] = useState('');
+
+        async function fetchData() {
+               const response = await get('/Bookings/' + id);
+               setData(response);
+               setSeatFinder(response.tickets)      
+        }
+
+        useEffect(() => {
+                fetchData();
+                const bookingDate = new Date(data.bookingDate);
+
+                const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+                const formattedDateStr = bookingDate.toLocaleDateString('sv-SV', options);
+            
+                setFormatedDate(formattedDateStr);
+        },[data.bookingDate]);
+
 return (
-	<Container className="mt-5">
+        <Container className="mt-5">
         <h1>Tack för din bokning!</h1>
         <hr />
         <br />
-        <h3 className='text-decoration-underline'>Terminator 4</h3>
-        <p>Antal: <em>1 vuxen biljett</em> och <em>1 pensionärs biljett</em></p>
-        <p>När: <em>Söndagen den 1 April 2024 klockan 19:30</em></p>
-        <p>Plats: <em>Stora salongen, rad 4, stol 7 och 8</em></p>
-        <p>Bokningsnummer: <em>16H-E8A</em></p>
-        <p>Bekräftelsepost har skickats till <em>kund@mail.se</em></p>
+        <h3 className='text-decoration-underline'>{data.theater}</h3>
+        <p>Antal:{" " + seatfinder.map(x => x.type).join(", ")}</p>
+        <p>När: {formatedDate}</p>
+        <p>Plats: <em>{data.theater}, rad: {seatfinder.map(x => x.row)}, plats: {seatfinder.map(x => x.seat)}</em></p>
+        <p>Bokningsnummer: <em>{data.bookingNumber}</em></p>
+        <p>Bekräftelsepost har skickats till <em>{data.email}</em></p>
         <br />
         <hr />
         <p>Vänligen uppge bokningsnummer i kassan vid betalning</p>
 
         <p>Varmt välkommen till oss för att se din bokade film.</p>        
-	</Container>
-);
+        </Container>    
+        );
+
 }
