@@ -4,10 +4,9 @@ import Card from 'react-bootstrap/Card';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
-
 import { useOutletContext, useParams } from 'react-router-dom';
 
-function BasicExample() {
+function MovieView() {
 	const { movies } = useOutletContext();
 	let { movieId } = useParams();
 
@@ -74,4 +73,4 @@ function BasicExample() {
 	);
 }
 
-export default BasicExample;
+export default MovieView;
