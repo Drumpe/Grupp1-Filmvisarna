@@ -14,8 +14,8 @@ const TheaterView = () => {
     const [wantedSeats, setWantedSeats] = useState([]);
     const [summaState, setSummaState] = useState(0);
     const [formData, setFormData] = useState({ email: '' });
-    const [bookingJson, setBookingJson] = useState(null);
-    const [response, setResponse] = useState(null);
+    //const [bookingJson, setBookingJson] = useState(null);
+    //const [response, setResponse] = useState(null);
 
     /* TODO:
     *  toggle seat color in seatClicked
@@ -39,7 +39,7 @@ const TheaterView = () => {
         var result = await post('bookings/', booking);
         //console.log("Last check: "  + result.bookingId );
         //setResponse(result); //Onödig?
-        window.location.href = 'ConfirmedView/'+result.bookingId;
+        window.location.href = 'ConfirmedView/' + result.bookingId;
     };
 
     useEffect(() => {
