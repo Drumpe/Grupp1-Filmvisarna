@@ -12,8 +12,8 @@ namespace YourNamespace.Controllers
     public class ScreeningsController : ControllerBase
     {
         private readonly FilmvisarnaContext _context;
-        private readonly CultureInfo sv = new("sv-SE");
-        private string GetLocalDateTime(DateTime dateTime) => dateTime.ToLocalTime().ToString("f", sv);
+        private static CultureInfo sv = new("sv-SE");
+        private static string GetLocalDateTime(DateTime dateTime) => dateTime.ToLocalTime().ToString("f", sv);
 
         public ScreeningsController(FilmvisarnaContext context)
         {
@@ -23,7 +23,7 @@ namespace YourNamespace.Controllers
         //Get every screening available for one specific movie
         [HttpGet("mov{movieId}/")]
         public async Task<IActionResult> GetMovieScreenings(int movieId)
-        {
+        {   
             var movieInfo = await _context.movies
                 .Where(m => m.Id == movieId)
                 .Select(m => new
