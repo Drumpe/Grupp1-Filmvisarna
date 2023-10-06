@@ -208,7 +208,7 @@ const TheaterView = () => {
                                     //Här skall läggas till onclick så att den (seatId) läggs till i en list med säten_som_skall_bokas
                                     //Färger borde fixas
                                     <Button onClick={() => seatClicked(seatElement.seatId)}
-                                        variant={(seatElement.booked ? "primary" : "secondary") + " me-2 opacity-"}
+                                        variant={(seatElement.booked ? "primary" : "warning") + " me-2 opacity-"}
                                         key={seatElement.seatId}
                                         disabled={(!seatElement.booked)} >
                                         {seatElement.seat}
@@ -241,12 +241,10 @@ const TheaterView = () => {
     return !jsonTheater ? null : (
         <Container className="mt-5">
             <Row>
-                <Col className="col-5 text-end">
-                    <Button variant="outline-secondary">
-                        Tillbaka
-                    </Button>{' '}
+                <Col className='d-flex justify-content-evenly'>
+					<Link className="nav-back text-info" to="/StartView">Tillbaka</Link>
                     <CloseButton />
-                </Col>
+				</Col>
             </Row>
             <Row>
                 <Col className="d-flex justify-content-center mb-3 mt-3">
@@ -265,11 +263,11 @@ const TheaterView = () => {
                     <span style={{ fontSize: '22px' }}>Barn</span>
                 </Col>
                 <Col>
-                    <Button onClick={() => decreaseCount('barn')} variant="danger me-2">
-                        --
+                    <Button onClick={() => decreaseCount('barn')} variant="dark me-2">
+                        –
                     </Button>
                     {barnTickets}&nbsp;
-                    <Button onClick={() => increaseCount('barn')} variant="primary">
+                    <Button onClick={() => increaseCount('barn')} variant="dark">
                         +
                     </Button>
                 </Col>
@@ -279,11 +277,11 @@ const TheaterView = () => {
                     <span style={{ fontSize: '22px' }}>Pensionär</span>
                 </Col>
                 <Col className="col mt-3">
-                    <Button onClick={() => decreaseCount('pensionar')} variant="danger me-2">
-                        --
+                    <Button onClick={() => decreaseCount('pensionar')} variant="dark me-2">
+                        –
                     </Button>
                     {pensionarTickets}&nbsp;
-                    <Button onClick={() => increaseCount('pensionar')} variant="primary">
+                    <Button onClick={() => increaseCount('pensionar')} variant="dark">
                         +
                     </Button>
                 </Col>
@@ -293,7 +291,7 @@ const TheaterView = () => {
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Form.Label>E-postadress</Form.Label>
-                            <Form.Control type="email" name="email" value={formData.email} placeholder="name@example.com" onChange={handleInputChange} />
+                            <Form.Control type="email" name="email" value={formData.email} placeholder="namn@exempel.com" onChange={handleInputChange} />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                             <Form.Text id="passwordHelpBlock" muted>

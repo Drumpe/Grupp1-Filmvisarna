@@ -61,6 +61,10 @@ Logo size will adapt after text size; for example, use className="h4" in parent
     max-height: 558px;
 }
 
+.movie-details > h6 {
+    color: #8e918e;
+}
+
 /* Sticky Footer */
 #root {
     display: flex;

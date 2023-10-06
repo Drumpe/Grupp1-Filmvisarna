@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Button, ListGroup, Dropdown } from 'react-bootstrap';
+import { Button, ListGroup } from 'react-bootstrap';
 import { useOutletContext, useParams, Link} from 'react-router-dom';
 import { get } from '../utilsAndHooks/rest';
 import { capitalize } from '../utilsAndHooks/date-formatter';
@@ -73,6 +73,15 @@ function MovieView() {
 			return (times);
 	}
 
+	/// MovieCast
+	const MovieCast = () => {
+		let actors = movies[idx].actors.map((actor) => 
+			<p className="d-inline">{actor}, </p>
+		);
+
+			return actors;
+	}
+
 	return !screenings.screenings.screenings ? null : (
 		<Container >
 			<Col className='d-flex justify-content-start'>
@@ -89,14 +98,35 @@ function MovieView() {
 			</Row>
 			<Row>
 				<Col className='d-flex justify-content-start'>
-					<div className="w-100 mt-4 pb-2">
-						<h1>{movies[idx].movie}</h1>
-						<p className="mt-3">
-							<Description />
-						</p>
-					</div>
+					<h1>{movies[idx].movie}</h1>
 				</Col>
 			</Row>
+			<Row className="mb-2">
+						<Col className="d-inline-flex justify-content-evenly">
+							<div className="w-100 mt-4 pb-2">
+								<p className="mt-3">
+									<Description />
+								</p>
+							</div>
+							<div className="w-100 mt-4 pb-2 mb-3">
+								<span className="d-block movie-details mb-1"><h6 className="d-inline">Skådespelare: </h6> <MovieCast /></span>
+								<span className="d-block movie-details mb-1"><h6 className="d-inline">Genre: </h6> <p className="d-inline">{movies[idx].genre}</p></span>
+								<span className="d-block movie-details mb-1"><h6 className="d-inline">Regissör: </h6> <p className="d-inline">{movies[idx].director}</p></span>
+							</div>
+						</Col>
+					</Row>
+
+
+			{/* Vertically
+			<Row>
+				<Col className='d-flex justify-content-start'>
+					<div className="w-100 mt-4 pb-2 mb-3">
+						<span className="d-block movie-details mb-1"><h6 className="d-inline">Skådespelare: </h6> <MovieCast /></span>
+						<span className="d-block movie-details mb-1"><h6 className="d-inline">Genre: </h6> <p className="d-inline">{movies[idx].genre}</p></span>
+						<span className="d-block movie-details mb-1"><h6 className="d-inline">Regissör: </h6> <p className="d-inline">{movies[idx].director}</p></span>
+					</div>
+				</Col>
+			</Row> */}
 
 			{/* <Row>
 				<Col className=' d-flex justify-content-start mb-3'>
