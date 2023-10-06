@@ -1,46 +1,86 @@
-import { useEffect, useState } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col, Table } from 'react-bootstrap';
 import { get } from '../utilsAndHooks/rest';
+import { useParams } from "react-router-dom";
 
-export default function ConfirmedView() {
-        const [id, setId] = useState(82);
-        const [data, setData] = useState({});
-        const [seatfinder, setSeatFinder] = useState([]);
-        const [formatedDate, setFormatedDate] = useState('');
+const ConfirmedView = () => {
+  let { bookingId } = useParams();
+  const [bookingInfo, setBookingInfo] = useState({});
 
-        async function fetchData() {
-               const response = await get('/Bookings/' + id);
-               setData(response);
-               setSeatFinder(response.tickets)      
-        }
+  async function fetchBooking() {
+    try {
+      var booking = await get('bookings/' + bookingId);
+      return booking;
+    } catch (err) {
+      console.log(err);
+      return {};
+    }
+  };
 
-        useEffect(() => {
-                fetchData();
-                const bookingDate = new Date(data.bookingTime);
+  useEffect(() => {
+    fetchBooking().then((booking) => {
+      setBookingInfo(booking)
+    });
+  }, []); // Empty dependency array to run the effect only once
 
-                const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-                const formattedDateStr = bookingDate.toLocaleDateString('sv-SV', options);
-            
-                setFormatedDate(formattedDateStr);
-        },[data.bookingTime]);
+  const whiteText = {
+    color: 'white'
+  };
 
-return (
-        <Container className="mt-5">
-        <h1>Tack för din bokning!</h1>
-        <hr />
-        <br />
-        <h3 className='text-decoration-underline'>{data.theater}</h3>
-        <p>Antal:{" " + seatfinder.map(x => x.type).join(", ")}</p>
-        <p>När: {formatedDate}</p>
-        <p>Plats: <em>{data.theater}, rad: {seatfinder.map(x => x.row)}, plats: {seatfinder.map(x => x.seat)}</em></p>
-        <p>Bokningsnummer: <em>{data.bookingNumber}</em></p>
-        <p>Bekräftelsepost har skickats till <em>{data.email}</em></p>
-        <br />
-        <hr />
-        <p>Vänligen uppge bokningsnummer i kassan vid betalning</p>
+  return (
+    <Container>
+      <Row>
+        <Col>
+          <h2 style={whiteText}>Tack för din bokning!</h2>
+          <Table striped bordered hover>
+            <tbody>
+              <tr>
+                <td style={whiteText}>Bokningsnummer</td>
+                <td style={whiteText}>{bookingInfo.bookingNumber}</td>
+              </tr>
+              <tr>
+                <td style={whiteText}>Förnamn</td>
+                <td style={whiteText}>{bookingInfo.firstName}</td>
+              </tr>
+              <tr>
+                <td style={whiteText}>Efternamn</td>
+                <td style={whiteText}>{bookingInfo.lastName}</td>
+              </tr>
+              <tr>
+                <td style={whiteText}>Email</td>
+                <td style={whiteText}>{bookingInfo.email}</td>
+              </tr>
+              <tr>
+                <td style={whiteText}>Film</td>
+                <td style={whiteText}>{bookingInfo.movie}</td>
+              </tr>
+              <tr>
+                <td style={whiteText}>Salong</td>
+                <td style={whiteText}>{bookingInfo.theater}</td>
+              </tr>
+              <tr>
+                <td style={whiteText}>Tid</td>
+                <td style={whiteText}>{bookingInfo.screeningTime}</td>
+              </tr>
+              <tr>
+                <td style={whiteText}>Biljetter</td>
+                <td>
+                  <ul style={whiteText}>
+                    {bookingInfo.tickets && bookingInfo.tickets.map((ticket, index) => (
+                      <li key={index} style={whiteText}>
+                        Rad: {ticket.row}, Plats: {ticket.seat}, Biljettyp: {ticket.type}, Pris: {ticket.price} kr
+                      </li>
+                    ))}
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
 
-        <p>Varmt välkommen till oss för att se din bokade film.</p>        
-        </Container>    
-        );
+export default ConfirmedView;
 
-}
