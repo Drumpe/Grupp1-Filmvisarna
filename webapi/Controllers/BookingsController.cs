@@ -33,8 +33,7 @@ namespace YourNamespace.Controllers
                     Movie = b.Screening.Movie.Name,
                     Theater = b.Screening.Theater.Name,
                     ScreeningTime = b.Screening.DateAndTime,
-                    
-                    
+
                     Tickets = b.BookingXSeats.Select(bxs => new
                     {
                         Row = bxs.Seat.Row,
@@ -56,8 +55,18 @@ namespace YourNamespace.Controllers
         [HttpPost()]
         public async Task<IActionResult> Post(MakeBookingModel model)
         {
-            if (await _context.users.SingleOrDefaultAsync(b => b.EmailAdress == model.EmailAdress) is not null)
+            if (await _context.users.SingleOrDefaultAsync(u => u.EmailAdress == model.EmailAdress) is not null)
                 return BadRequest($"A user with the email address {model.EmailAdress} already exists in our system.");
+
+            var newBookingNumber = "";
+
+            while (true)
+            {
+                newBookingNumber = BookingNumberGenerator.GenerateRandomNumber();
+                if (await _context.bookings.SingleOrDefaultAsync(b =>
+                b.BookingNumber == newBookingNumber) is not null) continue;
+                    break;
+            }
 
             var user = new User
             {
@@ -71,7 +80,7 @@ namespace YourNamespace.Controllers
             {
                 ScreeningId = model.ScreeningId,
                 UserId = user.Id,
-                BookingNumber = BookingNumberGenerator.GenerateRandomBookingNumber(),
+                BookingNumber = BookingNumberGenerator.GenerateRandomNumber(),
                 BookingDateTime = DateTime.Now
             };
 
