@@ -98,15 +98,26 @@ function MovieView() {
 			</Row>
 			<Row>
 				<Col className='d-flex justify-content-start'>
-					<div className="w-100 mt-4 pb-2">
-						<h1>{movies[idx].movie}</h1>
-						<p className="mt-3">
-							<Description />
-						</p>
-					</div>
+					<h1>{movies[idx].movie}</h1>
 				</Col>
 			</Row>
+			<Row className="mb-2">
+						<Col className="d-inline-flex justify-content-evenly">
+							<div className="w-100 mt-4 pb-2">
+								<p className="mt-3">
+									<Description />
+								</p>
+							</div>
+							<div className="w-100 mt-4 pb-2 mb-3">
+								<span className="d-block movie-details mb-1"><h6 className="d-inline">Skådespelare: </h6> <MovieCast /></span>
+								<span className="d-block movie-details mb-1"><h6 className="d-inline">Genre: </h6> <p className="d-inline">{movies[idx].genre}</p></span>
+								<span className="d-block movie-details mb-1"><h6 className="d-inline">Regissör: </h6> <p className="d-inline">{movies[idx].director}</p></span>
+							</div>
+						</Col>
+					</Row>
 
+
+			{/* Vertically
 			<Row>
 				<Col className='d-flex justify-content-start'>
 					<div className="w-100 mt-4 pb-2 mb-3">
@@ -115,7 +126,7 @@ function MovieView() {
 						<span className="d-block movie-details mb-1"><h6 className="d-inline">Regissör: </h6> <p className="d-inline">{movies[idx].director}</p></span>
 					</div>
 				</Col>
-			</Row>
+			</Row> */}
 
 			{/* <Row>
 				<Col className=' d-flex justify-content-start mb-3'>
