@@ -73,6 +73,15 @@ function MovieView() {
 			return (times);
 	}
 
+	/// MovieCast
+	const MovieCast = () => {
+		let actors = movies[idx].actors.map((actor) => 
+			<p className="d-inline">{actor}, </p>
+		);
+
+			return actors;
+	}
+
 	return !screenings.screenings.screenings ? null : (
 		<Container >
 			<Col className='d-flex justify-content-start'>
@@ -94,6 +103,16 @@ function MovieView() {
 						<p className="mt-3">
 							<Description />
 						</p>
+					</div>
+				</Col>
+			</Row>
+
+			<Row>
+				<Col className='d-flex justify-content-start'>
+					<div className="w-100 mt-4 pb-2">
+						<span className="d-block movie-details"><h6 className="d-inline">Skådespelare: </h6> <MovieCast /></span>
+						<span className="d-block movie-details"><h6 className="d-inline">Genre: </h6> <p className="d-inline">{movies[idx].genre}</p></span>
+						<span className="d-block movie-details"><h6 className="d-inline">Regissör: </h6> <p className="d-inline">{movies[idx].director}</p></span>
 					</div>
 				</Col>
 			</Row>
