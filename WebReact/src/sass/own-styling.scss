@@ -46,14 +46,15 @@ Logo size will adapt after text size; for example, use className="h4" in parent
 
 /* End Custom UI elements */
 
+/* Display utility classes */
+
 // Fix för aspect ratio på bilderna i StartView
 .ratio-6x9 {
     aspect-ratio: 6/9;
 }
 
-// Screenings listing
-.screening-list-item {
-    cursor: pointer;
+.mw-reading-len {
+    max-width: 65ch;
 }
 
 .mw-mh-lg {
@@ -61,13 +62,31 @@ Logo size will adapt after text size; for example, use className="h4" in parent
     max-height: 558px;
 }
 
+/* End Display utility classes */
+
+// MovieView
+.screening-list-item {
+    cursor: pointer;
+}
+
 .movie-details > h6 {
     color: #8e918e;
 }
 
-.mw-reading-len {
-    max-width: 65ch;
+@media screen and (max-width: 991px)  {
+    .movie-information-container {
+        display: block;
+    }
 }
+
+@media screen and (min-width: 992px)  {
+    .movie-information-container {
+        display: inline-flex;
+    }
+}
+  
+
+// End MovieView
 
 /* Sticky Footer */
 #root {
