@@ -65,6 +65,10 @@ Logo size will adapt after text size; for example, use className="h4" in parent
     color: #8e918e;
 }
 
+.mw-reading-len {
+    max-width: 65ch;
+}
+
 /* Sticky Footer */
 #root {
     display: flex;
