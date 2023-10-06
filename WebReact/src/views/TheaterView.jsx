@@ -19,6 +19,7 @@ const TheaterView = () => {
 
     /* TODO:
     *  toggle seat color in seatClicked
+    *  avvälja ett säte
     */
 
     async function fetchAndInit() {
@@ -39,7 +40,7 @@ const TheaterView = () => {
         var result = await post('bookings/', booking);
         //console.log("Last check: "  + result.bookingId );
         //setResponse(result); //Onödig?
-        window.location.href = 'ConfirmedView/' + result.bookingId;
+        window.location.href = '/ConfirmedView/' + result.bookingId;
     };
 
     useEffect(() => {
