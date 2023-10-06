@@ -32,6 +32,8 @@ namespace YourNamespace.Controllers
                     Email = b.User.EmailAdress,
                     Movie = b.Screening.Movie.Name,
                     Theater = b.Screening.Theater.Name,
+                    ScreeningTime = b.Screening.DateAndTime,
+                    
                     Tickets = b.BookingXSeats.Select(bxs => new
                     {
                         Row = bxs.Seat.Row,
