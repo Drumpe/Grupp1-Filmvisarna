@@ -39,11 +39,26 @@ Logo size will adapt after text size; for example, use className="h4" in parent
     opacity: 0.75;
 }
 
+.nav-back::before {
+    content: url("/img/ui/ui-backarrow.svg");
+    padding-right: .5em;
+}
+
 /* End Custom UI elements */
 
 // Fix för aspect ratio på bilderna i StartView
 .ratio-6x9 {
     aspect-ratio: 6/9;
+}
+
+// Screenings listing
+.screening-list-item {
+    cursor: pointer;
+}
+
+.mw-mh-lg {
+    max-width: 993px;
+    max-height: 558px;
 }
 
 /* Sticky Footer */
