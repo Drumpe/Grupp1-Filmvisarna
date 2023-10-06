@@ -240,12 +240,10 @@ const TheaterView = () => {
     return !jsonTheater ? null : (
         <Container className="mt-5">
             <Row>
-                <Col className="col-5 text-end">
-                    <Button variant="outline-secondary">
-                        Tillbaka
-                    </Button>{' '}
+                <Col className='d-flex justify-content-evenly'>
+					<Link className="nav-back text-info" to="/StartView">Tillbaka</Link>
                     <CloseButton />
-                </Col>
+				</Col>
             </Row>
             <Row>
                 <Col className="d-flex justify-content-center mb-3 mt-3">
