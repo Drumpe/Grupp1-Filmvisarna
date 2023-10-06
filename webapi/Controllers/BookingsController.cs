@@ -34,6 +34,7 @@ namespace YourNamespace.Controllers
                     Theater = b.Screening.Theater.Name,
                     ScreeningTime = b.Screening.DateAndTime,
                     
+                    
                     Tickets = b.BookingXSeats.Select(bxs => new
                     {
                         Row = bxs.Seat.Row,
