@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { get } from '../utilsAndHooks/rest';
 import { useParams } from 'react-router-dom';
+import { DateToString } from '../utilsAndHooks/date-formatter';
 
 export default function ConfirmedView() {
         let {bookingId} = useParams()
@@ -10,20 +11,16 @@ export default function ConfirmedView() {
         const [formatedDate, setFormatedDate] = useState('');
 
         async function fetchData() {
-               var booking = await get('/bookings/' + bookingId);
-               setData(booking);
-               setSeatFinder(booking.tickets)      
+               var response = await get('/bookings/' + bookingId);
+               setData(response);
+               setSeatFinder(response.tickets)      
         }
 
         useEffect(() => {
                 fetchData();
-                const bookingDate = new Date(data.bookingTime);
-
-                const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-                const formattedDateStr = bookingDate.toLocaleDateString('sv-SV', options);
-            
-                setFormatedDate(formattedDateStr);
-        },[data.bookingTime]);
+                const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };            
+                setFormatedDate(DateToString(data.screeningTime, options, 'sv-SV'));
+        },[data.screeningTime]);
 
 return (
         <Container className="mt-5">
