@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { get } from '../utilsAndHooks/rest';
 import { useParams } from 'react-router-dom';
-import { DateToString } from '../utilsAndHooks/date-formatter';
+import { jsonDateToString } from '../utilsAndHooks/date-formatter';
 
 export default function ConfirmedView() {
         let {bookingId} = useParams()
@@ -19,7 +19,7 @@ export default function ConfirmedView() {
         useEffect(() => {
                 fetchData();
                 const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };            
-                setFormatedDate(DateToString(data.screeningTime, options, 'sv-SV'));
+                setFormatedDate(jsonDateToString(data.screeningTime, options, 'sv-SV'));
         },[data.screeningTime]);
 
 return (

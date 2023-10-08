@@ -3,7 +3,7 @@ export function capitalize(dateAndTime) {
   return capitalized;
 }
 
-export function DateToString(dateAndTime, options, timeZone) {
+export function jsonDateToString(dateAndTime, options, timeZone) {
   const BookingDateTime = new Date(dateAndTime);
   return BookingDateTime.toLocaleDateString(timeZone, options);
   }
