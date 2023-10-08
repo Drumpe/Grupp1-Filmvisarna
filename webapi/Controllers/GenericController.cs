@@ -16,35 +16,71 @@ namespace webapi.Controllers
         }
 
         // Get routes
-        public async Task<List<T>> GetAllRowsFromTableAsync()
-        {
-            return await _context.Set<T>().ToListAsync();
-        }
+
         public async Task<T> GetRowByIdAsync(int id)
         {
+
             return await _context.Set<T>().SingleOrDefaultAsync(e => e.Id == id);
         }
         [HttpGet]
         public async Task<ActionResult<List<T>>> GetAll()
         {
-            var entities = await GetAllRowsFromTableAsync();
-            return Ok(entities);
+            try
+            {
+                var entities = await _context.Set<T>().ToListAsync();
+                if (entities == null || !entities.Any())
+                {
+                    return NotFound();
+                }
+
+                return Ok(entities);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal Server Error");
+            }
+
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<List<T>>> GetById(int id)
         {
-            var entity = await GetRowByIdAsync(id);
-            return Ok(entity);
+            try
+            {
+                var entity = await _context.Set<T>().SingleOrDefaultAsync(e => e.Id == id);
+                if (entity == null)
+                {
+                    return NotFound();
+                }
+                return Ok(entity);
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal Server Error");
+            }
+
         }
 
         // Post route
+        // TODO : Duplicate Entries. MySQL throws "Duplicate Entries" when setting Unique constraint. Easiest way to handle it.
+        // Otherwise AnyAsync, but has its limits.
         [HttpPost()]
         public async Task<ActionResult<T>> Post(T entity)
         {
-            _context.Set<T>().Add(entity);
-            await _context.SaveChangesAsync();
-            return Ok();
+            try
+            {
+                _context.Set<T>().Add(entity);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction(nameof(GetById), new { id = entity.Id }, entity);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         // Delete route 
@@ -53,7 +89,7 @@ namespace webapi.Controllers
         {
             var entity = await GetRowByIdAsync(id);
             _context.Remove(entity);
-            
+
             try
             {
                 await _context.SaveChangesAsync();
