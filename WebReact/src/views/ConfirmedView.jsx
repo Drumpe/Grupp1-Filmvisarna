@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { get } from '../utilsAndHooks/rest';
+import { useParams } from 'react-router-dom';
 
 export default function ConfirmedView() {
-        const [id, setId] = useState(82);
+        let {bookingId} = useParams()
         const [data, setData] = useState({});
         const [seatfinder, setSeatFinder] = useState([]);
         const [formatedDate, setFormatedDate] = useState('');
 
         async function fetchData() {
-               const response = await get('/Bookings/' + id);
-               setData(response);
-               setSeatFinder(response.tickets)      
+               var booking = await get('/bookings/' + bookingId);
+               setData(booking);
+               setSeatFinder(booking.tickets)      
         }
 
         useEffect(() => {
