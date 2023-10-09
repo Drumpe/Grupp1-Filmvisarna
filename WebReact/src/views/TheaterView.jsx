@@ -4,6 +4,69 @@ import { Container, Row, Col, ButtonToolbar, ButtonGroup, Button, CloseButton, F
 import { get } from '../utilsAndHooks/rest';
 
 
+const TheaterView = () => {
+    const [movieInfo, setMovieInfo] = useState(null);
+  
+    useEffect(() => {
+      (async () => {
+        try {
+          const movieData = await getMovie();
+          setMovieInfo(movieData);
+        } catch (error) {
+          console.error('Error fetching movie details:', error);
+          setMovieInfo(null);
+        }
+      })();
+    }, []);
+  
+    const getMovie = async () => {
+      try {
+        const response = await fetch('/movies'); 
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const movieData = await response.json();
+        return movieData;
+      } catch (error) {
+        console.error('Error fetching movie details:', error);
+        return null;
+      }
+    };
+  
+    return (
+      <Container>
+        <Row>
+          <Col>
+            <Card>
+              {movieInfo ? (
+                <>
+                  <Card.Img variant="top" src={movieInfo.image} />
+                  <Card.Body>
+                    <Card.Title>{movieInfo.name}</Card.Title>
+                    <Card.Text>
+                      Salongsnamn: {movieInfo.salong}
+                      <br />
+                      Tid: {movieInfo.time}
+                      <br />
+                      Datum: {movieInfo.date}
+                    </Card.Text>
+                  </Card.Body>
+                </>
+              ) : (
+                <Card.Body>
+                  <Card.Text>Loading movie information...</Card.Text>
+                </Card.Body>
+              )}
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    );
+  };
+  
+ 
+
+
 const MyComponent = () => {
     const [barnTickets, setBarnTickets] = useState(0);
     const [ordinareTickets, setOrdinareTickets] = useState(0);
