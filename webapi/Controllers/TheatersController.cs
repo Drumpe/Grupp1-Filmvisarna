@@ -13,7 +13,7 @@ namespace webapi.Controllers
         {
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("detailed/{id}")]
         public async Task<IActionResult> GetDetailedTheaterById(int id)
         {
             var result = await _context.theaters

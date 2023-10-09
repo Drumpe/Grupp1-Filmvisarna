@@ -82,7 +82,7 @@ namespace webapi.Controllers
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("bookedseats/{id}")]
         public async Task<IActionResult> GetBookedSeatsForScreening(int id)
         {
             var result = await _context.screenings
