@@ -5,21 +5,18 @@ using webapi.Data;
 using webapi.Entities;
 using webapi.ViewModels;
 
-namespace YourNamespace.Controllers
+namespace webapi.Controllers
 {
+   
     [Route("api/[controller]")]
     [ApiController]
-    public class BookingsController : ControllerBase
+    public class BookingsController : GenericController<Booking>
     {
-        private readonly FilmvisarnaContext _context;
-
-        public BookingsController(FilmvisarnaContext context)
+        public BookingsController(FilmvisarnaContext context) : base(context)
         {
-            _context = context;
         }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetBooking(int id)
+        [HttpGet("detailed/{id}")]
+        public async Task<IActionResult> GetDetailedBookingById(int id)
         {
             var result = await _context.bookings
                 .Where(b => b.Id == id)
@@ -53,8 +50,9 @@ namespace YourNamespace.Controllers
 
             return Ok(result);
         }
-        [HttpPost()]
-        public async Task<IActionResult> Post(MakeBookingModel model)
+        
+        [HttpPost("detailed")]
+        public async Task<IActionResult> PostBookingModel(MakeBookingModel model)
         {
             if (await _context.users.SingleOrDefaultAsync(b => b.EmailAdress == model.EmailAdress) is not null)
                 return BadRequest($"A user with the email address {model.EmailAdress} already exists in our system.");

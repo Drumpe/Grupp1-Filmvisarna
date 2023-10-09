@@ -24,7 +24,7 @@ namespace webapi.Controllers
         {
             _context = context;
         }
-        
+
         /// <summary>
         /// Gets a list of all entities of type T.
         /// </summary>
@@ -129,13 +129,13 @@ namespace webapi.Controllers
         {
             return await _context.Set<T>().SingleOrDefaultAsync(e => e.Id == id);
         }
-        
+
     }
 }
 
 
-      //TODO : Put/Patch
-    
+//TODO : Put/Patch
+
 
 
 

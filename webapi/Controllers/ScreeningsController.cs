@@ -4,31 +4,32 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using webapi.Data;
 using System.Globalization;
+using webapi.Entities;
 
 namespace webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ScreeningsController : ControllerBase
+    public class ScreeningsController : GenericController<Screening>
     {
-        private readonly FilmvisarnaContext _context;
+        public ScreeningsController(FilmvisarnaContext context) : base(context)
+        {
+        }
         private static CultureInfo sv = new("sv-SE");
+
         private static string GetDateTime(DateTime dateTime) => dateTime.ToLocalTime().ToString("f", sv);
         private static string GetAbbrevDayOfWeek(DateTime dateTime) => dateTime.ToLocalTime().ToString("f", sv).Substring(0, 3);
         private static string GetDayAndMonth(DateTime dateTime) => dateTime.ToLocalTime().ToString("m", sv);
         private static string GetTime(DateTime dateTime) => dateTime.ToLocalTime().ToString("t", sv);
 
-        public ScreeningsController(FilmvisarnaContext context)
-        {
-            _context = context;
-        }
+
 
         //Get every screening available for one specific movie
         // 
         //          Theater Join is not optimized !!
         [HttpGet("mov{movieId}/")]
         public async Task<IActionResult> GetMovieScreenings(int movieId)
-        {   
+        {
             var movieInfo = await _context.movies
                 .Where(m => m.Id == movieId)
                 .Select(m => new
@@ -96,8 +97,8 @@ namespace webapi.Controllers
                     BookedSeats = v.Bookings
                         .SelectMany(b => b.BookingXSeats)
                         .Select(bxs => new
-                        {                    
-                            SeatId = bxs.SeatId,      
+                        {
+                            SeatId = bxs.SeatId,
                             Seat = bxs.Seat.seat,
                             Row = bxs.Seat.Row
                         })
