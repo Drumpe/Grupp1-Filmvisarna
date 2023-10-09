@@ -15,7 +15,7 @@ function MovieView() {
 		(async () => {
 			setScreenings({
 				...screenings,
-				screenings: await get(`screenings/mov${movieId}`)
+				screenings: await get(`screenings/movie/${movieId}`)
 			});
 		})();
 	}, []);

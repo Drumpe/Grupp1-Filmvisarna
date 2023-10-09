@@ -27,7 +27,7 @@ namespace webapi.Controllers
         //Get every screening available for one specific movie
         // 
         //          Theater Join is not optimized !!
-        [HttpGet("mov{movieId}/")]
+        [HttpGet("movie/{movieId}/")]
         public async Task<IActionResult> GetMovieScreenings(int movieId)
         {
             var movieInfo = await _context.movies
