@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using webapi.Data;
 
-namespace YourNamespace.Controllers
+namespace webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

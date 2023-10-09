@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using webapi.Data;
 
-namespace YourNamespace.Controllers
+namespace webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
