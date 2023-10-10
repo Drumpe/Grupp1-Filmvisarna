@@ -45,7 +45,7 @@ return (
         <h3 className='text-decoration-underline'>{data.theater}</h3>
         <p className='ticket-type-list'>Antal bilijeter: {ticketAmount}</p>
         <p>När: {formatedDate}</p>
-        <p>Salong:{data.theater}</p>
+        <p>Salong: {data.theater}</p>
         <p>Plats: {seatfinder.map((x) => <li key={x.seatId}>rad {x.row}, stol {x.seat}</li>)}</p>
         <p>Bokningsnummer: <em>{data.bookingNumber}</em></p>
         <p>Ett bekräftelsepost har skickats till <em>{data.email}</em></p>
