@@ -39,6 +39,7 @@ export default function ConfirmedView() {
 return (
         <Container className="mt-5">
         <h1>Tack för din bokning!</h1>
+        <h5>Film: {data.movie}</h5>
         <hr />
         <br />
         <h3 className='text-decoration-underline'>{data.theater}</h3>
