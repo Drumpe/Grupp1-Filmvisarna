@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { Button, ListGroup } from 'react-bootstrap';
 import { useOutletContext, useParams, Link} from 'react-router-dom';
 import { get } from '../utilsAndHooks/rest';
-import { capitalize } from '../utilsAndHooks/date-formatter';
+import { capitalize, getSentenceDelimiter } from '../utilsAndHooks/date-formatter';
 
 function MovieView() {
 	const { movies } = useOutletContext();
@@ -75,16 +75,10 @@ function MovieView() {
 
 	/// MovieCast
 	const MovieCast = () => {
-		function getDelimiter(array, i) {
-			if (i + 1 === array.length) {
-				return `.`
-			} else {
-				return `, `
-			}
-		}
+		
 
 		let actors = movies[idx].actors.map((actor, i) => 
-			<p class="d-inline">{actor}{getDelimiter(movies[idx].actors, i)}</p> 
+			<p className="d-inline" key={i}>{actor}{getSentenceDelimiter(movies[idx].actors, i)}</p> 
 		);
 			return actors;
 	}
