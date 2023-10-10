@@ -15,6 +15,7 @@ const TheaterView = () => {
         child: 0,
         retire: 0
     });
+    const [movieId, setMovieId] = useState("");
     const [isLoadingShowSeats, setIsLoadingShowSeats] = useState(false);
 
     const sendRequest = async () => {
@@ -43,6 +44,7 @@ const TheaterView = () => {
                     }
                     element.wanted = false;
                 });
+                setMovieId(screeningJson.movieId);
                 var tmpTheater = {
                     id: theaterJson.theaterId,
                     name: theaterJson.theater
@@ -228,7 +230,10 @@ const TheaterView = () => {
         <Container className="mt-5">
             <Row>
                 <Col className='d-flex justify-content-evenly'>
-					<Link className="nav-back text-info" to="/StartView">Tillbaka</Link>
+					<Link className="nav-back text-info" to={`/MovieView/${movieId}`}>Tillbaka</Link>
+                    <div></div>
+                    <div></div>
+                    <div></div>
 				</Col>
             </Row>
 
