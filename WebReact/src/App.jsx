@@ -18,7 +18,7 @@ export default function App() {
     (async () => {
       setGlobals({
         ...globals,
-        movies: await get('movies')
+        movies: await get('movies/detailed')
       });
     })();
   }, []);

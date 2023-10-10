@@ -9,7 +9,7 @@ const ConfirmedView = () => {
 
   async function fetchBooking() {
     try {
-      var booking = await get('bookings/' + bookingId);
+      var booking = await get('bookings/detailed/' + bookingId);
       return booking;
     } catch (err) {
       console.log(err);
