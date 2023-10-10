@@ -75,10 +75,17 @@ function MovieView() {
 
 	/// MovieCast
 	const MovieCast = () => {
-		let actors = movies[idx].actors.map((actor) => 
-			<p className="d-inline">{actor}, </p>
-		);
+		function getDelimiter(array, i) {
+			if (i + 1 === array.length) {
+				return `.`
+			} else {
+				return `, `
+			}
+		}
 
+		let actors = movies[idx].actors.map((actor, i) => 
+			<p class="d-inline">{actor}{getDelimiter(movies[idx].actors, i)}</p> 
+		);
 			return actors;
 	}
 
