@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react"
-import { Container, Row, Col, ButtonToolbar, ButtonGroup, Button, CloseButton, Form } from 'react-bootstrap';
+import { Container, Row, Col, ButtonToolbar, ButtonGroup, Button, CloseButton, Form} from 'react-bootstrap';
 import { get, post } from '../utilsAndHooks/rest';
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 
 const TheaterView = () => {
@@ -15,7 +15,7 @@ const TheaterView = () => {
         child: 0,
         retire: 0
     });
-    const [creatingShowSeats, setCreatingShowSeats] = useState(false);
+    const [isLoadingShowSeats, setIsLoadingShowSeats] = useState(false);
 
     const sendRequest = async () => {
         /** Här borde göras kontroller innan vi skickar iväg och kolla att resultatet är ok */
@@ -29,8 +29,8 @@ const TheaterView = () => {
     useEffect(() => {
         async function initSeats() {
             try {
-                var screeningJson = await get('screenings/' + screeningId);
-                var theaterJson = await get('theaters/' + screeningJson.theaterId);
+                var screeningJson = await get('screenings/bookedseats/' + screeningId);
+                var theaterJson = await get('theaters/detailed/' + screeningJson.theaterId);
                 var seatsArray = theaterJson.seats; //Alla säten i salongen 
                 seatsArray.forEach((element) => {
                     //Här läggs till ett attribut till element, typ booked (boolean)
@@ -108,13 +108,11 @@ const TheaterView = () => {
         const updatedTickets = tickets;
         const index = updatedSeat.findIndex((seat) => seat.seatId === seatId);
 
-        //console.log(`seatClicked(${seatId}) - ${index} - ${updatedSeat[index].wanted}  `);
         updatedSeat[index].wanted = !updatedSeat[index].wanted; //Toggle wanted
         //Uppdatera tickets
         if (updatedSeat[index].wanted) {
             updatedTickets.ordinare += 1;
         } else if (updatedTickets.ordinare > 0) {
-            console.log(`${updatedTickets.child} - ${updatedTickets.retire} - ${updatedTickets.ordinare}  `);
             updatedTickets.ordinare -= 1;
         } else {
             //Toggla tillbaks wanted
@@ -242,7 +240,7 @@ const TheaterView = () => {
                     <span style={{ fontSize: '22px' }}>Vuxen</span>
                 </Col>
                 <Col className="col-1 mt-2">
-                    <p className="text-center">&nbsp;&nbsp;&nbsp;{tickets.ordinare}</p>
+                    <div className="text-center">&nbsp;&nbsp;&nbsp;{tickets.ordinare}</div>
                 </Col>
             </Row>
             <Row>
@@ -264,7 +262,7 @@ const TheaterView = () => {
                     <span style={{ fontSize: '22px' }}>Pensionär</span>
                 </Col>
                 <Col className="col mt-3">
-                    <Button onClick={() => decreaseCount('pensionar')} variant="dark me-2">
+                    <Button onClick={() => decreaseCount('pensionar')} variant="danger me-2">
                         –
                     </Button>
                     {tickets.retire}&nbsp;
