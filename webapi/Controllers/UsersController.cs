@@ -58,7 +58,7 @@ namespace webapi.Controllers
             }
         }
 
-        [HttpPost()]
+        [HttpPost("register")]
         public async Task<IActionResult> RegisterUser(User newUser)
         {
 
@@ -69,6 +69,25 @@ namespace webapi.Controllers
             _context.users.Add(newUser);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetById), new { id = newUser.Id }, newUser);
+        }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(User userLogin)
+        {
+            // Find the user by email address
+            var user = await _context.users.FirstOrDefaultAsync(u => u.EmailAdress == userLogin.EmailAdress);
+
+            if (user is null)
+                return BadRequest($"A user with the email address {userLogin.EmailAdress} does not exist in our system.");
+
+            // Compare the provided password with the hashed password
+            if (PasswordEncryptor.HashPassword(userLogin.Password) != user.Password)
+            {
+                return BadRequest("Invalid password."); // Password doesn't match
+            }
+
+            // Authentication successful
+            return Ok();
+
         }
 
 
