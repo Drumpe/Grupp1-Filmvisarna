@@ -229,7 +229,6 @@ const TheaterView = () => {
             <Row>
                 <Col className='d-flex justify-content-evenly'>
 					<Link className="nav-back text-info" to="/StartView">Tillbaka</Link>
-                    <CloseButton />
 				</Col>
             </Row>
 
