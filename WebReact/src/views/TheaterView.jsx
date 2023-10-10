@@ -1,201 +1,195 @@
-import React, { useState, useEffect, useMemo, useRef } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import { Container, Row, Col, ButtonToolbar, ButtonGroup, Button, CloseButton, Form } from 'react-bootstrap';
 import { get, post } from '../utilsAndHooks/rest';
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 
 const TheaterView = () => {
-    const [barnTickets, setBarnTickets] = useState(0);
-    const [ordinareTickets, setOrdinareTickets] = useState(0);
-    const [pensionarTickets, setPensionarTickets] = useState(0);
     const { screeningId } = useParams();
-    const [jsonTheater, setJsonTheater] = useState(null);
-    const [jsonScreening, setJsonScreening] = useState(null);
-    const [wantedSeats, setWantedSeats] = useState([]);
     const [summaState, setSummaState] = useState(0);
     const [formData, setFormData] = useState({ email: '' });
-    //const [bookingJson, setBookingJson] = useState(null);
-    //const [response, setResponse] = useState(null);
-
-    /* TODO:
-    *  toggle seat color in seatClicked
-    *  avvälja ett säte
-    */
-
-    async function fetchAndInit() {
-        try {
-            var screeningJson = await get('screenings/bookedseats/' + screeningId);
-            setJsonScreening(screeningJson);
-            var theaterJson = await get('theaters/detailed/' + screeningJson.theaterId);
-            return theaterJson;
-        } catch (err) {
-            console.log(err);
-            return {};
-        }
-    };
+    const [theater, setTheater] = useState({ id: 0, name: "" });
+    const [seats, setSeats] = useState(null);
+    const [tickets, setTickets] = useState({
+        ordinare: 0,
+        child: 0,
+        retire: 0
+    });
+    const [creatingShowSeats, setCreatingShowSeats] = useState(false);
 
     const sendRequest = async () => {
         /** Här borde göras kontroller innan vi skickar iväg och kolla att resultatet är ok */
         var booking = createBookingJson();
         var result = await post('bookings/detailed', booking);
         //console.log("Last check: "  + result.bookingId );
-        //setResponse(result); //Onödig?
         window.location.href = '/ConfirmedView/' + result.bookingId;
     };
 
+    //Init
     useEffect(() => {
-        // Call the fetchAndInit function and set jsonTheater when the component mounts
-        fetchAndInit().then((theaterJson) => {
-            setJsonTheater(theaterJson);
-        });
+        async function initSeats() {
+            try {
+                var screeningJson = await get('screenings/' + screeningId);
+                var theaterJson = await get('theaters/' + screeningJson.theaterId);
+                var seatsArray = theaterJson.seats; //Alla säten i salongen 
+                seatsArray.forEach((element) => {
+                    //Här läggs till ett attribut till element, typ booked (boolean)
+                    // om seatsArray.SeatId finns i jsonScreening.bookedSeats 
+                    //  sätt element.booked till true annars false
+                    if (screeningJson.bookedSeats.find(x => x.seatId === element.seatId)) {
+                        element.booked = true;
+                    } else {
+                        element.booked = false;
+                    }
+                    element.wanted = false;
+                });
+                var tmpTheater = {
+                    id: theaterJson.theaterId,
+                    name: theaterJson.theater
+                };
+                setTheater(tmpTheater);
+                setSeats(seatsArray);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        initSeats();
     }, []); // Empty dependency array to run the effect only once
 
     const increaseCount = (category) => {
-        switch (category) {
-            case 'barn':
-                setBarnTickets(barnTickets + 1);
-                checkVarAv();
-                break;
-            case 'ordinare': //Kan tas bort
-                setOrdinareTickets(ordinareTickets + 1);
-                checkVarAv();
-                break;
-            case 'pensionar':
-                setPensionarTickets(pensionarTickets + 1);
-                checkVarAv();
-                break;
-            default:
-                break;
-        }
+        setTickets((prevTickets) => {
+            const updatedTickets = { ...prevTickets }; // Create a shallow copy
+            switch (category) {
+                case 'barn':
+                    if (updatedTickets.ordinare > 0) {
+                        updatedTickets.ordinare -= 1;
+                        updatedTickets.child += 1;
+                    }
+                    break;
+                case 'pensionar':
+                    if (updatedTickets.ordinare > 0) {
+                        updatedTickets.ordinare -= 1;
+                        updatedTickets.retire += 1;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return updatedTickets; // Return the updated state
+        });
     };
 
     const decreaseCount = (category) => {
-        switch (category) {
-            case 'barn':
-                if (barnTickets > 0) {
-                    setBarnTickets(barnTickets - 1);
-
-                    checkVarAv();
-                }
-                break;
-            case 'ordinare': //Kan tas bort
-                if (ordinareTickets > 0) {
-                    setOrdinareTickets(ordinareTickets - 1);
-                    checkVarAv();
-                }
-
-                break;
-            case 'pensionar':
-                if (pensionarTickets > 0) {
-                    setPensionarTickets(pensionarTickets - 1);
-                    checkVarAv();
-                }
-                break;
-            default:
-                break;
-        }
-
+        setTickets((prevTickets) => {
+            const updatedTickets = { ...prevTickets }; // Create a shallow copy
+            switch (category) {
+                case 'barn':
+                    if (updatedTickets.child > 0) {
+                        updatedTickets.ordinare += 1;
+                        updatedTickets.child -= 1;
+                    }
+                    break;
+                case 'pensionar':
+                    if (updatedTickets.retire > 0) {
+                        updatedTickets.ordinare += 1;
+                        updatedTickets.retire -= 1;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return updatedTickets; // Return the updated state
+        });
     };
+
     //När man klickar på ett säte 
     const seatClicked = (seatId) => {
-        // toggle wanted seat (toggla färg?)
-        //Kontrollera att sätet inte är valt redan.
+        const updatedSeat = [...seats];
+        const updatedTickets = tickets;
+        const index = updatedSeat.findIndex((seat) => seat.seatId === seatId);
 
-        //Om seatId in wantedSeats 
-
-        if (wantedSeats.find(x => x.seatId === seatId)) {
-            setWantedSeats((prevWantedSeats) => prevWantedSeats.filter(seat => seat.seatId !== seatId)); //Ta bort
+        //console.log(`seatClicked(${seatId}) - ${index} - ${updatedSeat[index].wanted}  `);
+        updatedSeat[index].wanted = !updatedSeat[index].wanted; //Toggle wanted
+        //Uppdatera tickets
+        if (updatedSeat[index].wanted) {
+            updatedTickets.ordinare += 1;
+        } else if (updatedTickets.ordinare > 0) {
+            console.log(`${updatedTickets.child} - ${updatedTickets.retire} - ${updatedTickets.ordinare}  `);
+            updatedTickets.ordinare -= 1;
         } else {
-            setWantedSeats((prevWantedSeats) => [...prevWantedSeats, seatId]); //Lägg till
+            //Toggla tillbaks wanted
+            updatedSeat[index].wanted = !updatedSeat[index].wanted; //Toggle wanted
         }
-        checkVarAv();
-    }
+        setSeats(updatedSeat);
+        setTickets(updatedTickets);
+    };
 
-    /* Skall kolla att Barn och Pensionärer inte överstiger antalet biljetter */
-    const checkVarAv = () => {
-        if (barnTickets + pensionarTickets > wantedSeats.length) {
-            if (pensionarTickets > 0) {
-                decreaseCount('pensionar');
-            } else {
-                decreaseCount('barn');
-            }
+    //Räkna om summan om tickets ändras
+    useEffect(() => {
+        function raknaSumma() {
+            const barnPris = 80;
+            const pensionarPris = 120;
+            const vuxenPris = 140;
+            setSummaState((tickets.child * barnPris) + (tickets.retire * pensionarPris) + (tickets.ordinare * vuxenPris));
         }
         raknaSumma();
-    }
+    }, [tickets, seats]); //seats för test
 
-    // Räkna ut och set summaState som visas i body
-    function raknaSumma() {
-        //console.log("In raknaSumma:  B: " + barnTickets + " P: " + pensionarTickets + " V: " + wantedSeats.length);
-        const barnPris = 80;
-        const pensionarPris = 120;
-        const vuxenPris = 140;
-        setSummaState((barnTickets * barnPris) + (pensionarTickets * pensionarPris) + ((wantedSeats.length - barnTickets - pensionarTickets) * vuxenPris));
-    }
 
     function handleSubmit(event) {
         event.preventDefault();
         // Access and use formData state for form submission
         console.log(formData);
         // You can send the data to an API or perform other actions here
-    }
+    };
     function handleInputChange(event) {
         const { name, value } = event.target;
         setFormData({
             ...formData,
             [name]: value,
         });
-    }
+    };
 
     function makePriceCatsArray() {
         var result = [];
-        for (let index = 0; index < pensionarTickets; index++) {
+        for (let index = 0; index < tickets.retire; index++) {
             result.push(3);
         }
-        for (let index = 0; index < barnTickets; index++) {
+        for (let index = 0; index < tickets.child; index++) {
             result.push(2);
         }
-        for (let index = 0; index < wantedSeats.length - barnTickets - pensionarTickets; index++) {
+        for (let index = 0; index < tickets.ordinare; index++) {
             result.push(1);
         }
         return result;
-    }
+    };
 
     function createBookingJson() {
-        var tmpArr = [];
+        var tmpBookingSeatsArr = [];
         var priceCat = makePriceCatsArray();
         var index = 0;
-        wantedSeats.map((tmpSeatId) => (
-            tmpArr.push({ SeatId: tmpSeatId, PriceCategoryId: priceCat[index++] })
-        ));
+        seats.forEach((elem) => {
+            if (elem.wanted) {
+                tmpBookingSeatsArr.push({ SeatId: elem.SeatId, PriceCategoryId: priceCat[index++] });
+            }
+        });
         const bookingData = {
             EmailAdress: formData.email,
             ScreeningId: screeningId,
-            BookingXSeats: tmpArr,
+            BookingXSeats: tmpBookingSeatsArr,
         }
-        //setBookingJson(bookingData); //returnerar istället
         return bookingData;
-    }
+    };
 
     const ShowSeats = () => {
         const [result, setResult] = useState();
-        var seatsArray = jsonTheater.seats; // seatsArray[0] SeatId, [1] Seat, [2] Row , [3] Kanske blir bokad
         const rowElements = useMemo(() => {
             // Organisera seats by rows
             const rows = {};
-            seatsArray.forEach((element) => {
+            seats.forEach((element) => {
                 if (!rows[element.row]) {
                     rows[element.row] = [];
                 }
-
-                //Här läggs till ett attribut till element, typ booked (boolean)
-                // om seatsArray.SeatId finns i jsonScreening.bookedSeats 
-                //  sätt element.booked till true annars false
-                if (!jsonScreening.bookedSeats.find(x => x.seatId === element.seatId)) {
-                    element.booked = true;
-                } else {
-                    element.booked = false;
-                }
-
                 rows[element.row].push(element);
             });
             return Object.keys(rows).map((rowNumber) => (
@@ -205,12 +199,10 @@ const TheaterView = () => {
                         <ButtonToolbar className="mb-2" aria-label="Toolbar with Button groups">
                             <ButtonGroup className="me-2" aria-label="First group">
                                 {rows[rowNumber].map((seatElement) => (
-                                    //Här skall läggas till onclick så att den (seatId) läggs till i en list med säten_som_skall_bokas
-                                    //Färger borde fixas
                                     <Button onClick={() => seatClicked(seatElement.seatId)}
-                                        variant={(seatElement.booked ? "primary" : "warning") + " me-2 opacity-"}
+                                        variant={(seatElement.booked ? "danger" : seatElement.wanted ? "primary" : "secondary") + " me-2"} //Färgerna är test
                                         key={seatElement.seatId}
-                                        disabled={(!seatElement.booked)} >
+                                        disabled={(seatElement.booked)} >
                                         {seatElement.seat}
                                     </Button>
                                 ))}
@@ -219,26 +211,22 @@ const TheaterView = () => {
                     </Col>
                 </Row >
             ));
-        }, [jsonTheater]); //End rowElements
+        }, [seats]); //End rowElements
 
         useEffect(() => {
             setResult(
                 <div>
-                    <h3 className="text-center">{jsonTheater.theater}</h3>
+                    <h3 className="text-center">{theater.name}</h3>
                     <br />
                     {rowElements}
                 </div>
             );
         }, [rowElements]);
+
         return <>{result}</>
     }; //End ShowSeats
 
-    //Räkna om summan om något värde ändras
-    useEffect(() => {
-        raknaSumma();
-    }, [summaState, wantedSeats, barnTickets, pensionarTickets]);
-
-    return !jsonTheater ? null : (
+    return !seats ? null : (
         <Container className="mt-5">
             <Row>
                 <Col className='d-flex justify-content-evenly'>
@@ -246,28 +234,27 @@ const TheaterView = () => {
                     <CloseButton />
 				</Col>
             </Row>
-            <Row>
-                <Col className="d-flex justify-content-center mb-3 mt-3">
-                </Col>
-            </Row>
 
             <ShowSeats />
 
             <Row>
-                <Col className="mt-3 d-flex justify-content-center">
-                    <span style={{ fontSize: '25px' }}>Antal biljetter {wantedSeats.length} varav:</span>
+                <Col className="col-3 offset-4 mt-2">
+                    <span style={{ fontSize: '22px' }}>Vuxen</span>
+                </Col>
+                <Col className="col-1 mt-2">
+                    <p className="text-center">&nbsp;&nbsp;&nbsp;{tickets.ordinare}</p>
                 </Col>
             </Row>
             <Row>
-                <Col className="col-3 offset-4">
+                <Col className="col-3 offset-4 mt-2">
                     <span style={{ fontSize: '22px' }}>Barn</span>
                 </Col>
-                <Col>
-                    <Button onClick={() => decreaseCount('barn')} variant="dark me-2">
-                        –
+                <Col className="col mt-2">
+                    <Button onClick={() => decreaseCount('barn')} variant="danger me-2">
+                        --
                     </Button>
-                    {barnTickets}&nbsp;
-                    <Button onClick={() => increaseCount('barn')} variant="dark">
+                    {tickets.child}&nbsp;
+                    <Button onClick={() => increaseCount('barn')} variant="primary">
                         +
                     </Button>
                 </Col>
@@ -280,8 +267,8 @@ const TheaterView = () => {
                     <Button onClick={() => decreaseCount('pensionar')} variant="dark me-2">
                         –
                     </Button>
-                    {pensionarTickets}&nbsp;
-                    <Button onClick={() => increaseCount('pensionar')} variant="dark">
+                    {tickets.retire}&nbsp;
+                    <Button onClick={() => increaseCount('pensionar')} variant="primary">
                         +
                     </Button>
                 </Col>
