@@ -76,7 +76,7 @@ function MovieView() {
 	/// MovieCast
 	const MovieCast = () => {
 		let actors = movies[idx].actors.map((actor) => 
-			<p className="d-inline">{actor}, </p>
+			<p key={actor.id} className="d-inline"> {actor}, </p>
 		);
 
 			return actors;
