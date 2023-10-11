@@ -19,13 +19,14 @@ export default function RegisterView() {
     const [passwordValid, setPasswordValid] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [passwordTouched, setPasswordTouched] = useState(false);
-    
+
     // kollar om lösenordet är valid samt om pasword är rört i real tid.
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
         if (name === "password") {
             validatePassword();
+            setPasswordTouched(true);
         }
     };
     function isValidEmail(email) {
@@ -36,27 +37,27 @@ export default function RegisterView() {
     const validatePassword = () => {
         const isValid = isPasswordValid(formData.password);
         setPasswordValid(isValid);
-        setPasswordTouched(true);
+
     };
     // till post senare
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         // Email format validation
         if (!isValidEmail(formData.email)) {
             alert("Please enter a valid email address.");
             return;
         }
-    
+
         // Continue with registration
         var NewUserData = {
             ...formData,
             EmailAdress: formData.email  // Use the property name "EmailAdress" to match the backend model
         };
-    
+
         try {
             var result = await post('users/register/', NewUserData);
-            
+
             if (result && result.error) {
                 // Handle specific error response from API
                 alert('Registration failed: ' + result.error);
@@ -75,8 +76,8 @@ export default function RegisterView() {
             alert('An unexpected error occurred: ' + error);
         }
     };
-    
-    
+
+
     const toggleShowPassword = () => {
         setShowPassword(prevState => !prevState);
     };
@@ -96,30 +97,34 @@ export default function RegisterView() {
                     <Form.Label>Efternamn</Form.Label>
                     <Form.Control type="text" name="lastName" placeholder="Efternamn" onChange={handleInputChange} />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formGroupEmail">
-                    <Form.Label>E-postadress</Form.Label>
-                    <Form.Control type="email" name="email" placeholder="JoeDoe@email.se" onChange={handleInputChange} />
-                </Form.Group>
                 <Form.Group className="mb-3" controlId="formGroupPassword">
                     <Form.Label>Lösenord</Form.Label>
-                    <Form.Control
-                        type={showPassword ? 'text' : 'password'}
-                        name="password"
-                        placeholder="Lösenord"
-                        onBlur={validatePassword}
-                        isInvalid={!passwordValid}
-                        onChange={handleInputChange}
-                    />
-                    <Button variant="outline-secondary" onClick={toggleShowPassword}>
-                        {showPassword ? 'Göm' : 'Vissa'}
-                    </Button>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <Form.Control
+                            style={{ flex: '1' }}  // This will make the input take up all available space
+                            type={showPassword ? 'text' : 'password'}
+                            name="password"
+                            placeholder="Lösenord"
+                            onBlur={validatePassword}
+                            isInvalid={!passwordValid}
+                            onChange={handleInputChange}
+                        />
+                        <Button
+                            variant="outline-secondary"
+                            onClick={toggleShowPassword}
+                            style={{ marginLeft: '10px' }}  // Add a little spacing between input and button
+                        >
+                            {showPassword ? 'Göm' : 'Visa'}
+                        </Button>
+                    </div>
                     {!passwordValid && passwordTouched && (
                         <Form.Control.Feedback type="invalid">
                             Lösenordet måste vara 8 tecken långt, innehålla minst ett specialtecken och minst ett nummer.
                         </Form.Control.Feedback>
                     )}
                 </Form.Group>
-                <Button type="submit" variant="primary" size="lg" disabled={!passwordValid} onClick={handleSubmit}> 
+
+                <Button type="submit" variant="primary" size="lg" disabled={!passwordValid} onClick={handleSubmit}>
                     Registera
                 </Button>
                 <Button variant="secondary link" href="/StartView" size="lg">
