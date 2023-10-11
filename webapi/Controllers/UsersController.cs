@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using webapi.Data;
 using webapi.Entities;
 using webapi.Controllers.Utilities;
+using System.Text.Json;
+using webapi.ViewModels;
 
 namespace webapi.Controllers
 {
@@ -66,6 +68,7 @@ namespace webapi.Controllers
                 return BadRequest($"A user with the email address {newUser.EmailAdress} already exists in our system.");
 
             newUser.Password = PasswordEncryptor.HashPassword(newUser.Password);
+            newUser.UserRole = "member";
             _context.users.Add(newUser);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetById), new { id = newUser.Id }, newUser);
@@ -85,24 +88,24 @@ namespace webapi.Controllers
                 return BadRequest("Invalid password."); // Password doesn't match
             }
 
-            // Retrieve the Session ID
-            var sessionId = HttpContext.Session.Id;
-            var userRole = "member";
-            var userId = user.Id;
-
-            var session = new Session
-            {
-                SessionKey = sessionId,
-                UserRole = userRole,
-                UserId = userId
+            // This information is added to the session
+            var userSession = new UserDetailsModel{
+                FirstName = userLogin.FirstName,
+                LastName = userLogin.LastName,
+                UserRole = userLogin.UserRole,
+                EmailAdress = userLogin.EmailAdress
             };
-            _context.sessions.Add(session);
-            await _context.SaveChangesAsync();
+
+            // Convert object to json and save to session as string
+            var jsonUser = System.Text.Json.JsonSerializer.Serialize(userSession);
+            HttpContext.Session.SetString("UserDetails", jsonUser);
+    
 
             // Authentication successful
-            return Ok("You were successfully logged in");
+            return Ok("Successfully logged in");
 
         }
+
 
 
 
