@@ -3,38 +3,37 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using webapi.Data;
+using webapi.Entities;
 
-namespace YourNamespace.Controllers
+namespace webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MoviesController : ControllerBase
+    public class MoviesController : GenericController<Movie>
     {
-        private readonly FilmvisarnaContext _context;
-
-        public MoviesController(FilmvisarnaContext context)
+        public MoviesController(FilmvisarnaContext context) : base(context)
         {
-            _context = context;
         }
 
         //Get a detailed list of all movies
+        [Route("detailed")]
         [HttpGet()]
         public async Task<IActionResult> ListAll()
         {
-            var result = await _context.movies     
+            var result = await _context.movies
                 .Select(v => new
-                {   
+                {
                     Id = v.Id,
-                    Movie = v.Name,   
+                    Movie = v.Name,
                     TrailerURL = v.TrailerURL,
                     Genre = v.MoviesXGenres.Select(mxg => mxg.Genre.Name).FirstOrDefault(),
                     Actors = JObject.Parse(v.Description)["actors"].ToObject<List<string>>(),
-                    Director = JObject.Parse(v.Description)["director"].ToString(),      
-                    Description = JObject.Parse(v.Description)["description"].ToString(), 
-                    ProductionYear = JObject.Parse(v.Description)["productionYear"].ToString(), 
+                    Director = JObject.Parse(v.Description)["director"].ToString(),
+                    Description = JObject.Parse(v.Description)["description"].ToString(),
+                    ProductionYear = JObject.Parse(v.Description)["productionYear"].ToString(),
                     ProductionCountries = JObject.Parse(v.Description)["productionCountries"].ToObject<List<string>>(),
                     Language = JObject.Parse(v.Description)["language"].ToString(),
-                    Subtitles = JObject.Parse(v.Description)["subtitles"].ToString(),                
+                    Subtitles = JObject.Parse(v.Description)["subtitles"].ToString(),
                     Duration = v.Duration,
                     AgeLimit = v.AgeLimit,
                     Images = JObject.Parse(v.Description)["images"].ToObject<List<string>>()
@@ -45,22 +44,22 @@ namespace YourNamespace.Controllers
             return Ok(result);
         }
         //Get detailed movie view of chosen ID
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("detailed/{id}")]
+        public async Task<IActionResult> GetDetailedMovieById(int id)
         {
-            var result = await _context.movies     
+            var result = await _context.movies
                 .Select(v => new
-                {   
+                {
                     Id = v.Id,
-                    Movie = v.Name,   
+                    Movie = v.Name,
                     Genre = v.MoviesXGenres.Select(mxg => mxg.Genre.Name).FirstOrDefault(),
                     Actors = JObject.Parse(v.Description)["actors"].ToObject<List<string>>(),
-                    Director = JObject.Parse(v.Description)["director"].ToString(),      
-                    Description = JObject.Parse(v.Description)["description"].ToString(), 
-                    ProductionYear = JObject.Parse(v.Description)["productionYear"].ToString(), 
+                    Director = JObject.Parse(v.Description)["director"].ToString(),
+                    Description = JObject.Parse(v.Description)["description"].ToString(),
+                    ProductionYear = JObject.Parse(v.Description)["productionYear"].ToString(),
                     ProductionCountries = JObject.Parse(v.Description)["productionCountries"].ToObject<List<string>>(),
                     Language = JObject.Parse(v.Description)["language"].ToString(),
-                    Subtitles = JObject.Parse(v.Description)["subtitles"].ToString(),                
+                    Subtitles = JObject.Parse(v.Description)["subtitles"].ToString(),
                     Duration = v.Duration,
                     AgeLimit = v.AgeLimit,
                     Images = JObject.Parse(v.Description)["images"].ToObject<List<string>>()

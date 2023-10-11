@@ -4,7 +4,8 @@ using System.Text.Json;
 
 namespace webapi.Entities;
 
-public class Movie {
+public class Movie: IEntity 
+{
     
     [Column("MovieId")]
     public int Id { get; set; }

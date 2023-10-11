@@ -24,9 +24,9 @@ const TheaterView = () => {
 
     async function fetchAndInit() {
         try {
-            var screeningJson = await get('screenings/' + screeningId);
+            var screeningJson = await get('screenings/bookedseats/' + screeningId);
             setJsonScreening(screeningJson);
-            var theaterJson = await get('theaters/' + screeningJson.theaterId);
+            var theaterJson = await get('theaters/detailed/' + screeningJson.theaterId);
             return theaterJson;
         } catch (err) {
             console.log(err);
@@ -37,7 +37,7 @@ const TheaterView = () => {
     const sendRequest = async () => {
         /** Här borde göras kontroller innan vi skickar iväg och kolla att resultatet är ok */
         var booking = createBookingJson();
-        var result = await post('bookings/', booking);
+        var result = await post('bookings/detailed', booking);
         //console.log("Last check: "  + result.bookingId );
         //setResponse(result); //Onödig?
         window.location.href = '/ConfirmedView/' + result.bookingId;

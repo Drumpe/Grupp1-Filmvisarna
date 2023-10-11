@@ -1,22 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using webapi.Data;
+using webapi.Entities;
 
-namespace YourNamespace.Controllers
+namespace webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TheatersController : ControllerBase
+    public class TheatersController : GenericController<Theater>
     {
-        private readonly FilmvisarnaContext _context;
-
-        public TheatersController(FilmvisarnaContext context)
+        public TheatersController(FilmvisarnaContext context) : base(context)
         {
-            _context = context;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("detailed/{id}")]
+        public async Task<IActionResult> GetDetailedTheaterById(int id)
         {
             var result = await _context.theaters
                 .Where(t => t.Id == id)

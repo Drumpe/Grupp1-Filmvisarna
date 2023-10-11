@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace webapi.Entities;
 
-public class Theater
+public class Theater: IEntity
 {
     [Column("TheaterId")]
     public int Id { get; set; }

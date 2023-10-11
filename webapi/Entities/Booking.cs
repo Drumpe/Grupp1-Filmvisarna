@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace webapi.Entities;
 
-public class Booking
+public class Booking: IEntity
 {
    [Column("BookingId")]
    public int Id { get; set; }
