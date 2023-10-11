@@ -141,6 +141,7 @@ const TheaterView = () => {
         console.log(formData);
         // You can send the data to an API or perform other actions here
     };
+    
     function handleInputChange(event) {
         const { name, value } = event.target;
         setFormData({
@@ -149,7 +150,7 @@ const TheaterView = () => {
         });
     };
 
-    function makePriceCatsArray() {
+    function makePriceCategoriesArray() {
         var result = [];
         for (let index = 0; index < tickets.retire; index++) {
             result.push(3);
@@ -165,7 +166,7 @@ const TheaterView = () => {
 
     function createBookingJson() {
         var tmpBookingSeatsArr = [];
-        var priceCat = makePriceCatsArray();
+        var priceCat = makePriceCategoriesArray();
         var index = 0;
         seats.forEach((elem) => {
             if (elem.wanted) {
