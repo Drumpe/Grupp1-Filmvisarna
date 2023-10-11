@@ -23,7 +23,6 @@ const TheaterView = () => {
         /** Här borde göras kontroller innan vi skickar iväg och kolla att resultatet är ok */
         var booking = createBookingJson();
         var result = await post('bookings/detailed', booking);
-        //console.log("Last check: "  + result.bookingId );
         window.location.href = '/ConfirmedView/' + result.bookingId;
     };
 
@@ -172,7 +171,7 @@ const TheaterView = () => {
         var index = 0;
         seats.forEach((elem) => {
             if (elem.wanted) {
-                tmpBookingSeatsArr.push({ SeatId: elem.SeatId, PriceCategoryId: priceCat[index++] });
+                tmpBookingSeatsArr.push({ SeatId: elem.seatId, PriceCategoryId: priceCat[index++] });
             }
         });
         const bookingData = {
