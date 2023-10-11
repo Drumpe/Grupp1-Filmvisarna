@@ -15,7 +15,7 @@ namespace webapi.Data
         public DbSet<Screening> screenings { get; set; }
         public DbSet<Seat> seats { get; set; }
         public DbSet<Theater> theaters { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> users { get; set; }
 
         public FilmvisarnaContext(DbContextOptions options) : base(options) { }
 

@@ -48,25 +48,20 @@ export default function RegisterView() {
             return;
         }
     
-        // Check if email is unique (this assumes you have a get method in rest.js)
-        try {
-            const emailAvailable = await get(`api/User/CheckEmail?email=${formData.email}`);
-            if (!emailAvailable) {
-                alert("Email is already taken. Please use a different email address.");
-                return;
-            }
-        } catch (error) {
-            alert('Failed to check email availability: ' + error);
-            return;
-        }
+        // Continue with registration
+        var NewUserData = {
+            ...formData,
+            EmailAdress: formData.email  // Use the property name "EmailAdress" to match the backend model
+        };
     
-        // Continue with registration as before
-        var NewUserData = formData;
         try {
-            var result = await post('api/User', NewUserData);
+            var result = await post('users/register/', NewUserData);
+            
             if (result && result.error) {
+                // Handle specific error response from API
                 alert('Registration failed: ' + result.error);
             } else {
+                // Handle successful registration
                 alert('Registration successful!');
                 setFormData({
                     firstName: '',
@@ -76,9 +71,11 @@ export default function RegisterView() {
                 });
             }
         } catch (error) {
+            // Handle unexpected errors from API call)
             alert('An unexpected error occurred: ' + error);
         }
     };
+    
     
     const toggleShowPassword = () => {
         setShowPassword(prevState => !prevState);
@@ -100,7 +97,7 @@ export default function RegisterView() {
                     <Form.Control type="text" name="lastName" placeholder="Efternamn" onChange={handleInputChange} />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formGroupEmail">
-                    <Form.Label>E-Post addres</Form.Label>
+                    <Form.Label>E-postadress</Form.Label>
                     <Form.Control type="email" name="email" placeholder="JoeDoe@email.se" onChange={handleInputChange} />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formGroupPassword">
@@ -114,7 +111,7 @@ export default function RegisterView() {
                         onChange={handleInputChange}
                     />
                     <Button variant="outline-secondary" onClick={toggleShowPassword}>
-                        {showPassword ? 'Hide' : 'Show'}
+                        {showPassword ? 'Göm' : 'Vissa'}
                     </Button>
                     {!passwordValid && passwordTouched && (
                         <Form.Control.Feedback type="invalid">
@@ -122,7 +119,7 @@ export default function RegisterView() {
                         </Form.Control.Feedback>
                     )}
                 </Form.Group>
-                <Button type="submit" variant="primary" size="lg" disabled={!passwordValid}> 
+                <Button type="submit" variant="primary" size="lg" disabled={!passwordValid} onClick={handleSubmit}> 
                     Registera
                 </Button>
                 <Button variant="secondary link" href="/StartView" size="lg">
