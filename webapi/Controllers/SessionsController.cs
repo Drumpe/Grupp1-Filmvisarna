@@ -8,12 +8,30 @@ using webapi.Data;
 
 namespace webapi.Entities
 {
-    [Route("api/[controller]")]
+     [Route("api/[controller]")]
     [ApiController]
-    public class SessionsController : GenericController<Session>
+    public class SessionsController : ControllerBase
     {
-        public SessionsController(FilmvisarnaContext context) : base(context)
+        [HttpGet("SetSessionValue")]
+        public IActionResult SetSessionValue()
         {
+            // Check if the user role is not set in the session
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserRole")))
+            {
+                // Set the user role to "Guest"
+                HttpContext.Session.SetString("UserRole", "Guest");
+            }
+            return Ok();
+        }
+
+        [HttpGet("getValue")]
+        public IActionResult GetSessionValue()
+        {
+            // Get the user role from the session
+            var userRole = HttpContext.Session.GetString("UserRole");
+
+            return Ok($"Your user role is {userRole}. Login to become a Member!");
         }
     }
+
 }
