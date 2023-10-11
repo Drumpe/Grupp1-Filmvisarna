@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { isPasswordValid } from "../utilsAndHooks/PasswordValidate";
+import { post } from "../utilsAndHooks/rest";
 
 export default function RegisterView() {
     const [formData, setFormData] = useState({
@@ -27,6 +28,10 @@ export default function RegisterView() {
             validatePassword();
         }
     };
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
     // kollar och validerar lösenordet refferar till paswsworValidate.js
     const validatePassword = () => {
         const isValid = isPasswordValid(formData.password);
@@ -34,11 +39,47 @@ export default function RegisterView() {
         setPasswordTouched(true);
     };
     // till post senare
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Add your registration logic here
-        console.log(formData);
+    
+        // Email format validation
+        if (!isValidEmail(formData.email)) {
+            alert("Please enter a valid email address.");
+            return;
+        }
+    
+        // Check if email is unique (this assumes you have a get method in rest.js)
+        try {
+            const emailAvailable = await get(`api/User/CheckEmail?email=${formData.email}`);
+            if (!emailAvailable) {
+                alert("Email is already taken. Please use a different email address.");
+                return;
+            }
+        } catch (error) {
+            alert('Failed to check email availability: ' + error);
+            return;
+        }
+    
+        // Continue with registration as before
+        var NewUserData = formData;
+        try {
+            var result = await post('api/User', NewUserData);
+            if (result && result.error) {
+                alert('Registration failed: ' + result.error);
+            } else {
+                alert('Registration successful!');
+                setFormData({
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    password: ''
+                });
+            }
+        } catch (error) {
+            alert('An unexpected error occurred: ' + error);
+        }
     };
+    
     const toggleShowPassword = () => {
         setShowPassword(prevState => !prevState);
     };
