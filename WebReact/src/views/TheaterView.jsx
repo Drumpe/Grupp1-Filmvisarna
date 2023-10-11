@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useMemo } from "react"
-import { Container, Row, Col, ButtonToolbar, ButtonGroup, Button, CloseButton, Form} from 'react-bootstrap';
+import React, { useState, useEffect } from "react"
+import { Container, Row, Col, Button, Form} from 'react-bootstrap';
 import { get, post } from '../utilsAndHooks/rest';
 import { Link, useParams } from "react-router-dom";
+import ShowSeats from "../components/ShowSeats";
+
 
 
 const TheaterView = () => {
@@ -9,13 +11,12 @@ const TheaterView = () => {
     const [summaState, setSummaState] = useState(0);
     const [formData, setFormData] = useState({ email: '' });
     const [theater, setTheater] = useState({ id: 0, name: "" });
-    const [seats, setSeats] = useState(null);
+    let [seats, setSeats] = useState(null);
     const [tickets, setTickets] = useState({
         ordinare: 0,
         child: 0,
         retire: 0
     });
-    const [isLoadingShowSeats, setIsLoadingShowSeats] = useState(false);
 
     const sendRequest = async () => {
         /** Här borde göras kontroller innan vi skickar iväg och kolla att resultatet är ok */
@@ -104,21 +105,21 @@ const TheaterView = () => {
 
     //När man klickar på ett säte 
     const seatClicked = (seatId) => {
-        const updatedSeat = [...seats];
+        const updatedSeats = [...seats];
         const updatedTickets = tickets;
-        const index = updatedSeat.findIndex((seat) => seat.seatId === seatId);
+        const index = updatedSeats.findIndex((seat) => seat.seatId === seatId);
 
-        updatedSeat[index].wanted = !updatedSeat[index].wanted; //Toggle wanted
+        updatedSeats[index].wanted = !updatedSeats[index].wanted; //Toggle wanted
         //Uppdatera tickets
-        if (updatedSeat[index].wanted) {
+        if (updatedSeats[index].wanted) {
             updatedTickets.ordinare += 1;
         } else if (updatedTickets.ordinare > 0) {
             updatedTickets.ordinare -= 1;
         } else {
             //Toggla tillbaks wanted
-            updatedSeat[index].wanted = !updatedSeat[index].wanted; //Toggle wanted
+            updatedSeats[index].wanted = !updatedSeats[index].wanted; //Toggle wanted
         }
-        setSeats(updatedSeat);
+        setSeats(updatedSeats);
         setTickets(updatedTickets);
     };
 
@@ -179,51 +180,6 @@ const TheaterView = () => {
         return bookingData;
     };
 
-    const ShowSeats = () => {
-        const [result, setResult] = useState();
-        const rowElements = useMemo(() => {
-            // Organisera seats by rows
-            const rows = {};
-            seats.forEach((element) => {
-                if (!rows[element.row]) {
-                    rows[element.row] = [];
-                }
-                rows[element.row].push(element);
-            });
-            return Object.keys(rows).map((rowNumber) => (
-                <Row key={rowNumber}>
-                    {/*<Col className="col-2">Rad {rowNumber}</Col>*/}
-                    <Col className="d-flex justify-content-center">
-                        <ButtonToolbar className="mb-2" aria-label="Toolbar with Button groups">
-                            <ButtonGroup className="me-2" aria-label="First group">
-                                {rows[rowNumber].map((seatElement) => (
-                                    <Button onClick={() => seatClicked(seatElement.seatId)}
-                                        variant={(seatElement.booked ? "danger" : seatElement.wanted ? "primary" : "secondary") + " me-2"} //Färgerna är test
-                                        key={seatElement.seatId}
-                                        disabled={(seatElement.booked)} >
-                                        {seatElement.seat}
-                                    </Button>
-                                ))}
-                            </ButtonGroup>
-                        </ButtonToolbar>
-                    </Col>
-                </Row >
-            ));
-        }, [seats]); //End rowElements
-
-        useEffect(() => {
-            setResult(
-                <div>
-                    <h3 className="text-center">{theater.name}</h3>
-                    <br />
-                    {rowElements}
-                </div>
-            );
-        }, [rowElements]);
-
-        return <>{result}</>
-    }; //End ShowSeats
-
     return !seats ? null : (
         <Container className="mt-5">
             <Row>
@@ -232,7 +188,7 @@ const TheaterView = () => {
 				</Col>
             </Row>
 
-            <ShowSeats />
+            <ShowSeats {...{seats, theater, seatClicked}}/>
 
             <Row>
                 <Col className="col-3 offset-4 mt-2">
