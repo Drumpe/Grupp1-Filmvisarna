@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using System.IO;
 using webapi.Controllers.Utilities;
 using webapi.Data;
 using webapi.Entities;
@@ -7,7 +9,7 @@ using webapi.ViewModels;
 
 namespace webapi.Controllers
 {
-   
+
     [Route("api/[controller]")]
     [ApiController]
     public class BookingsController : GenericController<Booking>
@@ -49,7 +51,7 @@ namespace webapi.Controllers
 
             return Ok(result);
         }
-        
+
         [HttpPost("detailed")]
         public async Task<IActionResult> PostBookingModel(MakeBookingModel model)
         {
@@ -63,7 +65,7 @@ namespace webapi.Controllers
                 newBookingNumber = BookingNumberGenerator.GenerateRandomNumber();
                 if (await _context.bookings.SingleOrDefaultAsync(b =>
                 b.BookingNumber == newBookingNumber) is not null) continue;
-                    break;
+                break;
             }
 
             var user = new User
@@ -104,6 +106,33 @@ namespace webapi.Controllers
             {
                 BookingId = booking.Id
             };
+
+            try
+            {
+                var conf = JsonSerializer.Deserialize<ConfigEmail>(System.IO.File.ReadAllText("Properties/config.json"));
+
+                EmailConfiguration emailConfig = new EmailConfiguration
+                {
+                    SmtpServer = "smtp.gmail.com",
+                    SmtpPort = 587,
+                    Email = conf.EmailForServerSentEmails,
+                    Password = conf.PasswordForServerSentEmails
+                };
+
+                EmailService emailService = new EmailService(emailConfig);
+                
+                string to = "drumpert@gmail.com";
+                string subject = "Testing 2";
+                string body = "Email body content.";
+
+                emailService.SendEmail(to, subject, body);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Email Sending failed.  {e.Message}");
+                throw;
+            }
 
             return Ok(response);
         }

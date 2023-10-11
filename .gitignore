@@ -364,3 +364,4 @@ FodyWeavers.xsd
 webapi/appsettings.json
 # Misc
 webapi/appsettings.Development.json
+config.json
