@@ -85,8 +85,22 @@ namespace webapi.Controllers
                 return BadRequest("Invalid password."); // Password doesn't match
             }
 
+            // Retrieve the Session ID
+            var sessionId = HttpContext.Session.Id;
+            var userRole = "member";
+            var userId = user.Id;
+
+            var session = new Session
+            {
+                SessionKey = sessionId,
+                UserRole = userRole,
+                UserId = userId
+            };
+            _context.sessions.Add(session);
+            await _context.SaveChangesAsync();
+
             // Authentication successful
-            return Ok();
+            return Ok("You were successfully logged in");
 
         }
 
