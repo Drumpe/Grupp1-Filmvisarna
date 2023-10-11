@@ -7,7 +7,7 @@ using webapi.ViewModels;
 
 namespace webapi.Controllers
 {
-   
+
     [Route("api/[controller]")]
     [ApiController]
     public class BookingsController : GenericController<Booking>
@@ -49,7 +49,7 @@ namespace webapi.Controllers
 
             return Ok(result);
         }
-        
+
         [HttpPost("detailed")]
         public async Task<IActionResult> PostBookingModel(MakeBookingModel model)
         {
@@ -63,7 +63,7 @@ namespace webapi.Controllers
                 newBookingNumber = BookingNumberGenerator.GenerateRandomNumber();
                 if (await _context.bookings.SingleOrDefaultAsync(b =>
                 b.BookingNumber == newBookingNumber) is not null) continue;
-                    break;
+                break;
             }
 
             var user = new User
@@ -106,6 +106,34 @@ namespace webapi.Controllers
             };
 
             return Ok(response);
+        }
+
+        [HttpDelete("RemoveBooking/{bookingNumber}/{EmailAdress}")]
+
+        public async Task<IActionResult> DetelebyBookingNumberAndEmail(string bookingNumber, string emailAdress)
+        {
+
+            var found = await _context.usersAndBookings.FirstOrDefaultAsync(
+                x => x.bookingNumber == bookingNumber && x.EmailAdress == emailAdress);
+
+            if (found is null)
+            {
+                return BadRequest($"Cannot delete. The booking number: {bookingNumber} does not exist in our system");
+            }
+
+            if (found.EmailAdress is null)
+            {
+                return BadRequest($"Cannot delete. The email adress: {emailAdress} does not match the booking number");
+            }
+
+            var bookingId = found.bookingId;
+
+            _context.bookingsXseats.RemoveRange(_context.bookingsXseats.Where(x => x.BookingId == bookingId));
+            _context.bookings.RemoveRange(_context.bookings.Where(x => x.Id == bookingId));
+            var save = await _context.SaveChangesAsync();
+
+            return Ok("Item deleted");
+
         }
 
 
