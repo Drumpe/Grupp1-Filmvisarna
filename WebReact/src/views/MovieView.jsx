@@ -26,7 +26,7 @@ function MovieView() {
 	// Description
 	const innerDescription = {__html:movies[idx].description};
 	const Description = () => {
-		return <div dangerouslySetInnerHTML={innerDescription} />
+		return <div className="mw-reading-len" dangerouslySetInnerHTML={innerDescription} />
 	}
 
 
@@ -106,9 +106,9 @@ function MovieView() {
 			<Row className="mb-3">
 				<Col className="movie-information-container mt-4">
 					<div className="w-100 p-2">
-						<p className="mw-reading-len">
+						
 							<Description />
-						</p>
+						
 					</div>
 					<div className="w-100 p-2">
 						<span className="d-block movie-details mb-1"><h6 className="d-inline">Skådespelare: </h6> <MovieCast /></span>
