@@ -4,6 +4,7 @@ import { Button, ListGroup } from 'react-bootstrap';
 import { useOutletContext, useParams, Link} from 'react-router-dom';
 import { get } from '../utilsAndHooks/rest';
 import { capitalize } from '../utilsAndHooks/date-formatter';
+import { getSentenceDelimiter } from '../utilsAndHooks/formatter';
 
 function MovieView() {
 	const { movies } = useOutletContext();
@@ -25,7 +26,7 @@ function MovieView() {
 	// Description
 	const innerDescription = {__html:movies[idx].description};
 	const Description = () => {
-		return <div dangerouslySetInnerHTML={innerDescription} />
+		return <div className="mw-reading-len" dangerouslySetInnerHTML={innerDescription} />
 	}
 
 
@@ -75,10 +76,11 @@ function MovieView() {
 
 	/// MovieCast
 	const MovieCast = () => {
-		let actors = movies[idx].actors.map((actor) => 
-			<p key={actor.id} className="d-inline"> {actor}, </p>
-		);
+		
 
+		let actors = movies[idx].actors.map((actor, i) => 
+			<p className="d-inline" key={i}>{actor}{getSentenceDelimiter(movies[idx].actors, i)}</p> 
+		);
 			return actors;
 	}
 
@@ -104,9 +106,9 @@ function MovieView() {
 			<Row className="mb-3">
 				<Col className="movie-information-container mt-4">
 					<div className="w-100 p-2">
-						<p className="mw-reading-len">
+						
 							<Description />
-						</p>
+						
 					</div>
 					<div className="w-100 p-2">
 						<span className="d-block movie-details mb-1"><h6 className="d-inline">Skådespelare: </h6> <MovieCast /></span>
