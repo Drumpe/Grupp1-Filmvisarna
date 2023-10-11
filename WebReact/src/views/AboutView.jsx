@@ -22,7 +22,7 @@ const AboutView = () => {
                         Vårt uppdrag är att förse dig med den senaste filmen och information om kommande släpp. Vi hoppas kunna hjälpa dig att upptäcka nya filmer.
                     </p>
                     <p>
-                        Vårt team består av: Ola, Yassein, Patrik, Arsha, Albin, Jimmie, Adis
+                        Vårt team består av: Ola, Yassein, Patrik, Arshia, Albin, Jimmie, Adis
                     </p>
                 </Col>
             </Row>
