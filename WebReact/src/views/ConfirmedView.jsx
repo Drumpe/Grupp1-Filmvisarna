@@ -1,86 +1,60 @@
-import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Table } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { Container} from 'react-bootstrap';
 import { get } from '../utilsAndHooks/rest';
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
+import { jsonDateToString } from '../utilsAndHooks/date-formatter';
 
-const ConfirmedView = () => {
-  let { bookingId } = useParams();
-  const [bookingInfo, setBookingInfo] = useState({});
+export default function ConfirmedView() {
+        let {bookingId} = useParams()
+        const [data, setData] = useState({});
+        const [seatfinder, setSeatFinder] = useState([]);
+        const [formatedDate, setFormatedDate] = useState('');
 
-  async function fetchBooking() {
-    try {
-      var booking = await get('bookings/detailed/' + bookingId);
-      return booking;
-    } catch (err) {
-      console.log(err);
-      return {};
-    }
-  };
+        
+        async function fetchData() {
+               var response = await get('/bookings/detailed/' + bookingId);
+               setData(response);
+               setSeatFinder(response.tickets)      
+        }
 
-  useEffect(() => {
-    fetchBooking().then((booking) => {
-      setBookingInfo(booking)
-    });
-  }, []); // Empty dependency array to run the effect only once
+        function countTicketTypes(tickets) {
+                const counts = {};
+              
+                tickets.forEach(function (ticket) {
+                  const type = ticket.type;
+                  counts[type] = (counts[type] || 0) + 1;
+                });
+              
+                return counts;
+              }
+              
+        const ticketAmount = Object.entries(countTicketTypes(seatfinder)).map(([key, val]) => <li key={key}>{val} {key} biljett </li>)
 
-  const whiteText = {
-    color: 'white'
-  };
+        useEffect(() => {
+                fetchData();
+                const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };            
+                setFormatedDate(jsonDateToString(data.screeningTime, options, 'sv-SV'));
+        },[data.screeningTime]);
 
-  return (
-    <Container>
-      <Row>
-        <Col>
-          <h2 style={whiteText}>Tack för din bokning!</h2>
-          <Table striped bordered hover>
-            <tbody>
-              <tr>
-                <td style={whiteText}>Bokningsnummer</td>
-                <td style={whiteText}>{bookingInfo.bookingNumber}</td>
-              </tr>
-              <tr>
-                <td style={whiteText}>Förnamn</td>
-                <td style={whiteText}>{bookingInfo.firstName}</td>
-              </tr>
-              <tr>
-                <td style={whiteText}>Efternamn</td>
-                <td style={whiteText}>{bookingInfo.lastName}</td>
-              </tr>
-              <tr>
-                <td style={whiteText}>Email</td>
-                <td style={whiteText}>{bookingInfo.email}</td>
-              </tr>
-              <tr>
-                <td style={whiteText}>Film</td>
-                <td style={whiteText}>{bookingInfo.movie}</td>
-              </tr>
-              <tr>
-                <td style={whiteText}>Salong</td>
-                <td style={whiteText}>{bookingInfo.theater}</td>
-              </tr>
-              <tr>
-                <td style={whiteText}>Tid</td>
-                <td style={whiteText}>{bookingInfo.screeningTime}</td>
-              </tr>
-              <tr>
-                <td style={whiteText}>Biljetter</td>
-                <td>
-                  <ul style={whiteText}>
-                    {bookingInfo.tickets && bookingInfo.tickets.map((ticket, index) => (
-                      <li key={index} style={whiteText}>
-                        Rad: {ticket.row}, Plats: {ticket.seat}, Biljettyp: {ticket.type}, Pris: {ticket.price} kr
-                      </li>
-                    ))}
-                  </ul>
-                </td>
-              </tr>
-            </tbody>
-          </Table>
-        </Col>
-      </Row>
-    </Container>
-  );
-};
+return (
+        <Container className="mt-5">
+        <h1>Tack för din bokning!</h1>
+        <h5>Film: {data.movie}</h5>
+        <hr />
+        <br />
+        <h3 className='text-decoration-underline'>{data.theater}</h3>
+        <p className='ticket-type-list'>Antal bilijeter: {ticketAmount}</p>
+        <p>När: {formatedDate}</p>
+        <p>Salong: {data.theater}</p>
+        <p>Plats: {seatfinder.map((x) => <li key={x.seatId}>rad {x.row}, stol {x.seat}</li>)}</p>
+        <p>Bokningsnummer: <em>{data.bookingNumber}</em></p>
+        <p>Ett bekräftelsepost har skickats till <em>{data.email}</em></p>
+        <br />
+        <hr />
+        <p>Vänligen uppge bokningsnummer i kassan vid betalning</p>
 
-export default ConfirmedView;
+        <p>Varmt välkommen till oss för att se din bokade film.</p>        
+        </Container>    
+        );
 
+}
