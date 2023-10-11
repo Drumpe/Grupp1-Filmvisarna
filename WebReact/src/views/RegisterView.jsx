@@ -106,7 +106,7 @@ export default function RegisterView() {
                             name="password"
                             placeholder="Lösenord"
                             onBlur={validatePassword}
-                            isInvalid={!passwordValid}
+                            isInvalid={!passwordValid && passwordTouched}
                             onChange={handleInputChange}
                         />
                         <Button
@@ -118,19 +118,25 @@ export default function RegisterView() {
                         </Button>
                     </div>
                     {!passwordValid && passwordTouched && (
-                        <Form.Control.Feedback type="invalid">
+                        <Form.Control.Feedback type="invalid" style={{ display: 'block' }}>
                             Lösenordet måste vara 8 tecken långt, innehålla minst ett specialtecken och minst ett nummer.
                         </Form.Control.Feedback>
                     )}
                 </Form.Group>
-
+                <Row className="justify-content-between">
+                <Col className="mx-auto text-center d-grid">
                 <Button type="submit" variant="primary" size="lg" disabled={!passwordValid} onClick={handleSubmit}>
-                    Registera
+                Bli medlem
                 </Button>
-                <Button variant="secondary link" href="/StartView" size="lg">
-                    Avbryt
-                </Button>
+                </Col>
+                <Col className="mx-auto text-center d-grid">
+                    <Button variant="secondary link" href="/StartView" size="lg">
+                        Avbryt
+                    </Button>
+                </Col>
+                </Row>
             </Form>
         </Container>
     );
 }
+
