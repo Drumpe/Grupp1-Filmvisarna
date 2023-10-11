@@ -55,8 +55,17 @@ namespace webapi.Controllers
         [HttpPost("detailed")]
         public async Task<IActionResult> PostBookingModel(MakeBookingModel model)
         {
-            if (await _context.users.SingleOrDefaultAsync(u => u.EmailAdress == model.EmailAdress) is not null)
-                return BadRequest($"A user with the email address {model.EmailAdress} already exists in our system.");
+            var user = new User
+            {
+                EmailAdress = model.EmailAdress
+            };
+
+            if (await _context.users.SingleOrDefaultAsync(u => u.EmailAdress == model.EmailAdress) is null)
+            {
+                //Skapar new user om den inte fanns redan
+                _context.users.Add(user);
+                await _context.SaveChangesAsync();
+            }
 
             var newBookingNumber = "";
 
@@ -67,14 +76,6 @@ namespace webapi.Controllers
                 b.BookingNumber == newBookingNumber) is not null) continue;
                 break;
             }
-
-            var user = new User
-            {
-                EmailAdress = model.EmailAdress
-            };
-
-            _context.users.Add(user);
-            await _context.SaveChangesAsync();
 
             var booking = new Booking
             {
@@ -120,7 +121,7 @@ namespace webapi.Controllers
                 };
 
                 EmailService emailService = new EmailService(emailConfig);
-                
+
                 string to = "drumpert@gmail.com";
                 string subject = "Testing 2";
                 string body = "Email body content.";
