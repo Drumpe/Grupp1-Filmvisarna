@@ -109,37 +109,41 @@ namespace webapi.Controllers
             {
                 BookingId = booking.Id
             };
-
-            try
+            
+            //Skicka bara mail om e-postadressen inte innehåller "test"
+            if (!model.EmailAdress.Contains("test"))
             {
-                string filePath = "Properties/config.json";
-                ConfigEmail config;
-                using (Stream fileStream = System.IO.File.OpenRead(filePath))
+                try
                 {
-                    config = await JsonSerializer.DeserializeAsync<ConfigEmail>(fileStream);
+                    string filePath = "Properties/config.json";
+                    ConfigEmail config;
+                    using (Stream fileStream = System.IO.File.OpenRead(filePath))
+                    {
+                        config = await JsonSerializer.DeserializeAsync<ConfigEmail>(fileStream);
+                    }
+                    EmailConfiguration emailConfig = new EmailConfiguration
+                    {
+                        SmtpServer = "smtp.gmail.com",
+                        SmtpPort = 587,
+                        Email = config.EmailForServerSentEmails,
+                        Password = config.PasswordForServerSentEmails
+                    };
+
+                    EmailService emailService = new EmailService(emailConfig);
+
+                    //TODO: Skapa body och Subject
+                    string to = model.EmailAdress;
+                    string subject = "Bokning av film";
+                    string body = "Email body content.";
+
+                    emailService.SendEmail(to, subject, body);
+
                 }
-                EmailConfiguration emailConfig = new EmailConfiguration
+                catch (Exception e)
                 {
-                    SmtpServer = "smtp.gmail.com",
-                    SmtpPort = 587,
-                    Email = config.EmailForServerSentEmails,
-                    Password = config.PasswordForServerSentEmails
-                };
-
-                EmailService emailService = new EmailService(emailConfig);
-
-                //TODO: Skapa body och Subject
-                string to = model.EmailAdress;
-                string subject = "Bokning av film";
-                string body = "Email body content.";
-
-                emailService.SendEmail(to, subject, body);
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Email Sending failed.  {e.Message}");
-                throw;
+                    Console.WriteLine($"Email Sending failed.  {e.Message}");
+                    throw;
+                }
             }
 
             return Ok(response);
