@@ -69,63 +69,13 @@ namespace webapi.Controllers
               .Select(sts => new 
               {
                 SeatId = sts.Id,
-                Seat = sts.seat,
-                Row = sts.Row,
-                Status = booked.Contains(sts.Id) ? 1 : 0
+                Booked = booked.Contains(sts.Id) ? 1 : 0
               })
             })
             .FirstOrDefaultAsync();
 
           return Ok(result);
         }
-
-        /* [HttpGet("screening/{screeningid}/status")]
-        public async Task<IActionResult> GetSeatStatusFromScreening(int screeningId)
-        {
-            var booked = await _context.screenings
-            .Where(s => s.Id == screeningId)
-            .Join(
-                _context.theaters,
-                s => s.TheaterId,
-                t => t.Id,
-                (s, t) => new { Screening = s, Theater = t }
-            )
-            .GroupJoin(
-                _context.seats,
-                st => st.Theater.Id,
-                sts => sts.TheaterId,
-                (st, seats) => new { Screening = st.Screening, Theater = st.Theater, Seats = seats }
-            )
-            .SelectMany(
-                sts => sts.Seats.DefaultIfEmpty(),
-                (sts, seat) => new { Screening = sts.Screening, Theater = sts.Theater, Seat = seat }
-            )
-            .Join(
-                _context.bookingsXseats,
-                sts => sts.Seat.Id,
-                bxs => bxs.SeatId,
-                (sts, bxs) => new { Screening = sts.Screening, Theater = sts.Theater, BookingXSeat = bxs }
-            )
-            .Where(joined => _context.bookings
-                .Where(b => b.ScreeningId == joined.Screening.Id)
-                .Select(b => b.Id)
-                .Contains(joined.BookingXSeat.BookingId)
-            )
-            .Select(joined => joined.BookingXSeat.SeatId)
-            .Distinct()
-            .ToListAsync();
-
-            var all = await _context.screenings
-            .Where(s => s.Id == screeningId)
-            .Select(s => s.Theater.Seats
-            .Select(sts => new 
-            {
-              Status = sts.Id
-            }))
-            .ToListAsync();
-            
-            return Ok(result);
-        } */
     }
 }
 
