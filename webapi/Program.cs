@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using webapi.Data;
+using webapi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,5 +33,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseWebSockets();
+app.UseSeatStatusFeed();
 
 app.Run();
