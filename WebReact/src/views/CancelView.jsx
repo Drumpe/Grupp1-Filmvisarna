@@ -39,7 +39,7 @@ export default function CancelView() {
                     });
                 }}
                     className='col-7  p-3' />
-                <label>E-mail adress</label>
+                <label>E-post adress</label>
                 <input type='text' placeholder='exempel@gmail.com' onChange={x => {
                     setSend({
                         ...send,
@@ -55,13 +55,9 @@ export default function CancelView() {
                         <Modal.Title>Avbokning</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Är du säker på att du vill avboka?
-                        <hr />
-                        Terminator 4, 18:00, 1 April 2024
-                        <ul>
-                            <li>1 vuxen biljett</li>
-                            <li>1 pensionärs biljett</li>
-                        </ul>
+                        Är du säker på att du vill avboka?<hr />
+
+
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
