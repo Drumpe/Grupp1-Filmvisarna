@@ -1,43 +1,40 @@
-import { useEffect, useState } from 'react'
-import { Container, Button, Modal } from 'react-bootstrap';
-import { del } from '../utilsAndHooks/rest';
+import { useState } from 'react'
+import { Container, Button, Modal, Alert } from 'react-bootstrap';
 import { redirect } from 'react-router-dom';
 
 export default function CancelView() {
     const [show, setShow] = useState(false);
-    const [showError, setShowError] = useState(false);
+    const [showError, setShowError] = useState("");
+    const [serverResponse, setServerResponse] = useState(true);
     const [send, setSend] = useState({
         bookingNumber: "",
         emailAdress: ""
     })
-
     //DeleteFetch
     async function SendDelete() {
-        var body = {
-            bookingnr: send.bookingNumber,
-            email: send.emailAdress
-        }
-        await fetch(`http://localhost:5052/api/Bookings/RemoveBooking/${body.bookingnr}/${body.email}`, { method: 'DELETE', })
+        await fetch(`http://localhost:5052/api/Bookings/RemoveBooking/${send.bookingNumber}/${send.emailAdress}`, { method: 'DELETE', })
             .then((res) => {
-
                 switch (res.status) {
                     case 400:
                         setShow(false)
-                        setShowError(true);
-                        alert("400!")
+                        alert("Den angivna Bookningsnummer eller e-post adress är fel");
                         break;
                     case !200:
                         setShow(false)
+                        alert("Oj! ett fel har inträffat. Vänligen försök igen eller försöksenare");
                         break;
+                    case 200:
+                        setShow(false)
+                        document.getElementById("reset1", "reset2").input.value = "";
+                        setShowError(true);
                 }
             }).catch(e => console.log(e))
     };
-
     //Form for filling booking.nr and email
     function form() {
         return <>
-            <label>{send.bookingNumber}</label>
-            <input type='text' placeholder='xxxxxx' onChange={
+            <label>Bokningsnummer</label>
+            <input id='reset1' type='text' placeholder='xxxxxx' onChange={
                 (x) =>
                     setSend({
                         ...send,
@@ -45,13 +42,13 @@ export default function CancelView() {
                     })}
                 className='col-7  p-3' />
             <label>E-post adress</label>
-            <input type='text' placeholder='exempel@gmail.com' onChange={
+            <input id='reset2' type='text' placeholder='exempel@gmail.com' onChange={
                 (x) => setSend({
                     ...send,
                     emailAdress: x.target.value
                 })}
                 className='col-7  p-3' />
-            {showError && <p id='message'></p>}
+            {showError ? <p className='green'>Din avbokning med Bookningsnummer {send.bookingNumber} är nu genomförd</p> : null}
             <Button variant="primary btn btn-primary col-6" onClick={handleShow} disabled={!(send.bookingNumber && send.emailAdress)}>
                 Avboka
             </Button>
@@ -61,6 +58,7 @@ export default function CancelView() {
     //Show and hide pop up handler
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const EmptyForm = () => setSend({ bookingNumber: "", emailAdress: "" });
 
     return (
         <Container>
@@ -80,7 +78,7 @@ export default function CancelView() {
                         <Button variant="secondary" onClick={handleClose}>
                             Behåll bokning
                         </Button>
-                        <Button variant="primary" onClick={SendDelete}>
+                        <Button variant="primary" onClick={SendDelete} href='/CancelView'>
                             Avboka bokning
                         </Button>
                     </Modal.Footer>
