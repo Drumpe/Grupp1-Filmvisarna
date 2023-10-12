@@ -128,8 +128,9 @@ namespace webapi.Controllers
 
                 EmailService emailService = new EmailService(emailConfig);
 
-                string to = "drumpert@gmail.com";
-                string subject = "Testing 2";
+                //TODO: Skapa body och Subject
+                string to = model.EmailAdress;
+                string subject = "Bokning av film";
                 string body = "Email body content.";
 
                 emailService.SendEmail(to, subject, body);
