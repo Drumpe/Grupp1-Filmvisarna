@@ -136,11 +136,6 @@ namespace webapi.Controllers
                 return BadRequest($"Cannot delete. The booking number: {bookingNumber} does not exist in our system");
             }
 
-            if (found.EmailAdress is null)
-            {
-                return BadRequest($"Cannot delete. The email adress: {emailAdress} does not match the booking number");
-            }
-
             var bookingId = found.bookingId;
 
             _context.bookingsXseats.RemoveRange(_context.bookingsXseats.Where(x => x.BookingId == bookingId));
