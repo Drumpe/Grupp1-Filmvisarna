@@ -57,7 +57,7 @@ export default function RegisterView() {
 
         try {
             var result = await post('users/register/', NewUserData);
-
+          
             if (result && result.error) {
                 // Handle specific error response from API
                 alert('Registration failed: ' + result.error);
@@ -70,11 +70,13 @@ export default function RegisterView() {
                     email: '',
                     password: ''
                 });
+               
             }
         } catch (error) {
             // Handle unexpected errors from API call)
             alert('An unexpected error occurred: ' + error);
         }
+        
     };
 
 
@@ -96,6 +98,10 @@ export default function RegisterView() {
                 <Form.Group className="mb-3" controlId="formGroupLastName">
                     <Form.Label>Efternamn</Form.Label>
                     <Form.Control type="text" name="lastName" placeholder="Efternamn" onChange={handleInputChange} />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupLastName">
+                    <Form.Label>Epostadress</Form.Label>
+                    <Form.Control type="email"  name="email" placeholder="dinemail@mail.se" onChange={handleInputChange} />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formGroupPassword">
                     <Form.Label>Lösenord</Form.Label>
