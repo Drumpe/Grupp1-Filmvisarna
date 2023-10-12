@@ -9,20 +9,22 @@ export default function CancelView() {
         emailAdress: ""
     })
 
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     async function SendDelete() {
         var body = {
             bookingnr: send.bookingNumber,
             email: send.emailAdress
         }
         await fetch(`http://localhost:5052/api/Bookings/RemoveBooking/${body.bookingnr}/${body.email}`, { method: 'DELETE', })
-            .catch((e) => {
-                console.log(e);
-            });
-    }
-
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+            .then((res) => {
+                if (res.status === 500) {
+                    return alert("Den angivna booknings nummer eller e-post adress är felaktig")
+                }
+            }).catch(e => console.log(e))
+    };
     return (
         <Container>
             <h1>Avbokning</h1>
