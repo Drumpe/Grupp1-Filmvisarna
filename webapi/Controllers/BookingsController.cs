@@ -50,6 +50,7 @@ namespace webapi.Controllers
             return Ok(result);
         }
 
+
         [HttpGet("number/{bookingNumber}")]
 
         public async Task<IActionResult> GetBookingByBookingnumber(string bookingNumber)
@@ -121,6 +122,36 @@ namespace webapi.Controllers
 
             return Ok(response);
         }
+
+        [HttpDelete("RemoveBooking/{bookingNumber}/{EmailAdress}")]
+
+        public async Task<IActionResult> DetelebyBookingNumberAndEmail(string bookingNumber, string emailAdress)
+        {
+
+            var found = await _context.usersAndBookings.FirstOrDefaultAsync(
+                x => x.bookingNumber == bookingNumber && x.EmailAdress == emailAdress);
+
+            if (found is null)
+            {
+                return BadRequest($"Cannot delete. The booking number: {bookingNumber} does not exist in our system");
+            }
+
+            if (found.EmailAdress is null)
+            {
+                return BadRequest($"Cannot delete. The email adress: {emailAdress} does not match the booking number");
+            }
+
+            var bookingId = found.bookingId;
+
+            _context.bookingsXseats.RemoveRange(_context.bookingsXseats.Where(x => x.BookingId == bookingId));
+            _context.bookings.RemoveRange(_context.bookings.Where(x => x.Id == bookingId));
+            var save = await _context.SaveChangesAsync();
+
+            return Ok("Item deleted");
+
+        }
+
+
 
 
     }
