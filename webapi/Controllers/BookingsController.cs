@@ -52,6 +52,21 @@ namespace webapi.Controllers
             return Ok(result);
         }
 
+
+        [HttpGet("number/{bookingNumber}")]
+
+        public async Task<IActionResult> GetBookingByBookingnumber(string bookingNumber)
+        {
+            var result = await _context.bookings.SingleOrDefaultAsync(b => b.BookingNumber == bookingNumber);
+
+            if (result == null)
+            {
+                return NotFound($"A booking with the number {bookingNumber} does not exist in our");
+            }
+            return Ok(result);
+
+        }
+
         [HttpPost("detailed")]
         public async Task<IActionResult> PostBookingModel(MakeBookingModel model)
         {
@@ -76,7 +91,7 @@ namespace webapi.Controllers
                 newBookingNumber = BookingNumberGenerator.GenerateRandomNumber();
                 if (await _context.bookings.SingleOrDefaultAsync(b =>
                 b.BookingNumber == newBookingNumber) is not null) continue;
-                break;
+                    break;
             }
 
             var booking = new Booking
@@ -148,6 +163,31 @@ namespace webapi.Controllers
 
             return Ok(response);
         }
+
+        [HttpDelete("RemoveBooking/{bookingNumber}/{EmailAdress}")]
+
+        public async Task<IActionResult> DetelebyBookingNumberAndEmail(string bookingNumber, string emailAdress)
+        {
+
+            var found = await _context.usersAndBookings.FirstOrDefaultAsync(
+                x => x.bookingNumber == bookingNumber && x.EmailAdress == emailAdress);
+
+            if (found is null)
+            {
+                return BadRequest($"Given booking number and email adress doesnt match to our database");
+            }
+
+            var bookingId = found.bookingId;
+
+            _context.bookingsXseats.RemoveRange(_context.bookingsXseats.Where(x => x.BookingId == bookingId));
+            _context.bookings.RemoveRange(_context.bookings.Where(x => x.Id == bookingId));
+            var save = await _context.SaveChangesAsync();
+
+            return Ok("Item deleted");
+
+        }
+
+
 
 
     }

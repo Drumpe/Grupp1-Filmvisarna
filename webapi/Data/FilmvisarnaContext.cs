@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using webapi.Entities;
+using webapi.ViewModels;
 
 namespace webapi.Data
 {
@@ -16,6 +17,7 @@ namespace webapi.Data
         public DbSet<Seat> seats { get; set; }
         public DbSet<Theater> theaters { get; set; }
         public DbSet<User> users { get; set; }
+        public DbSet<UsersAndBookings> usersAndBookings { get; set; }
 
         public FilmvisarnaContext(DbContextOptions options) : base(options) { }
 
@@ -26,6 +28,9 @@ namespace webapi.Data
 
             modelBuilder.Entity<BookingXSeat>()
                 .HasKey(bs => new { bs.BookingId, bs.SeatId });
+
+            modelBuilder.Entity<UsersAndBookings>()
+                .HasKey(x => new { x.bookingId });
         }
 
     }
