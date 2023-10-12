@@ -38,6 +38,8 @@ namespace webapi.Middleware
 		{
 			if (result.MessageType == WebSocketMessageType.Text) 
 			{
+				// input sanitization
+				// idea: whitelisting input? otherwise close connection? Something went wrong, redirect?
 				var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
 				Console.WriteLine($"Message recieved from {connectionId} ...");
 				Console.WriteLine($"Message: {message}");
@@ -53,7 +55,7 @@ namespace webapi.Middleware
 
 				await _connection.CloseAsync(result.CloseStatus!.Value, result.CloseStatusDescription, CancellationToken.None);
 				Console.WriteLine($"({connectionId}), CloseStatus: {result.CloseStatus!.Value}");
-					return;
+				return;
 			}
 		});
 	}
