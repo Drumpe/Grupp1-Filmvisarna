@@ -25,7 +25,7 @@ namespace webapi.Controllers.Utilities
         {
             _emailConfig = emailConfig;
         }
-        public async static void Mailer(string to, string subject, string body)
+        public async static void MailBooking(string to, string subject, string body)
         {
             try
             {

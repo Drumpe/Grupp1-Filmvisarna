@@ -91,7 +91,7 @@ namespace webapi.Controllers
                 newBookingNumber = BookingNumberGenerator.GenerateRandomNumber();
                 if (await _context.bookings.SingleOrDefaultAsync(b =>
                 b.BookingNumber == newBookingNumber) is not null) continue;
-                    break;
+                break;
             }
 
             var booking = new Booking
@@ -124,15 +124,15 @@ namespace webapi.Controllers
             {
                 BookingId = booking.Id
             };
-            
+
             //Skicka bara mail om e-postadressen inte innehåller "test"
             if (!model.EmailAdress.Contains("test"))
             {
-                                //TODO: Skapa body och Subject
+                //TODO: Skapa body och Subject
                 string to = model.EmailAdress;
                 string subject = "Bokning av film";
                 string body = "Email body content.";
-                EmailService.Mailer(to, subject, body);
+                EmailService.MailBooking(to, subject, body);
             }
 
             return Ok(response);
