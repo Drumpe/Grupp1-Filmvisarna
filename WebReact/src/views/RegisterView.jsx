@@ -5,10 +5,12 @@ import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { isPasswordValid } from "../utilsAndHooks/PasswordValidate";
+import { isPasswordValid } from "../utilsAndHooks/Validate";
+import { isValidEmail } from "../utilsAndHooks/Validate";
 import { post } from "../utilsAndHooks/rest";
 
 export default function RegisterView() {
+    const [emailValid, setEmailValid] = useState(true);
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -19,20 +21,23 @@ export default function RegisterView() {
     const [passwordValid, setPasswordValid] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [passwordTouched, setPasswordTouched] = useState(false);
-
+    const isSubmitDisabled = !emailValid || !formData.firstName.trim() || !formData.lastName.trim();
     // kollar om lösenordet är valid samt om pasword är rört i real tid.
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+    
+        if (name === "email") {
+            setEmailValid(isValidEmail(value));
+        }
+    
         setFormData({ ...formData, [name]: value });
         if (name === "password") {
             validatePassword();
             setPasswordTouched(true);
         }
     };
-    function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
+    
+
     // kollar och validerar lösenordet refferar till paswsworValidate.js
     const validatePassword = () => {
         const isValid = isPasswordValid(formData.password);
@@ -57,7 +62,7 @@ export default function RegisterView() {
 
         try {
             var result = await post('users/register/', NewUserData);
-          
+
             if (result && result.error) {
                 // Handle specific error response from API
                 alert('Registration failed: ' + result.error);
@@ -70,13 +75,13 @@ export default function RegisterView() {
                     email: '',
                     password: ''
                 });
-               
+
             }
         } catch (error) {
             // Handle unexpected errors from API call)
             alert('An unexpected error occurred: ' + error);
         }
-        
+
     };
 
 
@@ -93,15 +98,15 @@ export default function RegisterView() {
             <Form className="mx-auto" onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formGroupFirstName">
                     <Form.Label>Förnamn</Form.Label>
-                    <Form.Control type="text" name="firstName" placeholder="Förnamn" onChange={handleInputChange} />
+                    <Form.Control type="text" name="firstName" required="true" placeholder="Förnamn" onChange={handleInputChange} />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formGroupLastName">
                     <Form.Label>Efternamn</Form.Label>
-                    <Form.Control type="text" name="lastName" placeholder="Efternamn" onChange={handleInputChange} />
+                    <Form.Control type="text" name="lastName" required="true" placeholder="Efternamn" onChange={handleInputChange} />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formGroupLastName">
+                <Form.Group className="mb-3" controlId="formGroupEmail">
                     <Form.Label>Epostadress</Form.Label>
-                    <Form.Control type="email"  name="email" placeholder="dinemail@mail.se" onChange={handleInputChange} />
+                    <Form.Control type="email" required="true" name="email" placeholder="dinemail@mail.se" onChange={handleInputChange} />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formGroupPassword">
                     <Form.Label>Lösenord</Form.Label>
@@ -130,19 +135,20 @@ export default function RegisterView() {
                     )}
                 </Form.Group>
                 <Row className="justify-content-between">
-                <Col className="mx-auto text-center d-grid">
-                <Button type="submit" variant="primary" size="lg" disabled={!passwordValid} onClick={handleSubmit}>
-                Bli medlem
-                </Button>
-                </Col>
-                <Col className="mx-auto text-center d-grid">
-                    <Button variant="secondary link" href="/StartView" size="lg">
-                        Avbryt
-                    </Button>
-                </Col>
+                    <Col className="mx-auto text-center d-grid">
+                        <Button type="submit" variant="primary" size="lg" disabled={!emailValid || !passwordValid || !formData.firstName.trim() || !formData.lastName.trim()} onClick={handleSubmit}>
+                            Bli medlem
+                        </Button>
+                    </Col>
+                    <Col className="mx-auto text-center d-grid">
+                        <Button variant="secondary link" href="/StartView" size="lg">
+                            Avbryt
+                        </Button>
+                    </Col>
                 </Row>
             </Form>
         </Container>
     );
 }
+
 

@@ -9,3 +9,8 @@ export function isPasswordValid(password) {
       numberRegex.test(password)
     );
 }
+
+export function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
