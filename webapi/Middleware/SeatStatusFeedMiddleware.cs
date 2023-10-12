@@ -36,7 +36,15 @@ namespace webapi.Middleware
 
 		await RecieveMessageAsync(connection, async (result, buffer) => 
 		{
-			if (result.MessageType == WebSocketMessageType.Close)
+			if (result.MessageType == WebSocketMessageType.Text) 
+			{
+				var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
+				Console.WriteLine($"Message recieved from {connectionId} ...");
+				Console.WriteLine($"Message: {message}");
+				await BroadcastJSONMessageAsync($"{message}");
+				return;
+			}
+			else if (result.MessageType == WebSocketMessageType.Close)
 			{
 				Console.WriteLine($"Closing request from {connectionId} recieved.");
 				if (!_manager.GetAllConnections().TryRemove(connectionId, out WebSocket _connection)) {
