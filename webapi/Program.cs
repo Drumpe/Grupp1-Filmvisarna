@@ -32,9 +32,9 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
-
 app.UseWebSockets();
 app.UseSeatStatusFeed();
+
+app.MapControllers();
 
 app.Run();
