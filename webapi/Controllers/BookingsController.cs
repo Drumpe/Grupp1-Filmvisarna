@@ -55,16 +55,18 @@ namespace webapi.Controllers
         [HttpPost("detailed")]
         public async Task<IActionResult> PostBookingModel(MakeBookingModel model)
         {
-            var user = new User
-            {
-                EmailAdress = model.EmailAdress
-            };
+            User user = await _context.users.SingleOrDefaultAsync(u => u.EmailAdress == model.EmailAdress);
 
-            if (await _context.users.SingleOrDefaultAsync(u => u.EmailAdress == model.EmailAdress) is null)
+            if (user is null)
             {
-                //Skapar new user om den inte fanns redan
+                // användaren finns inte skapa den
+                user = new User
+                {
+                    EmailAdress = model.EmailAdress
+                };
                 _context.users.Add(user);
                 await _context.SaveChangesAsync();
+
             }
 
             var newBookingNumber = "";
@@ -110,14 +112,18 @@ namespace webapi.Controllers
 
             try
             {
-                var conf = JsonSerializer.Deserialize<ConfigEmail>(System.IO.File.ReadAllText("Properties/config.json"));
-
+                string filePath = "Properties/config.json";
+                ConfigEmail config;
+                using (Stream fileStream = System.IO.File.OpenRead(filePath))
+                {
+                    config = await JsonSerializer.DeserializeAsync<ConfigEmail>(fileStream);
+                }
                 EmailConfiguration emailConfig = new EmailConfiguration
                 {
                     SmtpServer = "smtp.gmail.com",
                     SmtpPort = 587,
-                    Email = conf.EmailForServerSentEmails,
-                    Password = conf.PasswordForServerSentEmails
+                    Email = config.EmailForServerSentEmails,
+                    Password = config.PasswordForServerSentEmails
                 };
 
                 EmailService emailService = new EmailService(emailConfig);
