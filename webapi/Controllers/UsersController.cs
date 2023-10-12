@@ -68,7 +68,7 @@ namespace webapi.Controllers
                 return BadRequest($"A user with the email address {newUser.EmailAdress} already exists in our system.");
 
             newUser.Password = PasswordEncryptor.HashPassword(newUser.Password);
-            newUser.UserRole = "member";
+            newUser.UserRole = UserRole.member.ToString();
             _context.users.Add(newUser);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetById), new { id = newUser.Id }, newUser);
@@ -88,18 +88,11 @@ namespace webapi.Controllers
                 return BadRequest("Invalid password."); // Password doesn't match
             }
 
-            // This information is added to the session
-            var userSession = new UserDetailsModel{
-                FirstName = userLogin.FirstName,
-                LastName = userLogin.LastName,
-                UserRole = userLogin.UserRole,
-                EmailAdress = userLogin.EmailAdress
-            };
-
-            // Convert object to json and save to session as string
-            var jsonUser = System.Text.Json.JsonSerializer.Serialize(userSession);
-            HttpContext.Session.SetString("UserDetails", jsonUser);
-    
+            // Set session values as a logged in user
+         
+            HttpContext.Session.SetString("UserRole", user.UserRole);
+            HttpContext.Session.SetString("Email", user.EmailAdress);
+            HttpContext.Session.SetString("Name", $"{user.FirstName} {user.LastName}");
 
             // Authentication successful
             return Ok("Successfully logged in");
