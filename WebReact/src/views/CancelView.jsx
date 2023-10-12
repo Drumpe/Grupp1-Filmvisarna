@@ -35,25 +35,22 @@ export default function CancelView() {
 
     //Form for filling booking.nr and email
     function form() {
-        const handleBooking = (x) => {
-            setSend({
-                ...send,
-                bookingNumber: x.target.value
-            });
-        };
-        const handleEmail = (x) => {
-            setSend({
-                ...send,
-                emailAdress: x.target.value
-            });
-        };
-
         return <>
-            <label>Bokningsnummer</label>
-            <input type='text' placeholder='xxxxxx' onChange={handleBooking}
+            <label>{send.bookingNumber}</label>
+            <input type='text' placeholder='xxxxxx' onChange={
+                (x) =>
+                    setSend({
+                        ...send,
+                        bookingNumber: x.target.value
+                    })}
                 className='col-7  p-3' />
             <label>E-post adress</label>
-            <input type='text' placeholder='exempel@gmail.com' onChange={handleEmail} className='col-7  p-3' />
+            <input type='text' placeholder='exempel@gmail.com' onChange={
+                (x) => setSend({
+                    ...send,
+                    emailAdress: x.target.value
+                })}
+                className='col-7  p-3' />
             {showError && <p id='message'></p>}
             <Button variant="primary btn btn-primary col-6" onClick={handleShow} disabled={!(send.bookingNumber && send.emailAdress)}>
                 Avboka
@@ -61,6 +58,7 @@ export default function CancelView() {
         </>
     }
 
+    //Show and hide pop up handler
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
