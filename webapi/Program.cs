@@ -4,15 +4,16 @@ using webapi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
+
 //Add database support
 builder.Services.AddDbContext<FilmvisarnaContext>(options => {
     var connectionString = builder.Configuration.GetConnectionString("WebApiDatabase");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });;
 
-
-
-// Add services to the container.
+// Add WebSocket connection manager for SeatStatusFeed 
+builder.Services.AddWebSocketConnectionManager();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -32,6 +33,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+// SeatStatusFeed middleware
 app.UseWebSockets();
 app.UseSeatStatusFeed();
 
