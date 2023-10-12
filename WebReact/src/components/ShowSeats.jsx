@@ -19,7 +19,7 @@ export default function ShowSeats({seats, theater, seatClicked}) {
                 <Col className="d-flex justify-content-center">
                     <ButtonToolbar className="mb-2" aria-label="Toolbar with Button groups">
                         <ButtonGroup className="me-2" aria-label="First group">
-                            {rows[rowNumber].map((seatElement) => (
+                            {rows[rowNumber].reverse().map((seatElement) => (
                                 <Button onClick={() => seatClicked(seatElement.seatId)}
                                     variant={(seatElement.booked ? "danger" : seatElement.wanted ? "primary" : "secondary") + " me-2"} //Färgerna är test
                                     key={seatElement.seatId}
