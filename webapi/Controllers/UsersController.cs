@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using webapi.Data;
 using webapi.Entities;
 using webapi.Controllers.Utilities;
+using Microsoft.AspNetCore.Identity;
 
 namespace webapi.Controllers
 {
@@ -87,9 +88,15 @@ namespace webapi.Controllers
 
             // Authentication successful
             return Ok();
-
         }
 
+        [HttpPost("logout")]    
+        public IActionResult Logout()
+        {
+        HttpContext.Session.Clear();
+        HttpContext.Session.Set
+        return NoContent();
+        }
 
 
     }
