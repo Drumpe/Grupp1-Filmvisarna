@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace webapi.Controllers.Utilities
 {
-    public class ConfigEmail
+    public class Config
     {
         public string EmailForServerSentEmails { get; set; }
         public string PasswordForServerSentEmails { get; set; }

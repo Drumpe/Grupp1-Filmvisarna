@@ -128,37 +128,11 @@ namespace webapi.Controllers
             //Skicka bara mail om e-postadressen inte innehåller "test"
             if (!model.EmailAdress.Contains("test"))
             {
-                try
-                {
-                    string filePath = "Properties/config.json";
-                    ConfigEmail config;
-                    using (Stream fileStream = System.IO.File.OpenRead(filePath))
-                    {
-                        config = await JsonSerializer.DeserializeAsync<ConfigEmail>(fileStream);
-                    }
-                    EmailConfiguration emailConfig = new EmailConfiguration
-                    {
-                        SmtpServer = "smtp.gmail.com",
-                        SmtpPort = 587,
-                        Email = config.EmailForServerSentEmails,
-                        Password = config.PasswordForServerSentEmails
-                    };
-
-                    EmailService emailService = new EmailService(emailConfig);
-
-                    //TODO: Skapa body och Subject
-                    string to = model.EmailAdress;
-                    string subject = "Bokning av film";
-                    string body = "Email body content.";
-
-                    emailService.SendEmail(to, subject, body);
-
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Email Sending failed.  {e.Message}");
-                    throw;
-                }
+                                //TODO: Skapa body och Subject
+                string to = model.EmailAdress;
+                string subject = "Bokning av film";
+                string body = "Email body content.";
+                EmailService.Mailer(to, subject, body);
             }
 
             return Ok(response);
