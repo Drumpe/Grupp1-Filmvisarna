@@ -93,6 +93,7 @@ namespace webapi.Controllers
                     Theater = v.Theater.Name,
                     TheaterId = v.Theater.Id,
                     Movie = v.Movie.Name,
+                    MovieId = v.MovieId,
                     TotalSeatsInTheater = v.Theater.Seats.Count(),
                     BookedSeats = v.Bookings
                         .SelectMany(b => b.BookingXSeats)
