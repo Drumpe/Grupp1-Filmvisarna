@@ -133,7 +133,7 @@ namespace webapi.Controllers
 
             if (found is null)
             {
-                return BadRequest($"Cannot delete. The booking number: {bookingNumber} does not exist in our system");
+                return BadRequest($"Given booking number and email adress doesnt match to our database");
             }
 
             var bookingId = found.bookingId;
