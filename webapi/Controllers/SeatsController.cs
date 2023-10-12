@@ -49,15 +49,6 @@ namespace webapi.Controllers
             .Select(joined => joined.BookingXSeat.SeatId)
             .Distinct()
             .ToListAsync();
-
-            var all = await _context.screenings
-            .Where(s => s.Id == screeningId)
-            .Select(s => s.Theater.Seats
-            .Select(sts => new 
-            {
-              Status = sts.Id
-            }))
-            .ToListAsync();
             
           var result = await _context.screenings
             .Where(s => s.Id == screeningId)
