@@ -5,12 +5,11 @@ import { redirect } from 'react-router-dom';
 
 export default function CancelView() {
     const [show, setShow] = useState(false);
+    const [showError, setShowError] = useState(false);
     const [send, setSend] = useState({
         bookingNumber: "",
         emailAdress: ""
     })
-
-
 
     //DeleteFetch
     async function SendDelete() {
@@ -20,13 +19,16 @@ export default function CancelView() {
         }
         await fetch(`http://localhost:5052/api/Bookings/RemoveBooking/${body.bookingnr}/${body.email}`, { method: 'DELETE', })
             .then((res) => {
-                if (res.status === 400) {
-                    setShow(false)
-                    return alert("Den angivna boknings nummer eller e-post adress är felaktig")
-                }
-                else if (res.status != 200) {
-                    setShow(false)
-                    return alert("Ops avbokning gick inte igenom!")
+
+                switch (res.status) {
+                    case 400:
+                        setShow(false)
+                        setShowError(true);
+                        alert("400!")
+                        break;
+                    case !200:
+                        setShow(false)
+                        break;
                 }
             }).catch(e => console.log(e))
     };
@@ -52,6 +54,7 @@ export default function CancelView() {
                 className='col-7  p-3' />
             <label>E-post adress</label>
             <input type='text' placeholder='exempel@gmail.com' onChange={handleEmail} className='col-7  p-3' />
+            {showError && <p id='message'></p>}
             <Button variant="primary btn btn-primary col-6" onClick={handleShow} disabled={!(send.bookingNumber && send.emailAdress)}>
                 Avboka
             </Button>
@@ -79,7 +82,7 @@ export default function CancelView() {
                         <Button variant="secondary" onClick={handleClose}>
                             Behåll bokning
                         </Button>
-                        <Button variant="primary" onClick={SendDelete} href='/StartView'>
+                        <Button variant="primary" onClick={SendDelete}>
                             Avboka bokning
                         </Button>
                     </Modal.Footer>
