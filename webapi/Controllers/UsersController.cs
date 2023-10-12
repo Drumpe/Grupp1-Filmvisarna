@@ -89,7 +89,7 @@ namespace webapi.Controllers
             }
 
             // Set session values as a logged in user
-         
+
             HttpContext.Session.SetString("UserRole", user.UserRole);
             HttpContext.Session.SetString("Email", user.EmailAdress);
             HttpContext.Session.SetString("Name", $"{user.FirstName} {user.LastName}");
@@ -98,6 +98,18 @@ namespace webapi.Controllers
             return Ok();
 
         }
+        [HttpDelete("logout")]
+        public IActionResult Logout()
+        {
+
+        // Clear session values and set role to guest
+        HttpContext.Session.Clear();
+        HttpContext.Session.SetString("UserRole", UserRole.guest.ToString());
+
+        return NoContent();
+
+        }
+
 
 
 
