@@ -14,6 +14,17 @@ builder.Services.AddDbContext<FilmvisarnaContext>(options => {
 
 // Add WebSocket connection manager for SeatStatusFeed 
 builder.Services.AddWebSocketConnectionManager();
+// Create session
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options => 
+{
+    options.Cookie.Name = ".FilmvisarnaCookie.Session";
+    options.Cookie.IsEssential = true;
+    options.Cookie.HttpOnly = true; // Protect from Cross-Side-Scripting (XSS)
+    options.IdleTimeout = TimeSpan.FromMinutes(30); 
+});
+
+// Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -33,9 +44,15 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+<<<<<<< HEAD
 // SeatStatusFeed middleware
 app.UseWebSockets();
 app.UseSeatStatusFeed();
+=======
+app.UseSession(); // Use session call
+
+app.UseMiddleware<UserRoleMiddleware>(); // Call to custom middleware
+>>>>>>> origin
 
 app.MapControllers();
 
