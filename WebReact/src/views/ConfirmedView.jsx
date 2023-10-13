@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Container} from 'react-bootstrap';
 import { get } from '../utilsAndHooks/rest';
 import { useParams } from 'react-router-dom';
-import { getLocaleDateString } from '../utilsAndHooks/date-formatter';
+import { getLocaleDateString } from '../utilsAndHooks/formatter';
 
 export default function ConfirmedView() {
         let {bookingId} = useParams()
