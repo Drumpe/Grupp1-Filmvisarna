@@ -21,6 +21,8 @@ function MovieView() {
 		})();
 	}, []);
 
+	if(!movies.length){ return null;}
+
 	const idx = Number.parseInt(movieId) - 1;
 
 	// Description
