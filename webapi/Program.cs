@@ -50,7 +50,7 @@ app.UseWebSockets();
 app.UseSeatStatusFeed();
 
 app.UseSession(); // Use session call
-app.UseMiddleware<UserRoleMiddleware>(); // Call to custom middleware
+app.UseUserRoles(); // Call to custom middleware
 
 app.MapControllers();
 
