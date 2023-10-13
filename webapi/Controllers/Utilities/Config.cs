@@ -7,6 +7,7 @@ namespace webapi.Controllers.Utilities
 {
     public class Config
     {
+        //Använder data från Properties/config.json
         public string EmailForServerSentEmails { get; set; }
         public string PasswordForServerSentEmails { get; set; }
     }
