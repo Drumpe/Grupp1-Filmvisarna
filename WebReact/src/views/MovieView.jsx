@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { Button, ListGroup } from 'react-bootstrap';
 import { useOutletContext, useParams, Link} from 'react-router-dom';
 import { get } from '../utilsAndHooks/rest';
-import { capitalize } from '../utilsAndHooks/date-formatter';
+import { capitalize,  } from '../utilsAndHooks/date-formatter';
 import { getSentenceDelimiter } from '../utilsAndHooks/formatter';
 
 function MovieView() {
@@ -69,7 +69,7 @@ function MovieView() {
 					setSelectedScreening(screening.id);
 				}
 			}}>
-				{`${screening.time} | ${screening.dayAndMonth}, ${capitalize(screening.dayOfWeek)} | ${screening.theaterName}`}
+				{`${screening.timeAndDate} | ${screening.dayAndMonth}, ${capitalize(screening.dayOfWeek)} | ${screening.theaterName}`}
 			</ListGroup.Item>
 			);
 

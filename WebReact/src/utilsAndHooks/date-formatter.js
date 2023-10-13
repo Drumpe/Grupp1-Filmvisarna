@@ -3,7 +3,7 @@ export function capitalize(dateAndTime) {
   return capitalized;
 }
 
-export function jsonDateToString(dateAndTime, options) {
+export function getLocaleDateString(dateAndTime, options) {
   const bookingDateTime = new Date(dateAndTime);
   //Options är en objekt där man lägger till vilka tider som ska visas exempelvis år, månad, osv
   return bookingDateTime.toLocaleDateString(`sv-SE`, options);
