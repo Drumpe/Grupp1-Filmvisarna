@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Container} from 'react-bootstrap';
 import { get } from '../utilsAndHooks/rest';
 import { useParams } from 'react-router-dom';
-import { jsonDateToString } from '../utilsAndHooks/date-formatter';
+import { getLocaleDateString } from '../utilsAndHooks/formatter';
 
 export default function ConfirmedView() {
         let {bookingId} = useParams()
@@ -32,8 +32,8 @@ export default function ConfirmedView() {
 
         useEffect(() => {
                 fetchData();
-                const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };            
-                setFormatedDate(jsonDateToString(data.screeningTime, options, 'sv-SV'));
+                const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+                setFormatedDate(getLocaleDateString(data.screeningTime, options));
         },[data.screeningTime]);
 
 return (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Container, Row, Col, Button, Form} from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, InputGroup } from 'react-bootstrap';
 import { get, post } from '../utilsAndHooks/rest';
 import { Link, useParams } from "react-router-dom";
 import ShowSeats from "../components/ShowSeats";
@@ -18,9 +18,15 @@ const TheaterView = () => {
         retire: 0
     });
     const [movieId, setMovieId] = useState("");
+    const [validated, setValidated] = useState(false);
 
     const sendRequest = async () => {
-        /** Här borde göras kontroller innan vi skickar iväg och kolla att resultatet är ok */
+        if (!validated || summaState == 0) {
+            if (validated) {
+                alert("Minst en biljett måste väljas för att boka.");
+            }
+            return;
+        }
         var booking = createBookingJson();
         var result = await post('bookings/detailed', booking);
         window.location.href = '/ConfirmedView/' + result.bookingId;
@@ -137,12 +143,14 @@ const TheaterView = () => {
 
 
     function handleSubmit(event) {
+        const form = event.currentTarget;
         event.preventDefault();
-        // Access and use formData state for form submission
-        console.log(formData);
-        // You can send the data to an API or perform other actions here
+        if (form.checkValidity() === false) {
+            event.stopPropagation();
+        }
+        setValidated(true);
     };
-    
+
     function handleInputChange(event) {
         const { name, value } = event.target;
         setFormData({
@@ -185,15 +193,15 @@ const TheaterView = () => {
     return !seats ? null : (
         <Container className="mt-5">
             <Row>
-                <Col className='d-flex justify-content-evenly'>
-					<Link className="nav-back text-info" to={`/MovieView/${movieId}`}>Tillbaka</Link>
+                <Col className='d-flex justify-content-start'>
+                    <Link className="nav-back text-info" to={`/MovieView/${movieId}`}>Tillbaka</Link>
                     <div></div>
                     <div></div>
                     <div></div>
-				</Col>
+                </Col>
             </Row>
 
-            <ShowSeats {...{seats, theater, seatClicked}}/>
+            <ShowSeats {...{ seats, theater, seatClicked }} />
 
             <Row>
                 <Col className="col-3 offset-4 mt-2">
@@ -233,29 +241,35 @@ const TheaterView = () => {
             </Row>
             <Row>
                 <Col className="d-flex justify-content-center mt-3">
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <span style={{ fontSize: '22px' }}>Summa: {summaState} kr</span>
+                </Col>
+            </Row>
+
+            <Form validated={validated} onSubmit={handleSubmit}>
+                <Row className="mb-3">
+                    <Col className="d-flex justify-content-center mt-3">
+                        <Form.Group>
                             <Form.Label>E-postadress</Form.Label>
-                            <Form.Control type="email" name="email" value={formData.email} placeholder="namn@exempel.com" onChange={handleInputChange} />
+                            <InputGroup>
+                                <Form.Control
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
+                                    placeholder="namn@exempel.com"
+                                    onChange={handleInputChange} />
+                                <Form.Control.Feedback type="invalid">
+                                    Ange din e-postadress.
+                                </Form.Control.Feedback>
+                            </InputGroup>
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                            <Form.Text id="passwordHelpBlock" muted>
-                                För att kunna boka måste du ange en giltig e-postadress.
-                            </Form.Text>
-                        </Form.Group>
-                    </Form>
-                </Col>
-            </Row>
-            <Row>
-                <Col className="d-flex justify-content-center mt-3">
-                    <span style={{ fontSize: '22px' }}>Summa: {summaState}</span>
-                </Col>
-            </Row>
-            <Row>
-                <Col className="d-flex justify-content-center mt-3">
-                    <Button variant="secondary" onClick={sendRequest}>Bekräfta bokning</Button>{' '}
-                </Col>
-            </Row>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className="d-flex justify-content-center mt-3">
+                        <Button variant="secondary" type="submit" onClick={sendRequest}>Bekräfta bokning</Button>
+                    </Col>
+                </Row>
+            </Form>
         </Container>
     );
 };
