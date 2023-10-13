@@ -4,30 +4,35 @@ import { get, post } from '../utilsAndHooks/rest';
 import { Link, useParams } from "react-router-dom";
 import ShowSeats from "../components/ShowSeats";
 
-
+const BARN_PRIS = 80;
+const PENSIONARS_PRIS = 120;
+const VUXEN_PRIS = 140;
 
 const TheaterView = () => {
     const { screeningId } = useParams();
-    const [summaState, setSummaState] = useState(0);
+    //const [summaState, setSummaState] = useState(0);
     const [formData, setFormData] = useState({ email: '' });
     const [theater, setTheater] = useState({ id: 0, name: "" });
     let [seats, setSeats] = useState(null);
     const [tickets, setTickets] = useState({
-        ordinare: 0,
+        ordinary: 0,
         child: 0,
-        retire: 0
+        pensioner: 0
     });
     const [movieId, setMovieId] = useState("");
     const [validated, setValidated] = useState(false);
+    const [buttonsDisabled, setButtonsDisabled] = useState(false);
+    const summa = (tickets.child * BARN_PRIS) + (tickets.pensioner * PENSIONARS_PRIS) + (tickets.ordinary * VUXEN_PRIS);
 
     const sendRequest = async () => {
-        if (!validated || summaState == 0) {
+        if (!validated || summa == 0) {
             if (validated) {
                 alert("Minst en biljett måste väljas för att boka.");
             }
             return;
         }
         var booking = createBookingJson();
+        setButtonsDisabled(true);
         var result = await post('bookings/detailed', booking);
         window.location.href = '/ConfirmedView/' + result.bookingId;
     };
@@ -69,15 +74,15 @@ const TheaterView = () => {
             const updatedTickets = { ...prevTickets }; // Create a shallow copy
             switch (category) {
                 case 'barn':
-                    if (updatedTickets.ordinare > 0) {
-                        updatedTickets.ordinare -= 1;
+                    if (updatedTickets.ordinary > 0) {
+                        updatedTickets.ordinary -= 1;
                         updatedTickets.child += 1;
                     }
                     break;
                 case 'pensionar':
-                    if (updatedTickets.ordinare > 0) {
-                        updatedTickets.ordinare -= 1;
-                        updatedTickets.retire += 1;
+                    if (updatedTickets.ordinary > 0) {
+                        updatedTickets.ordinary -= 1;
+                        updatedTickets.pensioner += 1;
                     }
                     break;
                 default:
@@ -93,14 +98,14 @@ const TheaterView = () => {
             switch (category) {
                 case 'barn':
                     if (updatedTickets.child > 0) {
-                        updatedTickets.ordinare += 1;
+                        updatedTickets.ordinary += 1;
                         updatedTickets.child -= 1;
                     }
                     break;
                 case 'pensionar':
-                    if (updatedTickets.retire > 0) {
-                        updatedTickets.ordinare += 1;
-                        updatedTickets.retire -= 1;
+                    if (updatedTickets.pensioner > 0) {
+                        updatedTickets.ordinary += 1;
+                        updatedTickets.pensioner -= 1;
                     }
                     break;
                 default:
@@ -119,9 +124,9 @@ const TheaterView = () => {
         updatedSeats[index].wanted = !updatedSeats[index].wanted; //Toggle wanted
         //Uppdatera tickets
         if (updatedSeats[index].wanted) {
-            updatedTickets.ordinare += 1;
-        } else if (updatedTickets.ordinare > 0) {
-            updatedTickets.ordinare -= 1;
+            updatedTickets.ordinary += 1;
+        } else if (updatedTickets.ordinary > 0) {
+            updatedTickets.ordinary -= 1;
         } else {
             //Toggla tillbaks wanted
             updatedSeats[index].wanted = !updatedSeats[index].wanted; //Toggle wanted
@@ -130,6 +135,7 @@ const TheaterView = () => {
         setTickets(updatedTickets);
     };
 
+    /* Changing to a const...
     //Räkna om summan om tickets ändras
     useEffect(() => {
         function raknaSumma() {
@@ -140,7 +146,7 @@ const TheaterView = () => {
         }
         raknaSumma();
     }, [tickets, seats]); //seats för test
-
+    */
 
     function handleSubmit(event) {
         const form = event.currentTarget;
@@ -161,13 +167,13 @@ const TheaterView = () => {
 
     function makePriceCategoriesArray() {
         var result = [];
-        for (let index = 0; index < tickets.retire; index++) {
+        for (let index = 0; index < tickets.pensioner; index++) {
             result.push(3);
         }
         for (let index = 0; index < tickets.child; index++) {
             result.push(2);
         }
-        for (let index = 0; index < tickets.ordinare; index++) {
+        for (let index = 0; index < tickets.ordinary; index++) {
             result.push(1);
         }
         return result;
@@ -208,7 +214,7 @@ const TheaterView = () => {
                     <span style={{ fontSize: '22px' }}>Vuxen</span>
                 </Col>
                 <Col className="col-1 mt-2">
-                    <div className="text-center">&nbsp;&nbsp;&nbsp;{tickets.ordinare}</div>
+                    <div className="text-center">&nbsp;&nbsp;&nbsp;{tickets.ordinary}</div>
                 </Col>
             </Row>
             <Row>
@@ -216,11 +222,11 @@ const TheaterView = () => {
                     <span style={{ fontSize: '22px' }}>Barn</span>
                 </Col>
                 <Col className="col mt-2">
-                    <Button onClick={() => decreaseCount('barn')} variant="danger me-2">
+                    <Button onClick={() => decreaseCount('barn')} variant="danger me-2" disabled={buttonsDisabled}>
                         --
                     </Button>
                     {tickets.child}&nbsp;
-                    <Button onClick={() => increaseCount('barn')} variant="primary">
+                    <Button onClick={() => increaseCount('barn')} variant="primary" disabled={buttonsDisabled}>
                         +
                     </Button>
                 </Col>
@@ -230,18 +236,18 @@ const TheaterView = () => {
                     <span style={{ fontSize: '22px' }}>Pensionär</span>
                 </Col>
                 <Col className="col mt-3">
-                    <Button onClick={() => decreaseCount('pensionar')} variant="danger me-2">
+                    <Button onClick={() => decreaseCount('pensionar')} variant="danger me-2" disabled={buttonsDisabled}>
                         –
                     </Button>
-                    {tickets.retire}&nbsp;
-                    <Button onClick={() => increaseCount('pensionar')} variant="primary">
+                    {tickets.pensioner}&nbsp;
+                    <Button onClick={() => increaseCount('pensionar')} variant="primary" disabled={buttonsDisabled}>
                         +
                     </Button>
                 </Col>
             </Row>
             <Row>
                 <Col className="d-flex justify-content-center mt-3">
-                    <span style={{ fontSize: '22px' }}>Summa: {summaState} kr</span>
+                    <span style={{ fontSize: '22px' }}>Summa: {summa} kr</span>
                 </Col>
             </Row>
 
@@ -254,6 +260,7 @@ const TheaterView = () => {
                                 <Form.Control
                                     type="email"
                                     name="email"
+                                    required
                                     value={formData.email}
                                     placeholder="namn@exempel.com"
                                     onChange={handleInputChange} />
@@ -266,7 +273,12 @@ const TheaterView = () => {
                 </Row>
                 <Row>
                     <Col className="d-flex justify-content-center mt-3">
-                        <Button variant="secondary" type="submit" onClick={sendRequest}>Bekräfta bokning</Button>
+                        <Button variant="secondary"
+                            disabled={buttonsDisabled}
+                            type="submit"
+                            onClick={sendRequest}
+                        >Bekräfta bokning
+                        </Button>
                     </Col>
                 </Row>
             </Form>
