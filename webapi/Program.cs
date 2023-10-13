@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using webapi.Data;
+using webapi.Middleware;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
@@ -21,7 +22,15 @@ builder.Services.AddDbContext<FilmvisarnaContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 }); ;
 
-
+// Create session
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options => 
+{
+    options.Cookie.Name = ".FilmvisarnaCookie.Session";
+    options.Cookie.IsEssential = true;
+    options.Cookie.HttpOnly = true; // Protect from Cross-Side-Scripting (XSS)
+    options.IdleTimeout = TimeSpan.FromMinutes(30); 
+});
 
 // Add services to the container.
 
@@ -44,6 +53,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseSession(); // Use session call
+
+app.UseMiddleware<UserRoleMiddleware>(); // Call to custom middleware
 
 app.MapControllers();
 
