@@ -1,8 +1,5 @@
-using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using webapi.Data;
 using webapi.Entities;
 
