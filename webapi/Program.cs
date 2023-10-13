@@ -14,6 +14,7 @@ builder.Services.AddDbContext<FilmvisarnaContext>(options => {
 
 // Add WebSocket connection manager for SeatStatusFeed 
 builder.Services.AddWebSocketConnectionManager();
+
 // Create session
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options => 
@@ -44,15 +45,12 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-<<<<<<< HEAD
 // SeatStatusFeed middleware
 app.UseWebSockets();
 app.UseSeatStatusFeed();
-=======
-app.UseSession(); // Use session call
 
+app.UseSession(); // Use session call
 app.UseMiddleware<UserRoleMiddleware>(); // Call to custom middleware
->>>>>>> origin
 
 app.MapControllers();
 
