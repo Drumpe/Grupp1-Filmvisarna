@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using webapi.Data;
+using webapi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseSession(); // Use session call
+
+app.UseMiddleware<UserRoleMiddleware>(); // Call to custom middleware
 
 app.MapControllers();
 
