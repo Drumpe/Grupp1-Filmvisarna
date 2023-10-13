@@ -65,6 +65,40 @@ namespace webapi.Controllers
 
         }
 
+        [HttpGet("confirm/{bookingNumber}/{emailAdress}")]
+
+        public async Task<IActionResult> ConfirmExistance(string bookingNumber, string emailAdress)
+        {
+            var found = await _context.usersAndBookings.FirstOrDefaultAsync(
+               x => x.bookingNumber == bookingNumber && x.EmailAdress == emailAdress);
+
+            var result = await _context.bookings
+                 .Where(b => b.Id == found.bookingId)
+                 .Select(b => new
+                 {
+                     BookingNumber = b.BookingNumber,
+                     BookingTime = b.BookingDateTime,
+                     FirstName = b.User.FirstName,
+                     LastName = b.User.LastName,
+                     Email = b.User.EmailAdress,
+                     Movie = b.Screening.Movie.Name,
+                     Theater = b.Screening.Theater.Name,
+                     ScreeningTime = b.Screening.DateAndTime,
+
+                     Tickets = b.BookingXSeats.Select(bxs => new
+                     {
+                         Row = bxs.Seat.Row,
+                         Seat = bxs.Seat.seat,
+                         Type = bxs.PriceCategory.Name,
+                         Price = bxs.PriceCategory.Price,
+                         SeatId = bxs.Seat.Id
+                     })
+                 })
+                 .FirstOrDefaultAsync();
+
+            return Ok(result);
+        }
+
         [HttpPost("detailed")]
         public async Task<IActionResult> PostBookingModel(MakeBookingModel model)
         {
