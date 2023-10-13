@@ -128,11 +128,12 @@ namespace webapi.Controllers
             //Skicka bara mail om e-postadressen inte innehåller "test"
             if (!model.EmailAdress.Contains("test"))
             {
-                //TODO: Skapa body och Subject
+                //TODO: Skapa htmlBody, plainTextBody och Subject
                 string to = model.EmailAdress;
                 string subject = "Bokning av film";
-                string body = "Email body content.";
-                EmailService.SendEmailAsync(to, subject, body);
+                string htmlBody = "<p>Email html body content.</p>";
+                string plainTextBody = "Plain text body"
+                EmailService.SendEmailAsync(to, subject, htmlBody, plainTextBody);
             }
 
             return Ok(response);

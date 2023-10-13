@@ -23,7 +23,7 @@ namespace webapi.Controllers.Utilities
             _emailConfig = emailConfig;
         }
 
-        public async Task SendEmailAsync(string to, string subject, string body)
+        public async Task SendEmailAsync(string to, string subject, string htmlBody, string plainTextBody)
         {
             try
             {
@@ -52,8 +52,14 @@ namespace webapi.Controllers.Utilities
 
                     mailMessage.From = new MailAddress(emailConfig.Email);
                     mailMessage.Subject = subject;
-                    mailMessage.Body = body;
+
+                    // Html body
+                    mailMessage.Body = htmlBody;
                     mailMessage.IsBodyHtml = true;
+
+                    // Vanlig text 
+                    mailMessage.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(plainTextBody, null, "text/plain"));
+
                     mailMessage.To.Add(to);
 
                     client.Send(mailMessage);
@@ -65,5 +71,6 @@ namespace webapi.Controllers.Utilities
                 throw;
             }
         }
+
     }
 }
