@@ -1,14 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Text.Json;
 
 namespace webapi.Controllers.Utilities
 {
-
     public class EmailConfiguration
     {
         public string SmtpServer { get; set; }
@@ -25,16 +22,19 @@ namespace webapi.Controllers.Utilities
         {
             _emailConfig = emailConfig;
         }
-        public async static void MailBooking(string to, string subject, string body)
+
+        public async Task SendEmailAsync(string to, string subject, string body)
         {
             try
             {
-                string filePath = "Properties/config.json";
                 Config config;
-                using (Stream fileStream = System.IO.File.OpenRead(filePath))
+                string filePath = "Properties/config.json";
+
+                using (Stream fileStream = File.OpenRead(filePath))
                 {
                     config = await JsonSerializer.DeserializeAsync<Config>(fileStream);
                 }
+
                 EmailConfiguration emailConfig = new EmailConfiguration
                 {
                     SmtpServer = "smtp.gmail.com",
@@ -43,38 +43,27 @@ namespace webapi.Controllers.Utilities
                     Password = config.PasswordForServerSentEmails
                 };
 
-                EmailService emailService = new EmailService(emailConfig);
+                using (var client = new SmtpClient(emailConfig.SmtpServer, emailConfig.SmtpPort))
+                using (var mailMessage = new MailMessage())
+                {
+                    client.UseDefaultCredentials = false;
+                    client.Credentials = new NetworkCredential(emailConfig.Email, emailConfig.Password);
+                    client.EnableSsl = true;
 
-                emailService.SendEmail(to, subject, body);
+                    mailMessage.From = new MailAddress(emailConfig.Email);
+                    mailMessage.Subject = subject;
+                    mailMessage.Body = body;
+                    mailMessage.IsBodyHtml = true;
+                    mailMessage.To.Add(to);
 
+                    client.Send(mailMessage);
+                }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Email Sending failed.  {e.Message}");
+                Console.WriteLine($"Email Sending failed. {e.Message}");
                 throw;
             }
         }
-        public void SendEmail(string to, string subject, string body)
-        {
-            using (var client = new SmtpClient(_emailConfig.SmtpServer, _emailConfig.SmtpPort))
-            {
-                client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential(_emailConfig.Email, _emailConfig.Password);
-                client.EnableSsl = true;
-
-                var mailMessage = new MailMessage
-                {
-                    From = new MailAddress(_emailConfig.Email),
-                    Subject = subject,
-                    Body = body,
-                    IsBodyHtml = true
-                };
-
-                mailMessage.To.Add(to);
-
-                client.Send(mailMessage);
-            }
-        }
     }
-
 }

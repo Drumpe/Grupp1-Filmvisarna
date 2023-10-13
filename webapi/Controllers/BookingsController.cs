@@ -132,7 +132,7 @@ namespace webapi.Controllers
                 string to = model.EmailAdress;
                 string subject = "Bokning av film";
                 string body = "Email body content.";
-                EmailService.MailBooking(to, subject, body);
+                EmailService.SendEmailAsync(to, subject, body);
             }
 
             return Ok(response);
