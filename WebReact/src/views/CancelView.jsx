@@ -1,11 +1,9 @@
 import { useState } from 'react'
 import { Container, Button, Modal, Alert } from 'react-bootstrap';
-import { redirect } from 'react-router-dom';
 
 export default function CancelView() {
     const [show, setShow] = useState(false);
     const [showError, setShowError] = useState("");
-    const [serverResponse, setServerResponse] = useState(true);
     const [send, setSend] = useState({
         bookingNumber: "",
         emailAdress: ""
@@ -25,7 +23,6 @@ export default function CancelView() {
                         break;
                     case 200:
                         setShow(false)
-                        document.getElementById("reset1", "reset2").input.value = "";
                         setShowError(true);
                 }
             }).catch(e => console.log(e))
@@ -58,7 +55,6 @@ export default function CancelView() {
     //Show and hide pop up handler
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const EmptyForm = () => setSend({ bookingNumber: "", emailAdress: "" });
 
     return (
         <Container>
