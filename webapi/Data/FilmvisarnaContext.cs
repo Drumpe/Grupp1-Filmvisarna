@@ -19,6 +19,8 @@ namespace webapi.Data
         public DbSet<User> users { get; set; }
         public DbSet<UsersAndBookings> usersAndBookings { get; set; }
 
+        
+
         public FilmvisarnaContext(DbContextOptions options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
