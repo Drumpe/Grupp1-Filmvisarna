@@ -8,6 +8,8 @@ import Button from 'react-bootstrap/Button';
 import { isPasswordValid } from "../utilsAndHooks/Validate";
 import { isValidEmail } from "../utilsAndHooks/Validate";
 import { post } from "../utilsAndHooks/rest";
+import '../sass/RegisterViewStyling.scss';
+
 
 export default function RegisterView() {
     const [emailValid, setEmailValid] = useState(true);
@@ -21,22 +23,21 @@ export default function RegisterView() {
     const [passwordValid, setPasswordValid] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [passwordTouched, setPasswordTouched] = useState(false);
-    const isSubmitDisabled = !emailValid || !formData.firstName.trim() || !formData.lastName.trim();
     // kollar om lösenordet är valid samt om pasword är rört i real tid.
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-    
+
         if (name === "email") {
             setEmailValid(isValidEmail(value));
         }
-    
+
         setFormData({ ...formData, [name]: value });
         if (name === "password") {
             validatePassword();
             setPasswordTouched(true);
         }
     };
-    
+
 
     // kollar och validerar lösenordet refferar till paswsworValidate.js
     const validatePassword = () => {
@@ -50,7 +51,7 @@ export default function RegisterView() {
 
         // Email format validation
         if (!isValidEmail(formData.email)) {
-            alert("Please enter a valid email address.");
+            alert("Vänligen ange en giltig e-postadress.");
             return;
         }
 
@@ -65,10 +66,10 @@ export default function RegisterView() {
 
             if (result && result.error) {
                 // Handle specific error response from API
-                alert('Registration failed: ' + result.error);
+                alert('Registreringen misslyckades: ' + result.error);
             } else {
                 // Handle successful registration
-                alert('Registration successful!');
+                alert('Registrering lyckad!');
                 setFormData({
                     firstName: '',
                     lastName: '',
@@ -79,7 +80,7 @@ export default function RegisterView() {
             }
         } catch (error) {
             // Handle unexpected errors from API call)
-            alert('An unexpected error occurred: ' + error);
+            alert('Ett oväntat fel uppstod: ' + error);
         }
 
     };
@@ -98,7 +99,7 @@ export default function RegisterView() {
             <Form className="mx-auto" onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formGroupFirstName">
                     <Form.Label>Förnamn</Form.Label>
-                    <Form.Control type="text" name="firstName" required="true" placeholder="Förnamn" onChange={handleInputChange} />
+                    <Form.Control type="text" name="firstName" required="true" style={{ display: 'block' }} placeholder="Förnamn" onChange={handleInputChange} />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formGroupLastName">
                     <Form.Label>Efternamn</Form.Label>
@@ -106,7 +107,7 @@ export default function RegisterView() {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formGroupEmail">
                     <Form.Label>Epostadress</Form.Label>
-                    <Form.Control type="email" required="true" name="email" placeholder="dinemail@mail.se" onChange={handleInputChange} />
+                    <Form.Control type="email" name="email" placeholder="dinemail@mail.se" onChange={handleInputChange} />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formGroupPassword">
                     <Form.Label>Lösenord</Form.Label>
@@ -130,7 +131,11 @@ export default function RegisterView() {
                     </div>
                     {!passwordValid && passwordTouched && (
                         <Form.Control.Feedback type="invalid" style={{ display: 'block' }}>
-                            Lösenordet måste vara 8 tecken långt, innehålla minst ett specialtecken och minst ett nummer.
+                            Minst 8 tecken långt.
+                            Minst en liten bokstav.
+                            Minst en stor bokstav. 
+                            Minst ett specialtecken (t.ex. !, @, #, osv.).
+                            Minst ett nummer.
                         </Form.Control.Feedback>
                     )}
                 </Form.Group>

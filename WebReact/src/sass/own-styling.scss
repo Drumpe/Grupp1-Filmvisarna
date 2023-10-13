@@ -100,13 +100,3 @@ main {
 /* End Sticky footer */
 
 
-input[type="email"]:valid {
-    border: 2px solid green;
-   
-}
-
-// Styles for an invalid email input
-input[type="email"]:invalid {
-    border: 2px solid red;
-   
-}
