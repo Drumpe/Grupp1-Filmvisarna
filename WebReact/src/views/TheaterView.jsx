@@ -197,7 +197,7 @@ const TheaterView = () => {
     };
 
     return !seats ? null : (
-        <Container className="mt-5">
+        <Container className="mt-1">
             <Row>
                 <Col className='d-flex justify-content-start'>
                     <Link className="nav-back text-info" to={`/MovieView/${movieId}`}>Tillbaka</Link>

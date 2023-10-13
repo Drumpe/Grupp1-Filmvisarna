@@ -28,7 +28,7 @@ export default function App() {
   <header>
     <MainMenu />
   </header>
-  <main className="container mt-5">
+  <main className="container mt-1">
     <Outlet context={globals} />
   </main>
   <footer className="container-fluid">
