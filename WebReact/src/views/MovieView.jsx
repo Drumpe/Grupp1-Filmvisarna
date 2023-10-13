@@ -3,8 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { Button, ListGroup } from 'react-bootstrap';
 import { useOutletContext, useParams, Link} from 'react-router-dom';
 import { get } from '../utilsAndHooks/rest';
-import { capitalize,  } from '../utilsAndHooks/date-formatter';
-import { getSentenceDelimiter } from '../utilsAndHooks/formatter';
+import { capitalize, getSentenceDelimiter, getLocaleDateString  } from '../utilsAndHooks/formatter';
 
 function MovieView() {
 	const { movies } = useOutletContext();
@@ -69,7 +68,7 @@ function MovieView() {
 					setSelectedScreening(screening.id);
 				}
 			}}>
-				{`${screening.timeAndDate} | ${screening.dayAndMonth}, ${capitalize(screening.dayOfWeek)} | ${screening.theaterName}`}
+				{`${getLocaleDateString(screening.timeAndDate, { hour: `numeric` })} | ${getLocaleDateString(screening.timeAndDate, { day: `numeric` })}, ${capitalize(getLocaleDateString(screening.timeAndDate, { weekday: `short`}))} | ${screening.theaterName}`}
 			</ListGroup.Item>
 			);
 
