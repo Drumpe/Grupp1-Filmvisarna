@@ -23,7 +23,7 @@ namespace webapi.Controllers.Utilities
             _emailConfig = emailConfig;
         }
 
-        public async Task SendEmailAsync(string to, string subject, string htmlBody, string plainTextBody)
+        public static async Task SendEmailAsync(string to, string subject, string htmlBody, string plainTextBody)
         {
             try
             {
