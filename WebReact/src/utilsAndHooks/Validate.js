@@ -14,3 +14,7 @@ export function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
+export function isNameValid(name) {
+  const nameRegex = /^[a-zA-ZåäöÅÄÖ]+$/;  // Regex för att säkerställa endast bokstäver inklusive svenska specialtecken
+  return nameRegex.test(name);
+}
