@@ -1,5 +1,5 @@
 import React from "react"
-import { Row, Col, ButtonToolbar, ButtonGroup, Button } from 'react-bootstrap';
+import { Row, Col, ButtonToolbar, ButtonGroup, Button, Image } from 'react-bootstrap';
 
 export default function ShowSeats({ seats, theater, seatClicked }) {
 
@@ -19,12 +19,10 @@ export default function ShowSeats({ seats, theater, seatClicked }) {
 
                     {rows[rowNumber].reverse().map((seatElement) => (
 
-                        <img
-                            onClick={() => seatClicked(seatElement.seatId)}
-                            src={(seatElement.booked ? "/img/ui/seat-red.svg" : seatElement.wanted ? "/img/ui/seat-blue.svg" : "/img/ui/seat-green.svg")} //Första försöket färg
+                        <Image className="chairImage"
+                            onClick={seatElement.booked ? null : () => seatClicked(seatElement.seatId)}
+                            src={(seatElement.booked ? "/img/ui/chair-red.svg" : seatElement.wanted ? "/img/ui/chair-blue.svg" : "/img/ui/chair-green.svg")} //Första försöket färg
                             key={seatElement.seatId}
-                            disabled={(seatElement.booked)}
-                            width="75" 
                             />
                     ))}
 
