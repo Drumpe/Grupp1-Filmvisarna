@@ -61,7 +61,16 @@ namespace webapi.Controllers
         public async Task<IActionResult> RegisterUser(User newUser)
         {
             if (await _context.users.FirstOrDefaultAsync(u => u.EmailAdress == newUser.EmailAdress) is not null)
+            {
+                // Om e-postadressen redan finns i DB
+                // OBS! ----> Nedanstående fungerade inte som tänkt, skapade new user. Måste hämta användaren först. <---- OBS! 
+                // newUser.Password = PasswordEncryptor.HashPassword(newUser.Password);
+                // newUser.UserRole = UserRole.member.ToString();
+                // _context.users.Update(newUser);
+                // await _context.SaveChangesAsync();
+                // return CreatedAtAction(nameof(GetById), new { id = newUser.Id }, newUser);
                 return BadRequest($"A user with the email address {newUser.EmailAdress} already exists in our system.");
+            }
 
             newUser.Password = PasswordEncryptor.HashPassword(newUser.Password);
             newUser.UserRole = UserRole.member.ToString();
