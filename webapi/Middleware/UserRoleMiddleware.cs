@@ -19,7 +19,7 @@ namespace webapi.Middleware
             if (context.Session.GetString("UserRole") is null)
             {
                 // Set the user's role in the session to "guest."
-                context.Session.SetString("UserRole", UserRole.guest.ToString());
+                context.Session.SetString("UserRole", Role.guest.ToString());
             }
 
             // Pass the request to the next middleware in the pipeline.

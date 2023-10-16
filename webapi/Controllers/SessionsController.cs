@@ -20,7 +20,7 @@ namespace webapi.Entities
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserRole")))
             {
                 // Set the user role to "Guest"
-                HttpContext.Session.SetString("UserRole", UserRole.guest.ToString());
+                HttpContext.Session.SetString("UserRole", Role.guest.ToString());
             }
             return Ok();
         }

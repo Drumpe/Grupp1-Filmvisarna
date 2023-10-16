@@ -64,7 +64,7 @@ namespace webapi.Controllers
                 return BadRequest($"A user with the email address {newUser.EmailAdress} already exists in our system.");
 
             newUser.Password = PasswordEncryptor.HashPassword(newUser.Password);
-            newUser.UserRole = UserRole.member.ToString();
+            newUser.UserRole = Role.member.ToString();
             _context.users.Add(newUser);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetById), new { id = newUser.Id }, newUser);
@@ -99,7 +99,7 @@ namespace webapi.Controllers
         {
             // Clear session values and set role to guest
             HttpContext.Session.Clear();
-            HttpContext.Session.SetString("UserRole", UserRole.guest.ToString());
+            HttpContext.Session.SetString("UserRole", Role.guest.ToString());
 
             return NoContent();
         }
