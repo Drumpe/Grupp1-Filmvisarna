@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Controllers;
@@ -20,7 +21,7 @@ namespace webapi.Entities
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserRole")))
             {
                 // Set the user role to "Guest"
-                HttpContext.Session.SetString("UserRole", Role.guest.ToString());
+                HttpContext.Session.SetString("UserRole", UserRole.guest.ToString());
             }
             return Ok();
         }
@@ -33,7 +34,13 @@ namespace webapi.Entities
             var email = HttpContext.Session.GetString("Email");
             var name = HttpContext.Session.GetString("Name");
 
-            return Ok(userRole);
+            var response = new {
+                userRole,
+                email,
+                name
+            };
+          
+            return Ok(response);
         }
     }
 

@@ -1,6 +1,6 @@
 namespace webapi.Controllers.Utilities
 {
-    public enum Role
+    public enum UserRole
     {
         guest,
         member,
