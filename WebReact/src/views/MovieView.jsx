@@ -3,13 +3,17 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { Button, ListGroup } from 'react-bootstrap';
 import { useOutletContext, useParams, Link} from 'react-router-dom';
 import { get } from '../utilsAndHooks/rest';
-import { capitalize } from '../utilsAndHooks/date-formatter';
+import { capitalize, getSentenceDelimiter, getLocaleDateString, getLocaleTimeString } from '../utilsAndHooks/formatter';
 
 function MovieView() {
 	const { movies } = useOutletContext();
 	let { movieId } = useParams();
 	let [screenings, setScreenings] = useState({ screenings: [] });
+	let [ movie, setMovie ] = useState(null);
 	let [selectedScreening, setSelectedScreening] = useState('');
+
+	// type casting
+	movieId = +movieId;
 
 	useEffect(() => {
 		(async () => {
@@ -20,12 +24,18 @@ function MovieView() {
 		})();
 	}, []);
 
-	const idx = Number.parseInt(movieId) - 1;
+	useEffect(()=> {
+		let movie = movies.find(movie => movie.id === movieId);
+		setMovie(movie);
+	}, [])
+	console.log({movie});
+
+	if(!movies.length || !movie){ return null;}
 
 	// Description
-	const innerDescription = {__html:movies[idx].description};
+	const innerDescription = {__html:movie.description};
 	const Description = () => {
-		return <div dangerouslySetInnerHTML={innerDescription} />
+		return <div className="mw-reading-len" dangerouslySetInnerHTML={innerDescription} />
 	}
 
 
@@ -66,7 +76,7 @@ function MovieView() {
 					setSelectedScreening(screening.id);
 				}
 			}}>
-				{`${screening.time} | ${screening.dayAndMonth}, ${capitalize(screening.dayOfWeek)} | ${screening.theaterName}`}
+				{`${getLocaleTimeString(screening.dateAndTime, { hour: `2-digit`, minute: `2-digit` })} | ${getLocaleDateString(screening.dateAndTime, { day: `numeric`, month: `long` })}, ${capitalize(getLocaleDateString(screening.dateAndTime, { weekday: `short`}))} | ${screening.theaterName}`}
 			</ListGroup.Item>
 			);
 
@@ -75,10 +85,11 @@ function MovieView() {
 
 	/// MovieCast
 	const MovieCast = () => {
-		let actors = movies[idx].actors.map((actor) => 
-			<p className="d-inline">{actor}, </p>
-		);
+		
 
+		let actors = movie.actors.map((actor, i) => 
+			<p className="d-inline" key={i}>{actor}{getSentenceDelimiter(movie.actors, i)}</p> 
+		);
 			return actors;
 	}
 
@@ -92,27 +103,27 @@ function MovieView() {
 				<Col className='d-flex justify-content-center mt-3'>
 					<div className="w-100 ratio ratio-16x9 mw-mh-lg">
 							<iframe width="100%" height="100%"
-								src={`https://www.youtube.com/embed/${movies[idx].trailerURL}?autoplay=0&mute=1`}>
+								src={`https://www.youtube.com/embed/${movie.trailerURL}?autoplay=0&mute=1`}>
 							</iframe>
 						</div>
 				</Col>
 			</Row>
 			<Row>
 				<Col className='d-flex justify-content-start mt-3'>
-					<h1 className="p-2">{movies[idx].movie}</h1>
+					<h1 className="p-2">{movie.movie}</h1>
 				</Col>
 			</Row>
 			<Row className="mb-3">
 				<Col className="movie-information-container mt-4">
 					<div className="w-100 p-2">
-						<p className="mw-reading-len">
+						
 							<Description />
-						</p>
+						
 					</div>
 					<div className="w-100 p-2">
 						<span className="d-block movie-details mb-1"><h6 className="d-inline">Skådespelare: </h6> <MovieCast /></span>
-						<span className="d-block movie-details mb-1"><h6 className="d-inline">Genre: </h6> <p className="d-inline">{movies[idx].genre}</p></span>
-						<span className="d-block movie-details mb-1"><h6 className="d-inline">Regissör: </h6> <p className="d-inline">{movies[idx].director}</p></span>
+						<span className="d-block movie-details mb-1"><h6 className="d-inline">Genre: </h6> <p className="d-inline">{movie.genre}</p></span>
+						<span className="d-block movie-details mb-1"><h6 className="d-inline">Regissör: </h6> <p className="d-inline">{movie.director}</p></span>
 					</div>
 				</Col>
 			</Row>

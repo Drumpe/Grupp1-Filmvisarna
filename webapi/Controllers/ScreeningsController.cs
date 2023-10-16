@@ -1,9 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using webapi.Data;
-using System.Globalization;
 using webapi.Entities;
 
 namespace webapi.Controllers
@@ -15,15 +12,6 @@ namespace webapi.Controllers
         public ScreeningsController(FilmvisarnaContext context) : base(context)
         {
         }
-        private static CultureInfo sv = new("sv-SE");
-
-        private static string GetDateTime(DateTime dateTime) => dateTime.ToLocalTime().ToString("f", sv);
-        private static string GetAbbrevDayOfWeek(DateTime dateTime) => dateTime.ToLocalTime().ToString("f", sv).Substring(0, 3);
-        private static string GetDayAndMonth(DateTime dateTime) => dateTime.ToLocalTime().ToString("m", sv);
-        private static string GetTime(DateTime dateTime) => dateTime.ToLocalTime().ToString("t", sv);
-
-
-
         //Get every screening available for one specific movie
         // 
         //          Theater Join is not optimized !!
@@ -38,9 +26,7 @@ namespace webapi.Controllers
                     Screenings = m.Screenings.Select(s => new
                     {
                         Id = s.Id,
-                        DayOfWeek = GetAbbrevDayOfWeek(s.DateAndTime),
-                        DayAndMonth = GetDayAndMonth(s.DateAndTime),
-                        Time = GetTime(s.DateAndTime),
+                        DateAndTime = s.DateAndTime,
                         TheaterId = s.Theater.Id,
                         TheaterName = s.Theater.Name
                     })
@@ -69,7 +55,7 @@ namespace webapi.Controllers
                     Screenings = m.Screenings.Where(s => s.Id == screeningsId)
                     .Select(s => new
                     {
-                        DateAndTime = GetDateTime(s.DateAndTime)
+                        DateAndTime = s.DateAndTime
                     }).ToList()
                 })
                 .FirstOrDefaultAsync();
@@ -93,6 +79,7 @@ namespace webapi.Controllers
                     Theater = v.Theater.Name,
                     TheaterId = v.Theater.Id,
                     Movie = v.Movie.Name,
+                    MovieId = v.MovieId,
                     TotalSeatsInTheater = v.Theater.Seats.Count(),
                     BookedSeats = v.Bookings
                         .SelectMany(b => b.BookingXSeats)

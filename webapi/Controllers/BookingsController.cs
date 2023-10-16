@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using System.IO;
 using webapi.Controllers.Utilities;
 using webapi.Data;
 using webapi.Entities;
@@ -7,7 +9,7 @@ using webapi.ViewModels;
 
 namespace webapi.Controllers
 {
-   
+
     [Route("api/[controller]")]
     [ApiController]
     public class BookingsController : GenericController<Booking>
@@ -49,12 +51,38 @@ namespace webapi.Controllers
 
             return Ok(result);
         }
-        
+
+
+        [HttpGet("number/{bookingNumber}")]
+
+        public async Task<IActionResult> GetBookingByBookingnumber(string bookingNumber)
+        {
+            var result = await _context.bookings.SingleOrDefaultAsync(b => b.BookingNumber == bookingNumber);
+
+            if (result == null)
+            {
+                return NotFound($"A booking with the number {bookingNumber} does not exist in our");
+            }
+            return Ok(result);
+
+        }
+
         [HttpPost("detailed")]
         public async Task<IActionResult> PostBookingModel(MakeBookingModel model)
         {
-            if (await _context.users.SingleOrDefaultAsync(u => u.EmailAdress == model.EmailAdress) is not null)
-                return BadRequest($"A user with the email address {model.EmailAdress} already exists in our system.");
+            User user = await _context.users.SingleOrDefaultAsync(u => u.EmailAdress == model.EmailAdress);
+
+            if (user is null)
+            {
+                // användaren finns inte skapa den
+                user = new User
+                {
+                    EmailAdress = model.EmailAdress
+                };
+                _context.users.Add(user);
+                await _context.SaveChangesAsync();
+
+            }
 
             var newBookingNumber = "";
 
@@ -63,16 +91,8 @@ namespace webapi.Controllers
                 newBookingNumber = BookingNumberGenerator.GenerateRandomNumber();
                 if (await _context.bookings.SingleOrDefaultAsync(b =>
                 b.BookingNumber == newBookingNumber) is not null) continue;
-                    break;
+                break;
             }
-
-            var user = new User
-            {
-                EmailAdress = model.EmailAdress
-            };
-
-            _context.users.Add(user);
-            await _context.SaveChangesAsync();
 
             var booking = new Booking
             {
@@ -105,8 +125,43 @@ namespace webapi.Controllers
                 BookingId = booking.Id
             };
 
+            //Skicka bara mail om e-postadressen inte innehåller "test"
+            if (!model.EmailAdress.Contains("test"))
+            {
+                //TODO: Skapa body och Subject
+                string to = model.EmailAdress;
+                string subject = "Bokning av film";
+                string body = "Email body content.";
+                EmailService.MailBooking(to, subject, body);
+            }
+
             return Ok(response);
         }
+
+        [HttpDelete("RemoveBooking/{bookingNumber}/{EmailAdress}")]
+
+        public async Task<IActionResult> DetelebyBookingNumberAndEmail(string bookingNumber, string emailAdress)
+        {
+
+            var found = await _context.usersAndBookings.FirstOrDefaultAsync(
+                x => x.bookingNumber == bookingNumber && x.EmailAdress == emailAdress);
+
+            if (found is null)
+            {
+                return BadRequest($"Given booking number and email adress doesnt match to our database");
+            }
+
+            var bookingId = found.bookingId;
+
+            _context.bookingsXseats.RemoveRange(_context.bookingsXseats.Where(x => x.BookingId == bookingId));
+            _context.bookings.RemoveRange(_context.bookings.Where(x => x.Id == bookingId));
+            var save = await _context.SaveChangesAsync();
+
+            return Ok("Item deleted");
+
+        }
+
+
 
 
     }
