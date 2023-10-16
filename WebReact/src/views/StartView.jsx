@@ -30,6 +30,7 @@ export default function StartView() {
                         value={selectedAge}
                     >
                         <option value="18">Åldersgräns</option>
+                        <option value="18">18</option>
                         <option value="15">15</option>
                         <option value="13">13</option>
                         <option value="7">7</option>

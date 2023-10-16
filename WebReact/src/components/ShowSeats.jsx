@@ -1,8 +1,7 @@
-import React, { useState} from "react"
+import React from "react"
 import { Row, Col, ButtonToolbar, ButtonGroup, Button} from 'react-bootstrap';
 
 export default function ShowSeats({seats, theater, seatClicked}) {
-    const [result, setResult] = useState();
   
     const rowElements = () => {
         // Organisera seats by rows
