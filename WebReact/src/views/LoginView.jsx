@@ -16,7 +16,7 @@ export default function LoginView() {
     }
     var result = await post('users/login', login);
 
-    //window.location.href = '/StartView/';
+    window.location.href = '/StartView/';
   };
   function handleInputChange(event) {
     const { name, value } = event.target;
