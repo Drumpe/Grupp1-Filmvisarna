@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using webapi.Controllers.Utilities;
 using webapi.Data;
 using webapi.Entities;
 
@@ -12,6 +13,7 @@ namespace webapi.Controllers
     /// <typeparam name="T">The entity type.</typeparam>
     [Route("api/[controller]")]
     [ApiController]
+    [AuthorizeUserRole]
     public class GenericController<T> : ControllerBase where T : class, IEntity
     {
         public readonly FilmvisarnaContext _context;
