@@ -12,7 +12,7 @@ builder.Services.AddDbContext<FilmvisarnaContext>(options => {
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });;
 
-// Add WebSocket connection manager
+// Add WebSocket connection manager for SeatStatusFeed 
 builder.Services.AddWebSocketConnectionManager();
 
 // Create session
@@ -44,6 +44,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+// SeatStatusFeed middleware
+app.UseWebSockets();
+app.UseSeatStatusFeed();
 
 app.UseSession(); // Use session call
 app.UseUserRoles(); // Call to custom middleware
