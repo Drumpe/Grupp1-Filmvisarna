@@ -1,0 +1,38 @@
+.login-container {
+    width: 100%;
+    max-width: 400px; 
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .login-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .form-label {
+    font-weight: bold;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 0;
+  }
+  
+  .login-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .register-link {
+    text-align: center;
+    margin-top: 20px;
+  }

@@ -84,9 +84,10 @@ function MovieView() {
 
 	return !screenings.screenings.screenings ? null : (
 		<Container >
-			<Col className='d-flex justify-content-start'>
-					<Link className="nav-back text-info" to="/StartView">Tillbaka</Link>
-				</Col>
+
+				<Button variant="secondary" size="lg">
+				<Link className="nav-back text-info" to="/StartView"></Link>
+				</Button>
 			<Row>
 				<Col className='d-flex justify-content-center mt-3'>
 					<div className="w-100 ratio ratio-16x9 mw-mh-lg">

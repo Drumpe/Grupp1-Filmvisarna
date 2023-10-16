@@ -9,7 +9,7 @@ export default function MainMenu() {
       {["lg"].map((expand) => (
         <Navbar 
           key={expand} expand={expand} 
-          className="mb-3 navbar-dark"
+          className="mb-3 navbar-dark bg-primary shadow fixed-top"
           >
 
           <Container fluid>

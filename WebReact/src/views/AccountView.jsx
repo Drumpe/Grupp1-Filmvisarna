@@ -14,7 +14,7 @@ export default function AccountView() {
                 </Col>
             </Row>
             <Row className="mt-5">
-                <Col className="mx-auto text-center">
+                <Col className="upcoming-bookings text-center">
                     <h3>Kommande bokningar</h3>
                     <p>Film 1</p>
                     <p>Film 2</p>

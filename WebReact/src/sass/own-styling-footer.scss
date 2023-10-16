@@ -3,15 +3,25 @@ footer {
     background-color: #333;
     color: #fff;
     padding: 5px;
-
     text-align: center;
+    margin-top: 20px;
   }
+  
+  #root {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+  main {
+    flex: 1;
+}
   
   .footer-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    
   }
   
   p {

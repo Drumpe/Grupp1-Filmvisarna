@@ -23,6 +23,11 @@ Logo size will adapt after text size; for example, use className="h4" in parent
 
 /* End Logo */
 
+/* Add padding to the top of the body to create space for the Navbar */
+body {
+    padding-top: 70px; /* Adjust this value to control the spacing below the Navbar */
+  }
+
 /* Custom UI elements */
 
 .navbar-toggler-icon {
@@ -87,14 +92,3 @@ Logo size will adapt after text size; for example, use className="h4" in parent
   
 
 // End MovieView
-
-/* Sticky Footer */
-#root {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-}
-main {
-    flex: 1;
-}
-/* End Sticky footer */

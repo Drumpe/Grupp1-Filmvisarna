@@ -9,10 +9,10 @@ import Button from 'react-bootstrap/Button'
 export default function RegisterView() {
     return (
         <>
-            <Container>
-                <Col className="mx-auto text-center">
-                    <Image src="/img/logo/filmvisarna-logo-icon.png" roundedCircle style={{ width: '100px', height: '100px' }} />
-                </Col>
+          <Container className="register-container">
+            <Col className="mx-auto text-center">
+              <Image src="/img/logo/filmvisarna-logo-icon.png" roundedCircle className="register-image" />
+            </Col>
                 <h1 className="text-center">Bli Medlem</h1>
                 <Form className="mx-auto">
                     <Form.Group className="mb-3" controlId="formGroupEmail">
@@ -37,14 +37,14 @@ export default function RegisterView() {
                     </Form.Group>
                 </Form>
             </Container>
-            <Col className="mx-auto text-center">
-                <Button variant="primary" href="/LoginView" size="lg">
-                    Registera
-                </Button>
-                <Button  variant="secondary link" href="/StartView" size="lg">
-                    Avbryt
-                </Button>
-            </Col>
+            <Col className="register-button mx-auto text-center">
+        <Button variant="primary" href="/LoginView" size="lg" className="accept-button">
+          Registera
+        </Button>
+        <Button variant="secondary link" href="/StartView" size="lg" className="cancel-button">
+          Avbryt
+        </Button>
+      </Col>
         </>
     );
 }

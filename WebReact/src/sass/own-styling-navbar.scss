@@ -1,0 +1,36 @@
+.navbar {
+  position: fixed;
+  width: 100%; 
+  z-index: 1000; 
+}
+
+
+.navbar {
+  background-color: #333;
+}
+
+.navbar-dark .navbar-brand,
+.navbar-dark .navbar-nav .nav-link {
+  color: #fff; 
+}
+
+/* Navbar Toggle button (hamburger icon) */
+.navbar-toggler-icon {
+  color: #fff; 
+}
+
+/* Style the Offcanvas menu background and text color */
+.offcanvas {
+  background-color: #333; 
+  color: #fff; 
+}
+
+/* Style Offcanvas links */
+.offcanvas a {
+  color: #fff; 
+}
+
+
+.offcanvas .offcanvas-header button.close {
+  color: #fff; 
+}
