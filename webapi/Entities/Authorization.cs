@@ -12,7 +12,7 @@ public class Authorization : IEntity
     [Column("AuthorizationId")]
     public int Id { get; set; }
     public string Endpoint { get; set; }
-    public string RequestMethod { get; set; }
+    public string HttpMethod { get; set; }
     [ForeignKey("UserRoleId")]
     public int UserRoleId { get; set; }
 
