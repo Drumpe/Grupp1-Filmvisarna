@@ -22,15 +22,13 @@ export default function App() {
         movies: await get('movies/detailed'),
         user: await get('sessions/getuserrole') 
       });
-      console.log("heere we go again:", globals.user);
-
     })();
   }, []);
 
   // this is: ViewHolder translated into new return
   return <>
   <header>
-    <MainMenu  />
+    <MainMenu  {...{ user: globals.user }}/>
   </header>
   <main className="container mt-1">
     <Outlet context={globals} />
