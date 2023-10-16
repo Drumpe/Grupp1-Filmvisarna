@@ -2,6 +2,8 @@ using System.Net.WebSockets;
 using System.Text;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace webapi.Middleware
 {
@@ -28,11 +30,14 @@ namespace webapi.Middleware
 
 	if (context.WebSockets.IsWebSocketRequest) {
 		// Validation, authorization etc, etc, etc
-		if (_allowedOrigins.Contains(context.Request.Headers.Origin))
+		await AcceptAsync(context);
+		
+		/* if (_allowedOrigins.Contains(context.Request.Headers.Origin)) {
 			await AcceptAsync(context);
-	} else {
-		context.Response.StatusCode = 403;
-		return;
+		} else {
+			context.Response.StatusCode = 403;
+			return;
+		} */
 	}
 }
 
@@ -47,14 +52,25 @@ public async Task AcceptAsync(HttpContext context)
 	{
 		if (result.MessageType == WebSocketMessageType.Text) 
 		{
-			// input sanitization
-			// idea: whitelisting input? otherwise close connection? Something went wrong, redirect
-
-			var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
+			string data = Encoding.UTF8.GetString(buffer, 0, result.Count);
 			Console.WriteLine($"Message recieved from {connectionId} ...");
-			Console.WriteLine($"Message: {message}");
-			await BroadcastJSONMessageAsync($"{message}");
-			return;
+
+			JsonDocument message = JsonDocument.Parse(data);
+			if (message != null) 
+			{
+				JsonElement status;
+				if (!message!.RootElement.TryGetProperty("status", out status)) {
+					await CloseClientAsync(connectionId);
+					return;
+				}
+				if (status.ToString() == "booked") {
+					await BroadcastAsync(data);
+				}
+				else {
+					await CloseClientAsync(connectionId);
+					return;
+				}
+			}
 		}
 		else if (result.MessageType == WebSocketMessageType.Close)
 		{
@@ -65,6 +81,11 @@ public async Task AcceptAsync(HttpContext context)
 
 			await _connection.CloseOutputAsync(result.CloseStatus!.Value, result.CloseStatusDescription, CancellationToken.None);
 			Console.WriteLine($"({connectionId}), CloseStatus: {result.CloseStatus!.Value}");
+			return;
+		}
+		else 
+		{
+			await CloseClientAsync(connectionId);
 			return;
 		}
 	});
@@ -78,6 +99,16 @@ private async Task RecieveMessageAsync(WebSocket ws, Action<WebSocketReceiveResu
 			cancellationToken: CancellationToken.None);
 
 		handleMessage(result, buffer);
+	}
+}
+
+public async Task BroadcastAsync(string data) 
+{
+	foreach(var connection in _manager.GetAllConnections()) {
+		if (connection.Value.State == WebSocketState.Open) {
+			await connection.Value.SendAsync(Encoding.UTF8.GetBytes(data),
+				WebSocketMessageType.Text, true, CancellationToken.None);
+		}
 	}
 }
 
@@ -100,7 +131,7 @@ private async Task CloseClientAsync(string connectionId)
 		return;
 	}
 
-	await _connection.CloseOutputAsync(WebSocketCloseStatus.PolicyViolation, string.Empty, CancellationToken.None);
+	await _connection.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
 	Console.WriteLine($"Connection from {connectionId} closed...");
 	return;
 }
