@@ -8,7 +8,8 @@ import { get } from './utilsAndHooks/rest';
 export default function App() {
   // global state
   const [globals, setGlobals] = useState({
-    movies: []
+    movies: [],
+    user: []
   });
 
   /// this is where we will fetch all globals
@@ -18,15 +19,18 @@ export default function App() {
     (async () => {
       setGlobals({
         ...globals,
-        movies: await get('movies/detailed')
+        movies: await get('movies/detailed'),
+        user: await get('sessions/getuserrole') 
       });
+      console.log("heere we go again:", globals.user);
+
     })();
   }, []);
 
   // this is: ViewHolder translated into new return
   return <>
   <header>
-    <MainMenu />
+    <MainMenu  />
   </header>
   <main className="container mt-1">
     <Outlet context={globals} />

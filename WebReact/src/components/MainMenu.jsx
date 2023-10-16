@@ -1,16 +1,19 @@
+import React, { useState, useEffect } from "react"
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { useOutletContext } from 'react-router-dom';
 
 export default function MainMenu() {
+  //const { movies, user } = useOutletContext();
   return (
     <>
       {["lg"].map((expand) => (
-        <Navbar 
-          key={expand} expand={expand} 
+        <Navbar
+          key={expand} expand={expand}
           className="mb-3 navbar-dark"
-          >
+        >
 
           <Container fluid>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
@@ -32,12 +35,14 @@ export default function MainMenu() {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-center flex-grow-1 ">
-                  <span className="nav-link">
+                  {("g" === "guest") ?
                     <Nav.Link className="d-inline p-0 m-0" href="/LoginView">Logga in</Nav.Link>
-                    <p className="d-inline p-0 m-0"> / </p>
-                    <Nav.Link className="d-inline p-0 m-0" href="/RegisterView">Bli medlem</Nav.Link>
-                  </span>
-                
+                    :
+                    <Nav.Link className="d-inline p-0 m-0" href="/LoginView">Logga ut</Nav.Link>
+                  }
+                  <Nav.Link className="d-inline p-0 m-0" href="/RegisterView">Bli medlem</Nav.Link>
+
+
                   <Nav.Link href="/AccountView">Mitt konto</Nav.Link>
                   <Nav.Link href="/StartView">Visas nu</Nav.Link>
                   <Nav.Link href="/CancelView">Avboka</Nav.Link>
@@ -59,8 +64,9 @@ export default function MainMenu() {
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           </Container>
-        </Navbar>
-      ))}
+        </Navbar >
+      ))
+      }
     </>
   );
 }
