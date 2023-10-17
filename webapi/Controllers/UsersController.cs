@@ -99,9 +99,9 @@ namespace webapi.Controllers
         {
             // Clear session values and set role to guest
             HttpContext.Session.Clear();
-            HttpContext.Session.SetString("UserRole", UserRole.guest.ToString());
+            //HttpContext.Session.SetString("UserRole", UserRole.guest.ToString());
 
-            return NoContent();
+            return Ok("Successfully logged out");
         }
     }
 }
