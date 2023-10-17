@@ -33,6 +33,7 @@ const TheaterView = () => {
         }
         var booking = createBookingJson();
         setButtonsDisabled(true);
+        setBookedStatus();
         var result = await post('bookings/detailed', booking);
         window.location.href = '/ConfirmedView/' + result.bookingId;
     };
@@ -192,13 +193,11 @@ const TheaterView = () => {
 
     function createBookingJson() {
         var tmpBookingSeatsArr = [];
-        var bookedSeats = [];
         var priceCat = makePriceCategoriesArray();
         var index = 0;
         seats.forEach((elem) => {
             if (elem.wanted) {
                 tmpBookingSeatsArr.push({ SeatId: elem.seatId, PriceCategoryId: priceCat[index++] });
-                bookedSeats.push({SeatId: elem.seatId});
             }
         });
         const bookingData = {
@@ -206,8 +205,17 @@ const TheaterView = () => {
             ScreeningId: screeningId,
             BookingXSeats: tmpBookingSeatsArr,
         }
-        seatStatusFeed.book(bookedSeats);
         return bookingData;
+    }
+
+    function setBookedStatus() {
+        var bookedSeats = [];
+        seats.forEach((seat) => {
+            if (seat.wanted) {
+                bookedSeats.push({SeatId: seat.seatId});
+            }
+        });
+        seatStatusFeed.book(bookedSeats);
     }
 
     return !seats ? null : (
