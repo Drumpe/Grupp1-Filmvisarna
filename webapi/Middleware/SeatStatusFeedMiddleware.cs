@@ -130,7 +130,7 @@ private async Task CloseClientAsync(string connectionId)
 	}
 
 	await _connection.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
-	Console.WriteLine($"Connection from {connectionId} closed...");
+	Console.WriteLine($"Connection from {connectionId} closed by server...");
 	return;
 }
 
