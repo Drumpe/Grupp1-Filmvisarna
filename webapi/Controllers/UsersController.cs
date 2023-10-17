@@ -69,7 +69,7 @@ namespace webapi.Controllers
             {
                 // Om e-postadressen redan finns i DB
                 user.Password = PasswordEncryptor.HashPassword(newUser.Password);
-                user.UserRole = UserRole.member.ToString();
+                user.UserRole = Role.member.ToString();
                 user.FirstName = newUser.FirstName;
                 user.LastName = newUser.LastName;
                 _context.users.Update(user);
@@ -79,7 +79,7 @@ namespace webapi.Controllers
             }
 
             newUser.Password = PasswordEncryptor.HashPassword(newUser.Password);
-            newUser.UserRole = UserRole.member.ToString();
+            newUser.UserRole = Role.member.ToString();
             _context.users.Add(newUser);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetById), new { id = newUser.Id }, newUser);
