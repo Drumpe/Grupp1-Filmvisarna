@@ -130,8 +130,17 @@ namespace webapi.Controllers
             {
                 //TODO: Skapa body och Subject
                 string to = model.EmailAdress;
-                string subject = "Bokning av film";
-                string body = "Email body content.";
+                string subject = "Booking Confirmation from Filmvisarna";
+                string body = $"Hej {model.FirstName},\n\n" +
+                              "Tack för din bokning hos Filmvisarna.\n\n" +
+                              $"Bokningsnummer: {model.BookingNumber}\n" +
+                              $"Film: {model.MovieName}\n" +
+                              $"Datum och tid: {model.Date} kl {model.Time}\n" +
+                              $"Antal biljetter: {model.TicketCount}\n\n" +
+                              "Om du har några frågor eller behöver ändra din bokning, vänligen kontakta oss på [Kundservice e-post] eller [Telefonnummer].\n\n" +
+                              "Tack för att du väljer Filmvisarna!\n\n" +
+                              "Med vänliga hälsningar,\n" +
+                              "Filmvisarna Team";
                 EmailService.MailBooking(to, subject, body);
             }
 
