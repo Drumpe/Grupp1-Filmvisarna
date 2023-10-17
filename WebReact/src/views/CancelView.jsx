@@ -48,7 +48,7 @@ export default function CancelView() {
                         bookingNumber: x.target.value
                     })}
                 className='col-7  p-3' />
-            <label>E-post adress</label>
+            <label>E-postadress</label>
             <input type='text' placeholder='exempel@gmail.com' onChange={
                 (x) => setSend({
                     ...send,
