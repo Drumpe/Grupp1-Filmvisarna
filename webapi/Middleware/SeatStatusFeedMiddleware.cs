@@ -30,6 +30,9 @@ namespace webapi.Middleware
 
 	if (context.WebSockets.IsWebSocketRequest) {
 		// Validation, authorization etc, etc, etc
+
+		Console.WriteLine($"\n\n{context.Request.Headers.Origin}");
+		
 		await AcceptAsync(context);
 		
 		/* if (_allowedOrigins.Contains(context.Request.Headers.Origin)) {
