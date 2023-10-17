@@ -56,7 +56,7 @@ export default function CancelView() {
                 })}
                 className='col-7  p-3' />
             <p id="message">{message}</p>
-            <Button variant="primary btn btn-primary col-6"
+            <Button variant=" btn-primary col-7"
                 onClick={verifyData}
                 disabled={!(send.bookingNumber && send.emailAdress)}>
                 Avboka
