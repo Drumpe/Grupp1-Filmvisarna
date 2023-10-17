@@ -90,9 +90,13 @@ const TheaterView = () => {
                     "seats": seats,
                 });
                 this.socket.send(message);
+                return true;
             }
+            return false;
         },
     };
+
+    if (seatStatusFeed) { seatStatusFeed.connect(); }
 
     const increaseCount = (category) => {
         setTickets((prevTickets) => {
@@ -215,7 +219,8 @@ const TheaterView = () => {
                 bookedSeats.push({SeatId: seat.seatId});
             }
         });
-        seatStatusFeed.book(bookedSeats);
+        let isStatusSent = seatStatusFeed.book(bookedSeats);
+        return isStatusSent;
     }
 
     return !seats ? null : (
