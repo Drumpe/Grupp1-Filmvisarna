@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Container, Row, Col, Button, Form, InputGroup } from 'react-bootstrap';
 import { get, post } from '../utilsAndHooks/rest';
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useOutletContext } from "react-router-dom";
 import ShowSeats from "../components/ShowSeats";
 
 const BARN_PRIS = 80;
@@ -9,8 +9,8 @@ const PENSIONARS_PRIS = 120;
 const VUXEN_PRIS = 140;
 
 const TheaterView = () => {
+    const { movies, user } = useOutletContext();
     const { screeningId } = useParams();
-    //const [summaState, setSummaState] = useState(0);
     const [formData, setFormData] = useState({ email: '' });
     const [theater, setTheater] = useState({ id: 0, name: "" });
     let [seats, setSeats] = useState(null);
@@ -20,13 +20,13 @@ const TheaterView = () => {
         pensioner: 0
     });
     const [movieId, setMovieId] = useState("");
-    const [validated, setValidated] = useState(false);
+    const [validatedEmail, setValidatedEmail] = useState(false);
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
     const summa = (tickets.child * BARN_PRIS) + (tickets.pensioner * PENSIONARS_PRIS) + (tickets.ordinary * VUXEN_PRIS);
 
     const sendRequest = async () => {
-        if (!validated || summa == 0) {
-            if (validated) {
+        if ((!validatedEmail && user.userRole === "guest")|| summa == 0) {
+            if (validatedEmail) {
                 alert("Minst en biljett måste väljas för att boka.");
             }
             return;
@@ -135,26 +135,13 @@ const TheaterView = () => {
         setTickets(updatedTickets);
     };
 
-    /* Changing to a const...
-    //Räkna om summan om tickets ändras
-    useEffect(() => {
-        function raknaSumma() {
-            const barnPris = 80;
-            const pensionarPris = 120;
-            const vuxenPris = 140;
-            setSummaState((tickets.child * barnPris) + (tickets.retire * pensionarPris) + (tickets.ordinare * vuxenPris));
-        }
-        raknaSumma();
-    }, [tickets, seats]); //seats för test
-    */
-
     function handleSubmit(event) {
         const form = event.currentTarget;
         event.preventDefault();
         if (form.checkValidity() === false) {
             event.stopPropagation();
         }
-        setValidated(true);
+        setValidatedEmail(true); // <-- Dubbel klick felet ligger bland annat här.
     };
 
     function handleInputChange(event) {
@@ -189,7 +176,7 @@ const TheaterView = () => {
             }
         });
         const bookingData = {
-            EmailAdress: formData.email,
+            EmailAdress: user.userRole === "guest" ? formData.email : user.email,
             ScreeningId: screeningId,
             BookingXSeats: tmpBookingSeatsArr,
         }
@@ -250,8 +237,9 @@ const TheaterView = () => {
                     <span style={{ fontSize: '22px' }}>Summa: {summa} kr</span>
                 </Col>
             </Row>
-
-            <Form validated={validated} onSubmit={handleSubmit}>
+            <Form validated={validatedEmail} onSubmit={handleSubmit}>
+                { user.userRole === "guest"? 
+                <>
                 <Row className="mb-3">
                     <Col className="d-flex justify-content-center mt-3">
                         <Form.Group>
@@ -271,6 +259,10 @@ const TheaterView = () => {
                         </Form.Group>
                     </Col>
                 </Row>
+                </>
+                :
+                <Row className="d-flex justify-content-center mt-3">Bokningen skickas till: {user.email}</Row>
+                }
                 <Row>
                     <Col className="d-flex justify-content-center mt-3">
                         <Button variant="secondary"
