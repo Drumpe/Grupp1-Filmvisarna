@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react"
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
+import {NavLink, useNavigate} from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { del } from '../utilsAndHooks/rest';
 
 
 export default function MainMenu({ user }) {
+  let navigate = useNavigate();
   async function logout() {
     try {
       //var result = 
-      await del('users/logout','');
+      await del('users/logout');
     } catch (error) {
       console.log("Error i logout: ", error);
     }
+    navigate("/");
     //console.log("LOGOUT: ", result);
   }
 
@@ -27,7 +30,7 @@ export default function MainMenu({ user }) {
 
           <Container fluid>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
-            <Navbar.Brand href="/StartView">
+            <Navbar.Brand to="/StartView">
               <div className="h6 text-secondary custom-text-logo text-center m-0">
                 <img src="/img/logo/filmvisarna-logo-icon.png" className="d-block custom-logo-navbar mx-auto"></img>
                 Filmvisarna
@@ -47,19 +50,19 @@ export default function MainMenu({ user }) {
                 <Nav className="justify-content-center flex-grow-1 ">
                   {(user.userRole === "member") ?
                     <>
-                      <Nav.Link href="/StartView/" onClick={logout}>Logga ut</Nav.Link>
-                      <Nav.Link href="/AccountView">Mitt konto</Nav.Link>
+                      <NavLink to="/StartView/" className="nav-link" onClick={logout}>Logga ut</NavLink>
+                      <NavLink to="/AccountView">Mitt konto</NavLink>
                     </>
                     :
                     <>
-                      <Nav.Link href="/LoginView">Logga in</Nav.Link>
-                      <Nav.Link href="/RegisterView">Bli medlem</Nav.Link>
+                      <NavLink to="/LoginView">Logga in</NavLink>
+                      <NavLink to="/RegisterView">Bli medlem</NavLink>
                     </>
                   }
 
-                  <Nav.Link href="/StartView">Visas nu</Nav.Link>
-                  <Nav.Link href="/CancelView">Avboka</Nav.Link>
-                  <Nav.Link href="/AboutView">Om</Nav.Link>
+                  <NavLink to="/StartView">Visas nu</NavLink>
+                  <NavLink to="/CancelView">Avboka</NavLink>
+                  <NavLink to="/AboutView">Om</NavLink>
                   {/* <NavDropdown
                     title="Dropdown"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
