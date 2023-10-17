@@ -41,27 +41,20 @@ const TheaterView = () => {
     useEffect(() => {
         async function initSeats() {
             try {
-                var screeningJson = await get('screenings/bookedseats/' + screeningId);
-                var theaterJson = await get('theaters/detailed/' + screeningJson.theaterId);
-                var seatsArray = theaterJson.seats; //Alla säten i salongen 
-                seatsArray.forEach((element) => {
-                    //Här läggs till ett attribut till element, typ booked (boolean)
-                    // om seatsArray.SeatId finns i jsonScreening.bookedSeats 
-                    //  sätt element.booked till true annars false
-                    if (screeningJson.bookedSeats.find(x => x.seatId === element.seatId)) {
-                        element.booked = true;
-                    } else {
-                        element.booked = false;
-                    }
+                var screeningSeats = await get(`seats/screening/${screeningId}`);
+                var seats = screeningSeats.seats;
+                
+                seats.forEach((element) => {
                     element.wanted = false;
                 });
-                setMovieId(screeningJson.movieId);
-                var tmpTheater = {
-                    id: theaterJson.theaterId,
-                    name: theaterJson.theater
+
+                setMovieId(screeningSeats.movieId);
+                var theater = {
+                    id: screeningSeats.theaterId,
+                    name: screeningSeats.theater
                 };
-                setTheater(tmpTheater);
-                setSeats(seatsArray);
+                setTheater(theater);
+                setSeats(seats);
             } catch (err) {
                 console.log(err);
             }

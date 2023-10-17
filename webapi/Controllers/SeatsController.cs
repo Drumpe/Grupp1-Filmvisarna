@@ -58,12 +58,15 @@ namespace webapi.Controllers
           .Where(s => s.Id == screeningId)
           .Select(s => new
           {
+            MovieId = s.MovieId,
             TheaterId = s.Theater.Id,
             Theater = s.Theater.Name,
             Seats = s.Theater.Seats
             .Select(sts => new 
             {
               SeatId = sts.Id,
+              Seat = sts.seat,
+              Row = sts.Row,
               Booked = booked.Contains(sts.Id) ? 1 : 0
             })
           })
