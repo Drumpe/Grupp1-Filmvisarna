@@ -13,7 +13,7 @@ const TheaterView = () => {
     const { screeningId } = useParams();
     const [formData, setFormData] = useState({ email: '' });
     const [theater, setTheater] = useState({ id: 0, name: "" });
-    let [seats, setSeats] = useState(null);
+    const [seats, setSeats] = useState(null);
     const [tickets, setTickets] = useState({
         ordinary: 0,
         child: 0,
@@ -24,7 +24,6 @@ const TheaterView = () => {
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
     const summa = (tickets.child * BARN_PRIS) + (tickets.pensioner * PENSIONARS_PRIS) + (tickets.ordinary * VUXEN_PRIS);
     const [seatStatusFeed, setSeatStatusFeed] = useState(null);
-    /* const [seatStatusFeedState, setSeatStatusFeedState] = useState(0); */
 
     const sendRequest = async () => {
         if ((!validatedEmail && user.userRole === "guest")|| summa == 0) {
@@ -68,29 +67,32 @@ const TheaterView = () => {
         initSeats();
     }, []); // Empty dependency array to run the effect only once
 
+    
     useEffect(() => {
         const _seatStatusFeed = {
             socket: null,
-    
+
             connect: () => {
                 // Can't get https or wss protocol to work on my side (Albin), fix later...
                 _seatStatusFeed.socket = new WebSocket(`ws://localhost:5052`);
-    
+
                 _seatStatusFeed.socket.onopen = () => {
                     //maybe
                 }
-    
+
                 _seatStatusFeed.socket.onclose = () => {
                     //maybe
                 }
             
                 _seatStatusFeed.socket.onmessage = (ev) => {
                     let seatStatus = JSON.parse(ev.data);
-                    
-                    console.log(seatStatus);
-                }
+                    if (seatStatus.status === `booked`) {
+                        let bookedSeats = seatStatus.seats;
+                        updateSeatStatus(bookedSeats);
+                    }
+                };
             },
-    
+
             close: () => {
                 // Debug, switch check later
                 if (_seatStatusFeed.socket == null || _seatStatusFeed.socket.readyState !== WebSocket.OPEN) {
@@ -98,7 +100,7 @@ const TheaterView = () => {
                 }
                 _seatStatusFeed.socket.close(1000, `Closing from client`);
             },
-    
+
             book: (seats) => {
                 if (_seatStatusFeed.socket !== null && _seatStatusFeed.socket.readyState == WebSocket.OPEN) {
                     let message = JSON.stringify({
@@ -186,6 +188,30 @@ const TheaterView = () => {
         setTickets(updatedTickets);
     };
 
+    const updateSeatStatus = (bookedSeats) => {
+        var updatedSeats = [...seats];
+        bookedSeats.forEach((seatId) => {
+            var idx = updatedSeats.findIndex((seat) => seat.seatId === seatId);
+            updatedSeats[idx].booked = !updatedSeats[idx].booked;
+        });
+        setSeats(updatedSeats);
+    };
+
+    /* function updateSeatStatus(updatedSeatId) {
+        setSeats(seats.map(s => {
+          if (s.seatId === updatedSeatId) {
+            return { 
+                seatId: s.seatId,
+                seat: s.seat,
+                row: s.row,
+                booked: true
+            };
+          } else {
+            return s;
+          }
+        }));
+      } */
+
     function handleSubmit(event) {
         const form = event.currentTarget;
         event.preventDefault();
@@ -238,7 +264,7 @@ const TheaterView = () => {
         var bookedSeats = [];
         seats.forEach((seat) => {
             if (seat.wanted) {
-                bookedSeats.push({SeatId: seat.seatId});
+                bookedSeats.push(seat.seatId);
             }
         });
         if (bookedSeats.length > 0) {
