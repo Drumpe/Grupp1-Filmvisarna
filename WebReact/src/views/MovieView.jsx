@@ -28,7 +28,6 @@ function MovieView() {
 		let movie = movies.find(movie => movie.id === movieId);
 		setMovie(movie);
 	}, [])
-	console.log({movie});
 
 	if(!movies.length || !movie){ return null;}
 
