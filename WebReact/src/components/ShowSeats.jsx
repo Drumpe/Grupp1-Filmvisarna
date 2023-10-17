@@ -1,8 +1,8 @@
 import React from "react"
-import { Row, Col, ButtonToolbar, ButtonGroup, Button} from 'react-bootstrap';
+import { Row, Col, ButtonToolbar, ButtonGroup, Button, Image } from 'react-bootstrap';
 
-export default function ShowSeats({seats, theater, seatClicked}) {
-  
+export default function ShowSeats({ seats, theater, seatClicked }) {
+
     const rowElements = () => {
         // Organisera seats by rows
         const rows = {};
@@ -14,20 +14,14 @@ export default function ShowSeats({seats, theater, seatClicked}) {
         });
         return Object.keys(rows).map((rowNumber) => (
             <Row key={rowNumber}>
-                {/*<Col className="col-2">Rad {rowNumber}</Col>*/}
                 <Col className="d-flex justify-content-center">
-                    <ButtonToolbar className="mb-2" aria-label="Toolbar with Button groups">
-                        <ButtonGroup className="me-2" aria-label="First group">
-                            {rows[rowNumber].reverse().map((seatElement) => (
-                                <Button onClick={() => seatClicked(seatElement.seatId)}
-                                    variant={(seatElement.booked ? "danger" : seatElement.wanted ? "primary" : "secondary") + " me-2"} //Färgerna är test
-                                    key={seatElement.seatId}
-                                    disabled={(seatElement.booked)} >
-                                    {seatElement.seat}
-                                </Button>
-                            ))}
-                        </ButtonGroup>
-                    </ButtonToolbar>
+                    {rows[rowNumber].reverse().map((seatElement) => (
+                        <Image className="chairImage"
+                            onClick={seatElement.booked ? null : () => seatClicked(seatElement.seatId)}
+                            src={(seatElement.booked ? "/img/ui/chair-red.svg" : seatElement.wanted ? "/img/ui/chair-blue.svg" : "/img/ui/chair-green.svg")}
+                            key={seatElement.seatId}
+                        />
+                    ))}
                 </Col>
             </Row >
         ));
@@ -35,8 +29,8 @@ export default function ShowSeats({seats, theater, seatClicked}) {
 
     return <>
         <div>
-            <h3 className ="text-center">{theater.name}</h3>
-            <br />
+            <h3 className="text-center">{theater.name}</h3>
+            <hr />
             {rowElements()}
         </div>
     </>;

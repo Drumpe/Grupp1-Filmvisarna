@@ -73,15 +73,34 @@ Logo size will adapt after text size; for example, use className="h4" in parent
     color: #8e918e;
 }
 
-@media screen and (max-width: 991px)  {
+@media screen and (max-width: 500px)  {
     .movie-information-container {
         display: block;
     }
+    .chairImage {
+        width:29px;
+        margin: 1px;
+    }
 }
-
+@media screen and (min-width: 501px) and (max-width: 639px)  {
+    .chairImage {
+        width:35px;
+        margin: 3px;
+    }
+}
+@media screen and (min-width: 640px) and (max-width: 991px)  {
+    .chairImage {
+        width:45px;
+        margin: 5px;
+    }
+}
 @media screen and (min-width: 992px)  {
     .movie-information-container {
         display: inline-flex;
+    }
+    .chairImage {
+        width:55px;
+        margin: 6px;
     }
 }
   
