@@ -60,8 +60,23 @@ namespace webapi.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser(User newUser)
         {
-            if (await _context.users.FirstOrDefaultAsync(u => u.EmailAdress == newUser.EmailAdress) is not null)
+            var user = await _context.users.FirstOrDefaultAsync(u => u.EmailAdress == newUser.EmailAdress);
+            if (user is not null && !string.IsNullOrEmpty(user.Password))
+            {
                 return BadRequest($"A user with the email address {newUser.EmailAdress} already exists in our system.");
+            }
+            if (user is not null)
+            {
+                // Om e-postadressen redan finns i DB
+                user.Password = PasswordEncryptor.HashPassword(newUser.Password);
+                user.UserRole = UserRole.member.ToString();
+                user.FirstName = newUser.FirstName;
+                user.LastName = newUser.LastName;
+                _context.users.Update(user);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
+                
+            }
 
             newUser.Password = PasswordEncryptor.HashPassword(newUser.Password);
             newUser.UserRole = UserRole.member.ToString();
@@ -99,9 +114,9 @@ namespace webapi.Controllers
         {
             // Clear session values and set role to guest
             HttpContext.Session.Clear();
-            HttpContext.Session.SetString("UserRole", UserRole.guest.ToString());
+            //HttpContext.Session.SetString("UserRole", UserRole.guest.ToString());
 
-            return NoContent();
+            return Ok("Successfully logged out");
         }
     }
 }

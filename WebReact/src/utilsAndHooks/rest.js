@@ -38,12 +38,3 @@ export async function sendForm({ event, route, body, method, callback }) {
   // post/put the and call callback with response
   callback(await post(route, body, method));
 }
-
-//delete booking
-
-export async function cancelBooking(route, content) {
-  return fetch(route, {
-    method: 'DELETE',
-    body: content
-  }).then(response => response.json())
-}

@@ -1,16 +1,29 @@
+import React, { useState, useEffect } from "react"
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { del } from '../utilsAndHooks/rest';
 
-export default function MainMenu() {
+
+export default function MainMenu({ user }) {
+  async function logout() {
+    try {
+      //var result = 
+      await del('users/logout','');
+    } catch (error) {
+      console.log("Error i logout: ", error);
+    }
+    //console.log("LOGOUT: ", result);
+  }
+
   return (
     <>
       {["lg"].map((expand) => (
-        <Navbar 
-          key={expand} expand={expand} 
+        <Navbar
+          key={expand} expand={expand}
           className="mb-3 navbar-dark"
-          >
+        >
 
           <Container fluid>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
@@ -32,13 +45,18 @@ export default function MainMenu() {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-center flex-grow-1 ">
-                  <span className="nav-link">
-                    <Nav.Link className="d-inline p-0 m-0" href="/LoginView">Logga in</Nav.Link>
-                    <p className="d-inline p-0 m-0"> / </p>
-                    <Nav.Link className="d-inline p-0 m-0" href="/RegisterView">Bli medlem</Nav.Link>
-                  </span>
-                
-                  <Nav.Link href="/AccountView">Mitt konto</Nav.Link>
+                  {(user.userRole === "member") ?
+                    <>
+                      <Nav.Link href="/StartView/" onClick={logout}>Logga ut</Nav.Link>
+                      <Nav.Link href="/AccountView">Mitt konto</Nav.Link>
+                    </>
+                    :
+                    <>
+                      <Nav.Link href="/LoginView">Logga in</Nav.Link>
+                      <Nav.Link href="/RegisterView">Bli medlem</Nav.Link>
+                    </>
+                  }
+
                   <Nav.Link href="/StartView">Visas nu</Nav.Link>
                   <Nav.Link href="/CancelView">Avboka</Nav.Link>
                   <Nav.Link href="/AboutView">Om</Nav.Link>
@@ -59,8 +77,9 @@ export default function MainMenu() {
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           </Container>
-        </Navbar>
-      ))}
+        </Navbar >
+      ))
+      }
     </>
   );
 }

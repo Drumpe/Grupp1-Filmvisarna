@@ -4,13 +4,16 @@ using webapi.Middleware;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
+
 var builder = WebApplication.CreateBuilder(args);
+
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
+                          //Frontend domän URL
                           policy.WithOrigins("http://localhost:5173").AllowAnyMethod();
                       });
 });
@@ -24,12 +27,12 @@ builder.Services.AddDbContext<FilmvisarnaContext>(options =>
 
 // Create session
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession(options => 
+builder.Services.AddSession(options =>
 {
     options.Cookie.Name = ".FilmvisarnaCookie.Session";
     options.Cookie.IsEssential = true;
     options.Cookie.HttpOnly = true; // Protect from Cross-Side-Scripting (XSS)
-    options.IdleTimeout = TimeSpan.FromMinutes(30); 
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
 });
 
 // Add services to the container.

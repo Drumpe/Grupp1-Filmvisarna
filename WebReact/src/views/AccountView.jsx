@@ -1,16 +1,20 @@
 
 import React from "react";
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
-import Image from 'react-bootstrap/Image';
-import Row from 'react-bootstrap/Row';
+import { Col, Container, Row } from 'react-bootstrap';
+import { useOutletContext } from "react-router-dom";
 
 export default function AccountView() {
+    const { movies, user } = useOutletContext();
+
+    //Hämta bokningar
+
+    //Vilka bokningar har varit och vilka är kommande?
+
     return (
        <Container className="my-4">
             <Row>
                 <Col className="mx-auto text-center">
-                    <h1>Förnamn Efternamn</h1> 
+                    <h1>{user.name}</h1> 
                 </Col>
             </Row>
             <Row className="mt-5">
