@@ -62,6 +62,37 @@ const TheaterView = () => {
         initSeats();
     }, []); // Empty dependency array to run the effect only once
 
+    const seatStatusFeed = {
+        // Can't get https or wss protocol to work on my side (Albin), fix later...
+        socket: null,
+        connect: () => {
+            this.socket = new WebSocket(`ws://localhost:5052`);
+        
+            this.socket.onmessage = (ev) => {
+                let seats = JSON.parse(ev.data);
+                console.log(seats);
+            }
+        },
+
+        close: () => {
+            // Debug, switch check later
+            if (this.socket == null || this.socket.readyState !== WebSocket.OPEN) {
+                console.warn(`Socket not connected`);
+            }
+            this.socket.close(1000, `Closing from client`);
+        },
+
+        book: (seats) => {
+            if (this.socket !== null && this.socket.readyState == WebSocket.OPEN) {
+                let message = JSON.stringify({
+                    "status": "booked",
+                    "seats": seats,
+                });
+                this.socket.send(message);
+            }
+        },
+    };
+
     const increaseCount = (category) => {
         setTickets((prevTickets) => {
             const updatedTickets = { ...prevTickets }; // Create a shallow copy
@@ -135,7 +166,7 @@ const TheaterView = () => {
             event.stopPropagation();
         }
         setValidatedEmail(true); // <-- Dubbel klick felet ligger bland annat här.
-    };
+    }
 
     function handleInputChange(event) {
         const { name, value } = event.target;
@@ -143,7 +174,7 @@ const TheaterView = () => {
             ...formData,
             [name]: value,
         });
-    };
+    }
 
     function makePriceCategoriesArray() {
         var result = [];
@@ -157,15 +188,17 @@ const TheaterView = () => {
             result.push(1);
         }
         return result;
-    };
+    }
 
     function createBookingJson() {
         var tmpBookingSeatsArr = [];
+        var bookedSeats = [];
         var priceCat = makePriceCategoriesArray();
         var index = 0;
         seats.forEach((elem) => {
             if (elem.wanted) {
                 tmpBookingSeatsArr.push({ SeatId: elem.seatId, PriceCategoryId: priceCat[index++] });
+                bookedSeats.push({SeatId: elem.seatId});
             }
         });
         const bookingData = {
@@ -173,8 +206,9 @@ const TheaterView = () => {
             ScreeningId: screeningId,
             BookingXSeats: tmpBookingSeatsArr,
         }
+        seatStatusFeed.book(bookedSeats);
         return bookingData;
-    };
+    }
 
     return !seats ? null : (
         <Container className="mt-1">
