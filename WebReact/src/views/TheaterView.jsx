@@ -23,6 +23,8 @@ const TheaterView = () => {
     const [validatedEmail, setValidatedEmail] = useState(false);
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
     const summa = (tickets.child * BARN_PRIS) + (tickets.pensioner * PENSIONARS_PRIS) + (tickets.ordinary * VUXEN_PRIS);
+    const [seatStatusFeed, setSeatStatusFeed] = useState(null);
+    /* const [seatStatusFeedState, setSeatStatusFeedState] = useState(0); */
 
     const sendRequest = async () => {
         if ((!validatedEmail && user.userRole === "guest")|| summa == 0) {
@@ -35,6 +37,7 @@ const TheaterView = () => {
         setButtonsDisabled(true);
         setBookedStatus();
         var result = await post('bookings/detailed', booking);
+        seatStatusFeed.close();
         window.location.href = '/ConfirmedView/' + result.bookingId;
     };
 
@@ -63,40 +66,59 @@ const TheaterView = () => {
         initSeats();
     }, []); // Empty dependency array to run the effect only once
 
-    const seatStatusFeed = {
-        // Can't get https or wss protocol to work on my side (Albin), fix later...
-        socket: null,
-        connect: () => {
-            this.socket = new WebSocket(`ws://localhost:5052`);
+    useEffect(() => {
+        function initSeatStatusFeed() {
+            let _seatStatusFeed = {
+                socket: null,
         
-            this.socket.onmessage = (ev) => {
-                let seats = JSON.parse(ev.data);
-                console.log(seats);
-            }
-        },
+                connect: () => {
+                    // Can't get https or wss protocol to work on my side (Albin), fix later...
+                    _seatStatusFeed.socket = new WebSocket(`ws://localhost:5052`);
+        
+                    _seatStatusFeed.socket.onopen = () => {
+                        //setSeatStatusFeedState(1);
+                    }
+        
+                    _seatStatusFeed.socket.onclose = () => {
+                        //setSeatStatusFeedState(0);
+                    }
+                
+                    _seatStatusFeed.socket.onmessage = (ev) => {
+                        let seats = JSON.parse(ev.data);
+                        console.log(seats);
+                    }
+                },
+        
+                close: () => {
+                    // Debug, switch check later
+                    if (_seatStatusFeed.socket == null || _seatStatusFeed.socket.readyState !== WebSocket.OPEN) {
+                        console.warn(`Socket not connected`);
+                    }
+                    _seatStatusFeed.socket.close(1000, `Closing from client`);
+                },
+        
+                book: (seats) => {
+                    if (_seatStatusFeed.socket !== null && _seatStatusFeed.socket.readyState == WebSocket.OPEN) {
+                        let message = JSON.stringify({
+                            "status": "booked",
+                            "seats": seats,
+                        });
+                        _seatStatusFeed.socket.send(message);
+                        return true;
+                    }
+                    return false;
+                },
+            };
+            setSeatStatusFeed(_seatStatusFeed);
+        }
+        initSeatStatusFeed();
+    }, []);
 
-        close: () => {
-            // Debug, switch check later
-            if (this.socket == null || this.socket.readyState !== WebSocket.OPEN) {
-                console.warn(`Socket not connected`);
-            }
-            this.socket.close(1000, `Closing from client`);
-        },
-
-        book: (seats) => {
-            if (this.socket !== null && this.socket.readyState == WebSocket.OPEN) {
-                let message = JSON.stringify({
-                    "status": "booked",
-                    "seats": seats,
-                });
-                this.socket.send(message);
-                return true;
-            }
-            return false;
-        },
-    };
-
-    if (seatStatusFeed) { seatStatusFeed.connect(); }
+    if (!seatStatusFeed) {
+        return null;
+    } else if (seatStatusFeed.socket == null){
+        seatStatusFeed.connect();
+    }
 
     const increaseCount = (category) => {
         setTickets((prevTickets) => {
@@ -227,7 +249,7 @@ const TheaterView = () => {
         <Container className="mt-1">
             <Row>
                 <Col className='d-flex justify-content-start'>
-                    <Link className="nav-back text-info" to={`/MovieView/${movieId}`}>Tillbaka</Link>
+                    <Link className="nav-back text-info" to={`/MovieView/${movieId}`} onClick={seatStatusFeed.close()}>Tillbaka</Link>
                     <div></div>
                     <div></div>
                     <div></div>

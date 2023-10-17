@@ -12,8 +12,8 @@ namespace webapi.Middleware
 	private readonly RequestDelegate _next;
 	private readonly WebSocketConnectionManager _manager;
 	private static List<string> _allowedOrigins = new List<string> {
-		"http://localhost:5173/",
-		"https://localhost:5173/"
+		"http://localhost:5173",
+		"https://localhost:5173"
 	};
 
 	public SeatStatusFeedMiddleware(RequestDelegate next, WebSocketConnectionManager manager)
@@ -30,17 +30,12 @@ namespace webapi.Middleware
 
 	if (context.WebSockets.IsWebSocketRequest) {
 		// Validation, authorization etc, etc, etc
-
-		Console.WriteLine($"\n\n{context.Request.Headers.Origin}");
-		
-		await AcceptAsync(context);
-		
-		/* if (_allowedOrigins.Contains(context.Request.Headers.Origin)) {
+		if (_allowedOrigins.Contains(context.Request.Headers.Origin)) {
 			await AcceptAsync(context);
 		} else {
 			context.Response.StatusCode = 403;
 			return;
-		} */
+		}
 	}
 }
 
@@ -142,7 +137,7 @@ private async Task CloseClientAsync(string connectionId)
 /*// Send connection id to client  
 private async Task SendConnIdAsync(WebSocket socket, string connId) 
 {
-	var buffer = Encoding.UTF8.GetBytes($"ConnId: {connId}");
+	var buffer = Encoding.UTF8.GetBytes($"seatStatusFeedId: {connId}");
 	await socket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
 } */
   }
