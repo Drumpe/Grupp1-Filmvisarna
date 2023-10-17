@@ -125,22 +125,27 @@ namespace webapi.Controllers
                 BookingId = booking.Id
             };
 
+            string userFirstName = booking.User.FirstName;
+            string bookingNumber = booking.BookingNumber;
+            DateTime bookingDate = booking.BookingDateTime;
+            int numberOfTickets = booking.BookingXSeats.Count;
+            string movieName = booking.Screening.Movie.Name;
             //Skicka bara mail om e-postadressen inte innehåller "test"
             if (!model.EmailAdress.Contains("test"))
             {
                 //TODO: Skapa body och Subject
                 string to = model.EmailAdress;
                 string subject = "Booking Confirmation from Filmvisarna";
-                string body = $"Hej {model.FirstName},\n\n" +
-                              "Tack för din bokning hos Filmvisarna.\n\n" +
-                              $"Bokningsnummer: {model.BookingNumber}\n" +
-                              $"Film: {model.MovieName}\n" +
-                              $"Datum och tid: {model.Date} kl {model.Time}\n" +
-                              $"Antal biljetter: {model.TicketCount}\n\n" +
-                              "Om du har några frågor eller behöver ändra din bokning, vänligen kontakta oss på [Kundservice e-post] eller [Telefonnummer].\n\n" +
-                              "Tack för att du väljer Filmvisarna!\n\n" +
-                              "Med vänliga hälsningar,\n" +
-                              "Filmvisarna Team";
+                string body = $"Hej {userFirstName},\n\n" +
+              "Tack för din bokning hos Filmvisarna.\n\n" +
+              $"Bokningsnummer: {bookingNumber}\n" +
+              $"Film: {movieName}\n" +
+              $"Datum och tid: {bookingDate.ToString("yyyy-MM-dd")} kl {bookingDate.ToString("HH:mm")}\n" +
+              $"Antal biljetter: {numberOfTickets}\n\n" +
+              "Om du har några frågor eller behöver ändra din bokning, vänligen kontakta oss på [Kundservice e-post] eller [Telefonnummer].\n\n" +
+              "Tack för att du väljer Filmvisarna!\n\n" +
+              "Med vänliga hälsningar,\n" +
+              "Filmvisarna Team";
                 EmailService.MailBooking(to, subject, body);
             }
 
