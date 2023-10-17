@@ -27,9 +27,12 @@ namespace webapi.Controllers.Utilities
                 // try to set required userRole in variable
                 requiredUserRole = auth.UserRoles.Name;
             }
+            // catch if endpoint is not yet in db
             catch (Exception e)
             {
                 System.Console.WriteLine("Unauthorized");
+                context.Result = new UnauthorizedResult();
+                return;
             }
             // reject authorization if userrole doesnt match
             if (userRole != requiredUserRole)
