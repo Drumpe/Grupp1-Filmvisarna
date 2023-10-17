@@ -10,7 +10,7 @@ namespace webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AuthorizeUserRole]
+   
     public class MoviesController : GenericController<Movie>
     {
         public MoviesController(FilmvisarnaContext context) : base(context)

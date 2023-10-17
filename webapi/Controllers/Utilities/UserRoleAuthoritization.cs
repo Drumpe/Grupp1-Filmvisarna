@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
@@ -12,9 +13,12 @@ namespace webapi.Controllers.Utilities
             var dbContext = context.HttpContext.RequestServices.GetRequiredService<FilmvisarnaContext>(); //get db context (cant fetch via controller) filters not part of DI container by default
             var userRole = context.HttpContext.Session.GetString("UserRole"); // get session user role
             var endpoint = context.HttpContext.Request.Path.Value; // get the endpoint we call from
+            endpoint = Regex.Replace(endpoint, @"/\d+$", "");
 
             var httpMethod = context.HttpContext.Request.Method; // get the request method (get, post)
             var requiredUserRoles = new List<string>();
+
+
 
             try
             {
