@@ -102,17 +102,17 @@ private async Task RecieveMessageAsync(WebSocket ws, Action<WebSocketReceiveResu
 	}
 }
 
-public async Task BroadcastAsync(string data) 
+public async Task BroadcastAsync(string message) 
 {
 	foreach(var connection in _manager.GetAllConnections()) {
 		if (connection.Value.State == WebSocketState.Open) {
-			await connection.Value.SendAsync(Encoding.UTF8.GetBytes(data),
+			await connection.Value.SendAsync(Encoding.UTF8.GetBytes(message),
 				WebSocketMessageType.Text, true, CancellationToken.None);
 		}
 	}
 }
 
-public async Task BroadcastJSONMessageAsync(string message) 
+/* public async Task BroadcastJSONMessageAsync(string message) 
 {
 	var messageObj = JsonConvert.DeserializeObject<dynamic>(message);
 
@@ -122,7 +122,7 @@ public async Task BroadcastJSONMessageAsync(string message)
 				WebSocketMessageType.Text, true, CancellationToken.None);
 		}
 	}
-}
+} */
 
 private async Task CloseClientAsync(string connectionId) 
 {
