@@ -74,10 +74,13 @@ namespace webapi.Controllers
             var found = await _context.usersAndBookings.FirstOrDefaultAsync(
                x => x.bookingNumber == bookingNumber && x.EmailAdress == emailAdress);
 
+            var foundBookingId = _context.bookings.Where(x => x.Id == found.bookingId);
+
             var result = await _context.bookings
                  .Where(b => b.Id == found.bookingId)
                  .Select(b => new
                  {
+                     bookingId = b.Id,
                      BookingNumber = b.BookingNumber,
                      BookingTime = b.BookingDateTime,
                      FirstName = b.User.FirstName,
@@ -97,6 +100,11 @@ namespace webapi.Controllers
                      })
                  })
                  .FirstOrDefaultAsync();
+
+            if (result is null)
+            {
+                return BadRequest($"Given booking number and email adress doesnt match to our database");
+            }
 
             return Ok(result);
         }

@@ -1,49 +1,43 @@
 import { useEffect, useState } from 'react'
 import { Container, Button, Modal, Alert } from 'react-bootstrap';
 import { get } from '../utilsAndHooks/rest';
+import { getLocaleDateString } from '../utilsAndHooks/formatter';
 
 export default function CancelView() {
     const [show, setShow] = useState(false);
     const [data, setData] = useState({});
-    const [seatFinder, setSeatFinder] = useState([])
+    const [message, setMessage] = useState("");
+    const [formatedDate, setFormatedDate] = useState('');
     const [send, setSend] = useState({
         bookingNumber: "",
         emailAdress: ""
     })
-
-    //FindData 
-    async function fetch() {
-        var result = await get(`/Bookings/confirm/${send.bookingNumber}/${send.emailAdress}`)
-        setData(result)
-        setSeatFinder(result.tickets)
-    }
 
     //DeleteFetch
     async function SendDelete() {
         await fetch(`http://localhost:5052/api/Bookings/RemoveBooking/${send.bookingNumber}/${send.emailAdress}`, { method: 'DELETE', })
             .then((res) => {
                 switch (res.status) {
-                    case 400:
-                        setShow(false)
-                        alert("Den angivna Bookningsnummer eller e-post adress är fel")
-                        break;
                     case 200:
                         setShow(false)
-                        alert(`Din avbokning med Bookningsnummer ${send.bookingNumber} är nu genomförd`)
-                        break;
-                    case 200:
+                        setMessage(`Din avbokning med Bookningsnummer ${send.bookingNumber} är nu genomförd`);
                         break;
                     default:
                         setShow(false)
-                        alert("Oj! ett fel har inträffat. Vänligen försök igen eller försöksenare")
+                        setMessage("Oj! ett fel har inträffat. Vänligen försök igen eller försöksenare");
                 }
             }).catch(e => console.log(e))
     };
+    //FindData 
+    async function fetchData() {
+        var result = await get(`/Bookings/confirm/${send.bookingNumber}/${send.emailAdress}`)
+        setData(result)
+    }
 
     useEffect(() => {
-
-    }, [])
-
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+        setFormatedDate(getLocaleDateString(data.screeningTime, options));
+    }, [data.screeningTime])
 
     //Form for filling booking.nr and email
     function form() {
@@ -63,28 +57,32 @@ export default function CancelView() {
                     emailAdress: x.target.value
                 })}
                 className='col-7  p-3' />
-            <p id='message'></p>
-            <Button variant="primary btn btn-primary col-6" onClick={function (event) { handleShow(); fetch(); }} disabled={!(send.bookingNumber && send.emailAdress)}>
+            <p id="message">{message}</p>
+            <Button variant="primary btn btn-primary col-6"
+                onClick={verifyData}
+                disabled={!(send.bookingNumber && send.emailAdress)}>
                 Avboka
             </Button >
         </>
     }
 
+
+
+
     //Show and hide pop up handler
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    function countTicketTypes(tickets) {
-        const counts = {};
-
-        tickets.forEach(function (ticket) {
-            const type = ticket.type;
-            counts[type] = (counts[type] || 0) + 1;
-        });
-
-        return counts;
+    const verifyData = async () => {
+        let data = await fetchData()
+        if (!data.bookingId) {
+            handleClose();
+            setMessage("Det angivna bokningsnumret eller e-posten är fel!");
+        }
+        else if (data.bookingId) {
+            handleShow()
+        }
     }
-    const ticketAmount = Object.entries(countTicketTypes(seatFinder)).map(([key, val]) => <li key={key}>{val} {key} biljett </li>)
     return (
         <Container>
             <h1>Avbokning</h1>
@@ -99,10 +97,7 @@ export default function CancelView() {
                     <Modal.Body>
                         Är du säker på att du vill avboka?
                         <hr />
-                        {data.theater}, {data.screeningTime},
-                        <ul>
-                            {ticketAmount}
-                        </ul>
+                        {data.theater}, {formatedDate}
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
