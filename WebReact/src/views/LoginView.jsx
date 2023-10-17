@@ -26,21 +26,25 @@ export default function LoginView() {
     });
   }
   return (
-    <div>
-      <div className="d-flex justify-content-around">
+    <div class="border rounded bg-info">
+      <div className="d-flex justify-content-around mt-3">
         <h1 className='text-center'>Logga in</h1>
       </div>
-      <div className="my-3 mx-3">
+      <div className=" my-3 mx-3">
         <Form>
+          <div className="form-floating">
+          <Form.Control type="email" name="email" value={formData.email} className='rounded-0' placeholder="Email" onChange={handleInputChange} />
           <Form.Label>E-postadress</Form.Label>
-          <Form.Control type="email" name="email" value={formData.email} className='rounded-0' onChange={handleInputChange} />
+          </div>
+          <div className="form-floating my-4">
+          <Form.Control type="password" name="password" value={formData.password} className='rounded-0' placeholder="Lösenord" onChange={handleInputChange} />
           <Form.Label>Lösenord</Form.Label>
-          <Form.Control type="password" name="password" value={formData.password} className='rounded-0' onChange={handleInputChange} />
+          </div>
         </Form>
       </div>
       <p className='text-center'>Inte medlem ännu? <Link to="/RegisterView">Bli medlem</Link></p>
-      <div className='d-flex justify-content-center my-5 mb-2'>
-        <Button variant="secondary" size="lg" onClick={sendRequest}>
+      <div className='d-flex justify-content-center my-5 mb-4'>
+        <Button variant="primary" size="lg" onClick={sendRequest}>
           Logga in
         </Button>
       </div>
