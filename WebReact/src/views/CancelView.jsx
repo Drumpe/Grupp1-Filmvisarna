@@ -18,13 +18,10 @@ export default function CancelView() {
         await fetch(`http://localhost:5052/api/Bookings/RemoveBooking/${send.bookingNumber}/${send.emailAdress}`, { method: 'DELETE', })
             .then((res) => {
                 switch (res.status) {
-                    case 200:
-                        setShow(false)
-                        setMessage(`Din avbokning med Bookningsnummer ${send.bookingNumber} är nu genomförd`);
+                    case !200:
+                        setMessage("Ops! Ett fel har uppstått. Försök senare eller kontakta oss via kundtjänst");
                         break;
                     default:
-                        setShow(false)
-                        setMessage("Oj! ett fel har inträffat. Vänligen försök igen eller försöksenare");
                 }
             }).catch(e => console.log(e))
     };
@@ -32,6 +29,7 @@ export default function CancelView() {
     async function fetchData() {
         var result = await get(`/Bookings/confirm/${send.bookingNumber}/${send.emailAdress}`)
         setData(result)
+        return result;
     }
 
     useEffect(() => {
@@ -74,15 +72,26 @@ export default function CancelView() {
     const handleShow = () => setShow(true);
 
     const verifyData = async () => {
-        let data = await fetchData()
-        if (!data.bookingId) {
-            handleClose();
-            setMessage("Det angivna bokningsnumret eller e-posten är fel!");
-        }
-        else if (data.bookingId) {
-            handleShow()
+        let data = await fetchData();
+
+        if (data.bookingId == null) {
+            setMessage("Det angivna bokningsnumret eller e-postadressen är felaktig");
+        } else {
+            handleShow();
+            setMessage("");
         }
     }
+
+    const confirmDelete = async () => {
+        await SendDelete();
+        handleClose();
+        setSend({
+            bookingNumber: "",
+            emailAdress: ""
+        })
+        setMessage("Avbokning har genomförts. Välkommen åter!")
+    }
+
     return (
         <Container>
             <h1>Avbokning</h1>
@@ -103,7 +112,7 @@ export default function CancelView() {
                         <Button variant="secondary" onClick={handleClose}>
                             Behåll bokning
                         </Button>
-                        <Button variant="primary" onClick={SendDelete}>
+                        <Button variant="primary" onClick={confirmDelete}>
                             Avboka bokning
                         </Button>
                     </Modal.Footer>

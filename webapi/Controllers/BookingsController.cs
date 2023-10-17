@@ -74,6 +74,12 @@ namespace webapi.Controllers
             var found = await _context.usersAndBookings.FirstOrDefaultAsync(
                x => x.bookingNumber == bookingNumber && x.EmailAdress == emailAdress);
 
+            if (found == null)
+            {
+                // Handle the case where no matching record is found
+                return BadRequest($"A booking with the number: {bookingNumber} and email adress: {emailAdress} does not exist in our database.");
+            }
+
             var foundBookingId = _context.bookings.Where(x => x.Id == found.bookingId);
 
             var result = await _context.bookings
@@ -100,11 +106,6 @@ namespace webapi.Controllers
                      })
                  })
                  .FirstOrDefaultAsync();
-
-            if (result is null)
-            {
-                return BadRequest($"Given booking number and email adress doesnt match to our database");
-            }
 
             return Ok(result);
         }
