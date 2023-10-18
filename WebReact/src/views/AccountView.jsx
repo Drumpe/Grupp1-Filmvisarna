@@ -1,15 +1,25 @@
-
+import {useState, useEffect} from "react";
 import React from "react";
 import { Col, Container, Row } from 'react-bootstrap';
 import { useOutletContext } from "react-router-dom";
+import { get } from '../utilsAndHooks/rest';
 
 export default function AccountView() {
     const { movies, user } = useOutletContext();
+    let email = user.email;
+    let [bookings, setBookings] = useState({ bookings: [] });
 
-    //Hämta bokningar
-
-    //Vilka bokningar har varit och vilka är kommande?
-
+    useEffect(() => {
+        if (user && user.email) {
+            (async () => {
+                setBookings({
+                    ...bookings,
+                    bookings: await get(`bookings/getbyemail/${user.email}`)
+                });
+            })();
+        }
+    }, [user]);
+       
     return (
        <Container className="my-4">
             <Row>
@@ -35,4 +45,4 @@ export default function AccountView() {
             </Row>
          </Container>     
     );
-}
+    }
