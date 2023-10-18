@@ -25,6 +25,7 @@ export default function App() {
     })();
   }, []);
 
+  // setUser uppdaterar user - Kan den simplifieras
   async function setUser() {
     await setGlobals({
       ...globals,

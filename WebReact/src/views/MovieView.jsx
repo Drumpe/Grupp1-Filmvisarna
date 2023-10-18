@@ -7,7 +7,7 @@ import { capitalize, getSentenceDelimiter, getLocaleDateString, getLocaleTimeStr
 
 
 function MovieView() {
-	const [ {movies, user}, setUser ] = useOutletContext();
+	const [ {movies}] = useOutletContext();
 	let { movieId } = useParams();
 	const [screenings, setScreenings] = useState({ screenings: [] });
 	const [ movie, setMovie ] = useState(null);

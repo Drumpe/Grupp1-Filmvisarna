@@ -6,7 +6,7 @@ import { useOutletContext } from 'react-router-dom';
 
 export default function StartView() {
 
-    const [{movies, user}, setUser] = useOutletContext();
+    const [{movies}] = useOutletContext();
     const [selectedAge, setSelectedAge] = useState(18);  // Default age
     const [filteredMovies, setFilteredMovies] = useState([]);
 

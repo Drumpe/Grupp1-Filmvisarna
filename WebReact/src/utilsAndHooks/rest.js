@@ -10,7 +10,6 @@ export async function post(route, body, method = 'POST') {
 
 // get (read)
 export async function get(route, method = 'GET') {
-  console.log("debug",method);
   return await (await fetch('/api/' + route, { method }))
     .json().catch(e => ({ error: e + '' }));
 }
@@ -23,7 +22,6 @@ export async function put(route, body) {
 // del (delete)
 // (delete is a reserved JS word so 'del' instead)
 export async function del(route) {
-  console.log("making delete");
   return get(route, 'DELETE');
 }
 

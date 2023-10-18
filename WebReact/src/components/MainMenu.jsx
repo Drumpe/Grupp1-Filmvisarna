@@ -17,7 +17,6 @@ export default function MainMenu({user, setUser}) {
     }
     setUser();
     navigate("/");
-    //console.log("LOGOUT: ", result);
   }
 
   return (

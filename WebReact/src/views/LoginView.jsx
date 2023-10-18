@@ -6,7 +6,7 @@ import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 
 export default function LoginView() {
   let navigate = useNavigate();
-  const [{movies, user}, setUser] = useOutletContext();
+  const [{},setUser] = useOutletContext();
   const [formData, setFormData] = useState({ email: '', password: '' });
 
   const sendRequest = async () => {
