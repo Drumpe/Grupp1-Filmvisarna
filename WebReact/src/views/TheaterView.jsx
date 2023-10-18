@@ -49,8 +49,8 @@ const TheaterView = () => {
                 var screeningSeats = await get(`seats/screening/${screeningId}`);
                 var seats = screeningSeats.seats;
                 
-                seats.forEach((element) => {
-                    element.wanted = false;
+                seats.forEach((seat) => {
+                    seat.wanted = false;
                 });
 
                 setMovieId(screeningSeats.movieId);
@@ -69,56 +69,68 @@ const TheaterView = () => {
 
     
     useEffect(() => {
-        const _seatStatusFeed = {
+        let feed = {
             socket: null,
 
-            connect: () => {
-                // Can't get https or wss protocol to work on my side (Albin), fix later...
-                _seatStatusFeed.socket = new WebSocket(`ws://localhost:5052`);
-
-                _seatStatusFeed.socket.onopen = () => {
-                    //maybe
-                }
-
-                _seatStatusFeed.socket.onclose = () => {
-                    //maybe
-                }
+            connect: async () => {
+                // Uses ws://, incorrect certificate on my side for https/wss (Albin), fix later...
+                feed.socket = new WebSocket(`ws://localhost:5052`);
             
-                _seatStatusFeed.socket.onmessage = (ev) => {
+                feed.socket.onmessage =  async (ev) => {
                     let seatStatus = JSON.parse(ev.data);
                     if (seatStatus.status === `booked`) {
                         let bookedSeats = seatStatus.seats;
-                        updateSeatStatus(bookedSeats);
+                        //updateSeatStatus(bookedSeats);
+
+                        let updatedSeats = [...seats];
+                        bookedSeats.forEach((seatId) => {
+                            let idx = updatedSeats.findIndex((seat) => seat.seatId === seatId);
+                            updatedSeats[idx].booked = !updatedSeats[idx].booked;
+                        });
+                        setSeats(updatedSeats);
                     }
+                };
+
+                feed.socket.onopen = () => {
+                    //maybe
+                };
+
+                feed.socket.onclose = () => {
+                    //maybe
                 };
             },
 
             close: () => {
                 // Debug, switch check later
-                if (_seatStatusFeed.socket == null || _seatStatusFeed.socket.readyState !== WebSocket.OPEN) {
+                if (feed.socket == null || feed.socket.readyState !== WebSocket.OPEN) {
                     console.warn(`Socket not connected`);
                 }
-                _seatStatusFeed.socket.close(1000, `Closing from client`);
+                feed.socket.close(1000, `Closing from client`);
             },
 
             book: (seats) => {
-                if (_seatStatusFeed.socket !== null && _seatStatusFeed.socket.readyState == WebSocket.OPEN) {
+                if (feed.socket !== null && feed.socket.readyState == WebSocket.OPEN) {
                     let message = JSON.stringify({
                         "status": "booked",
                         "seats": seats,
                     });
-                    _seatStatusFeed.socket.send(message);
+                    feed.socket.send(message);
                     return true;
                 }
                 return false;
             },
         };
-        setSeatStatusFeed(_seatStatusFeed);
-    }, []);
+        setSeatStatusFeed(feed);
+        return () => {
+            if (feed.socket) {
+                feed.close();
+            }
+        };
+    }, [seats]);
 
     if (!seatStatusFeed) {
         return null;
-    } else if (seatStatusFeed.socket == null){
+    } else if (seatStatusFeed.socket == null) {
         seatStatusFeed.connect();
     }
 
@@ -187,30 +199,6 @@ const TheaterView = () => {
         setSeats(updatedSeats);
         setTickets(updatedTickets);
     };
-
-    const updateSeatStatus = (bookedSeats) => {
-        var updatedSeats = [...seats];
-        bookedSeats.forEach((seatId) => {
-            var idx = updatedSeats.findIndex((seat) => seat.seatId === seatId);
-            updatedSeats[idx].booked = !updatedSeats[idx].booked;
-        });
-        setSeats(updatedSeats);
-    };
-
-    /* function updateSeatStatus(updatedSeatId) {
-        setSeats(seats.map(s => {
-          if (s.seatId === updatedSeatId) {
-            return { 
-                seatId: s.seatId,
-                seat: s.seat,
-                row: s.row,
-                booked: true
-            };
-          } else {
-            return s;
-          }
-        }));
-      } */
 
     function handleSubmit(event) {
         const form = event.currentTarget;
