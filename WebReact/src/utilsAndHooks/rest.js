@@ -5,7 +5,7 @@ export async function post(route, body, method = 'POST') {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   }))
-    .json().catch(e => ({ error: e + '<-- POST' }));
+    .json().catch(e => ({ error: e + '' }));
 }
 
 // get (read)
