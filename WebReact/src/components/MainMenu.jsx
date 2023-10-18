@@ -32,8 +32,7 @@ export default function MainMenu({ user }) {
                 <img src="/img/logo/filmvisarna-logo-icon.png" className="d-block custom-logo-navbar mx-auto"></img>
                 Filmvisarna
               </div>
-            </Navbar.Brand>
-            <div></div>
+            </Navbar.Brand>         
             <Navbar.Offcanvas
               id={`offcanvasNavbar-expand-${expand}`}
               aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
@@ -44,7 +43,7 @@ export default function MainMenu({ user }) {
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}></Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
-                <Nav className="justify-content-end flex-grow-1 fs-5 ">
+                <Nav className="justify-content-end flex-grow-1 fs-5">
                   {(user.userRole === "member") ?
                     <>
                       <Nav.Link href="/StartView/" onClick={logout}>Logga ut</Nav.Link>
