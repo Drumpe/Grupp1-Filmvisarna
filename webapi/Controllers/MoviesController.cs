@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using webapi.Controllers.Utilities;
 using webapi.Data;
 using webapi.Entities;
 
@@ -9,6 +10,7 @@ namespace webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+   
     public class MoviesController : GenericController<Movie>
     {
         public MoviesController(FilmvisarnaContext context) : base(context)
