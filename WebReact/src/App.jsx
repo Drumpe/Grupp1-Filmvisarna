@@ -33,7 +33,7 @@ export default function App() {
   <main className="container mt-1">
     <Outlet context={globals} />
   </main>
-  <footer className="container-fluid">
+  <footer className="container-flex">
     <Footer />
   </footer>
   </>;
