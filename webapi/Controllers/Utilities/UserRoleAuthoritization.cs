@@ -10,36 +10,43 @@ namespace webapi.Controllers.Utilities
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            var dbContext = context.HttpContext.RequestServices.GetRequiredService<FilmvisarnaContext>(); //get db context (cant fetch via controller) filters not part of DI container by default
-            var userRole = context.HttpContext.Session.GetString("UserRole"); // get session user role
-            var endpoint = context.HttpContext.Request.Path.Value; // get the endpoint we call from
+            var dbContext = context.HttpContext.RequestServices.GetRequiredService<FilmvisarnaContext>();
+            var userRole = context.HttpContext.Session.GetString("UserRole");
+            var endpoint = context.HttpContext.Request.Path.Value;
             endpoint = Regex.Replace(endpoint, @"/\d+$", "");
+            var httpMethod = context.HttpContext.Request.Method;
+            var allowedUsers = new List<string>();
 
-            var httpMethod = context.HttpContext.Request.Method; // get the request method (get, post)
-            var requiredUserRoles = new List<string>();
+            // following is a temporary fix to be able to handle our current endpoints
+            string prefix = "/api/Bookings/confirm";
+            string prefix2 = "/api/Bookings/RemoveBooking";
 
-
+            if (endpoint.StartsWith(prefix))
+            {
+                endpoint = endpoint.Remove(prefix.Length);
+            }
+            else if (endpoint.StartsWith(prefix2))
+            {
+                endpoint = endpoint.Remove(prefix2.Length);
+            }
 
             try
             {
-                // Find all rows in the database that correspond to the endpoint and request method
                 var auths = dbContext.authorizations
                     .Include(a => a.UserRoles)
                     .Where(a => a.Endpoint == endpoint && a.HttpMethod == httpMethod)
                     .ToList();
-
-                // try to set required userRoles in variable
-                requiredUserRoles.AddRange(auths.Select(a => a.UserRoles.Name));
+                allowedUsers.AddRange(auths.Select(a => a.UserRoles.Name));
             }
-            // catch if endpoint is not yet in db
+    
             catch (Exception e)
             {
                 System.Console.WriteLine("Unauthorized");
                 context.Result = new UnauthorizedResult();
                 return;
             }
-            // reject authorization if userrole doesnt match
-            if (!requiredUserRoles.Contains(userRole))
+            
+            if (!allowedUsers.Contains(userRole))
             {
                 context.Result = new UnauthorizedResult();
             }
