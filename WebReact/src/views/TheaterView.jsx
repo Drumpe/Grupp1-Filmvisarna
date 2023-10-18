@@ -9,7 +9,7 @@ const PENSIONARS_PRIS = 120;
 const VUXEN_PRIS = 140;
 
 const TheaterView = () => {
-    const { movies, user } = useOutletContext();
+    const { user } = useOutletContext();
     const { screeningId } = useParams();
     const [formData, setFormData] = useState({ email: '' });
     const [theater, setTheater] = useState({ id: 0, name: "" });
@@ -26,7 +26,7 @@ const TheaterView = () => {
     const [seatStatusFeed, setSeatStatusFeed] = useState(null);
 
     const sendRequest = async () => {
-        if ((!validatedEmail && user.userRole === "guest")|| summa == 0) {
+        if ((!validatedEmail && user.userRole === "guest") || summa == 0) {
             if (validatedEmail) {
                 alert("Minst en biljett måste väljas för att boka.");
             }
@@ -48,7 +48,7 @@ const TheaterView = () => {
             try {
                 var screeningSeats = await get(`seats/screening/${screeningId}`);
                 var seats = screeningSeats.seats;
-                
+
                 seats.forEach((seat) => {
                     seat.wanted = false;
                 });
@@ -67,7 +67,7 @@ const TheaterView = () => {
         initSeats();
     }, []); // Empty dependency array to run the effect only once
 
-    
+
     useEffect(() => {
         let feed = {
             socket: null,
@@ -75,17 +75,17 @@ const TheaterView = () => {
             connect: async () => {
                 // Uses ws://, incorrect certificate on my side for https/wss (Albin), fix later...
                 feed.socket = new WebSocket(`ws://localhost:5052`);
-            
-                feed.socket.onmessage =  async (ev) => {
+
+                feed.socket.onmessage = async (ev) => {
                     let seatStatus = JSON.parse(ev.data);
                     if (seatStatus.status === `booked`) {
                         let bookedSeats = seatStatus.seats;
-                        //updateSeatStatus(bookedSeats);
 
                         let updatedSeats = [...seats];
+
                         bookedSeats.forEach((seatId) => {
-                            let idx = updatedSeats.findIndex((seat) => seat.seatId === seatId);
-                            updatedSeats[idx].booked = !updatedSeats[idx].booked;
+                            let seat = updatedSeats.find(s => s.seatId === seatId);
+                            seat.booked = true;
                         });
                         setSeats(updatedSeats);
                     }
@@ -317,30 +317,30 @@ const TheaterView = () => {
                 </Col>
             </Row>
             <Form validated={validatedEmail} onSubmit={handleSubmit}>
-                { user.userRole === "guest"? 
-                <>
-                <Row className="mb-3">
-                    <Col className="d-flex justify-content-center mt-3">
-                        <Form.Group>
-                            <Form.Label>E-postadress</Form.Label>
-                            <InputGroup>
-                                <Form.Control
-                                    type="email"
-                                    name="email"
-                                    required
-                                    value={formData.email}
-                                    placeholder="namn@exempel.com"
-                                    onChange={handleInputChange} />
-                                <Form.Control.Feedback type="invalid">
-                                    Ange din e-postadress.
-                                </Form.Control.Feedback>
-                            </InputGroup>
-                        </Form.Group>
-                    </Col>
-                </Row>
-                </>
-                :
-                <Row className="d-flex justify-content-center mt-3">Bokningen skickas till: {user.email}</Row>
+                {user.userRole === "guest" ?
+                    <>
+                        <Row className="mb-3">
+                            <Col className="d-flex justify-content-center mt-3">
+                                <Form.Group>
+                                    <Form.Label>E-postadress</Form.Label>
+                                    <InputGroup>
+                                        <Form.Control
+                                            type="email"
+                                            name="email"
+                                            required
+                                            value={formData.email}
+                                            placeholder="namn@exempel.com"
+                                            onChange={handleInputChange} />
+                                        <Form.Control.Feedback type="invalid">
+                                            Ange din e-postadress.
+                                        </Form.Control.Feedback>
+                                    </InputGroup>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                    </>
+                    :
+                    <Row className="d-flex justify-content-center mt-3">Bokningen skickas till: {user.email}</Row>
                 }
                 <Row>
                     <Col className="d-flex justify-content-center mt-3">
