@@ -10,11 +10,11 @@ const PENSIONARS_PRIS = 120;
 const VUXEN_PRIS = 140;
 
 const TheaterView = () => {
-    const { movies, user } = useOutletContext();
+    const [{ movies, user }, setUser ]= useOutletContext();
     const { screeningId } = useParams();
     const [formData, setFormData] = useState({ email: '' });
     const [theater, setTheater] = useState({ id: 0, name: "" });
-    let [seats, setSeats] = useState(null);
+    const [seats, setSeats] = useState(null);
     const [tickets, setTickets] = useState({
         ordinary: 0,
         child: 0,

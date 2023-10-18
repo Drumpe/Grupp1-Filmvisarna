@@ -7,7 +7,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import { del } from '../utilsAndHooks/rest';
 
 
-export default function MainMenu({ user }) {
+export default function MainMenu({user, setUser}) {
   let navigate = useNavigate();
   async function logout() {
     try {
@@ -15,6 +15,7 @@ export default function MainMenu({ user }) {
     } catch (error) {
       console.log("Error i logout: ", error);
     }
+    setUser();
     navigate("/");
     //console.log("LOGOUT: ", result);
   }

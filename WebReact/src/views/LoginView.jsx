@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { post } from '../utilsAndHooks/rest';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { post, get } from '../utilsAndHooks/rest';
+import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 
 
 export default function LoginView() {
   let navigate = useNavigate();
+  const [{movies, user}, setUser] = useOutletContext();
   const [formData, setFormData] = useState({ email: '', password: '' });
 
   const sendRequest = async () => {
@@ -14,7 +15,8 @@ export default function LoginView() {
       emailAdress: formData.email,
       password: formData.password
     }
-    var result = await post('users/login', login);
+    await post('users/login', login);
+    setUser();
     navigate("/");
     //window.location.href = '/StartView/';
   };

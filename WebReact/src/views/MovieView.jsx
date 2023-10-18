@@ -7,11 +7,11 @@ import { capitalize, getSentenceDelimiter, getLocaleDateString, getLocaleTimeStr
 
 
 function MovieView() {
-	const { movies } = useOutletContext();
+	const [ {movies, user}, setUser ] = useOutletContext();
 	let { movieId } = useParams();
-	let [screenings, setScreenings] = useState({ screenings: [] });
-	let [ movie, setMovie ] = useState(null);
-	let [selectedScreening, setSelectedScreening] = useState('');
+	const [screenings, setScreenings] = useState({ screenings: [] });
+	const [ movie, setMovie ] = useState(null);
+	const [selectedScreening, setSelectedScreening] = useState('');
 
 	// type casting
 	movieId = +movieId;
