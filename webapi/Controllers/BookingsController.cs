@@ -52,6 +52,32 @@ namespace webapi.Controllers
             return Ok(result);
         }
 
+        [HttpGet("date/{date}")]
+
+        public async Task<IActionResult> sortDate(string date)
+        {
+            if (DateTime.TryParse(date, out var jsonDate))
+            {
+                var result = await _context.screenings
+                .Where(b => b.DateAndTime == jsonDate)
+                .ToListAsync();
+                if (result.Count() > 0)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return NotFound("No matching record found for the given date.");
+                }
+            }
+            else
+            {
+                return BadRequest
+                ("Invalid date format. Please provide a valid date in a recognized format.");
+            }
+
+        }
+
 
         [HttpGet("number/{bookingNumber}")]
 
