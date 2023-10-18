@@ -68,8 +68,7 @@ export default function RegisterView() {
                     firstName: '',
                     lastName: '',
                     email: '',
-                    password: ''
-                });
+                    password: ''                });
             }
         } catch (error) {
             // Handle unexpected errors from API call)
@@ -84,24 +83,30 @@ export default function RegisterView() {
 
     return (
         <Container>
-            <Col className="mx-auto text-center">
-                <Image src="/img/logo/filmvisarna-logo-icon.png" roundedCircle style={{ width: '100px', height: '100px' }} />
+            <Col className="mx-auto text-center d-none d-lg-block ">
+                <Image src="/img/logo/filmvisarna-logo-icon.png"  roundedCircle style={{ width: '100px', height: '100px'} } />
             </Col>
             <h1 className="text-center">Bli Medlem</h1>
             <Form className="mx-auto" onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formGroupFirstName">
-                    <Form.Label>Förnamn</Form.Label>
+                <div className="form-floating my-4">
                     <Form.Control type="text" name="firstName" placeholder="Förnamn" onChange={handleInputChange} />
+                    <Form.Label>Förnamn</Form.Label>
+                </div>
+
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formGroupLastName">
-                    <Form.Label>Efternamn</Form.Label>
+                <div className="form-floating my-4">
                     <Form.Control type="text" name="lastName" placeholder="Efternamn" onChange={handleInputChange} />
+                    <Form.Label>Efternamn</Form.Label>
+                    </div>
                 </Form.Group>
+               
                 <Form.Group className="mb-3" controlId="formGroupPassword">
-                    <Form.Label>Lösenord</Form.Label>
+                    
                     <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div className="form-floating my-4 col-10">
                         <Form.Control
-                            style={{ flex: '1' }}  // This will make the input take up all available space
                             type={showPassword ? 'text' : 'password'}
                             name="password"
                             placeholder="Lösenord"
@@ -109,6 +114,8 @@ export default function RegisterView() {
                             isInvalid={!passwordValid && passwordTouched}
                             onChange={handleInputChange}
                         />
+                        <Form.Label>Lösenord</Form.Label>
+                        </div>
                         <Button
                             variant="outline-secondary"
                             onClick={toggleShowPassword}

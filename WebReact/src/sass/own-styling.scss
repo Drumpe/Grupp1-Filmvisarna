@@ -10,6 +10,7 @@ Usage:
 ------
 Logo size will adapt after text size; for example, use className="h4" in parent
 */
+
 .custom-logo-navbar {
     height: 2.4em;
     margin-bottom: .4em;
@@ -45,6 +46,12 @@ Logo size will adapt after text size; for example, use className="h4" in parent
 }
 
 /* End Custom UI elements */
+/* Body Start*/
+
+body {
+    margin-top: 100px;
+}
+/*Body end*/
 
 /* Display utility classes */
 

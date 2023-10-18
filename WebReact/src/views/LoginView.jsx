@@ -26,17 +26,18 @@ export default function LoginView() {
     });
   }
   return (
-    <div class="border rounded bg-info">
-      <div className="d-flex justify-content-around mt-3">
+    <div className="container">
+    <div className="border rounded bg-info">
+      <div className="d-flex justify-content-around mt-4 ">
         <h1 className='text-center'>Logga in</h1>
       </div>
       <div className=" my-3 mx-3">
         <Form>
-          <div className="form-floating">
+          <div className="form-floating mx-4">
           <Form.Control type="email" name="email" value={formData.email} className='rounded-0' placeholder="Email" onChange={handleInputChange} />
           <Form.Label>E-postadress</Form.Label>
           </div>
-          <div className="form-floating my-4">
+          <div className="form-floating my-4 mx-4">
           <Form.Control type="password" name="password" value={formData.password} className='rounded-0' placeholder="Lösenord" onChange={handleInputChange} />
           <Form.Label>Lösenord</Form.Label>
           </div>
@@ -49,5 +50,6 @@ export default function LoginView() {
         </Button>
       </div>
     </div>
+  </div>
   );
 }

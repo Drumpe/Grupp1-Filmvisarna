@@ -22,10 +22,10 @@ export default function MainMenu({ user }) {
       {["lg"].map((expand) => (
         <Navbar
           key={expand} expand={expand}
-          className="mb-3 navbar-dark"
+          className="mb-3 navbar-dark fixed-top bg-info"
         >
 
-          <Container fluid>
+          <Container>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             <Navbar.Brand href="/StartView">
               <div className="h6 text-secondary custom-text-logo text-center m-0">
@@ -44,7 +44,7 @@ export default function MainMenu({ user }) {
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}></Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
-                <Nav className="justify-content-center flex-grow-1 ">
+                <Nav className="justify-content-end flex-grow-1 fs-5 ">
                   {(user.userRole === "member") ?
                     <>
                       <Nav.Link href="/StartView/" onClick={logout}>Logga ut</Nav.Link>
