@@ -67,6 +67,49 @@ namespace webapi.Controllers
 
         }
 
+        [HttpGet("confirm/{bookingNumber}/{emailAdress}")]
+
+        public async Task<IActionResult> ConfirmExistance(string bookingNumber, string emailAdress)
+        {
+            var found = await _context.usersAndBookings.FirstOrDefaultAsync(
+               x => x.bookingNumber == bookingNumber && x.EmailAdress == emailAdress);
+
+            if (found == null)
+            {
+                // Handle the case where no matching record is found
+                return BadRequest($"A booking with the number: {bookingNumber} and email adress: {emailAdress} does not exist in our database.");
+            }
+
+            var foundBookingId = _context.bookings.Where(x => x.Id == found.bookingId);
+
+            var result = await _context.bookings
+                 .Where(b => b.Id == found.bookingId)
+                 .Select(b => new
+                 {
+                     bookingId = b.Id,
+                     BookingNumber = b.BookingNumber,
+                     BookingTime = b.BookingDateTime,
+                     FirstName = b.User.FirstName,
+                     LastName = b.User.LastName,
+                     Email = b.User.EmailAdress,
+                     Movie = b.Screening.Movie.Name,
+                     Theater = b.Screening.Theater.Name,
+                     ScreeningTime = b.Screening.DateAndTime,
+
+                     Tickets = b.BookingXSeats.Select(bxs => new
+                     {
+                         Row = bxs.Seat.Row,
+                         Seat = bxs.Seat.seat,
+                         Type = bxs.PriceCategory.Name,
+                         Price = bxs.PriceCategory.Price,
+                         SeatId = bxs.Seat.Id
+                     })
+                 })
+                 .FirstOrDefaultAsync();
+
+            return Ok(result);
+        }
+
         [HttpPost("detailed")]
         public async Task<IActionResult> PostBookingModel(MakeBookingModel model)
         {

@@ -4,18 +4,15 @@ using webapi.Middleware;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy =>
-                      {
-                          //Frontend domän URL
-                          policy.WithOrigins("http://localhost:5173").AllowAnyMethod();
-                      });
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173").AllowAnyMethod();
+        });
 });
 
 //Add database support

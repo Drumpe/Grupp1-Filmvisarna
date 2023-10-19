@@ -18,8 +18,9 @@ namespace webapi.Data
         public DbSet<Theater> theaters { get; set; }
         public DbSet<User> users { get; set; }
         public DbSet<UsersAndBookings> usersAndBookings { get; set; }
+        public DbSet<Authorization> authorizations { get; set; }
+        public DbSet<UserRole> userRoles { get; set; }
 
-        
 
         public FilmvisarnaContext(DbContextOptions options) : base(options) { }
 
