@@ -88,7 +88,16 @@ const TheaterView = () => {
 
                 feed.socket.onmessage = async (ev) => {
                     let seatStatus = JSON.parse(ev.data);
-                    if (seatStatus.status === `booked`) {
+
+                    if (seatStatus.status === `ready`) {
+                        if (feed.socket !== null && feed.socket.readyState == WebSocket.OPEN) {
+                            let message = JSON.stringify({
+                                "status": "screening",
+                                "screeningId": screeningId,
+                            });
+                            feed.socket.send(message);
+                        }
+                    } else if (seatStatus.status === `book`) {
                         let screeningSeats = await get(`seats/screening/${screeningId}`);
                         let updatedSeats = screeningSeats.seats;
 
@@ -103,14 +112,6 @@ const TheaterView = () => {
                         setSeats(updatedSeats);
                     }
                 };
-
-                feed.socket.onopen = () => {
-                    //maybe
-                };
-
-                feed.socket.onclose = () => {
-                    //maybe
-                };
             },
 
             close: () => {
@@ -119,17 +120,44 @@ const TheaterView = () => {
                 }
             },
 
-            book: (seats) => {
+            /* setScreening: () => {
                 if (feed.socket !== null && feed.socket.readyState == WebSocket.OPEN) {
                     let message = JSON.stringify({
-                        "status": "booked",
-                        "seats": seats,
+                        "status": "screening",
+                        "screeningId": screeningId,
+                    });
+                    feed.socket.send(message);
+                } else {
+                    console.warn("nope");
+                }
+            }, */
+
+            book: (screeningId) => {
+                if (feed.socket !== null && feed.socket.readyState == WebSocket.OPEN) {
+                    let message = JSON.stringify({
+                        "status": "book",
+                        "screeningId": screeningId,
                     });
                     feed.socket.send(message);
                     return true;
                 }
                 return false;
             },
+
+            /* updateSeats: async () => {
+                let screeningSeats = await get(`seats/screening/${screeningId}`);
+                let updatedSeats = screeningSeats.seats;
+
+                seats.forEach((seat, i) => {
+                    if (seat.wanted && !updatedSeats[i].booked) {
+                        updatedSeats[i].wanted = true;
+                    } else if (seat.wanted && updatedSeats[i].booked) {
+                        seatClicked(seat.seatId);
+                        setIsWantedConflict(true);
+                    }
+                });
+                setSeats(updatedSeats);
+            }, */
         };
         setSeatStatusFeed(feed);
         return () => {
