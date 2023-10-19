@@ -78,7 +78,8 @@ namespace webapi.Middleware
 
                         if (status.ToString() == "book")
                         {
-                            await BroadcastAsync(message.ToString());
+                            //await BroadcastAsync(data);
+                            await BroadcastToScreeningAsync(data, screeningId.ToString());
                         }
 
                         if (status.ToString() == "screening")
@@ -93,6 +94,11 @@ namespace webapi.Middleware
                 else if (result.MessageType == WebSocketMessageType.Close)
                 {
                     Console.WriteLine($"Closing request from {connectionId} recieved.");
+                    if (!_manager.GetAllScreeningIds().TryRemove(connectionId, out string _connectionId))
+                    {
+                        Console.Error.Write($"Connection id: {connectionId} not found when removing associated screeningId.");
+                    }
+
                     if (!_manager.GetAllConnections().TryRemove(connectionId, out WebSocket _connection))
                     {
                         Console.Error.Write($"Connection id: {connectionId} not found in manager.");
@@ -137,7 +143,14 @@ namespace webapi.Middleware
         {
             foreach (var connection in _manager.GetAllConnections())
             {
-                if (_manager.GetScreeningId(connection.Key) == screeningId)
+                string connectionScreeningId = string.Empty;
+                if (!_manager.GetAllScreeningIds().TryGetValue(connection.Key, out connectionScreeningId))
+                {
+                    Console.Error.Write($"No screeningId associated with {connection.Key}");
+                    return;
+                }
+
+                if (connection.Value.State == WebSocketState.Open && connectionScreeningId.Equals(screeningId))
                 {
                     await connection.Value.SendAsync(Encoding.UTF8.GetBytes(message),
                         WebSocketMessageType.Text, true, CancellationToken.None);
@@ -147,6 +160,11 @@ namespace webapi.Middleware
 
         private async Task CloseClientAsync(string connectionId)
         {
+            if (!_manager.GetAllScreeningIds().TryRemove(connectionId, out string _connectionId))
+            {
+                Console.Error.Write($"Connection id: {connectionId} not found when removing associated screeningId.");
+            }
+
             if (!_manager.GetAllConnections().TryRemove(connectionId, out WebSocket _connection))
             {
                 Console.Error.Write($"Connection id: {connectionId} not found in manager.");
@@ -158,7 +176,6 @@ namespace webapi.Middleware
             return;
         }
 
-        // Send screeningId to client
         private async Task SendReadyAsync(WebSocket socket)
         {
             var status = new { status = "ready" };

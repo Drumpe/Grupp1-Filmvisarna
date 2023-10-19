@@ -8,6 +8,7 @@ namespace webapi.Middleware
         private ConcurrentDictionary<string, WebSocket> _connections = new();
         private ConcurrentDictionary<string, string> _screeningIds = new();
         public ConcurrentDictionary<string, WebSocket> GetAllConnections() => _connections;
+        public ConcurrentDictionary<string, string> GetAllScreeningIds() => _screeningIds;
 
         public string AddConnection(WebSocket connection)
         {
@@ -26,16 +27,6 @@ namespace webapi.Middleware
                 return true;
 
             return false;
-        }
-
-        public string GetScreeningId(string guid)
-        {
-            string screeningId = string.Empty;
-            if (!_screeningIds.TryGetValue(guid, out screeningId))
-            {
-                return null;
-            }
-            return screeningId;
         }
     }
 }
