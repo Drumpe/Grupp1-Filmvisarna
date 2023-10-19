@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import { Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
 
 export default function StartView() {
 
-    const { movies, user } = useOutletContext();
+    const [{movies}] = useOutletContext();
     const [selectedAge, setSelectedAge] = useState(18);  // Default age
     const [filteredMovies, setFilteredMovies] = useState([]);
 
@@ -24,7 +24,7 @@ export default function StartView() {
             <Row>
                 <Col>
                     <h1 className="mb-4 text-primary d-inline-block">Visas nu</h1>
-                    <select 
+                    <select
                         className="form-select text-secondary me-2 w-auto d-inline-block float-end"
                         onChange={handleAgeChange}
                         value={selectedAge}
@@ -39,12 +39,12 @@ export default function StartView() {
             </Row>
 
             <Row className="align-items-center">
-                {filteredMovies.map(({ id, movie, images }) => 
+                {filteredMovies.map(({ id, movie, images }) =>
                     <Col className="col-6 col-lg-3 mb-4" key={id}>
-                        <Link to={`/MovieView/${id}`} className="link-light link-underline-opacity-25 link-underline-opacity-75-hover">
+                        <NavLink to={`/MovieView/${id}`} className="link-light link-underline-opacity-25 link-underline-opacity-75-hover">
                             <Card.Img className="top rounded ratio-6x9" alt={`${movie}`} src={`/img/poster/${images[0]}`} />
                             <Card.Title className="text-center">{movie}</Card.Title>
-                        </Link>
+                        </NavLink>
                     </Col>)}
             </Row>
         </>
