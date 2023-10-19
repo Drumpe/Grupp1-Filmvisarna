@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Container, Row, Col, Button, Form, InputGroup } from 'react-bootstrap';
 import { get, post } from '../utilsAndHooks/rest';
-import { Link, useParams, useOutletContext, useNavigate, Navigate } from "react-router-dom";
+import { Link, useParams, useOutletContext, useNavigate } from "react-router-dom";
 import ShowSeats from "../components/ShowSeats";
 
 const BARN_PRIS = 80;
@@ -120,19 +120,7 @@ const TheaterView = () => {
                 }
             },
 
-            /* setScreening: () => {
-                if (feed.socket !== null && feed.socket.readyState == WebSocket.OPEN) {
-                    let message = JSON.stringify({
-                        "status": "screening",
-                        "screeningId": screeningId,
-                    });
-                    feed.socket.send(message);
-                } else {
-                    console.warn("nope");
-                }
-            }, */
-
-            book: (screeningId) => {
+            book: () => {
                 if (feed.socket !== null && feed.socket.readyState == WebSocket.OPEN) {
                     let message = JSON.stringify({
                         "status": "book",
@@ -142,22 +130,7 @@ const TheaterView = () => {
                     return true;
                 }
                 return false;
-            },
-
-            /* updateSeats: async () => {
-                let screeningSeats = await get(`seats/screening/${screeningId}`);
-                let updatedSeats = screeningSeats.seats;
-
-                seats.forEach((seat, i) => {
-                    if (seat.wanted && !updatedSeats[i].booked) {
-                        updatedSeats[i].wanted = true;
-                    } else if (seat.wanted && updatedSeats[i].booked) {
-                        seatClicked(seat.seatId);
-                        setIsWantedConflict(true);
-                    }
-                });
-                setSeats(updatedSeats);
-            }, */
+            }
         };
         setSeatStatusFeed(feed);
         return () => {
@@ -288,17 +261,8 @@ const TheaterView = () => {
     }
 
     function setBookedStatus() {
-        var bookedSeats = [];
-        seats.forEach((seat) => {
-            if (seat.wanted) {
-                bookedSeats.push(seat.seatId);
-            }
-        });
-        if (bookedSeats.length > 0) {
-            let isStatusSent = seatStatusFeed.book(bookedSeats);
-            return isStatusSent;
-        }
-        return false;
+        let isStatusSent = seatStatusFeed.book();
+        return isStatusSent;
     }
 
     return !seats ? null : (
