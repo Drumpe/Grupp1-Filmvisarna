@@ -143,6 +143,7 @@ namespace webapi.Controllers
                 UserId = user.Id,
                 BookingNumber = BookingNumberGenerator.GenerateRandomNumber(),
                 BookingDateTime = DateTime.Now
+
             };
 
             _context.bookings.Add(booking);
@@ -163,6 +164,12 @@ namespace webapi.Controllers
 
             await _context.SaveChangesAsync();
 
+            var screening = await _context.screenings
+                                  .Include(s => s.Movie)
+                                  .SingleOrDefaultAsync(s => s.Id == booking.ScreeningId);
+            var movieName = screening?.Movie?.Name ?? "Unknown";  // Default to "Unknown" if the movie name is not found
+
+
             var response = new
             {
                 BookingId = booking.Id
@@ -174,35 +181,32 @@ namespace webapi.Controllers
             {
                 string userFirstName = booking.User.FirstName;
                 string bookingNumber = booking.BookingNumber;
-                // DateTime bookingDate = booking.BookingDateTime;
-                // int numberOfTickets = booking.BookingXSeats.Count;
-                // string movieName = booking.Screening.Movie.Name;
+                int numberOfTickets = booking.BookingXSeats.Count;
+
 
                 string to = model.EmailAdress;
                 string subject = "Bokning hos Filmvisarna";
-                string body = $"""
-                <html>
-                <body>
-                <p>Hej {userFirstName}, </p>
-                Tack för din bokning hos Filmvisarna.
-                Bokningsnummer: {bookingNumber}
-                </body>
-                </html>
-                """;
+                                var body = $@"
+                                    <html>
+                                    <head>
+                                        <style>
+                                            body {{
+                                                font-family: Arial, Helvetica, sans-serif;
+                                            }}
+                                        </style>
+                                    </head>
+                                    <body>
+                                        <p>Hej {userFirstName},</p>
+                                        <p>Tack för din bokning hos Filmvisarna.</p>
+                                        <p>Bokningsnummer: {bookingNumber}</p>
+                                        <p>Film: {movieName}</p>
+                                        <p>Datum och tid: {booking.BookingDateTime.ToString("yyyy-MM-dd")} kl {booking.BookingDateTime.ToString("HH:mm")}</p>
+                                        <p>Antal biljetter: {numberOfTickets}</p>
+                                        <p>Om du har några frågor eller behöver ändra din bokning, vänligen kontakta oss på [Filmvisarna@mail.com] eller [07000000].</p>
+                                    </body>
+                                    </html>";
 
-                /*
-                $"Hej {userFirstName},\n\n" +
-              "Tack för din bokning hos Filmvisarna.\n\n" +
-              $"Bokningsnummer: {bookingNumber}\n" +
-              $"Film: {movieName}\n" +
-              $"Datum och tid: {bookingDate.ToString("yyyy-MM-dd")} kl {bookingDate.ToString("HH:mm")}\n" +
-              $"Antal biljetter: {numberOfTickets}\n\n" +
-              "Om du har några frågor eller behöver ändra din bokning, vänligen kontakta oss på [Kundservice e-post] eller [Telefonnummer].\n\n" +
-              "Tack för att du väljer Filmvisarna!\n\n" +
-              "Med vänliga hälsningar,\n" +
-              "Filmvisarna Team";
-              */
-                EmailService.MailBooking(to, subject, body);
+                                EmailService.MailBooking(to, subject, body);
             }
 
             return Ok(response);
