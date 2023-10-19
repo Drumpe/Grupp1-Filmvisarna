@@ -16,13 +16,13 @@ export async function get(route, method = 'GET') {
 
 // put (update)
 export async function put(route, body) {
-  post(route, body, 'PUT');
+  return post(route, body, 'PUT');
 }
 
 // del (delete)
 // (delete is a reserved JS word so 'del' instead)
-export async function del(route, body) {
-  get(route, body, 'DELETE');
+export async function del(route) {
+  return get(route, 'DELETE');
 }
 
 // sending forms

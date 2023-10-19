@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Button, ListGroup } from 'react-bootstrap';
-import { useOutletContext, useParams, Link} from 'react-router-dom';
+import { useOutletContext, useParams, NavLink} from 'react-router-dom';
 import { get } from '../utilsAndHooks/rest';
 import { capitalize, getSentenceDelimiter, getLocaleDateString, getLocaleTimeString } from '../utilsAndHooks/formatter';
 
+
 function MovieView() {
-	const { movies } = useOutletContext();
+	const [ {movies}] = useOutletContext();
 	let { movieId } = useParams();
-	let [screenings, setScreenings] = useState({ screenings: [] });
-	let [ movie, setMovie ] = useState(null);
-	let [selectedScreening, setSelectedScreening] = useState('');
+	const [screenings, setScreenings] = useState({ screenings: [] });
+	const [ movie, setMovie ] = useState(null);
+	const [selectedScreening, setSelectedScreening] = useState('');
 
 	// type casting
 	movieId = +movieId;
@@ -96,7 +97,7 @@ function MovieView() {
 	return !screenings.screenings.screenings ? null : (
 		<Container >
 			<Col className='d-flex justify-content-start'>
-					<Link className="nav-back text-info" to="/StartView">Tillbaka</Link>
+					<NavLink className="nav-back text-info" to="/StartView">Tillbaka</NavLink>
 				</Col>
 			<Row>
 				<Col className='d-flex justify-content-center mt-3'>
@@ -166,12 +167,12 @@ function MovieView() {
 			</Row>
 			<Row>
 				<Col className='d-flex justify-content-center'>
-				<Link style={{pointerEvents: selectedScreening ? '' : 'none'}} to={`/TheaterView/${selectedScreening}`}>
+				<NavLink style={{pointerEvents: selectedScreening ? '' : 'none'}} to={`/TheaterView/${selectedScreening}`}>
 						<Button className='p-2 mt-2' variant="primary" disabled={
 			selectedScreening.length === 0}>
 							Välj platser
 						</Button>
-				</Link>
+				</NavLink>
 				</Col>
 			</Row>
 		</Container>
