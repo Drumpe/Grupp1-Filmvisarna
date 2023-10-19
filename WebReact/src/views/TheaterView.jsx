@@ -114,11 +114,9 @@ const TheaterView = () => {
             },
 
             close: () => {
-                // Debug, switch check later
-                if (feed.socket == null || feed.socket.readyState !== WebSocket.OPEN) {
-                    console.warn(`Socket not connected`);
+                if (feed.socket !== null && feed.socket.readyState == WebSocket.OPEN) {
+                    feed.socket.close(1000, `Closing from client`);
                 }
-                feed.socket.close(1000, `Closing from client`);
             },
 
             book: (seats) => {
