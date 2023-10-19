@@ -4,7 +4,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { useOutletContext } from "react-router-dom";
 
 export default function AccountView() {
-    const { movies, user } = useOutletContext();
+    const [{ user }] = useOutletContext();
 
     //Hämta bokningar
 

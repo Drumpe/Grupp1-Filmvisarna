@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react"
 import { Container, Row, Col, Button, Form, InputGroup } from 'react-bootstrap';
 import { get, post } from '../utilsAndHooks/rest';
-import { Link, useParams, useOutletContext, useNavigate } from "react-router-dom";
+import { Link, useParams, useOutletContext } from "react-router-dom";
 import ShowSeats from "../components/ShowSeats";
+import { useNavigate } from 'react-router-dom';
 
 const BARN_PRIS = 80;
 const PENSIONARS_PRIS = 120;
 const VUXEN_PRIS = 140;
 
 const TheaterView = () => {
-    const { user } = useOutletContext();
+    const [{ user }] = useOutletContext();
     const { screeningId } = useParams();
     const [formData, setFormData] = useState({ email: '' });
     const [theater, setTheater] = useState({ id: 0, name: "" });

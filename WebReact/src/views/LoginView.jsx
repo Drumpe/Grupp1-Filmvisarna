@@ -1,22 +1,24 @@
-import React, {useState} from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import { Link } from 'react-router-dom';
-import { post } from '../utilsAndHooks/rest';
+import React, { useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
+import { post, get } from '../utilsAndHooks/rest';
+import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 
 
 export default function LoginView() {
+  let navigate = useNavigate();
+  const [{},setUser] = useOutletContext();
   const [formData, setFormData] = useState({ email: '', password: '' });
-  
+
   const sendRequest = async () => {
     /** Här borde göras kontroller innan vi skickar iväg och kolla att resultatet är ok */
     var login = {
       emailAdress: formData.email,
       password: formData.password
     }
-    var result = await post('users/login', login);
-
-    window.location.href = '/StartView/';
+    await post('users/login', login);
+    setUser();
+    navigate("/");
+    //window.location.href = '/StartView/';
   };
   function handleInputChange(event) {
     const { name, value } = event.target;
@@ -38,7 +40,7 @@ export default function LoginView() {
           <Form.Control type="password" name="password" value={formData.password} className='rounded-0' onChange={handleInputChange} />
         </Form>
       </div>
-      <p className='text-center'>Inte medlem ännu? <Link to="/RegisterView">Bli medlem</Link></p>
+      <p className='text-center'>Inte medlem ännu? <NavLink to="/RegisterView">Bli medlem</NavLink></p>
       <div className='d-flex justify-content-center my-5 mb-2'>
         <Button variant="secondary" size="lg" onClick={sendRequest}>
           Logga in

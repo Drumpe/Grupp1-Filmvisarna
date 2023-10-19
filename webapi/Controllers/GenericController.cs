@@ -1,34 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using webapi.Controllers.Utilities;
 using webapi.Data;
 using webapi.Entities;
 
 namespace webapi.Controllers
 {
-
-    /// <summary>
-    /// A generic controller for performing basic CRUD operations (no joins) on entities of type T.
-    /// </summary>
-    /// <typeparam name="T">The entity type.</typeparam>
     [Route("api/[controller]")]
     [ApiController]
+     [AuthorizeUserRole]
     public class GenericController<T> : ControllerBase where T : class, IEntity
     {
         public readonly FilmvisarnaContext _context;
-
-        /// <summary>
-        /// Initializes a new instance of the CrudController class with a database context.
-        /// </summary>
-        /// <param name="context">The database context.</param>
         public GenericController(FilmvisarnaContext context)
         {
             _context = context;
         }
 
-        /// <summary>
-        /// Gets a list of all entities of type T.
-        /// </summary>
-        /// <returns> An ActionResult containing a list of entities, or NotFound if none found.</returns>
         [HttpGet]
         public async Task<ActionResult<List<T>>> GetAll()
         {
@@ -49,11 +37,6 @@ namespace webapi.Controllers
             }
         }
 
-        /// <summary>
-        /// Gets an entity of type T by its unique identifier.
-        /// </summary>
-        /// <param name="id">The unique identifier of the entity to retrieve.</param>
-        /// <returns>An ActionResult containing the entity, or NotFound if not found.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<List<T>>> GetById(int id)
         {
@@ -74,11 +57,6 @@ namespace webapi.Controllers
             }
         }
 
-        /// <summary>
-        /// Creates a new entity of type T.
-        /// </summary>
-        /// <param name="entity">The entity to create.</param>
-        /// <returns>An ActionResult containing the created entity, or an error status code if unsuccessful.</returns>
         [HttpPost()]
         public async Task<ActionResult<T>> Post(T entity)
         {
@@ -95,11 +73,6 @@ namespace webapi.Controllers
             }
         }
 
-        /// <summary>
-        /// Deletes an entity of type T by its unique identifier.
-        /// </summary>
-        /// <param name="id">The unique identifier of the entity to delete.</param>
-        /// <returns>An ActionResult with a success status code if the entity is deleted, or NotFound if not found.</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult<T>> DeleteById(int id)
         {
@@ -120,21 +93,13 @@ namespace webapi.Controllers
                 return StatusCode(500, "Internal Server Error");
             }
         }
-        /// <summary>
-        /// Gets an entity of type T by its unique identifier.
-        /// </summary>
-        /// <param name="id">The unique identifier of the entity to retrieve.</param>
-        /// <returns>An ActionResult containing the entity, or NotFound if not found.</returns>
         public async Task<T> GetByIdAsync(int id)
         {
             return await _context.Set<T>().SingleOrDefaultAsync(e => e.Id == id);
         }
-
     }
 }
 
-
-//TODO : Put/Patch
 
 
 

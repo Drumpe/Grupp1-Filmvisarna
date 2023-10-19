@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react"
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { del } from '../utilsAndHooks/rest';
 
 
-export default function MainMenu({ user }) {
+export default function MainMenu({user, setUser}) {
+  let navigate = useNavigate();
   async function logout() {
     try {
-      //var result = 
-      await del('users/logout','');
+      await del('users/logout');
     } catch (error) {
       console.log("Error i logout: ", error);
     }
-    //console.log("LOGOUT: ", result);
+    setUser();
+    navigate("/");
   }
 
   return (
@@ -26,53 +28,40 @@ export default function MainMenu({ user }) {
         >
 
           <Container fluid>
-            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
-            <Navbar.Brand href="/StartView">
+            <Navbar.Toggle aria-controls={`offcanvas Navbar-expand-${expand}`} />
+            <NavLink to="/StartView" className="nav-link">
               <div className="h6 text-secondary custom-text-logo text-center m-0">
                 <img src="/img/logo/filmvisarna-logo-icon.png" className="d-block custom-logo-navbar mx-auto"></img>
                 Filmvisarna
               </div>
-            </Navbar.Brand>
+            </NavLink>
             <div></div>
             <Navbar.Offcanvas
-              id={`offcanvasNavbar-expand-${expand}`}
-              aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
+              id={`offcanvas Navbar-expand-${expand}`}
+              aria-labelledby={`offcanvas NavbarLabel-expand-${expand}`}
               placement="start"
               className="bg-dark text-light"
             >
               <Offcanvas.Header closeButton>
-                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}></Offcanvas.Title>
+                <Offcanvas.Title id={`offcanvas NavbarLabel-expand-${expand}`}></Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-center flex-grow-1 ">
                   {(user.userRole === "member") ?
                     <>
-                      <Nav.Link href="/StartView/" onClick={logout}>Logga ut</Nav.Link>
-                      <Nav.Link href="/AccountView">Mitt konto</Nav.Link>
+                      <NavLink to="/StartView/" className="nav-link" onClick={logout}>Logga ut</NavLink>
+                      <NavLink to="/AccountView" className="nav-link">Mitt konto</NavLink>
                     </>
                     :
                     <>
-                      <Nav.Link href="/LoginView">Logga in</Nav.Link>
-                      <Nav.Link href="/RegisterView">Bli medlem</Nav.Link>
+                      <NavLink to="/LoginView" className="nav-link">Logga in</NavLink>
+                      <NavLink to="/RegisterView" className="nav-link">Bli medlem</NavLink>
                     </>
                   }
 
-                  <Nav.Link href="/StartView">Visas nu</Nav.Link>
-                  <Nav.Link href="/CancelView">Avboka</Nav.Link>
-                  <Nav.Link href="/AboutView">Om</Nav.Link>
-                  {/* <NavDropdown
-                    title="Dropdown"
-                    id={`offcanvasNavbarDropdown-expand-${expand}`}
-                  >
-                    <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action4">
-                      Another action
-                    </NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action5">
-                      Something else here
-                    </NavDropdown.Item>
-                  </NavDropdown> */}
+                  <NavLink to="/StartView" className="nav-link">Visas nu</NavLink>
+                  <NavLink to="/CancelView" className="nav-link">Avboka</NavLink>
+                  <NavLink to="/AboutView" className="nav-link">Om</NavLink>
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
