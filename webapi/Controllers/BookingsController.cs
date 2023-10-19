@@ -168,18 +168,30 @@ namespace webapi.Controllers
                 BookingId = booking.Id
             };
 
-            string userFirstName = booking.User.FirstName;
-            string bookingNumber = booking.BookingNumber;
-            DateTime bookingDate = booking.BookingDateTime;
-            int numberOfTickets = booking.BookingXSeats.Count;
-            string movieName = booking.Screening.Movie.Name;
+
             //Skicka bara mail om e-postadressen inte innehåller "test"
             if (!model.EmailAdress.Contains("test"))
             {
-                //TODO: Skapa body och Subject
+                string userFirstName = booking.User.FirstName;
+                string bookingNumber = booking.BookingNumber;
+                // DateTime bookingDate = booking.BookingDateTime;
+                // int numberOfTickets = booking.BookingXSeats.Count;
+                // string movieName = booking.Screening.Movie.Name;
+
                 string to = model.EmailAdress;
-                string subject = "Booking Confirmation from Filmvisarna";
-                string body = $"Hej {userFirstName},\n\n" +
+                string subject = "Bokning hos Filmvisarna";
+                string body = $"""
+                <html>
+                <body>
+                <p>Hej {userFirstName}, </p>
+                Tack för din bokning hos Filmvisarna.
+                Bokningsnummer: {bookingNumber}
+                </body>
+                </html>
+                """;
+
+                /*
+                $"Hej {userFirstName},\n\n" +
               "Tack för din bokning hos Filmvisarna.\n\n" +
               $"Bokningsnummer: {bookingNumber}\n" +
               $"Film: {movieName}\n" +
@@ -189,6 +201,7 @@ namespace webapi.Controllers
               "Tack för att du väljer Filmvisarna!\n\n" +
               "Med vänliga hälsningar,\n" +
               "Filmvisarna Team";
+              */
                 EmailService.MailBooking(to, subject, body);
             }
 
