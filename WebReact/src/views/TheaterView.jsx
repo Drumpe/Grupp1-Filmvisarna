@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Container, Row, Col, Button, Form, InputGroup } from 'react-bootstrap';
 import { get, post } from '../utilsAndHooks/rest';
-import { Link, useParams, useOutletContext } from "react-router-dom";
+import { Link, useParams, useOutletContext, useNavigate, Navigate } from "react-router-dom";
 import ShowSeats from "../components/ShowSeats";
 
 const BARN_PRIS = 80;
@@ -24,6 +24,8 @@ const TheaterView = () => {
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
     const summa = (tickets.child * BARN_PRIS) + (tickets.pensioner * PENSIONARS_PRIS) + (tickets.ordinary * VUXEN_PRIS);
     const [seatStatusFeed, setSeatStatusFeed] = useState(null);
+    let navigate = useNavigate();
+    const [isWantedConflict, setIsWantedConflict] = useState(false);
 
     const sendRequest = async () => {
         if ((!validatedEmail && user.userRole === "guest") || summa == 0) {
@@ -34,12 +36,12 @@ const TheaterView = () => {
         }
         var booking = createBookingJson();
         setButtonsDisabled(true);
-        let isStatusSent = setBookedStatus();
         var result = await post('bookings/detailed', booking);
+        let isStatusSent = setBookedStatus();
         if (isStatusSent) {
             seatStatusFeed.close();
         }
-        window.location.href = '/ConfirmedView/' + result.bookingId;
+        navigate('/ConfirmedView/' + result.bookingId);
     };
 
     //Init
@@ -67,6 +69,14 @@ const TheaterView = () => {
         initSeats();
     }, []); // Empty dependency array to run the effect only once
 
+    useEffect(() => {
+        if (isWantedConflict) {
+
+            alert("Sätet du valt har just blivit bokat av någon annan.");
+            setIsWantedConflict(false);
+        }
+    }, [isWantedConflict]);
+
 
     useEffect(() => {
         let feed = {
@@ -79,13 +89,16 @@ const TheaterView = () => {
                 feed.socket.onmessage = async (ev) => {
                     let seatStatus = JSON.parse(ev.data);
                     if (seatStatus.status === `booked`) {
-                        let bookedSeats = seatStatus.seats;
+                        let screeningSeats = await get(`seats/screening/${screeningId}`);
+                        let updatedSeats = screeningSeats.seats;
 
-                        let updatedSeats = [...seats];
-
-                        bookedSeats.forEach((seatId) => {
-                            let seat = updatedSeats.find(s => s.seatId === seatId);
-                            seat.booked = true;
+                        seats.forEach((seat, i) => {
+                            if (seat.wanted && !updatedSeats[i].booked) {
+                                updatedSeats[i].wanted = true;
+                            } else if (seat.wanted && updatedSeats[i].booked) {
+                                seatClicked(seat.seatId);
+                                setIsWantedConflict(true);
+                            }
                         });
                         setSeats(updatedSeats);
                     }
@@ -126,7 +139,7 @@ const TheaterView = () => {
                 feed.close();
             }
         };
-    }, [seats]);
+    }, [screeningId, seats]);
 
     if (!seatStatusFeed) {
         return null;
