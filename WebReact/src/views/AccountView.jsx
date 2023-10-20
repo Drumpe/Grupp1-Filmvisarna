@@ -37,25 +37,32 @@ export default function AccountView() {
             <Row className="mt-5">
                 <Col className="mx-auto text-center">
                     <h3>Kommande bokningar</h3>
-                    {bookings.upcoming.map((booking,index) => {
+                    {bookings.upcoming.map((booking, index) => {
                         let screeningTime = booking.screeningTime.replace('T', ' ').slice(0, -3);
                         return (
                             <p key={index}>
-                                {booking.movie} på {booking.theater},
-                                Bokningsnummer: {booking.bookingNumber},
-                                Tid: {screeningTime}
+                                "{booking.movie}" på {booking.theater},
+                                Tid: {screeningTime}, 
+                                Bokningsnummer: {booking.bookingNumber}                      
                             </p>
                         );
                     })}
-
                 </Col>
+
             </Row>
             <Row className="mt-5">
-                <Col className="past-bookings text-center">
+                <Col className="mx-auto text-center">
                     <h3>Tidigare bokningar</h3>
-                    <p>Film 1</p>
-                    <p>Film 2</p>
-                    <p>Film 3</p>
+                    {bookings.past.map((booking, index) => {
+                        let screeningTime = booking.screeningTime.replace('T', ' ').slice(0, -3);
+                        return (
+                            <p key={index}>
+                                "{booking.movie}" på {booking.theater},
+                                Tid: {screeningTime},
+                                Bokningsnummer: {booking.bookingNumber}
+                            </p>
+                        );
+                    })}
                 </Col>
             </Row>
         </Container>
