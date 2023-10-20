@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Col, Container, Row } from 'react-bootstrap';
 import { useOutletContext } from "react-router-dom";
 import { get } from '../utilsAndHooks/rest';
+import BookingItem from '../components/BookingItem';
 
 export default function AccountView() {
     const [{ user }] = useOutletContext();
@@ -37,32 +38,17 @@ export default function AccountView() {
             <Row className="mt-5">
                 <Col className="mx-auto text-center">
                     <h3>Kommande bokningar</h3>
-                    {bookings.upcoming.map((booking, index) => {
-                        let screeningTime = booking.screeningTime.replace('T', ' ').slice(0, -3);
-                        return (
-                            <p key={index}>
-                                "{booking.movie}" på {booking.theater},
-                                Tid: {screeningTime}, 
-                                Bokningsnummer: {booking.bookingNumber}                      
-                            </p>
-                        );
-                    })}
+                    {bookings.upcoming.map((booking, index) => (
+                        <BookingItem key={index} booking={booking} />
+                    ))}
                 </Col>
-
             </Row>
             <Row className="mt-5">
                 <Col className="mx-auto text-center">
                     <h3>Tidigare bokningar</h3>
-                    {bookings.past.map((booking, index) => {
-                        let screeningTime = booking.screeningTime.replace('T', ' ').slice(0, -3);
-                        return (
-                            <p key={index}>
-                                "{booking.movie}" på {booking.theater},
-                                Tid: {screeningTime},
-                                Bokningsnummer: {booking.bookingNumber}
-                            </p>
-                        );
-                    })}
+                    {bookings.past.map((booking, index) => (
+                        <BookingItem key={index} booking={booking} />
+                    ))}
                 </Col>
             </Row>
         </Container>
