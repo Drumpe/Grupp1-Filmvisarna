@@ -24,7 +24,21 @@ export function getSentenceDelimiter(array, i) {
     }
 }
 
-export function getScreeningDate(dateAndTime) {
+export function compareScreeningDate(dateAndTime) {
     const screeningDate = new Date(dateAndTime);
     return screeningDate.toLocaleDateString(`sv-SE`, { day: `numeric`, month: `numeric` });
+}
+
+export function displayScreeningDate(dateAndTime) {
+    let date = compareScreeningDate(new Date(dateAndTime));
+    let today = new Date();
+    let compareToday = compareScreeningDate(today);
+    let compareTomorrow = compareScreeningDate(today.setDate(1));
+    if (date === compareToday) {
+        return `Idag`;
+    } else if (date === compareTomorrow) {
+        return `Imorgon`;
+    } else {
+        return `${capitalize(getLocaleDateString(dateAndTime, { weekday: `short` }))}, ${getLocaleDateString(dateAndTime, { day: `numeric` })} ${getLocaleDateString(dateAndTime, { month: `short` }).slice(0, -1)}`
+    }
 }
