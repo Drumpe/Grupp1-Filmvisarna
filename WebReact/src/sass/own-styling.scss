@@ -94,7 +94,7 @@ button.list-group-item.active {
     min-width: 23vw;
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 640px) {
 
     button.list-group-item,
     button.list-group-item.active {
@@ -103,6 +103,7 @@ button.list-group-item.active {
 
     .screening-dates-arrow {
         min-width: 5vw;
+        max-width: 5vw;
     }
 
     .listgroup-forward-arrow-content {
@@ -119,7 +120,8 @@ button.list-group-item.active {
     right: 0;
     top: 0;
     height: 100%;
-    min-width: 13vw;
+    min-width: 5vw;
+    max-width: 5vw;
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #101210 40%, #101210);
     z-index: 1000;
     margin-right: calc(var(--bs-gutter-x) * 0.5);

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Button, ListGroup, Stack } from 'react-bootstrap';
 import { useOutletContext, useParams, NavLink } from 'react-router-dom';
@@ -14,6 +14,8 @@ function MovieView() {
     const [screeningDate, setScreeningDate] = useState(``);
     const [filteredScreenings, setFilteredScreenings] = useState([]);
     const [selectedScreening, setSelectedScreening] = useState('');
+    const ref = useRef(null);
+    const [screeningDatesScrollPosition, setScreeningDatesScrollPosition] = useState(0);
 
     // Type cast: string to number
     movieId = +movieId;
@@ -40,6 +42,18 @@ function MovieView() {
         });
         setFilteredScreenings(screeningsFromScreeningDate);
     }, [screenings, screeningDate])
+
+    const scrollScreeningDatesForward = () => {
+        const nextPos = screeningDatesScrollPosition + 250;
+        ref.current?.scroll({ top: 0, left: nextPos, behavior: "smooth" });
+        setScreeningDatesScrollPosition(nextPos);
+    };
+
+    const scrollScreeningDatesBackward = () => {
+        const nextPos = screeningDatesScrollPosition - 250;
+        ref.current?.scroll({ top: 0, left: nextPos, behavior: "smooth" });
+        setScreeningDatesScrollPosition(nextPos);
+    };
 
     /// Dependency check
     if (!movies.length || !movie) { return null; }
@@ -85,8 +99,8 @@ function MovieView() {
 
         return (
             <>
-                {filteredDays.map(({ id, dateAndTime }) =>
-                    <ListGroup.Item key={id} className="rounded-bottom-0" variant="primary" active={compareScreeningDate(dateAndTime) === screeningDate} action onClick={() => {
+                {filteredDays.map(({ i, dateAndTime }) =>
+                    <ListGroup.Item key={i} className="rounded-bottom-0" variant="primary" active={compareScreeningDate(dateAndTime) === screeningDate} action onClick={() => {
                         if (compareScreeningDate(dateAndTime) !== screeningDate) {
                             setSelectedScreening('');
                             setScreeningDate(compareScreeningDate(dateAndTime));
@@ -185,8 +199,9 @@ function MovieView() {
 
             <Row>
                 <Col className="screening-dates d-flex justify-content-center">
-                    <div className="w-100 overflow-x-scroll">
-                        <div className="screening-dates-arrow">
+                    <div ref={ref} className="w-100 overflow-hidden">
+                        {/* <div className="screening-dates-arrow" onClick={scrollScreeningDatesBackward}>test</div> */}
+                        <div className="screening-dates-arrow" onClick={scrollScreeningDatesForward}>
                             <div className="listgroup-forward-arrow-container d-flex justify-content-end align-items-center h-100">
                                 <div className="listgroup-forward-arrow-content d-inline-flex justify-content-end align-items-center">
                                     <img className="listgroup-forward-arrow" src="/img/ui/ui-listgroup-forwardarrow.svg"></img>
