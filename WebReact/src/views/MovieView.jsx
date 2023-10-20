@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Button, ListGroup } from 'react-bootstrap';
+import { Button, ListGroup, Stack } from 'react-bootstrap';
 import { useOutletContext, useParams, NavLink } from 'react-router-dom';
 import { get } from '../utilsAndHooks/rest';
 import { capitalize, getSentenceDelimiter, getLocaleDateString, getLocaleTimeString, compareScreeningDate, displayScreeningDate } from '../utilsAndHooks/formatter';
@@ -185,9 +185,11 @@ function MovieView() {
 
             <Row>
                 <Col className="d-flex justify-content-center">
-                    <ListGroup className="w-100 border-bottom-0" horizontal>
-                        <ScreeningDateItems />
-                    </ListGroup>
+                    <div className="w-100 overflow-x-scroll">
+                        <ListGroup className="border-bottom-0" horizontal>
+                            <ScreeningDateItems />
+                        </ListGroup>
+                    </div>
                 </Col>
             </Row>
 

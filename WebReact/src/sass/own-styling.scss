@@ -79,6 +79,7 @@ button.list-group-item {
     border-color: #525452;
     border-top: 0;
     border-bottom: 0;
+    min-width: 23vw;
 }
 
 button.list-group-item.active {
@@ -86,6 +87,15 @@ button.list-group-item.active {
     color: #101210;
     border-color: #fbc552;
     border-bottom: 0;
+    min-width: 23vw;
+}
+
+@media screen and (min-width: 992px) {
+
+    button.list-group-item,
+    button.list-group-item.active {
+        min-width: 15vw;
+    }
 }
 
 // End MovieView
