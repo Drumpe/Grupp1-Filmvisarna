@@ -78,16 +78,23 @@ const TheaterView = () => {
         }
     }, [isWantedConflict]);
 
+    const [socket, setSocket] = useState(() => new WebSocket(`ws://localhost:5052`));
 
     useEffect(() => {
         let feed = {
+
             socket: null,
 
             connect: async () => {
                 // Uses ws://, incorrect certificate on my side for https/wss (Albin), fix later...
-                feed.socket = new WebSocket(`ws://localhost:5052`);
+                console.log("DO WE HAVE A SOCKET?", socket);
+
+                feed.socket = socket;
+
+
 
                 feed.socket.onmessage = async (ev) => {
+                    console.log("SOCKET event data",ev.data)
                     let seatStatus = JSON.parse(ev.data);
 
                     if (seatStatus.status === `ready`) {
@@ -116,8 +123,10 @@ const TheaterView = () => {
             },
 
             close: () => {
+                console.log("I AM CLOSING DA SOCKET")
                 if (feed.socket !== null && feed.socket.readyState == WebSocket.OPEN) {
                     feed.socket.close(1000, `Closing from client`);
+                    setSocket(null);
                 }
             },
 
@@ -134,12 +143,23 @@ const TheaterView = () => {
             }
         };
         setSeatStatusFeed(feed);
-        return () => {
+        /*return () => {
             if (feed.socket) {
                 feed.close();
             }
-        };
+        }*/;
     }, [screeningId, seats]);
+
+    useEffect(() => {
+        // do on unmount of component
+        return () => {
+            if (socket && socket.readyState === 1) {
+                console.log("CLOSING THE SOCKET!")
+                socket.close(1000, `Closing from client`);
+                console.log("THE SOCKET", socket)
+            }
+        };
+    },[]);
 
     if (!seatStatusFeed) {
         return null;
@@ -206,8 +226,8 @@ const TheaterView = () => {
         } else if (updatedTickets.ordinary > 0) {
             updatedTickets.ordinary -= 1;
         } else {
-            //Toggla tillbaks wanted
-            updatedSeats[index].wanted = !updatedSeats[index].wanted; //Toggle wanted
+            //Toggle tillbaks wanted
+            updatedSeats[index].wanted = !updatedSeats[index].wanted;
         }
         setSeats(updatedSeats);
         setTickets(updatedTickets);
