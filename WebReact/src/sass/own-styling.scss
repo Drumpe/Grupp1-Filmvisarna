@@ -5,6 +5,10 @@
     --custom-btn-close-bg: url("/img/ui/ui-close.svg");
 }
 
+body {
+    scroll-behavior: smooth;
+}
+
 /* Logo 
 Usage:
 ------
@@ -96,7 +100,47 @@ button.list-group-item.active {
     button.list-group-item.active {
         min-width: 15vw;
     }
+
+    .screening-dates-arrow {
+        min-width: 5vw;
+    }
+
+    .listgroup-forward-arrow-content {
+        margin-right: 1.1rem;
+    }
 }
+
+.screening-dates {
+    position: relative;
+}
+
+.screening-dates-arrow {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    min-width: 13vw;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #101210 40%, #101210);
+    z-index: 1000;
+    margin-right: calc(var(--bs-gutter-x) * 0.5);
+}
+
+.listgroup-forward-arrow-container {
+    cursor: pointer;
+}
+
+.listgroup-forward-arrow-content {
+    height: 100%;
+    margin-right: .5rem;
+}
+
+.listgroup-forward-arrow {
+    min-height: 1.1rem;
+}
+
+/* .listgroup-forward-arrow::before {
+    content: url("/img/ui/ui-listgroup-forwardarrow.svg");
+} */
 
 // End MovieView
 

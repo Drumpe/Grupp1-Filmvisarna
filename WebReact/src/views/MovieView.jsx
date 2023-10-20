@@ -184,8 +184,15 @@ function MovieView() {
             </Row>
 
             <Row>
-                <Col className="d-flex justify-content-center">
+                <Col className="screening-dates d-flex justify-content-center">
                     <div className="w-100 overflow-x-scroll">
+                        <div className="screening-dates-arrow">
+                            <div className="listgroup-forward-arrow-container d-flex justify-content-end align-items-center h-100">
+                                <div className="listgroup-forward-arrow-content d-inline-flex justify-content-end align-items-center">
+                                    <img className="listgroup-forward-arrow" src="/img/ui/ui-listgroup-forwardarrow.svg"></img>
+                                </div>
+                            </div>
+                        </div>
                         <ListGroup className="border-bottom-0" horizontal>
                             <ScreeningDateItems />
                         </ListGroup>
