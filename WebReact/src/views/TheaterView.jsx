@@ -3,17 +3,18 @@ import { Container, Row, Col, Button, Form, InputGroup } from 'react-bootstrap';
 import { get, post } from '../utilsAndHooks/rest';
 import { Link, useParams, useOutletContext } from "react-router-dom";
 import ShowSeats from "../components/ShowSeats";
+import { useNavigate } from 'react-router-dom';
 
 const BARN_PRIS = 80;
 const PENSIONARS_PRIS = 120;
 const VUXEN_PRIS = 140;
 
 const TheaterView = () => {
-    const { movies, user } = useOutletContext();
+    const [{ user }]= useOutletContext();
     const { screeningId } = useParams();
     const [formData, setFormData] = useState({ email: '' });
     const [theater, setTheater] = useState({ id: 0, name: "" });
-    let [seats, setSeats] = useState(null);
+    const [seats, setSeats] = useState(null);
     const [tickets, setTickets] = useState({
         ordinary: 0,
         child: 0,
@@ -23,9 +24,10 @@ const TheaterView = () => {
     const [validatedEmail, setValidatedEmail] = useState(false);
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
     const summa = (tickets.child * BARN_PRIS) + (tickets.pensioner * PENSIONARS_PRIS) + (tickets.ordinary * VUXEN_PRIS);
+    let navigate = useNavigate();
 
     const sendRequest = async () => {
-        if ((!validatedEmail && user.userRole === "guest")|| summa == 0) {
+        if ((!validatedEmail && user.userRole === "guest") || summa == 0) {
             if (validatedEmail) {
                 alert("Minst en biljett måste väljas för att boka.");
             }
@@ -34,7 +36,8 @@ const TheaterView = () => {
         var booking = createBookingJson();
         setButtonsDisabled(true);
         var result = await post('bookings/detailed', booking);
-        window.location.href = '/ConfirmedView/' + result.bookingId;
+        //window.location.href = '/ConfirmedView/' + result.bookingId;
+        navigate("/ConfirmedView/" + result.bookingId);
     };
 
     //Init
@@ -238,30 +241,30 @@ const TheaterView = () => {
                 </Col>
             </Row>
             <Form validated={validatedEmail} onSubmit={handleSubmit}>
-                { user.userRole === "guest"? 
-                <>
-                <Row className="mb-3">
-                    <Col className="d-flex justify-content-center mt-3">
-                        <Form.Group>
-                            <Form.Label>E-postadress</Form.Label>
-                            <InputGroup>
-                                <Form.Control
-                                    type="email"
-                                    name="email"
-                                    required
-                                    value={formData.email}
-                                    placeholder="namn@exempel.com"
-                                    onChange={handleInputChange} />
-                                <Form.Control.Feedback type="invalid">
-                                    Ange din e-postadress.
-                                </Form.Control.Feedback>
-                            </InputGroup>
-                        </Form.Group>
-                    </Col>
-                </Row>
-                </>
-                :
-                <Row className="d-flex justify-content-center mt-3">Bokningen skickas till: {user.email}</Row>
+                {user.userRole === "guest" ?
+                    <>
+                        <Row className="mb-3">
+                            <Col className="d-flex justify-content-center mt-3">
+                                <Form.Group>
+                                    <Form.Label>E-postadress</Form.Label>
+                                    <InputGroup>
+                                        <Form.Control
+                                            type="email"
+                                            name="email"
+                                            required
+                                            value={formData.email}
+                                            placeholder="namn@exempel.com"
+                                            onChange={handleInputChange} />
+                                        <Form.Control.Feedback type="invalid">
+                                            Ange din e-postadress.
+                                        </Form.Control.Feedback>
+                                    </InputGroup>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                    </>
+                    :
+                    <Row className="d-flex justify-content-center mt-3">Bokningen skickas till: {user.email}</Row>
                 }
                 <Row>
                     <Col className="d-flex justify-content-center mt-3">

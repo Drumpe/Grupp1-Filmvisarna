@@ -4,8 +4,7 @@ import { useOutletContext } from "react-router-dom";
 import { get } from '../utilsAndHooks/rest';
 
 export default function AccountView() {
-    const { movies, user } = useOutletContext();
-    let email = user.email;
+    const [{ user }] = useOutletContext();
 
     const [bookings, setBookings] = useState({ upcoming: [], past: [] });
 
