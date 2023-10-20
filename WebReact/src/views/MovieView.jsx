@@ -200,11 +200,20 @@ function MovieView() {
             <Row>
                 <Col className="screening-dates d-flex justify-content-center">
                     <div ref={ref} className="w-100 overflow-hidden">
-                        {/* <div className="screening-dates-arrow" onClick={scrollScreeningDatesBackward}>test</div> */}
-                        <div className="screening-dates-arrow" onClick={scrollScreeningDatesForward}>
+                        {
+                            screeningDatesScrollPosition > 249 &&
+                            <div className="screening-dates-arrow screening-dates-back-arrow" onClick={scrollScreeningDatesBackward}>
+                                <div className="listgroup-back-arrow-container d-flex justify-content-start align-items-center h-100">
+                                    <div className="listgroup-back-arrow-content d-inline-flex justify-content-start align-items-center">
+                                        <img className="listgroup-arrow" src="/img/ui/ui-listgroup-backarrow.svg"></img>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div className="screening-dates-arrow screening-dates-forward-arrow" onClick={scrollScreeningDatesForward}>
                             <div className="listgroup-forward-arrow-container d-flex justify-content-end align-items-center h-100">
                                 <div className="listgroup-forward-arrow-content d-inline-flex justify-content-end align-items-center">
-                                    <img className="listgroup-forward-arrow" src="/img/ui/ui-listgroup-forwardarrow.svg"></img>
+                                    <img className="listgroup-arrow" src="/img/ui/ui-listgroup-forwardarrow.svg"></img>
                                 </div>
                             </div>
                         </div>

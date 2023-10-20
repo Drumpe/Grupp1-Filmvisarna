@@ -101,29 +101,33 @@ button.list-group-item.active {
         min-width: 15vw;
     }
 
-    .screening-dates-arrow {
-        min-width: 5vw;
-        max-width: 5vw;
-    }
-
     .listgroup-forward-arrow-content {
         margin-right: 1.1rem;
     }
 }
 
+/// screening dates arrows
 .screening-dates {
     position: relative;
 }
 
+.listgroup-arrow {
+    min-height: 1.1rem;
+}
+
 .screening-dates-arrow {
+    height: 100%;
+    min-width: max(70px, 4vw);
+    max-width: max(70px, 4vw);
+    z-index: 1000;
+}
+
+/// forward arrow
+.screening-dates-forward-arrow {
     position: absolute;
     right: 0;
     top: 0;
-    height: 100%;
-    min-width: 5vw;
-    max-width: 5vw;
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #101210 40%, #101210);
-    z-index: 1000;
     margin-right: calc(var(--bs-gutter-x) * 0.5);
 }
 
@@ -136,13 +140,24 @@ button.list-group-item.active {
     margin-right: .5rem;
 }
 
-.listgroup-forward-arrow {
-    min-height: 1.1rem;
+/// back arrow
+.screening-dates-back-arrow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-image: linear-gradient(to right, #101210, #101210 60%, rgba(0, 0, 0, 0));
+    margin-left: calc(var(--bs-gutter-x) * 0.5);
 }
 
-/* .listgroup-forward-arrow::before {
-    content: url("/img/ui/ui-listgroup-forwardarrow.svg");
-} */
+.listgroup-back-arrow-container {
+    cursor: pointer;
+}
+
+.listgroup-back-arrow-content {
+    height: 100%;
+    margin-left: .5rem;
+}
+
 
 // End MovieView
 
