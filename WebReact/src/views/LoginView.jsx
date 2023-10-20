@@ -10,7 +10,6 @@ export default function LoginView() {
   const [formData, setFormData] = useState({ email: '', password: '' });
 
   const sendLoginRequest = async () => {
-    /** Här borde göras kontroller innan vi skickar iväg och kolla att resultatet är ok */
     var login = {
       emailAdress: formData.email,
       password: formData.password
@@ -31,8 +30,9 @@ export default function LoginView() {
       [name]: value,
     });
   }
+
   return (
-    <div>
+    <>
       <Col className="mx-auto text-center">
         <Image src="/img/logo/filmvisarna-logo-icon.png" roundedCircle style={{ width: '100px', height: '100px' }} />
       </Col>
@@ -53,6 +53,6 @@ export default function LoginView() {
           Logga in
         </Button>
       </div>
-    </div>
+    </>
   );
 }
