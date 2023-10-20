@@ -7,7 +7,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import { del } from '../utilsAndHooks/rest';
 
 
-export default function MainMenu({user, setUser}) {
+export default function MainMenu({ user, setUser }) {
   let navigate = useNavigate();
   async function logout() {
     try {
@@ -47,18 +47,21 @@ export default function MainMenu({user, setUser}) {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-center flex-grow-1 ">
-                  {(user.userRole === "member") ?
+                  {user.userRole === "member" ? (
                     <>
                       <NavLink to="/StartView/" className="nav-link" onClick={logout}>Logga ut</NavLink>
                       <NavLink to="/AccountView" className="nav-link">Mitt konto</NavLink>
                     </>
-                    :
+                  ) : user.userRole === "admin" ? (
+                    <>
+                      <NavLink to="/AdminView" className="nav-link">Admin</NavLink>
+                    </>
+                  ) : (
                     <>
                       <NavLink to="/LoginView" className="nav-link">Logga in</NavLink>
                       <NavLink to="/RegisterView" className="nav-link">Bli medlem</NavLink>
                     </>
-                  }
-
+                  )}
                   <NavLink to="/StartView" className="nav-link">Visas nu</NavLink>
                   <NavLink to="/CancelView" className="nav-link">Avboka</NavLink>
                   <NavLink to="/AboutView" className="nav-link">Om</NavLink>
