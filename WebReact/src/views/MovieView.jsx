@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Button, ListGroup, Stack } from 'react-bootstrap';
+import { Button, ListGroup } from 'react-bootstrap';
 import { useOutletContext, useParams, NavLink } from 'react-router-dom';
 import { get } from '../utilsAndHooks/rest';
-import { capitalize, getSentenceDelimiter, getLocaleDateString, getLocaleTimeString, compareScreeningDate, displayScreeningDate } from '../utilsAndHooks/formatter';
+import { getSentenceDelimiter, getLocaleTimeString, compareScreeningDate, displayScreeningDate } from '../utilsAndHooks/formatter';
 
 
 function MovieView() {
@@ -29,7 +29,7 @@ function MovieView() {
     useEffect(() => {
         return (async function () {
             let data = await get(`screenings/movie/${movieId}`);
-            let screenings = data.screenings; //Alla säten i salongen 
+            let screenings = data.screenings;
             setScreenings(screenings);
         })
     }, []);
