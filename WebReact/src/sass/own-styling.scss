@@ -69,43 +69,62 @@ Logo size will adapt after text size; for example, use className="h4" in parent
     cursor: pointer;
 }
 
-.movie-details > h6 {
+.movie-details>h6 {
     color: #8e918e;
 }
 
-@media screen and (max-width: 500px)  {
+button.list-group-item {
+    background-color: #101210;
+    color: #c439ff;
+    border-color: #525452;
+    border-top: 0;
+    border-bottom: 0;
+}
+
+button.list-group-item.active {
+    background-color: #efa304;
+    color: #101210;
+    border-color: #fbc552;
+    border-bottom: 0;
+}
+
+// End MovieView
+
+@media screen and (max-width: 500px) {
     .movie-information-container {
         display: block;
     }
+
     .chairImage {
-        width:29px;
+        width: 29px;
         margin: 1px;
     }
 }
-@media screen and (min-width: 501px) and (max-width: 640px)  {
+
+@media screen and (min-width: 501px) and (max-width: 640px) {
     .chairImage {
-        width:35px;
+        width: 35px;
         margin: 3px;
     }
 }
-@media screen and (min-width: 640px) and (max-width: 992px)  {
+
+@media screen and (min-width: 640px) and (max-width: 992px) {
     .chairImage {
-        width:45px;
+        width: 45px;
         margin: 5px;
     }
 }
-@media screen and (min-width: 992px)  {
+
+@media screen and (min-width: 992px) {
     .movie-information-container {
         display: inline-flex;
     }
+
     .chairImage {
-        width:55px;
+        width: 55px;
         margin: 6px;
     }
 }
-  
-
-// End MovieView
 
 /* Sticky Footer */
 #root {
@@ -113,9 +132,9 @@ Logo size will adapt after text size; for example, use className="h4" in parent
     min-height: 100vh;
     flex-direction: column;
 }
+
 main {
     flex: 1;
 }
+
 /* End Sticky footer */
-
-
