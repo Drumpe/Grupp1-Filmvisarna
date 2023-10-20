@@ -5,7 +5,6 @@ import { get } from '../utilsAndHooks/rest';
 
 export default function AccountView() {
     const [{ user }] = useOutletContext();
-
     const [bookings, setBookings] = useState({ upcoming: [], past: [] });
 
     useEffect(() => {
@@ -16,7 +15,7 @@ export default function AccountView() {
 
                 const upcomingBookings = userBookings.filter((booking) => {
                     const screeningTime = new Date(booking.screeningTime);
-                    return screeningtime > currentTime;
+                    return screeningTime > currentTime;
                 });
                 const pastBookings = userBookings.filter((booking) => {
                     const screeningTime = new Date(booking.screeningTime);
@@ -27,7 +26,6 @@ export default function AccountView() {
             })();
         }
     }, [user]);
-
 
     return (
         <Container className="my-4">
