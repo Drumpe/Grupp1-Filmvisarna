@@ -12,10 +12,10 @@ export default function AccountView() {
     useEffect(() => {
         if (user && user.email) {
             (async () => {
-                const userBookings = await get('bookings/getbyemail/${user.email}')
+                const userBookings = await get(`bookings/getbyemail/${user.email}`);
                 const currentTime = new Date();
 
-                const upcomingBookings = userBookings.Filter((booking) => {
+                const upcomingBookings = userBookings.filter((booking) => {
                     const screeningTime = new Date(booking.screeningTime);
                     return screeningtime > currentTime;
                 });
@@ -27,38 +27,40 @@ export default function AccountView() {
                 setBookings({ upcoming: upcomingBookings, past: pastBookings });
             })();
         }
+    }, [user]);
 
 
-        return (
-            <Container className="my-4">
-                <Row>
-                    <Col className="mx-auto text-center">
-                        <h1>{user.name}</h1>
-                    </Col>
-                </Row>
-                <Row className="mt-5">
-                    <Col className="mx-auto text-center">
-                        <h3>Kommande bokningar</h3>
-                        {bookings.bookings.map((booking, index) => {
-                            let screeningTime = booking.screeningTime.replace('T', ' ').slice(0, -3);
-                            return (
-                                <p key={index}>
-                                    {booking.movie} på {booking.theater},
-                                    Bokningsnummer: {booking.bookingNumber},
-                                    Tid: {screeningTime}
-                                </p>
-                            );
-                        })}
-                    </Col>
-                </Row>
-                <Row className="mt-5">
-                    <Col className="past-bookings text-center">
-                        <h3>Tidigare bokningar</h3>
-                        <p>Film 1</p>
-                        <p>Film 2</p>
-                        <p>Film 3</p>
-                    </Col>
-                </Row>
-            </Container>
-        );
-    }
+    return (
+        <Container className="my-4">
+            <Row>
+                <Col className="mx-auto text-center">
+                    <h1>{user.name}</h1>
+                </Col>
+            </Row>
+            <Row className="mt-5">
+                <Col className="mx-auto text-center">
+                    <h3>Kommande bokningar</h3>
+                    {bookings.upcoming.map((booking,index) => {
+                        let screeningTime = booking.screeningTime.replace('T', ' ').slice(0, -3);
+                        return (
+                            <p key={index}>
+                                {booking.movie} på {booking.theater},
+                                Bokningsnummer: {booking.bookingNumber},
+                                Tid: {screeningTime}
+                            </p>
+                        );
+                    })}
+
+                </Col>
+            </Row>
+            <Row className="mt-5">
+                <Col className="past-bookings text-center">
+                    <h3>Tidigare bokningar</h3>
+                    <p>Film 1</p>
+                    <p>Film 2</p>
+                    <p>Film 3</p>
+                </Col>
+            </Row>
+        </Container>
+    );
+}
