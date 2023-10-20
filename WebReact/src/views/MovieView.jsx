@@ -210,13 +210,17 @@ function MovieView() {
                                 </div>
                             </div>
                         }
-                        <div className="screening-dates-arrow screening-dates-forward-arrow" onClick={scrollScreeningDatesForward}>
-                            <div className="listgroup-forward-arrow-container d-flex justify-content-end align-items-center h-100">
-                                <div className="listgroup-forward-arrow-content d-inline-flex justify-content-end align-items-center">
-                                    <img className="listgroup-arrow" src="/img/ui/ui-listgroup-forwardarrow.svg"></img>
+                        {
+                            screenings.length > 0 &&
+                            <div className="screening-dates-arrow screening-dates-forward-arrow" onClick={scrollScreeningDatesForward}>
+                                <div className="listgroup-forward-arrow-container d-flex justify-content-end align-items-center h-100">
+                                    <div className="listgroup-forward-arrow-content d-inline-flex justify-content-end align-items-center">
+                                        <img className="listgroup-arrow" src="/img/ui/ui-listgroup-forwardarrow.svg"></img>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
+
                         <ListGroup className="border-bottom-0" horizontal>
                             <ScreeningDateItems />
                         </ListGroup>
