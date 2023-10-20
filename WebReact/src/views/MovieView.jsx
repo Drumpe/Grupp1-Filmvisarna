@@ -59,7 +59,8 @@ function MovieView() {
         return actors;
     }
 
-    /* const handleSetScreeningDate = (e) => {
+    /* SELECT VERSION
+        const handleSetScreeningDate = (e) => {
         setScreeningDate(e.target.value);
     } */
 
@@ -93,7 +94,8 @@ function MovieView() {
             </>
         );
 
-        /* const ScreeningDateItems = () => {
+        /* SELECT VERSION
+            const ScreeningDateItems = () => {
             const uniqueDays = [];
     
             const filteredDays = screenings.filter((screening) => {
