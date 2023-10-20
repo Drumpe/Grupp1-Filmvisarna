@@ -4,9 +4,9 @@ import { get } from '../utilsAndHooks/rest';
 
 
 
-export default function AdminView()
-{
+export default function AdminView() {
   const [bookings, setBookings] = useState({ bookings: [] });
+  const [filteredBookings, setFilteredBooking] = useState([])
 
   useEffect(() => {
     (async () => {
@@ -17,14 +17,25 @@ export default function AdminView()
     })();
   }, []);
 
-  return (
-    <Container >
-      <Row>
-        <Col className='mx-auto text-center'>
-        <h1> hej</h1>
-        </Col>
-      </Row>
-    </Container>
+  const filterBookings = (bookingNumber) => {
+    const filtered = bookings.bookings.filter((booking) => booking.bookingNumber === bookingNumber);
+    setFilteredBooking(filtered);
+  }
+
+  return (<>
+
+    <label>Bokningsnummer</label>
+    <input type='text' placeholder='xxxxxx' onChange={
+      (e) => filterBookings(e.target.value)} />
+    {filteredBookings.map((booking, index) => (
+      <div key={index}>
+       
+
+        </div>
+
+    ))}
+  </>
+
   );
 }
 
