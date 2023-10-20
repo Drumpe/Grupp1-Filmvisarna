@@ -52,9 +52,38 @@ namespace webapi.Controllers
             return Ok(result);
         }
 
+        [HttpGet("getbyemail/{emailAddress}")]
+        public async Task<IActionResult> GetBookingsDetalsByEmail(string emailAddress)
+        {
+            var user = await _context.users.FirstOrDefaultAsync(u => u.EmailAdress == emailAddress);
+            if (user == null)
+            {
+                return BadRequest($"User with email address {emailAddress} does not exist in our database.");
+            }
+            var userBookings = await _context.bookings
+             .Where(b => b.UserId == user.Id)
+             .Select(b => new
+             {
+                 ScreeningTime = b.Screening.DateAndTime,
+                 BookingNumber = b.BookingNumber,
+                 Movie = b.Screening.Movie.Name,
+                 Theater = b.Screening.Theater.Name,
+                 Tickets = b.BookingXSeats.Select(bxs => new 
+                 {
+                    Seat = bxs.Seat.seat,
+                    Row = bxs.Seat.Row
+                 })
+             })
+             .ToListAsync();
+
+            if (userBookings.Count == 0)
+            {
+                return Ok($"User with email address {emailAddress} has no bookings.");
+            }
+            return Ok(userBookings);
+        }
 
         [HttpGet("number/{bookingNumber}")]
-
         public async Task<IActionResult> GetBookingByBookingnumber(string bookingNumber)
         {
             var result = await _context.bookings.SingleOrDefaultAsync(b => b.BookingNumber == bookingNumber);
