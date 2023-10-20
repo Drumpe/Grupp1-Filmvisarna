@@ -20,6 +20,7 @@ namespace webapi.Controllers.Utilities
             // following is a temporary fix to be able to handle our current endpoints
             string prefix = "/api/Bookings/confirm";
             string prefix2 = "/api/Bookings/RemoveBooking";
+            string prefix3 = "/api/bookings/getbyemail";
 
             if (endpoint.StartsWith(prefix))
             {
@@ -28,6 +29,10 @@ namespace webapi.Controllers.Utilities
             else if (endpoint.StartsWith(prefix2))
             {
                 endpoint = endpoint.Remove(prefix2.Length);
+            }
+            else if (endpoint.StartsWith(prefix3))
+            {
+                endpoint = endpoint.Remove(prefix3.Length);
             }
 
             try
@@ -38,14 +43,14 @@ namespace webapi.Controllers.Utilities
                     .ToList();
                 allowedUsers.AddRange(auths.Select(a => a.UserRoles.Name));
             }
-    
+
             catch (Exception e)
             {
                 System.Console.WriteLine("Unauthorized");
                 context.Result = new UnauthorizedResult();
                 return;
             }
-            
+
             if (!allowedUsers.Contains(userRole))
             {
                 context.Result = new UnauthorizedResult();
