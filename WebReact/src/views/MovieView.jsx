@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { Button, ListGroup } from 'react-bootstrap';
 import { useOutletContext, useParams, NavLink } from 'react-router-dom';
 import { get } from '../utilsAndHooks/rest';
-import { capitalize, getSentenceDelimiter, getLocaleDateString, getLocaleTimeString } from '../utilsAndHooks/formatter';
+import { capitalize, getSentenceDelimiter, getLocaleDateString, getLocaleTimeString, getScreeningDate } from '../utilsAndHooks/formatter';
 
 
 function MovieView() {
@@ -11,7 +11,7 @@ function MovieView() {
     let { movieId } = useParams();
     const [screenings, setScreenings] = useState([]);
     const [movie, setMovie] = useState(null);
-    const [screeningDate, setScreeningDate] = useState(getLocaleDateString(new Date().toDateString(), { day: `numeric`, month: `numeric` }));
+    const [screeningDate, setScreeningDate] = useState(``);
     const [filteredScreenings, setFilteredScreenings] = useState([]);
     const [selectedScreening, setSelectedScreening] = useState('');
 
@@ -34,7 +34,7 @@ function MovieView() {
 
     useEffect(() => {
         const screeningsFromScreeningDate = screenings.filter((screening) => {
-            const date = getLocaleDateString(screening.dateAndTime, { day: `numeric`, month: `numeric` });
+            const date = getScreeningDate(screening.dateAndTime);
             if (date === screeningDate) { return true; }
             return false;
         });
@@ -79,18 +79,23 @@ function MovieView() {
             return false;
         });
 
+        if (filteredDays[0] && !screeningDate) {
+            setScreeningDate(getScreeningDate(filteredDays[0].dateAndTime));
+        }
+
         return (
             <>
                 {filteredDays.map(({ id, dateAndTime }) =>
-                    <ListGroup.Item key={id} className="rounded-bottom-0" variant="primary" active={getLocaleDateString(dateAndTime, { day: `numeric`, month: `numeric` }) === screeningDate} action onClick={() => {
-                        if (getLocaleDateString(dateAndTime, { day: `numeric`, month: `numeric` }) !== screeningDate) {
+                    <ListGroup.Item key={id} className="rounded-bottom-0" variant="primary" active={getScreeningDate(dateAndTime) === screeningDate} action onClick={() => {
+                        if (getScreeningDate(dateAndTime) !== screeningDate) {
                             setSelectedScreening('');
-                            setScreeningDate(getLocaleDateString(dateAndTime, { day: `numeric`, month: `numeric` }));
+                            setScreeningDate(getScreeningDate(dateAndTime));
                         }
                     }}>
                         {`${capitalize(getLocaleDateString(dateAndTime, { weekday: `short` }))}, ${getLocaleDateString(dateAndTime, { day: `numeric` })} ${getLocaleDateString(dateAndTime, { month: `short` })}`}
-                    </ListGroup.Item>
-                )}
+                    </ListGroup.Item >
+                )
+                }
             </>
         );
 
