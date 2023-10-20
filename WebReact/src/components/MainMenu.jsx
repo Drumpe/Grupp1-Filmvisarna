@@ -55,6 +55,7 @@ export default function MainMenu({ user, setUser }) {
                   ) : user.userRole === "admin" ? (
                     <>
                       <NavLink to="/AdminView" className="nav-link">Admin</NavLink>
+                      <NavLink to="/StartView/" className="nav-link" onClick={logout}>Logga ut</NavLink>
                     </>
                   ) : (
                     <>
