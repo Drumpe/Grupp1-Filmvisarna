@@ -111,6 +111,20 @@ button.list-group-item.active {
     position: relative;
 }
 
+/// Hide scrollbar
+// Chrome, Safari, Opera (WebKit based browsers)
+.scrollbar-hidden::webkit-scrollbar {
+    display: none;
+}
+
+// IE, Edge, Firefox
+.scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/// End Hide scrollbar
+
 .listgroup-arrow {
     min-height: 1.1rem;
 }
