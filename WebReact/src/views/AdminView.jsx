@@ -48,7 +48,7 @@ export default function AdminView() {
               </li>
             );
           })}
-          <p>Summa: {ticketSum} kr</p>
+          <p>Total kostnad: {ticketSum} kr</p>
         </div>
 
       ))}
