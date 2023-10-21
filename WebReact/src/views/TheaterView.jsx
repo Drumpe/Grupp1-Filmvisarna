@@ -295,7 +295,7 @@ const TheaterView = () => {
                 </Row>
                 <Row>
                     <Col className="d-flex justify-content-center mt-3">
-                        <span style={{ fontSize: '22px' }}>Summa: {summa} kr</span>
+                        <span style={{ fontSize: '22px' }}>Att betala: {summa} kr</span>
                     </Col>
                 </Row>
                 <Form validated={validatedEmail} onSubmit={handleSubmit}>
