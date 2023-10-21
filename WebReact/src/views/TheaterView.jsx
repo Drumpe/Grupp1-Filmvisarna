@@ -4,6 +4,7 @@ import { get, post } from '../utilsAndHooks/rest';
 import { Link, useParams, useOutletContext } from "react-router-dom";
 import ShowSeats from "../components/ShowSeats";
 import { useNavigate } from 'react-router-dom';
+import createBookingJson from "../utilsAndHooks/createBookingJSON";
 
 const BARN_PRIS = 80;
 const PENSIONARS_PRIS = 120;
@@ -35,7 +36,7 @@ const TheaterView = () => {
             }
             return;
         }
-        var booking = createBookingJson();
+        var booking = createBookingJson(seats, user, screeningId, tickets);
         setButtonsDisabled(true);
         var result = await post('bookings/detailed', booking);
         let isStatusSent = setBookedStatus();
@@ -147,9 +148,18 @@ const TheaterView = () => {
         seatStatusFeed.connect();
     }
 
-    const increaseCount = (category) => {
+    // (category = barn || pensionar) (plusminus =1 || -1)
+    function changeTicketCount(category, plusminus) {
+        if (plusminus) {
+            increaseTicketCount(category);
+        } else {
+            decreaseTicketCount(category);
+        }
+    }
+
+    const increaseTicketCount = (category) => {
         setTickets((prevTickets) => {
-            const updatedTickets = { ...prevTickets }; 
+            const updatedTickets = { ...prevTickets };
             switch (category) {
                 case 'barn':
                     if (updatedTickets.ordinary > 0) {
@@ -166,13 +176,13 @@ const TheaterView = () => {
                 default:
                     break;
             }
-            return updatedTickets; 
+            return updatedTickets;
         });
     };
 
-    const decreaseCount = (category) => {
+    const decreaseTicketCount = (category) => {
         setTickets((prevTickets) => {
-            const updatedTickets = { ...prevTickets }; 
+            const updatedTickets = { ...prevTickets };
             switch (category) {
                 case 'barn':
                     if (updatedTickets.child > 0) {
@@ -189,7 +199,7 @@ const TheaterView = () => {
                 default:
                     break;
             }
-            return updatedTickets; 
+            return updatedTickets;
         });
     };
 
@@ -206,9 +216,9 @@ const TheaterView = () => {
             updatedSeats[index].wanted = false;
             if (updatedTickets.ordinary > 0) {
                 updatedTickets.ordinary -= 1;
-            } else if (updatedTickets.child > 0){
+            } else if (updatedTickets.child > 0) {
                 updatedTickets.child -= 1;
-            } else if (updatedTickets.pensioner > 0){
+            } else if (updatedTickets.pensioner > 0) {
                 updatedTickets.pensioner -= 1;
             }
         }
@@ -238,36 +248,36 @@ const TheaterView = () => {
         }
     }
 
-    function makePriceCategoriesArray() {
-        var result = [];
-        for (let index = 0; index < tickets.pensioner; index++) {
-            result.push(3);
-        }
-        for (let index = 0; index < tickets.child; index++) {
-            result.push(2);
-        }
-        for (let index = 0; index < tickets.ordinary; index++) {
-            result.push(1);
-        }
-        return result;
-    }
+    // function makePriceCategoriesArray() {
+    //     var result = [];
+    //     for (let index = 0; index < tickets.pensioner; index++) {
+    //         result.push(3);
+    //     }
+    //     for (let index = 0; index < tickets.child; index++) {
+    //         result.push(2);
+    //     }
+    //     for (let index = 0; index < tickets.ordinary; index++) {
+    //         result.push(1);
+    //     }
+    //     return result;
+    // }
 
-    function createBookingJson() {
-        var tmpBookingSeatsArr = [];
-        var priceCat = makePriceCategoriesArray();
-        var index = 0;
-        seats.forEach((elem) => {
-            if (elem.wanted) {
-                tmpBookingSeatsArr.push({ SeatId: elem.seatId, PriceCategoryId: priceCat[index++] });
-            }
-        });
-        const bookingData = {
-            EmailAdress: user.userRole === "guest" ? formData.email : user.email,
-            ScreeningId: screeningId,
-            BookingXSeats: tmpBookingSeatsArr,
-        }
-        return bookingData;
-    }
+    // function createBookingJson() {
+    //     var tmpBookingSeatsArr = [];
+    //     var priceCat = makePriceCategoriesArray();
+    //     var index = 0;
+    //     seats.forEach((elem) => {
+    //         if (elem.wanted) {
+    //             tmpBookingSeatsArr.push({ SeatId: elem.seatId, PriceCategoryId: priceCat[index++] });
+    //         }
+    //     });
+    //     const bookingData = {
+    //         EmailAdress: user.userRole === "guest" ? formData.email : user.email,
+    //         ScreeningId: screeningId,
+    //         BookingXSeats: tmpBookingSeatsArr,
+    //     }
+    //     return bookingData;
+    // }
 
     function setBookedStatus() {
         let isStatusSent = seatStatusFeed.book();
@@ -300,11 +310,11 @@ const TheaterView = () => {
                     <span style={{ fontSize: '22px' }}>Barn</span>
                 </Col>
                 <Col className="col mt-2">
-                    <Button onClick={() => decreaseCount('barn')} variant="danger me-2" disabled={buttonsDisabled}>
+                    <Button onClick={() => changeTicketCount('barn', -1)} variant="danger me-2" disabled={buttonsDisabled}>
                         --
                     </Button>
                     {tickets.child}&nbsp;
-                    <Button onClick={() => increaseCount('barn')} variant="primary" disabled={buttonsDisabled}>
+                    <Button onClick={() => changeTicketCount('barn', 1)} variant="primary" disabled={buttonsDisabled}>
                         +
                     </Button>
                 </Col>
@@ -314,11 +324,11 @@ const TheaterView = () => {
                     <span style={{ fontSize: '22px' }}>Pensionär</span>
                 </Col>
                 <Col className="col mt-3">
-                    <Button onClick={() => decreaseCount('pensionar')} variant="danger me-2" disabled={buttonsDisabled}>
+                    <Button onClick={() => changeTicketCount('pensionar', -1)} variant="danger me-2" disabled={buttonsDisabled}>
                         –
                     </Button>
                     {tickets.pensioner}&nbsp;
-                    <Button onClick={() => increaseCount('pensionar')} variant="primary" disabled={buttonsDisabled}>
+                    <Button onClick={() => changeTicketCount('pensionar', 1)} variant="primary" disabled={buttonsDisabled}>
                         +
                     </Button>
                 </Col>
