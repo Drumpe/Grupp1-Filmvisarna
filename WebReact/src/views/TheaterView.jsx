@@ -149,193 +149,193 @@ const TheaterView = () => {
     }
 
     const increaseTicketCount = (category) => {
-            setTickets((prevTickets) => {
-                const updatedTickets = { ...prevTickets };
-                switch (category) {
-                    case 'barn':
-                        if (updatedTickets.ordinary > 0) {
-                            updatedTickets.ordinary -= 1;
-                            updatedTickets.child += 1;
-                        }
-                        break;
-                    case 'pensionar':
-                        if (updatedTickets.ordinary > 0) {
-                            updatedTickets.ordinary -= 1;
-                            updatedTickets.pensioner += 1;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                return updatedTickets;
-            });
-        };
-
-        const decreaseTicketCount = (category) => {
-            setTickets((prevTickets) => {
-                const updatedTickets = { ...prevTickets };
-                switch (category) {
-                    case 'barn':
-                        if (updatedTickets.child > 0) {
-                            updatedTickets.ordinary += 1;
-                            updatedTickets.child -= 1;
-                        }
-                        break;
-                    case 'pensionar':
-                        if (updatedTickets.pensioner > 0) {
-                            updatedTickets.ordinary += 1;
-                            updatedTickets.pensioner -= 1;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                return updatedTickets;
-            });
-        };
-
-        //När man klickar på ett säte 
-        const seatClicked = (seatId) => {
-            const updatedSeats = [...seats];
-            const updatedTickets = tickets;
-            const index = updatedSeats.findIndex((seat) => seat.seatId === seatId);
-
-            if (!updatedSeats[index].wanted) { // Vill ha sätet
-                updatedSeats[index].wanted = true;
-                updatedTickets.ordinary += 1;
-            } else { //Vill inte ha sätet mer
-                updatedSeats[index].wanted = false;
-                if (updatedTickets.ordinary > 0) {
-                    updatedTickets.ordinary -= 1;
-                } else if (updatedTickets.child > 0) {
-                    updatedTickets.child -= 1;
-                } else if (updatedTickets.pensioner > 0) {
-                    updatedTickets.pensioner -= 1;
-                }
+        setTickets((prevTickets) => {
+            const updatedTickets = { ...prevTickets };
+            switch (category) {
+                case 'barn':
+                    if (updatedTickets.ordinary > 0) {
+                        updatedTickets.ordinary -= 1;
+                        updatedTickets.child += 1;
+                    }
+                    break;
+                case 'pensionar':
+                    if (updatedTickets.ordinary > 0) {
+                        updatedTickets.ordinary -= 1;
+                        updatedTickets.pensioner += 1;
+                    }
+                    break;
+                default:
+                    break;
             }
-            setSeats(updatedSeats);
-            setTickets(updatedTickets);
-        };
+            return updatedTickets;
+        });
+    };
 
-        function handleSubmit(event) {
-            const form = event.currentTarget;
-            event.preventDefault();
-            if (form.checkValidity() === false) {
-                event.stopPropagation();
+    const decreaseTicketCount = (category) => {
+        setTickets((prevTickets) => {
+            const updatedTickets = { ...prevTickets };
+            switch (category) {
+                case 'barn':
+                    if (updatedTickets.child > 0) {
+                        updatedTickets.ordinary += 1;
+                        updatedTickets.child -= 1;
+                    }
+                    break;
+                case 'pensionar':
+                    if (updatedTickets.pensioner > 0) {
+                        updatedTickets.ordinary += 1;
+                        updatedTickets.pensioner -= 1;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return updatedTickets;
+        });
+    };
+
+    //När man klickar på ett säte 
+    const seatClicked = (seatId) => {
+        const updatedSeats = [...seats];
+        const updatedTickets = tickets;
+        const index = updatedSeats.findIndex((seat) => seat.seatId === seatId);
+
+        if (!updatedSeats[index].wanted) { // Vill ha sätet
+            updatedSeats[index].wanted = true;
+            updatedTickets.ordinary += 1;
+        } else { //Vill inte ha sätet mer
+            updatedSeats[index].wanted = false;
+            if (updatedTickets.ordinary > 0) {
+                updatedTickets.ordinary -= 1;
+            } else if (updatedTickets.child > 0) {
+                updatedTickets.child -= 1;
+            } else if (updatedTickets.pensioner > 0) {
+                updatedTickets.pensioner -= 1;
             }
         }
+        setSeats(updatedSeats);
+        setTickets(updatedTickets);
+    };
 
-        function handleInputChange(event) {
-            const form = event.currentTarget;
-            const { name, value } = event.target;
-            setFormData({
-                ...formData,
-                [name]: value,
-            });
-            if (form.checkValidity() === false) {
-                setValidatedEmail(false);
-            } else {
-                setValidatedEmail(true);
-            }
+    function handleSubmit(event) {
+        const form = event.currentTarget;
+        event.preventDefault();
+        if (form.checkValidity() === false) {
+            event.stopPropagation();
         }
+    }
 
-        function setBookedStatus() {
-            let isStatusSent = seatStatusFeed.book();
-            return isStatusSent;
+    function handleInputChange(event) {
+        const form = event.currentTarget;
+        const { name, value } = event.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+        if (form.checkValidity() === false) {
+            setValidatedEmail(false);
+        } else {
+            setValidatedEmail(true);
         }
+    }
 
-        return !seats ? null : (
-            <Container className="mt-1">
-                <Row>
-                    <Col className='d-flex justify-content-start'>
-                        <Link className="nav-back text-info" to={`/MovieView/${movieId}`}>Tillbaka</Link>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </Col>
-                </Row>
+    function setBookedStatus() {
+        let isStatusSent = seatStatusFeed.book();
+        return isStatusSent;
+    }
 
-                <ShowSeats {...{ seats, theater, seatClicked }} />
+    return !seats ? null : (
+        <Container className="mt-1">
+            <Row>
+                <Col className='d-flex justify-content-start'>
+                    <Link className="nav-back text-info" to={`/MovieView/${movieId}`}>Tillbaka</Link>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </Col>
+            </Row>
 
-                <Row>
-                    <Col className="col-3 offset-4 mt-2">
-                        <span style={{ fontSize: '22px' }}>Vuxen</span>
-                    </Col>
-                    <Col className="col-1 mt-2">
-                        <div className="text-center">&nbsp;&nbsp;&nbsp;{tickets.ordinary}</div>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col className="col-3 offset-4 mt-2">
-                        <span style={{ fontSize: '22px' }}>Barn</span>
-                    </Col>
-                    <Col className="col mt-2">
-                        <Button onClick={() => decreaseTicketCount('barn')} variant="danger me-2" disabled={buttonsDisabled}>
-                            --
-                        </Button>
-                        {tickets.child}&nbsp;
-                        <Button onClick={() => increaseTicketCount('barn')} variant="primary" disabled={buttonsDisabled}>
-                            +
-                        </Button>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col className="col-3 offset-4 mt-3">
-                        <span style={{ fontSize: '22px' }}>Pensionär</span>
-                    </Col>
-                    <Col className="col mt-3">
-                        <Button onClick={() => decreaseTicketCount('pensionar')} variant="danger me-2" disabled={buttonsDisabled}>
-                            –
-                        </Button>
-                        {tickets.pensioner}&nbsp;
-                        <Button onClick={() => increaseTicketCount('pensionar')} variant="primary" disabled={buttonsDisabled}>
-                            +
-                        </Button>
-                    </Col>
-                </Row>
+            <ShowSeats {...{ seats, theater, seatClicked }} />
+
+            <Row>
+                <Col className="col-3 offset-4 mt-2">
+                    <span style={{ fontSize: '22px' }}>Vuxen</span>
+                </Col>
+                <Col className="col-1 mt-2">
+                    <div className="text-center">&nbsp;&nbsp;&nbsp;{tickets.ordinary}</div>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="col-3 offset-4 mt-2">
+                    <span style={{ fontSize: '22px' }}>Barn</span>
+                </Col>
+                <Col className="col mt-2">
+                    <Button onClick={() => decreaseTicketCount('barn')} variant="danger me-2" disabled={buttonsDisabled}>
+                        --
+                    </Button>
+                    {tickets.child}&nbsp;
+                    <Button onClick={() => increaseTicketCount('barn')} variant="primary" disabled={buttonsDisabled}>
+                        +
+                    </Button>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="col-3 offset-4 mt-3">
+                    <span style={{ fontSize: '22px' }}>Pensionär</span>
+                </Col>
+                <Col className="col mt-3">
+                    <Button onClick={() => decreaseTicketCount('pensionar')} variant="danger me-2" disabled={buttonsDisabled}>
+                        –
+                    </Button>
+                    {tickets.pensioner}&nbsp;
+                    <Button onClick={() => increaseTicketCount('pensionar')} variant="primary" disabled={buttonsDisabled}>
+                        +
+                    </Button>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="d-flex justify-content-center mt-3">
+                    <span style={{ fontSize: '22px' }}>Att betala: {summa} kr</span>
+                </Col>
+            </Row>
+            <Form validated={validatedEmail} onSubmit={handleSubmit}>
+                {user.userRole === "guest" ?
+                    <>
+                        <Row className="mb-3">
+                            <Col className="d-flex justify-content-center mt-3">
+                                <Form.Group>
+                                    <Form.Label>E-postadress</Form.Label>
+                                    <InputGroup>
+                                        <Form.Control
+                                            type="email"
+                                            name="email"
+                                            required
+                                            value={formData.email}
+                                            placeholder="namn@exempel.com"
+                                            onChange={handleInputChange} />
+                                        <Form.Control.Feedback type="invalid">
+                                            Ange din e-postadress.
+                                        </Form.Control.Feedback>
+                                    </InputGroup>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                    </>
+                    :
+                    <Row className="d-flex justify-content-center mt-3">Bokningen skickas till: {user.email}</Row>
+                }
                 <Row>
                     <Col className="d-flex justify-content-center mt-3">
-                        <span style={{ fontSize: '22px' }}>Att betala: {summa} kr</span>
+                        <Button variant="secondary"
+                            disabled={buttonsDisabled}
+                            type="submit"
+                            onClick={sendRequest}
+                        >Bekräfta bokning
+                        </Button>
                     </Col>
                 </Row>
-                <Form validated={validatedEmail} onSubmit={handleSubmit}>
-                    {user.userRole === "guest" ?
-                        <>
-                            <Row className="mb-3">
-                                <Col className="d-flex justify-content-center mt-3">
-                                    <Form.Group>
-                                        <Form.Label>E-postadress</Form.Label>
-                                        <InputGroup>
-                                            <Form.Control
-                                                type="email"
-                                                name="email"
-                                                required
-                                                value={formData.email}
-                                                placeholder="namn@exempel.com"
-                                                onChange={handleInputChange} />
-                                            <Form.Control.Feedback type="invalid">
-                                                Ange din e-postadress.
-                                            </Form.Control.Feedback>
-                                        </InputGroup>
-                                    </Form.Group>
-                                </Col>
-                            </Row>
-                        </>
-                        :
-                        <Row className="d-flex justify-content-center mt-3">Bokningen skickas till: {user.email}</Row>
-                    }
-                    <Row>
-                        <Col className="d-flex justify-content-center mt-3">
-                            <Button variant="secondary"
-                                disabled={buttonsDisabled}
-                                type="submit"
-                                onClick={sendRequest}
-                            >Bekräfta bokning
-                            </Button>
-                        </Col>
-                    </Row>
-                </Form>
-            </Container>
-        );
-    };
-    export default TheaterView;
+            </Form>
+        </Container>
+    );
+};
+export default TheaterView;
