@@ -51,6 +51,7 @@ function MovieView() {
 
     const scrollScreeningDatesBackward = () => {
         const nextPos = screeningDatesScrollPosition - 250;
+        nextPos < 250 ? 0 : nextPos;
         ref.current?.scroll({ top: 0, left: nextPos, behavior: "smooth" });
         setScreeningDatesScrollPosition(nextPos);
     };
@@ -86,7 +87,7 @@ function MovieView() {
             const date = new Date(screening.dateAndTime);
             const day = date.toDateString();
 
-            if (!uniqueDays.includes(day) && date > today) {
+            if (!uniqueDays.includes(day) && date >= today) {
                 uniqueDays.push(day);
                 return true;
             }
