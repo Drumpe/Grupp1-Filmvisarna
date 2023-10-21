@@ -9,6 +9,20 @@ body {
     scroll-behavior: smooth;
 }
 
+/* Hide scrollbar */
+// Chrome, Safari, Opera (WebKit based browsers)
+.scrollbar-hidden::webkit-scrollbar {
+    display: none;
+}
+
+// IE, Edge, Firefox
+.scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* End Hide scrollbar */
+
 /* Logo 
 Usage:
 ------
@@ -68,7 +82,7 @@ Logo size will adapt after text size; for example, use className="h4" in parent
 
 /* End Display utility classes */
 
-// MovieView
+/* Movie view specific */
 .screening-list-item {
     cursor: pointer;
 }
@@ -111,25 +125,15 @@ button.list-group-item.active {
     position: relative;
 }
 
-/// Hide scrollbar
-// Chrome, Safari, Opera (WebKit based browsers)
-.scrollbar-hidden::webkit-scrollbar {
-    display: none;
+/* End Movie view specific */
+
+
+/* Arrow scroll navigation */
+.arrow-scroll {
+    min-height: 42%;
 }
 
-// IE, Edge, Firefox
-.scrollbar-hidden {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-/// End Hide scrollbar
-
-.listgroup-arrow {
-    min-height: 1.1rem;
-}
-
-.screening-dates-arrow {
+.arrow-bg {
     height: 100%;
     min-width: max(70px, 4vw);
     max-width: max(70px, 4vw);
@@ -137,7 +141,7 @@ button.list-group-item.active {
 }
 
 /// forward arrow
-.screening-dates-forward-arrow {
+.forward-arrow {
     position: absolute;
     right: 0;
     top: 0;
@@ -145,17 +149,17 @@ button.list-group-item.active {
     margin-right: calc(var(--bs-gutter-x) * 0.5);
 }
 
-.listgroup-forward-arrow-container {
+.forward-arrow-container {
     cursor: pointer;
 }
 
-.listgroup-forward-arrow-content {
+.forward-arrow-content {
     height: 100%;
     margin-right: .5rem;
 }
 
-/// back arrow
-.screening-dates-back-arrow {
+/// Back arrow
+.back-arrow {
     position: absolute;
     left: 0;
     top: 0;
@@ -163,17 +167,16 @@ button.list-group-item.active {
     margin-left: calc(var(--bs-gutter-x) * 0.5);
 }
 
-.listgroup-back-arrow-container {
+.back-arrow-container {
     cursor: pointer;
 }
 
-.listgroup-back-arrow-content {
+.back-arrow-content {
     height: 100%;
     margin-left: .5rem;
 }
 
-
-// End MovieView
+/* End Arrow scroll navigation */
 
 @media screen and (max-width: 500px) {
     .movie-information-container {

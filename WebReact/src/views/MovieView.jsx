@@ -203,20 +203,20 @@ function MovieView() {
                     <div ref={ref} className="w-100 overflow-x-scroll scrollbar-hidden">
                         {
                             screeningDatesScrollPosition > 249 &&
-                            <div className="screening-dates-arrow screening-dates-back-arrow" onClick={scrollScreeningDatesBackward}>
-                                <div className="listgroup-back-arrow-container d-flex justify-content-start align-items-center h-100">
-                                    <div className="listgroup-back-arrow-content d-inline-flex justify-content-start align-items-center">
-                                        <img className="listgroup-arrow" src="/img/ui/ui-listgroup-backarrow.svg"></img>
+                            <div className="arrow-bg back-arrow" onClick={scrollScreeningDatesBackward}>
+                                <div className="back-arrow-container d-flex justify-content-start align-items-center h-100">
+                                    <div className="back-arrow-content d-inline-flex justify-content-start align-items-center">
+                                        <img className="arrow-scroll" src="/img/ui/ui-listgroup-backarrow.svg"></img>
                                     </div>
                                 </div>
                             </div>
                         }
                         {
                             screenings.length > 0 &&
-                            <div className="screening-dates-arrow screening-dates-forward-arrow" onClick={scrollScreeningDatesForward}>
-                                <div className="listgroup-forward-arrow-container d-flex justify-content-end align-items-center h-100">
-                                    <div className="listgroup-forward-arrow-content d-inline-flex justify-content-end align-items-center">
-                                        <img className="listgroup-arrow" src="/img/ui/ui-listgroup-forwardarrow.svg"></img>
+                            <div className="arrow-bg forward-arrow" onClick={scrollScreeningDatesForward}>
+                                <div className="forward-arrow-container d-flex justify-content-end align-items-center h-100">
+                                    <div className="forward-arrow-content d-inline-flex justify-content-end align-items-center">
+                                        <img className="arrow-scroll" src="/img/ui/ui-listgroup-forwardarrow.svg"></img>
                                     </div>
                                 </div>
                             </div>
