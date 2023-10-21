@@ -202,7 +202,7 @@ function MovieView() {
                 <Col className="screening-dates d-flex justify-content-center">
                     <div ref={ref} className="w-100 overflow-x-scroll scrollbar-hidden">
                         {
-                            screeningDatesScrollPosition > 249 &&
+                            screeningDatesScrollPosition > 25 &&
                             <div className="arrow-bg back-arrow" onClick={scrollScreeningDatesBackward}>
                                 <div className="back-arrow-container d-flex justify-content-start align-items-center h-100">
                                     <div className="back-arrow-content d-inline-flex justify-content-start align-items-center">
