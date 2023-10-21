@@ -30,6 +30,7 @@ namespace webapi.Controllers
                         TheaterId = s.Theater.Id,
                         TheaterName = s.Theater.Name
                     })
+                    .OrderBy(s => s.DateAndTime)
                     .ToList()
 
                 })

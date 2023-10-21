@@ -5,6 +5,24 @@
     --custom-btn-close-bg: url("/img/ui/ui-close.svg");
 }
 
+body {
+    scroll-behavior: smooth;
+}
+
+/* Hide scrollbar */
+// Chrome, Safari, Opera (WebKit based browsers)
+.scrollbar-hidden::webkit-scrollbar {
+    display: none;
+}
+
+// IE, Edge, Firefox
+.scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* End Hide scrollbar */
+
 /* Logo 
 Usage:
 ------
@@ -64,48 +82,137 @@ Logo size will adapt after text size; for example, use className="h4" in parent
 
 /* End Display utility classes */
 
-// MovieView
+/* Movie view specific */
 .screening-list-item {
     cursor: pointer;
 }
 
-.movie-details > h6 {
+.movie-details>h6 {
     color: #8e918e;
 }
 
-@media screen and (max-width: 500px)  {
+button.list-group-item {
+    background-color: #101210;
+    color: #c439ff;
+    border-color: #525452;
+    border-top: 0;
+    border-bottom: 0;
+    min-width: 23vw;
+}
+
+button.list-group-item.active {
+    background-color: #efa304;
+    color: #101210;
+    border-color: #fbc552;
+    border-bottom: 0;
+    min-width: 23vw;
+}
+
+@media screen and (min-width: 640px) {
+
+    button.list-group-item,
+    button.list-group-item.active {
+        min-width: 15vw;
+    }
+
+    .listgroup-forward-arrow-content {
+        margin-right: 1.1rem;
+    }
+}
+
+/// screening dates arrows
+.screening-dates {
+    position: relative;
+}
+
+/* End Movie view specific */
+
+
+/* Arrow scroll navigation */
+.arrow-scroll {
+    min-height: 42%;
+}
+
+.arrow-bg {
+    height: 100%;
+    min-width: max(70px, 4vw);
+    max-width: max(70px, 4vw);
+    z-index: 1000;
+}
+
+/// forward arrow
+.forward-arrow {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #101210 40%, #101210);
+    margin-right: calc(var(--bs-gutter-x) * 0.5);
+}
+
+.forward-arrow-container {
+    cursor: pointer;
+}
+
+.forward-arrow-content {
+    height: 100%;
+    margin-right: .5rem;
+}
+
+/// Back arrow
+.back-arrow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-image: linear-gradient(to right, #101210, #101210 60%, rgba(0, 0, 0, 0));
+    margin-left: calc(var(--bs-gutter-x) * 0.5);
+}
+
+.back-arrow-container {
+    cursor: pointer;
+}
+
+.back-arrow-content {
+    height: 100%;
+    margin-left: .5rem;
+}
+
+/* End Arrow scroll navigation */
+
+@media screen and (max-width: 500px) {
     .movie-information-container {
         display: block;
     }
+
     .chairImage {
-        width:29px;
+        width: 29px;
         margin: 1px;
     }
 }
-@media screen and (min-width: 501px) and (max-width: 640px)  {
+
+@media screen and (min-width: 501px) and (max-width: 640px) {
     .chairImage {
-        width:35px;
+        width: 35px;
         margin: 3px;
     }
 }
-@media screen and (min-width: 640px) and (max-width: 992px)  {
+
+@media screen and (min-width: 640px) and (max-width: 992px) {
     .chairImage {
-        width:45px;
+        width: 45px;
         margin: 5px;
     }
 }
-@media screen and (min-width: 992px)  {
+
+@media screen and (min-width: 992px) {
     .movie-information-container {
         display: inline-flex;
     }
+
     .chairImage {
-        width:55px;
+        width: 55px;
         margin: 6px;
     }
 }
-  
-
-// End MovieView
 
 /* Sticky Footer */
 #root {
@@ -113,9 +220,9 @@ Logo size will adapt after text size; for example, use className="h4" in parent
     min-height: 100vh;
     flex-direction: column;
 }
+
 main {
     flex: 1;
 }
+
 /* End Sticky footer */
-
-
