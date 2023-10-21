@@ -149,7 +149,7 @@ const TheaterView = () => {
 
     const increaseCount = (category) => {
         setTickets((prevTickets) => {
-            const updatedTickets = { ...prevTickets }; // Create a shallow copy
+            const updatedTickets = { ...prevTickets }; 
             switch (category) {
                 case 'barn':
                     if (updatedTickets.ordinary > 0) {
@@ -166,13 +166,13 @@ const TheaterView = () => {
                 default:
                     break;
             }
-            return updatedTickets; // Return the updated state
+            return updatedTickets; 
         });
     };
 
     const decreaseCount = (category) => {
         setTickets((prevTickets) => {
-            const updatedTickets = { ...prevTickets }; // Create a shallow copy
+            const updatedTickets = { ...prevTickets }; 
             switch (category) {
                 case 'barn':
                     if (updatedTickets.child > 0) {
@@ -189,7 +189,7 @@ const TheaterView = () => {
                 default:
                     break;
             }
-            return updatedTickets; // Return the updated state
+            return updatedTickets; 
         });
     };
 
@@ -199,15 +199,18 @@ const TheaterView = () => {
         const updatedTickets = tickets;
         const index = updatedSeats.findIndex((seat) => seat.seatId === seatId);
 
-        updatedSeats[index].wanted = !updatedSeats[index].wanted; //Toggle wanted
-        //Uppdatera tickets
-        if (updatedSeats[index].wanted) {
+        if (!updatedSeats[index].wanted) { // Vill ha sätet
+            updatedSeats[index].wanted = true;
             updatedTickets.ordinary += 1;
-        } else if (updatedTickets.ordinary > 0) {
-            updatedTickets.ordinary -= 1;
-        } else {
-            //Toggla tillbaks wanted
-            updatedSeats[index].wanted = !updatedSeats[index].wanted; //Toggle wanted
+        } else { //Vill inte ha sätet mer
+            updatedSeats[index].wanted = false;
+            if (updatedTickets.ordinary > 0) {
+                updatedTickets.ordinary -= 1;
+            } else if (updatedTickets.child > 0){
+                updatedTickets.child -= 1;
+            } else if (updatedTickets.pensioner > 0){
+                updatedTickets.pensioner -= 1;
+            }
         }
         setSeats(updatedSeats);
         setTickets(updatedTickets);
@@ -219,15 +222,20 @@ const TheaterView = () => {
         if (form.checkValidity() === false) {
             event.stopPropagation();
         }
-        setValidatedEmail(true); // <-- Dubbel klick felet ligger bland annat här.
     }
 
     function handleInputChange(event) {
+        const form = event.currentTarget;
         const { name, value } = event.target;
         setFormData({
             ...formData,
             [name]: value,
         });
+        if (form.checkValidity() === false) {
+            setValidatedEmail(false);
+        } else {
+            setValidatedEmail(true);
+        }
     }
 
     function makePriceCategoriesArray() {
