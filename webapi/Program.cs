@@ -2,22 +2,34 @@ using Microsoft.EntityFrameworkCore;
 using webapi.Data;
 using webapi.Middleware;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173").AllowAnyMethod();
+        });
+});
+
 //Add database support
-builder.Services.AddDbContext<FilmvisarnaContext>(options => {
+builder.Services.AddDbContext<FilmvisarnaContext>(options =>
+{
     var connectionString = builder.Configuration.GetConnectionString("WebApiDatabase");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-});;
+}); ;
 
 // Create session
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession(options => 
+builder.Services.AddSession(options =>
 {
     options.Cookie.Name = ".FilmvisarnaCookie.Session";
     options.Cookie.IsEssential = true;
     options.Cookie.HttpOnly = true; // Protect from Cross-Side-Scripting (XSS)
-    options.IdleTimeout = TimeSpan.FromMinutes(30); 
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
 });
 
 // Add services to the container.
@@ -28,6 +40,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

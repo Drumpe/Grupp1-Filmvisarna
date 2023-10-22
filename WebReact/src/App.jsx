@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 // imports common components here
-import MainMenu from './components/MainMenu'; 
+import MainMenu from './components/MainMenu';
 import Footer from './components/Footer';
 import { useState, useEffect } from 'react';
 import { get } from './utilsAndHooks/rest';
@@ -20,21 +20,31 @@ export default function App() {
       setGlobals({
         ...globals,
         movies: await get('movies/detailed'),
-        user: await get('sessions/getuserrole') 
+        user: await get('sessions/getuserrole')
       });
     })();
   }, []);
 
+  // setUser uppdaterar user - Kan den simplifieras
+  async function setUser() {
+    await setGlobals({
+      ...globals,
+      movies: globals.movies,
+      user: await get('sessions/getuserrole')
+    });
+  }
+
+
   // this is: ViewHolder translated into new return
   return <>
-  <header>
-    <MainMenu  {...{ user: globals.user }}/>
-  </header>
-  <main className="container mt-1">
-    <Outlet context={globals} />
-  </main>
-  <footer className="container-flex">
-    <Footer />
-  </footer>
+    <header>
+      <MainMenu  {...{ user: globals.user, setUser}} />
+    </header>
+    <main className="container mt-1">
+      <Outlet context={[globals, setUser]} />
+    </main>
+    <footer className="container-fluid">
+      <Footer />
+    </footer>
   </>;
 }

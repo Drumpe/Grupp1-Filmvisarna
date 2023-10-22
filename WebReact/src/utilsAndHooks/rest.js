@@ -5,7 +5,7 @@ export async function post(route, body, method = 'POST') {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   }))
-    .json().catch(e => ({ error: e + '<-- POST' }));
+    .json().catch(e => ({ error: e + '' }));
 }
 
 // get (read)
@@ -16,13 +16,13 @@ export async function get(route, method = 'GET') {
 
 // put (update)
 export async function put(route, body) {
-  post(route, body, 'PUT');
+  return post(route, body, 'PUT');
 }
 
 // del (delete)
 // (delete is a reserved JS word so 'del' instead)
-export async function del(route, body) {
-  return post(route, body, 'DELETE');
+export async function del(route) {
+  return get(route, 'DELETE');
 }
 
 // sending forms

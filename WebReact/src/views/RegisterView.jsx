@@ -5,10 +5,27 @@ import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { isPasswordValid } from "../utilsAndHooks/PasswordValidate";
+import { isPasswordValid } from "../utilsAndHooks/Validate";
+import { isValidEmail } from "../utilsAndHooks/Validate";
+import { isNameValid } from "../utilsAndHooks/Validate";
 import { post } from "../utilsAndHooks/rest";
+//import '../sass/RegisterViewStyling.scss';
+
 
 export default function RegisterView() {
+    const [emailValid, setEmailValid] = useState(true);
+
+    const [emailErrorMsg, setEmailErrorMsg] = useState('');
+    const [passwordErrorMsg, setPasswordErrorMsg] = useState('');
+
+
+    const [firstNameValid, setFirstNameValid] = useState(true);
+
+    const [firstNameErrorMsg, setFirstNameErrorMsg] = useState('');
+    const [lastNameErrorMsg, setLastNameErrorMsg] = useState('');
+
+    const [lastNameValid, setLastNameValid] = useState(true);
+
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -19,20 +36,61 @@ export default function RegisterView() {
     const [passwordValid, setPasswordValid] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [passwordTouched, setPasswordTouched] = useState(false);
-
     // kollar om lösenordet är valid samt om pasword är rört i real tid.
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-        if (name === "password") {
+
+        if (name === "email") {
+
+            setEmailValid(isValidEmail(value));
+            if (!isValidEmail(value)) {
+                setEmailErrorMsg("Vänligen ange en giltig e-postadress.");
+            } else {
+                setEmailErrorMsg("");
+            }
+
+            setFormData({ ...formData, [name]: value });  // Update the formData for email regardless of validation status
+        } else if (name === "firstName") {
+
+            setFirstNameValid(isNameValid(value));
+            if (!isNameValid(value)) {
+                setFirstNameErrorMsg("Vänligen använd endast bokstäver i Förnamn.");
+            } else {
+                setFirstNameErrorMsg("");
+            }
+
+            if (isNameValid(value)) {  // Only update formData if name is valid
+                setFormData({ ...formData, [name]: value });
+            }
+        } else if (name === "lastName") {
+
+            setLastNameValid(isNameValid(value));
+            if (!isNameValid(value)) {
+                setLastNameErrorMsg("Vänligen använd endast bokstäver i Efternamn.");
+            } else {
+                setLastNameErrorMsg("");
+            }
+
+            if (isNameValid(value)) {  // Only update formData if name is valid
+                setFormData({ ...formData, [name]: value });
+            }
+        } else if (name === "password") {
             validatePassword();
+
             setPasswordTouched(true);
+            if (!isPasswordValid(value)) {
+                setPasswordErrorMsg("Lösenordet måste innehålla minst 8 tecken, en stor bokstav, en liten bokstav, ett nummer och ett specialtecken.");
+            } else {
+                setPasswordErrorMsg("");
+            }
+
+            setFormData({ ...formData, [name]: value });  // Update the formData for password regardless of validation status
         }
     };
-    function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
+
+
+
     // kollar och validerar lösenordet refferar till paswsworValidate.js
     const validatePassword = () => {
         const isValid = isPasswordValid(formData.password);
@@ -45,7 +103,7 @@ export default function RegisterView() {
 
         // Email format validation
         if (!isValidEmail(formData.email)) {
-            alert("Please enter a valid email address.");
+            alert("Vänligen ange en giltig e-postadress.");
             return;
         }
 
@@ -60,20 +118,23 @@ export default function RegisterView() {
 
             if (result && result.error) {
                 // Handle specific error response from API
-                alert('Registration failed: ' + result.error);
+                alert('Registreringen misslyckades: ' + result.error);
             } else {
                 // Handle successful registration
-                alert('Registration successful!');
+                alert('Registrering lyckad!');
                 setFormData({
                     firstName: '',
                     lastName: '',
                     email: '',
-                    password: ''                });
+                    password: ''
+                });
+
             }
         } catch (error) {
             // Handle unexpected errors from API call)
-            alert('An unexpected error occurred: ' + error);
+            alert('Ett oväntat fel uppstod: ' + error);
         }
+
     };
 
 
@@ -87,19 +148,25 @@ export default function RegisterView() {
                 <Image src="/img/logo/filmvisarna-logo-icon.png"  roundedCircle style={{ width: '100px', height: '100px'} } />
             </Col>
             <h1 className="text-center">Bli Medlem</h1>
+            <p className="text-center">Fyll i alla uppgifter nedan för att bli medlem.</p>
             <Form className="mx-auto" onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formGroupFirstName">
-                <div className="form-floating my-4">
-                    <Form.Control type="text" name="firstName" placeholder="Förnamn" onChange={handleInputChange} />
                     <Form.Label>Förnamn</Form.Label>
-                </div>
+                    <Form.Control type="text" name="firstName" required="true" style={{ display: 'block' }} placeholder="Förnamn" onChange={handleInputChange} />
+                    {firstNameErrorMsg && <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{firstNameErrorMsg}</div>}
 
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formGroupLastName">
-                <div className="form-floating my-4">
-                    <Form.Control type="text" name="lastName" placeholder="Efternamn" onChange={handleInputChange} />
                     <Form.Label>Efternamn</Form.Label>
-                    </div>
+                    <Form.Control type="text" name="lastName" required="true" placeholder="Efternamn" onChange={handleInputChange} />
+                    {lastNameErrorMsg && <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{lastNameErrorMsg}</div>}
+
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupEmail">
+                    <Form.Label>E-postadress</Form.Label>
+                    <Form.Control type="email" name="email" placeholder="dinemail@mail.se" onChange={handleInputChange} />
+                    {emailErrorMsg && <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{emailErrorMsg}</div>}
+
                 </Form.Group>
                
                 <Form.Group className="mb-3" controlId="formGroupPassword">
@@ -124,26 +191,21 @@ export default function RegisterView() {
                             {showPassword ? 'Göm' : 'Visa'}
                         </Button>
                     </div>
-                    {!passwordValid && passwordTouched && (
-                        <Form.Control.Feedback type="invalid" style={{ display: 'block' }}>
-                            Lösenordet måste vara 8 tecken långt, innehålla minst ett specialtecken och minst ett nummer.
-                        </Form.Control.Feedback>
-                    )}
+                    {passwordErrorMsg && <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{passwordErrorMsg}</div>}
                 </Form.Group>
                 <Row className="justify-content-between">
-                <Col className="mx-auto text-center d-grid">
-                <Button type="submit" variant="primary" size="lg" disabled={!passwordValid} onClick={handleSubmit}>
-                Bli medlem
-                </Button>
-                </Col>
-                <Col className="mx-auto text-center d-grid">
-                    <Button variant="secondary link" href="/StartView" size="lg">
-                        Avbryt
-                    </Button>
-                </Col>
+                    <Col className="mx-auto text-center d-grid">
+                        <Button type="submit" variant="primary" size="lg" disabled={!emailValid || !passwordValid || !formData.firstName.trim() || !formData.lastName.trim()} onClick={handleSubmit}>
+                            Bli medlem
+                        </Button>
+                    </Col>
+                    <Col className="mx-auto text-center d-grid">
+                        <Button variant="secondary link" href="/StartView" size="lg">
+                            Avbryt
+                        </Button>
+                    </Col>
                 </Row>
             </Form>
         </Container>
     );
 }
-
