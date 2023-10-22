@@ -3,6 +3,7 @@
     --custom-primary-font-sans-bold: 'Latin Modern Sans Bold', 'Futura', Helvetica, Arial, sans-serif;
     --custom-navbar-toggler-icon-bg: url("/img/ui/ui-hamburger.svg");
     --custom-btn-close-bg: url("/img/ui/ui-close.svg");
+    --hello: red;
 }
 
 /* Logo 
@@ -46,12 +47,6 @@ Logo size will adapt after text size; for example, use className="h4" in parent
 }
 
 /* End Custom UI elements */
-/* Body Start*/
-
-body {
-    margin-top: 100px;
-}
-/*Body end*/
 
 /* Display utility classes */
 
@@ -126,3 +121,6 @@ main {
 /* End Sticky footer */
 
 
+.bg-hello{
+    background-color: var(--hello);
+}

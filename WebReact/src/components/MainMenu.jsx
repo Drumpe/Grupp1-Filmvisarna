@@ -24,7 +24,7 @@ export default function MainMenu({user, setUser}) {
       {["lg"].map((expand) => (
         <Navbar
           key={expand} expand={expand}
-          className="mb-3 navbar-dark fixed-top bg-info"
+          className="mb-3 navbar-dark sticky-top bg-info"
         >
 
           <Container fluid>

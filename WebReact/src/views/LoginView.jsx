@@ -28,7 +28,7 @@ export default function LoginView() {
     });
   }
   return (
-    <div className="container">
+    <div>
     <div className="border rounded bg-info">
       <div className="d-flex justify-content-around mt-4 ">
         <h1 className='text-center'>Logga in</h1>
