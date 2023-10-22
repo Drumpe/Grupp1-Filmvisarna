@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, DropdownButton, Dropdown } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
 import { get } from '../utilsAndHooks/rest';
@@ -14,24 +14,20 @@ export default function StartView() {
     const [screenings, setScreenings] = useState([]);
     const [date, setDate] = useState();
     useEffect(() => {
-        fetchData();
+        const movieScreenings = movies.map(movie => movie.screening);
+        setScreenings(movieScreenings);
         const filtered = movies.filter(movie => movie.ageLimit <= selectedAge);
         setFilteredMovies(filtered);
-    }, [movies, selectedAge, screenings.dateAndTime]);
+    }, [movies, selectedAge]);
 
     const handleAgeChange = (e) => {
         setSelectedAge(Number(e.target.value));
     };
 
-    const fetchData = async () => {
-        var result = await get("Screenings")
-        setScreenings(result);
-    }
-
     const uniqueDays = [];
 
     const filteredScreenings = screenings.filter((x) => {
-        const date = new Date(x.dateAndTime);
+        const date = new Date(x);
         const weekday = date.toLocaleDateString(date, { weekday: 'long' });
 
         if (!uniqueDays.includes(weekday)) {
@@ -47,12 +43,12 @@ export default function StartView() {
     //Filtrera bort datum som är smalare än de aktuella datumet
     const sortedFilteredScreenings = filteredScreenings
         .filter((screening) => {
-            const date = new Date(screening.dateAndTime);
+            const date = new Date(screening);
             return date >= currentDateTime;
         }).sort((a, b) => {
             //Sortera datum baserat från de närmsta datum till det aktuella
-            const dateA = new Date(a.dateAndTime);
-            const dateB = new Date(b.dateAndTime);
+            const dateA = new Date(a);
+            const dateB = new Date(b);
             return dateA - dateB;
         });
 
@@ -60,7 +56,6 @@ export default function StartView() {
         var date = new Date(dateAndTime)
         return setDate(date.toLocaleDateString("sv-SV"))
     }
-    console.log(date);
 
     const sortedFilteredMovies = filteredMovies.filter(({ movie, screening }) => {
         if (date == null) {
@@ -74,19 +69,18 @@ export default function StartView() {
             <Row>
                 <Col>
                     <h1 className="mb-4 text-primary d-inline-block">Visas nu</h1>
-                    <select
                     <DropdownButton
                         title="Dropdown button"
                         variant="outline-secondary"
                         direction="horizontal"
                         gap={2}>
                         <Dropdown.Item onClick={() => setDate(null)}>Visa alla</Dropdown.Item>
-                        {sortedFilteredScreenings.map(({ id, dateAndTime }) => (
-                            <div key={id}>
+                        {sortedFilteredScreenings.map((screening) => (
+                            <div>
                                 <Dropdown.Item
-                                    onClick={() => handleFilter(dateAndTime)}>
-                                    {`${getLocaleDateString(dateAndTime, { month: 'numeric', day: 'numeric' })}
-                                - ${getLocaleDateString(dateAndTime, { weekday: 'long' })}`}</Dropdown.Item>
+                                    onClick={() => handleFilter(screening)}>
+                                    {`${getLocaleDateString(screening, { month: 'numeric', day: 'numeric' })}
+                                - ${getLocaleDateString(screening, { weekday: 'long' })}`}</Dropdown.Item>
                             </div>
                         ))}
                     </DropdownButton >
@@ -105,15 +99,13 @@ export default function StartView() {
             </Row>
             <br />
             <Row className="align-items-center">
-                {filteredMovies.map(({ id, movie, images }) => {
-                    sortedFilteredMovies.map(({ id, movie, images }) =>
-                        <Col className="col-6 col-lg-3 mb-4" key={id}>
-                            <NavLink to={`/MovieView/${id}`} className="link-light link-underline-opacity-25 link-underline-opacity-75-hover">
-                                <Card.Img className="top rounded ratio-6x9" alt={`${movie}`} src={`/img/poster/${images[0]}`} />
-                                <Card.Title className="text-center">{movie}</Card.Title>
-                            </NavLink>
-                        </Col>)
-                }
+                {sortedFilteredMovies.map(({ id, movie, images }) =>
+                    <Col className="col-6 col-lg-3 mb-4" key={id}>
+                        <NavLink to={`/MovieView/${id}`} className="link-light link-underline-opacity-25 link-underline-opacity-75-hover">
+                            <Card.Img className="top rounded ratio-6x9" alt={`${movie}`} src={`/img/poster/${images[0]}`} />
+                            <Card.Title className="text-center">{movie}</Card.Title>
+                        </NavLink>
+                    </Col>)}
             </Row>
         </>
     );
