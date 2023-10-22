@@ -1,23 +1,28 @@
-import React, {useState} from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Button, Form, Col, Image} from 'react-bootstrap';
 import { post } from '../utilsAndHooks/rest';
+import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 
 
 export default function LoginView() {
+  let navigate = useNavigate();
+  const [{ }, setUser] = useOutletContext();
   const [formData, setFormData] = useState({ email: '', password: '' });
-  
-  const sendRequest = async () => {
-    /** Här borde göras kontroller innan vi skickar iväg och kolla att resultatet är ok */
+
+  const sendLoginRequest = async () => {
     var login = {
       emailAdress: formData.email,
       password: formData.password
     }
-    var result = await post('users/login', login);
-
-    window.location.href = '/StartView/';
+    let result = await post('users/login', login);
+    if (result.error) {
+      alert("Felaktig e-postadress eller passord.");
+      return;
+    }
+    setUser();
+    navigate("/");
   };
+
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormData({
@@ -25,8 +30,12 @@ export default function LoginView() {
       [name]: value,
     });
   }
+
   return (
-    <div>
+    <>
+      <Col className="mx-auto text-center">
+        <Image src="/img/logo/filmvisarna-logo-icon.png" roundedCircle style={{ width: '100px', height: '100px' }} />
+      </Col>
       <div className="d-flex justify-content-around">
         <h1 className='text-center'>Logga in</h1>
       </div>
@@ -38,12 +47,12 @@ export default function LoginView() {
           <Form.Control type="password" name="password" value={formData.password} className='rounded-0' onChange={handleInputChange} />
         </Form>
       </div>
-      <p className='text-center'>Inte medlem ännu? <Link to="/RegisterView">Bli medlem</Link></p>
+      <p className='text-center'>Inte medlem ännu? <NavLink to="/RegisterView">Bli medlem</NavLink></p>
       <div className='d-flex justify-content-center my-5 mb-2'>
-        <Button variant="secondary" size="lg" onClick={sendRequest}>
+        <Button variant="secondary" size="lg" onClick={sendLoginRequest}>
           Logga in
         </Button>
       </div>
-    </div>
+    </>
   );
 }

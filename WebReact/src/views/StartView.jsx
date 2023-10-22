@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
-import { Row, Col, DropdownButton, Stack, Dropdown, Button, } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Row, Col } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
 import { get } from '../utilsAndHooks/rest';
 import { getLocaleDateString } from '../utilsAndHooks/formatter';
 
 export default function StartView() {
 
-    const { movies, user } = useOutletContext();
+    const [{ movies }] = useOutletContext();
     const [selectedAge, setSelectedAge] = useState(18);  // Default age
     const [filteredMovies, setFilteredMovies] = useState([]);
     const [screenings, setScreenings] = useState([]);
@@ -74,6 +74,7 @@ export default function StartView() {
             <Row>
                 <Col>
                     <h1 className="mb-4 text-primary d-inline-block">Visas nu</h1>
+                    <select
                     <DropdownButton
                         title="Dropdown button"
                         variant="outline-secondary"
@@ -104,14 +105,15 @@ export default function StartView() {
             </Row>
             <br />
             <Row className="align-items-center">
-                {sortedFilteredMovies.map(({ id, movie, images }) =>
-                    <Col className="col-6 col-lg-3 mb-4" key={id}>
-                        <Link to={`/MovieView/${id}`} className="link-light link-underline-opacity-25 link-underline-opacity-75-hover">
-                            <Card.Img className="top rounded ratio-6x9" alt={`${movie}`} src={`/img/poster/${images[0]}`} />
-                            <Card.Title className="text-center">{movie}</Card.Title>
-                        </Link>
-                    </Col>
-                )}
+                {filteredMovies.map(({ id, movie, images }) => {
+                    sortedFilteredMovies.map(({ id, movie, images }) =>
+                        <Col className="col-6 col-lg-3 mb-4" key={id}>
+                            <NavLink to={`/MovieView/${id}`} className="link-light link-underline-opacity-25 link-underline-opacity-75-hover">
+                                <Card.Img className="top rounded ratio-6x9" alt={`${movie}`} src={`/img/poster/${images[0]}`} />
+                                <Card.Title className="text-center">{movie}</Card.Title>
+                            </NavLink>
+                        </Col>)
+                }
             </Row>
         </>
     );
