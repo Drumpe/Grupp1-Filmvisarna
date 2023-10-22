@@ -32,6 +32,7 @@ namespace webapi.Controllers
                     Description = JObject.Parse(v.Description)["description"].ToString(),
                     ProductionYear = JObject.Parse(v.Description)["productionYear"].ToString(),
                     ProductionCountries = JObject.Parse(v.Description)["productionCountries"].ToObject<List<string>>(),
+                    Screening = v.Screenings.Select(s => s.DateAndTime.ToString("yyyy-MM-dd")).FirstOrDefault(),
                     Language = JObject.Parse(v.Description)["language"].ToString(),
                     Subtitles = JObject.Parse(v.Description)["subtitles"].ToString(),
                     Duration = v.Duration,
