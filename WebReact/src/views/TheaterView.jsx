@@ -4,7 +4,7 @@ import { get, post } from '../utilsAndHooks/rest';
 import { Link, useParams, useOutletContext } from "react-router-dom";
 import ShowSeats from "../components/ShowSeats";
 import { useNavigate } from 'react-router-dom';
-import createBookingJson from "../utilsAndHooks/createBookingJSON";
+import createBookingJson from "../utilsAndHooks/createBookingJson";
 
 const BARN_PRIS = 80;
 const PENSIONARS_PRIS = 120;
@@ -36,7 +36,7 @@ const TheaterView = () => {
             }
             return;
         }
-        var booking = createBookingJson(seats, user, screeningId, tickets);
+        var booking = createBookingJson(seats, user, screeningId, tickets, formData);
         setButtonsDisabled(true);
         var result = await post('bookings/detailed', booking);
         let isStatusSent = setBookedStatus();

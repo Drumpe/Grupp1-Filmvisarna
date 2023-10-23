@@ -1,6 +1,6 @@
 
 
-export default function createBookingJson(seats, user, screeningId, tickets) {
+export default function createBookingJson(seats, user, screeningId, tickets, formData) {
   var tmpBookingSeatsArr = [];
   var priceCat = makePriceCategoriesArray(tickets);
   var index = 0;
