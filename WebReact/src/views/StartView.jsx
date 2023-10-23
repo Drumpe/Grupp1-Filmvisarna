@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Card from 'react-bootstrap/Card';
-import { Row, Col, DropdownButton, Dropdown } from 'react-bootstrap';
+import { Row, Col, DropdownButton, Dropdown, ListGroup, Button } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
 import { get } from '../utilsAndHooks/rest';
@@ -13,6 +13,10 @@ export default function StartView() {
     const [filteredMovies, setFilteredMovies] = useState([]);
     const [screenings, setScreenings] = useState([]);
     const [date, setDate] = useState();
+    const ref = useRef(null);
+    const [screeningDatesScrollPosition, setScreeningDatesScrollPosition] = useState(0);
+
+
     useEffect(() => {
         const movieScreenings = movies.map(movie => movie.screening);
         setScreenings(movieScreenings);
@@ -24,33 +28,50 @@ export default function StartView() {
         setSelectedAge(Number(e.target.value));
     };
 
-    const uniqueDays = [];
-
     const filteredScreenings = screenings.filter((x) => {
+        const uniqueDays = [];
         const date = new Date(x);
         const weekday = date.toLocaleDateString(date, { weekday: 'long' });
-
-        if (!uniqueDays.includes(weekday)) {
-            uniqueDays.push(weekday);
-            return true;
-        }
-
-        return false;
+        uniqueDays.push(weekday);
+        return uniqueDays;
     });
 
-    const currentDateTime = new Date();
+    const scrollScreeningDatesForward = () => {
+        const nextPos = screeningDatesScrollPosition + 250;
+        ref.current?.scroll({ top: 0, left: nextPos, behavior: "smooth" });
+        setScreeningDatesScrollPosition(nextPos);
+    };
 
-    //Filtrera bort datum som är smalare än de aktuella datumet
-    const sortedFilteredScreenings = filteredScreenings
-        .filter((screening) => {
-            const date = new Date(screening);
-            return date >= currentDateTime;
-        }).sort((a, b) => {
-            //Sortera datum baserat från de närmsta datum till det aktuella
-            const dateA = new Date(a);
-            const dateB = new Date(b);
-            return dateA - dateB;
-        });
+    const scrollScreeningDatesBackward = () => {
+        const nextPos = screeningDatesScrollPosition - 250;
+        nextPos < 250 ? 0 : nextPos;
+        ref.current?.scroll({ top: 0, left: nextPos, behavior: "smooth" });
+        setScreeningDatesScrollPosition(nextPos);
+    };
+
+    const showScreenings = () => {
+        return (
+            <>
+                <ListGroup.Item
+                    className="rounded-bottom-0 w-100 pb-3"
+                    variant="primary"
+                    action
+                    onClick={() => setDate(null)}>
+                    Visa alla
+                </ListGroup.Item>
+                {filteredScreenings.map((screening) => (
+                    <ListGroup.Item
+                        className="rounded-bottom-0  w-100 pb-3"
+                        variant="primary"
+                        action
+                        onClick={() => handleFilter(screening)}>
+                        {`${getLocaleDateString(screening, { month: 'numeric', day: 'numeric' })}
+                                - ${getLocaleDateString(screening, { weekday: 'long' })}`}</ListGroup.Item>
+                ))}
+            </>
+
+        );
+    }
 
     const handleFilter = (dateAndTime) => {
         var date = new Date(dateAndTime)
@@ -69,21 +90,40 @@ export default function StartView() {
             <Row>
                 <Col>
                     <h1 className="mb-4 text-primary d-inline-block">Visas nu</h1>
-                    <DropdownButton
-                        title="Dropdown button"
-                        variant="outline-secondary"
-                        direction="horizontal"
-                        gap={2}>
-                        <Dropdown.Item onClick={() => setDate(null)}>Visa alla</Dropdown.Item>
-                        {sortedFilteredScreenings.map((screening) => (
-                            <div>
-                                <Dropdown.Item
-                                    onClick={() => handleFilter(screening)}>
-                                    {`${getLocaleDateString(screening, { month: 'numeric', day: 'numeric' })}
-                                - ${getLocaleDateString(screening, { weekday: 'long' })}`}</Dropdown.Item>
+                    <Row>
+                        <Col className="screening-dates d-flex justify-content-center">
+                            <div ref={ref} className="w-100 overflow-x-scroll scrollbar-hidden">
+                                {
+                                    screeningDatesScrollPosition > 55 &&
+                                    <div className="arrow-bg back-arrow" onClick={scrollScreeningDatesBackward}>
+                                        <div className="back-arrow-container d-flex justify-content-start align-items-center h-100">
+                                            <div className="back-arrow-content d-inline-flex justify-content-start align-items-center">
+                                                <img className="arrow-scroll" src="/img/ui/ui-listgroup-backarrow.svg"></img>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                {
+                                    screenings.length > 0 &&
+                                    <div className="arrow-bg forward-arrow" onClick={scrollScreeningDatesForward}>
+                                        <div className="forward-arrow-container d-flex justify-content-end align-items-center h-100">
+                                            <div className="forward-arrow-content d-inline-flex justify-content-end align-items-center">
+                                                <img className="arrow-scroll" src="/img/ui/ui-listgroup-forwardarrow.svg"></img>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                <ListGroup
+                                    title="Dropdown button"
+                                    variant="outline-secondary"
+                                    className="border-bottom-0"
+                                    horizontal>
+                                    {showScreenings()}
+                                </ListGroup >
                             </div>
-                        ))}
-                    </DropdownButton >
+                        </Col>
+                    </Row>
+                    <br />
                     <select
                         className="form-select text-secondary me-2 w-auto d-inline-block float-end"
                         onChange={handleAgeChange}
