@@ -326,7 +326,7 @@ const TheaterView = () => {
                 }
                 <Row>
                     <Col className="d-flex justify-content-center mt-3">
-                        <Button variant="secondary"
+                        <Button variant="primary"
                             disabled={buttonsDisabled}
                             type="submit"
                             onClick={sendRequest}
