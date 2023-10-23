@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react"
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
+import { Container, Nav, Navbar, Offcanvas } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
-import Navbar from 'react-bootstrap/Navbar';
-import Offcanvas from 'react-bootstrap/Offcanvas';
 import { del } from '../utilsAndHooks/rest';
-
 
 export default function MainMenu({user, setUser}) {
   let navigate = useNavigate();
-  
   const [menuOpen, setMenuOpen] = useState(false)
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -34,7 +29,6 @@ export default function MainMenu({user, setUser}) {
           key={expand} expand={expand}
           className="mb-3 navbar-dark"
         >
-
           <Container fluid>
             <Navbar.Toggle aria-controls={`offcanvas Navbar-expand-${expand}`} onClick={toggleMenu}/>
             <NavLink to="/StartView" className="nav-link">
@@ -69,7 +63,6 @@ export default function MainMenu({user, setUser}) {
                       <NavLink to="/RegisterView" className="nav-link" onClick={toggleMenu}>Bli medlem</NavLink>
                     </>
                   }
-
                   <NavLink to="/StartView" className="nav-link" onClick={toggleMenu}>Visas nu</NavLink>
                   <NavLink to="/CancelView" className="nav-link" onClick={toggleMenu}>Avboka</NavLink>
                   <NavLink to="/AboutView" className="nav-link" onClick={toggleMenu}>Om</NavLink>
