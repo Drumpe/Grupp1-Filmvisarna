@@ -10,7 +10,7 @@ const PENSIONARS_PRIS = 120;
 const VUXEN_PRIS = 140;
 
 const TheaterView = () => {
-    const [{ user }]= useOutletContext();
+    const [{ user }] = useOutletContext();
     const { screeningId } = useParams();
     const [formData, setFormData] = useState({ email: '' });
     const [theater, setTheater] = useState({ id: 0, name: "" });
@@ -24,7 +24,9 @@ const TheaterView = () => {
     const [validatedEmail, setValidatedEmail] = useState(false);
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
     const summa = (tickets.child * BARN_PRIS) + (tickets.pensioner * PENSIONARS_PRIS) + (tickets.ordinary * VUXEN_PRIS);
+    const [seatStatusFeed, setSeatStatusFeed] = useState(null);
     let navigate = useNavigate();
+    const [isWantedConflict, setIsWantedConflict] = useState(false);
 
     const sendRequest = async () => {
         if ((!validatedEmail && user.userRole === "guest") || summa == 0) {
@@ -36,41 +38,114 @@ const TheaterView = () => {
         var booking = createBookingJson();
         setButtonsDisabled(true);
         var result = await post('bookings/detailed', booking);
-        //window.location.href = '/ConfirmedView/' + result.bookingId;
-        navigate("/ConfirmedView/" + result.bookingId);
+        let isStatusSent = setBookedStatus();
+        if (isStatusSent) {
+            seatStatusFeed.close();
+        }
+        navigate('/ConfirmedView/' + result.bookingId);
     };
 
     //Init
     useEffect(() => {
         async function initSeats() {
             try {
-                var screeningJson = await get('screenings/bookedseats/' + screeningId);
-                var theaterJson = await get('theaters/detailed/' + screeningJson.theaterId);
-                var seatsArray = theaterJson.seats; //Alla säten i salongen 
-                seatsArray.forEach((element) => {
-                    //Här läggs till ett attribut till element, typ booked (boolean)
-                    // om seatsArray.SeatId finns i jsonScreening.bookedSeats 
-                    //  sätt element.booked till true annars false
-                    if (screeningJson.bookedSeats.find(x => x.seatId === element.seatId)) {
-                        element.booked = true;
-                    } else {
-                        element.booked = false;
-                    }
-                    element.wanted = false;
+                var screeningSeats = await get(`seats/screening/${screeningId}`);
+                var seats = screeningSeats.seats;
+
+                seats.forEach((seat) => {
+                    seat.wanted = false;
                 });
-                setMovieId(screeningJson.movieId);
-                var tmpTheater = {
-                    id: theaterJson.theaterId,
-                    name: theaterJson.theater
+
+                setMovieId(screeningSeats.movieId);
+                var theater = {
+                    id: screeningSeats.theaterId,
+                    name: screeningSeats.theater
                 };
-                setTheater(tmpTheater);
-                setSeats(seatsArray);
+                setTheater(theater);
+                setSeats(seats);
             } catch (err) {
                 console.log(err);
             }
         }
         initSeats();
     }, []); // Empty dependency array to run the effect only once
+
+    useEffect(() => {
+        if (isWantedConflict) {
+
+            alert("Sätet du valt har just blivit bokat av någon annan.");
+            setIsWantedConflict(false);
+        }
+    }, [isWantedConflict]);
+
+
+    useEffect(() => {
+        let feed = {
+            socket: null,
+
+            connect: async () => {
+                // Uses ws://, incorrect certificate on my side for https/wss (Albin), fix later...
+                feed.socket = new WebSocket(`ws://localhost:5052`);
+
+                feed.socket.onmessage = async (ev) => {
+                    let seatStatus = JSON.parse(ev.data);
+
+                    if (seatStatus.status === `ready`) {
+                        if (feed.socket !== null && feed.socket.readyState == WebSocket.OPEN) {
+                            let message = JSON.stringify({
+                                "status": "screening",
+                                "screeningId": screeningId,
+                            });
+                            feed.socket.send(message);
+                        }
+                    } else if (seatStatus.status === `book`) {
+                        let screeningSeats = await get(`seats/screening/${screeningId}`);
+                        let updatedSeats = screeningSeats.seats;
+
+                        seats.forEach((seat, i) => {
+                            if (seat.wanted && !updatedSeats[i].booked) {
+                                updatedSeats[i].wanted = true;
+                            } else if (seat.wanted && updatedSeats[i].booked) {
+                                seatClicked(seat.seatId);
+                                setIsWantedConflict(true);
+                            }
+                        });
+                        setSeats(updatedSeats);
+                    }
+                };
+            },
+
+            close: () => {
+                if (feed.socket !== null && feed.socket.readyState == WebSocket.OPEN) {
+                    feed.socket.close(1000, `Closing from client`);
+                }
+            },
+
+            book: () => {
+                if (feed.socket !== null && feed.socket.readyState == WebSocket.OPEN) {
+                    let message = JSON.stringify({
+                        "status": "book",
+                        "screeningId": screeningId,
+                    });
+                    feed.socket.send(message);
+                    return true;
+                }
+                return false;
+            }
+        };
+        setSeatStatusFeed(feed);
+        return () => {
+            if (feed.socket) {
+                feed.close();
+            }
+        };
+    }, [screeningId, seats]);
+
+    if (!seatStatusFeed) {
+        return null;
+    } else if (seatStatusFeed.socket == null) {
+        seatStatusFeed.connect();
+    }
 
     const increaseCount = (category) => {
         setTickets((prevTickets) => {
@@ -145,7 +220,7 @@ const TheaterView = () => {
             event.stopPropagation();
         }
         setValidatedEmail(true); // <-- Dubbel klick felet ligger bland annat här.
-    };
+    }
 
     function handleInputChange(event) {
         const { name, value } = event.target;
@@ -153,7 +228,7 @@ const TheaterView = () => {
             ...formData,
             [name]: value,
         });
-    };
+    }
 
     function makePriceCategoriesArray() {
         var result = [];
@@ -167,7 +242,7 @@ const TheaterView = () => {
             result.push(1);
         }
         return result;
-    };
+    }
 
     function createBookingJson() {
         var tmpBookingSeatsArr = [];
@@ -184,7 +259,12 @@ const TheaterView = () => {
             BookingXSeats: tmpBookingSeatsArr,
         }
         return bookingData;
-    };
+    }
+
+    function setBookedStatus() {
+        let isStatusSent = seatStatusFeed.book();
+        return isStatusSent;
+    }
 
     return !seats ? null : (
         <Container className="mt-1">

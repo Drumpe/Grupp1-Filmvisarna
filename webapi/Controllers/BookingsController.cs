@@ -52,9 +52,38 @@ namespace webapi.Controllers
             return Ok(result);
         }
 
+        [HttpGet("getbyemail/{emailAddress}")]
+        public async Task<IActionResult> GetBookingsDetalsByEmail(string emailAddress)
+        {
+            var user = await _context.users.FirstOrDefaultAsync(u => u.EmailAdress == emailAddress);
+            if (user == null)
+            {
+                return BadRequest($"User with email address {emailAddress} does not exist in our database.");
+            }
+            var userBookings = await _context.bookings
+             .Where(b => b.UserId == user.Id)
+             .Select(b => new
+             {
+                 ScreeningTime = b.Screening.DateAndTime,
+                 BookingNumber = b.BookingNumber,
+                 Movie = b.Screening.Movie.Name,
+                 Theater = b.Screening.Theater.Name,
+                 Tickets = b.BookingXSeats.Select(bxs => new 
+                 {
+                    Seat = bxs.Seat.seat,
+                    Row = bxs.Seat.Row
+                 })
+             })
+             .ToListAsync();
+
+            if (userBookings.Count == 0)
+            {
+                return Ok($"User with email address {emailAddress} has no bookings.");
+            }
+            return Ok(userBookings);
+        }
 
         [HttpGet("number/{bookingNumber}")]
-
         public async Task<IActionResult> GetBookingByBookingnumber(string bookingNumber)
         {
             var result = await _context.bookings.SingleOrDefaultAsync(b => b.BookingNumber == bookingNumber);
@@ -143,6 +172,7 @@ namespace webapi.Controllers
                 UserId = user.Id,
                 BookingNumber = BookingNumberGenerator.GenerateRandomNumber(),
                 BookingDateTime = DateTime.Now
+
             };
 
             _context.bookings.Add(booking);
@@ -163,19 +193,49 @@ namespace webapi.Controllers
 
             await _context.SaveChangesAsync();
 
+            var screening = await _context.screenings
+                                  .Include(s => s.Movie)
+                                  .SingleOrDefaultAsync(s => s.Id == booking.ScreeningId);
+            var movieName = screening?.Movie?.Name ?? "Unknown";  // Default to "Unknown" if the movie name is not found
+
+
             var response = new
             {
                 BookingId = booking.Id
             };
 
+
             //Skicka bara mail om e-postadressen inte innehåller "test"
             if (!model.EmailAdress.Contains("test"))
             {
-                //TODO: Skapa body och Subject
+                string userFirstName = booking.User.FirstName;
+                string bookingNumber = booking.BookingNumber;
+                int numberOfTickets = booking.BookingXSeats.Count;
+
+
                 string to = model.EmailAdress;
-                string subject = "Bokning av film";
-                string body = "Email body content.";
-                EmailService.MailBooking(to, subject, body);
+                string subject = "Bokning hos Filmvisarna";
+                                var body = $@"
+                                    <html>
+                                    <head>
+                                        <style>
+                                            body {{
+                                                font-family: Arial, Helvetica, sans-serif;
+                                            }}
+                                        </style>
+                                    </head>
+                                    <body>
+                                        <p>Hej {userFirstName},</p>
+                                        <p>Tack för din bokning hos Filmvisarna.</p>
+                                        <p>Bokningsnummer: {bookingNumber}</p>
+                                        <p>Film: {movieName}</p>
+                                        <p>Datum och tid: {booking.BookingDateTime.ToString("yyyy-MM-dd")} kl {booking.BookingDateTime.ToString("HH:mm")}</p>
+                                        <p>Antal biljetter: {numberOfTickets}</p>
+                                        <p>Om du har några frågor eller behöver ändra din bokning, vänligen kontakta oss på Filmvisarna@mail.com eller 07000000.</p>
+                                    </body>
+                                    </html>";
+
+                                EmailService.MailBooking(to, subject, body);
             }
 
             return Ok(response);

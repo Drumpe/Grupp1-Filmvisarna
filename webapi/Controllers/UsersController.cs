@@ -106,7 +106,7 @@ namespace webapi.Controllers
             HttpContext.Session.SetString("Name", $"{user.FirstName} {user.LastName}");
 
             // Authentication successful
-            return Ok();
+            return Ok("{}");
         }
 
         [HttpDelete("logout")]

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace webapi.Entities;
 
@@ -14,6 +15,7 @@ public class Booking: IEntity
    public int ScreeningId { get; set; }
 
    // Navigation properties
+   [JsonIgnore] 
    public User User { get; set; }
    public Screening Screening { get; set; }
    public ICollection<BookingXSeat> BookingXSeats { get; set; }
