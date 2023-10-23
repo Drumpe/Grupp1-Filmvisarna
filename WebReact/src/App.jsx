@@ -40,10 +40,10 @@ export default function App() {
     <header>
       <MainMenu  {...{ user: globals.user, setUser}} />
     </header>
-    <main className="container mt-1">
+    <main className="container top-Body-padding">
       <Outlet context={[globals, setUser]} />
     </main>
-    <footer className="container-fluid">
+    <footer className='mt-3'>
       <Footer />
     </footer>
   </>;

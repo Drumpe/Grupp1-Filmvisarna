@@ -143,33 +143,35 @@ export default function RegisterView() {
     };
 
     return (
-        <Container>
+        <Container className="border border-light py-3 rounded-5 bg-info p-5 ">
             <Col className="mx-auto text-center d-none d-lg-block ">
                 <Image src="/img/logo/filmvisarna-logo-icon.png"  roundedCircle style={{ width: '100px', height: '100px'} } />
             </Col>
             <h1 className="text-center">Bli Medlem</h1>
             <p className="text-center">Fyll i alla uppgifter nedan för att bli medlem.</p>
             <Form className="mx-auto" onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="formGroupFirstName">
-                    <Form.Label>Förnamn</Form.Label>
+                <Form.Group className="mb-3 form-floating" controlId="formGroupFirstName">
                     <Form.Control type="text" name="firstName" required="true" style={{ display: 'block' }} placeholder="Förnamn" onChange={handleInputChange} />
+                    <Form.Label>Förnamn</Form.Label>
                     {firstNameErrorMsg && <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{firstNameErrorMsg}</div>}
 
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formGroupLastName">
-                    <Form.Label>Efternamn</Form.Label>
-                    <Form.Control type="text" name="lastName" required="true" placeholder="Efternamn" onChange={handleInputChange} />
+                <Form.Group className="mb-3 form-floating" controlId="formGroupLastName">
+                   <Form.Control type="text" name="lastName" required="true" placeholder="Efternamn" onChange={handleInputChange} /> 
+                   <Form.Label>Efternamn</Form.Label>
+                    
                     {lastNameErrorMsg && <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{lastNameErrorMsg}</div>}
 
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formGroupEmail">
-                    <Form.Label>E-postadress</Form.Label>
-                    <Form.Control type="email" name="email" placeholder="dinemail@mail.se" onChange={handleInputChange} />
+                <Form.Group className="mb-3 form-floating" controlId="formGroupEmail">
+                     <Form.Control type="email" name="email" placeholder="dinemail@mail.se" onChange={handleInputChange} />
+                     <Form.Label>E-postadress</Form.Label>
+                   
                     {emailErrorMsg && <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{emailErrorMsg}</div>}
 
                 </Form.Group>
                
-                <Form.Group className="mb-3" controlId="formGroupPassword">
+                <Form.Group className="mb-3 form-floating" controlId="formGroupPassword">
                     
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                     <div className="form-floating my-4 col-10">

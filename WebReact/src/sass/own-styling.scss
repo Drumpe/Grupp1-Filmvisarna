@@ -3,7 +3,6 @@
     --custom-primary-font-sans-bold: 'Latin Modern Sans Bold', 'Futura', Helvetica, Arial, sans-serif;
     --custom-navbar-toggler-icon-bg: url("/img/ui/ui-hamburger.svg");
     --custom-btn-close-bg: url("/img/ui/ui-close.svg");
-    --hello: red;
 }
 
 body {
@@ -229,4 +228,8 @@ main {
 
 .bg-hello{
     background-color: var(--hello);
+}
+
+.top-Body-padding{
+    padding-top: 100px
 }
