@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -10,7 +11,7 @@ namespace webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   
+
     public class MoviesController : GenericController<Movie>
     {
         public MoviesController(FilmvisarnaContext context) : base(context)
@@ -34,7 +35,7 @@ namespace webapi.Controllers
                     Description = JObject.Parse(v.Description)["description"].ToString(),
                     ProductionYear = JObject.Parse(v.Description)["productionYear"].ToString(),
                     ProductionCountries = JObject.Parse(v.Description)["productionCountries"].ToObject<List<string>>(),
-                    Screening = v.Screenings.Select(s => s.DateAndTime.ToString("yyyy-MM-dd")).FirstOrDefault(),
+                    Screening = v.Screenings.Select(s => s.DateAndTime.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)).FirstOrDefault(),
                     Language = JObject.Parse(v.Description)["language"].ToString(),
                     Subtitles = JObject.Parse(v.Description)["subtitles"].ToString(),
                     Duration = v.Duration,
