@@ -4,6 +4,7 @@ import { get, post } from '../utilsAndHooks/rest';
 import { Link, useParams, useOutletContext } from "react-router-dom";
 import ShowSeats from "../components/ShowSeats";
 import { useNavigate } from 'react-router-dom';
+import createBookingJson from "../utilsAndHooks/createBookingJson";
 
 const BARN_PRIS = 80;
 const PENSIONARS_PRIS = 120;
@@ -35,7 +36,7 @@ const TheaterView = () => {
             }
             return;
         }
-        var booking = createBookingJson();
+        var booking = createBookingJson(seats, user, screeningId, tickets, formData);
         setButtonsDisabled(true);
         var result = await post('bookings/detailed', booking);
         let isStatusSent = setBookedStatus();
@@ -147,9 +148,9 @@ const TheaterView = () => {
         seatStatusFeed.connect();
     }
 
-    const increaseCount = (category) => {
+    const increaseTicketCount = (category) => {
         setTickets((prevTickets) => {
-            const updatedTickets = { ...prevTickets }; // Create a shallow copy
+            const updatedTickets = { ...prevTickets };
             switch (category) {
                 case 'barn':
                     if (updatedTickets.ordinary > 0) {
@@ -166,13 +167,13 @@ const TheaterView = () => {
                 default:
                     break;
             }
-            return updatedTickets; // Return the updated state
+            return updatedTickets;
         });
     };
 
-    const decreaseCount = (category) => {
+    const decreaseTicketCount = (category) => {
         setTickets((prevTickets) => {
-            const updatedTickets = { ...prevTickets }; // Create a shallow copy
+            const updatedTickets = { ...prevTickets };
             switch (category) {
                 case 'barn':
                     if (updatedTickets.child > 0) {
@@ -189,7 +190,7 @@ const TheaterView = () => {
                 default:
                     break;
             }
-            return updatedTickets; // Return the updated state
+            return updatedTickets;
         });
     };
 
@@ -199,15 +200,18 @@ const TheaterView = () => {
         const updatedTickets = tickets;
         const index = updatedSeats.findIndex((seat) => seat.seatId === seatId);
 
-        updatedSeats[index].wanted = !updatedSeats[index].wanted; //Toggle wanted
-        //Uppdatera tickets
-        if (updatedSeats[index].wanted) {
+        if (!updatedSeats[index].wanted) { // Vill ha sätet
+            updatedSeats[index].wanted = true;
             updatedTickets.ordinary += 1;
-        } else if (updatedTickets.ordinary > 0) {
-            updatedTickets.ordinary -= 1;
-        } else {
-            //Toggla tillbaks wanted
-            updatedSeats[index].wanted = !updatedSeats[index].wanted; //Toggle wanted
+        } else { //Vill inte ha sätet mer
+            updatedSeats[index].wanted = false;
+            if (updatedTickets.ordinary > 0) {
+                updatedTickets.ordinary -= 1;
+            } else if (updatedTickets.child > 0) {
+                updatedTickets.child -= 1;
+            } else if (updatedTickets.pensioner > 0) {
+                updatedTickets.pensioner -= 1;
+            }
         }
         setSeats(updatedSeats);
         setTickets(updatedTickets);
@@ -219,46 +223,20 @@ const TheaterView = () => {
         if (form.checkValidity() === false) {
             event.stopPropagation();
         }
-        setValidatedEmail(true); // <-- Dubbel klick felet ligger bland annat här.
     }
 
     function handleInputChange(event) {
+        const form = event.currentTarget;
         const { name, value } = event.target;
         setFormData({
             ...formData,
             [name]: value,
         });
-    }
-
-    function makePriceCategoriesArray() {
-        var result = [];
-        for (let index = 0; index < tickets.pensioner; index++) {
-            result.push(3);
+        if (form.checkValidity() === false) {
+            setValidatedEmail(false);
+        } else {
+            setValidatedEmail(true);
         }
-        for (let index = 0; index < tickets.child; index++) {
-            result.push(2);
-        }
-        for (let index = 0; index < tickets.ordinary; index++) {
-            result.push(1);
-        }
-        return result;
-    }
-
-    function createBookingJson() {
-        var tmpBookingSeatsArr = [];
-        var priceCat = makePriceCategoriesArray();
-        var index = 0;
-        seats.forEach((elem) => {
-            if (elem.wanted) {
-                tmpBookingSeatsArr.push({ SeatId: elem.seatId, PriceCategoryId: priceCat[index++] });
-            }
-        });
-        const bookingData = {
-            EmailAdress: user.userRole === "guest" ? formData.email : user.email,
-            ScreeningId: screeningId,
-            BookingXSeats: tmpBookingSeatsArr,
-        }
-        return bookingData;
     }
 
     function setBookedStatus() {
@@ -292,11 +270,11 @@ const TheaterView = () => {
                     <span style={{ fontSize: '22px' }}>Barn</span>
                 </Col>
                 <Col className="col mt-2">
-                    <Button onClick={() => decreaseCount('barn')} variant="danger me-2" disabled={buttonsDisabled}>
+                    <Button onClick={() => decreaseTicketCount('barn')} variant="danger me-2" disabled={buttonsDisabled}>
                         --
                     </Button>
                     {tickets.child}&nbsp;
-                    <Button onClick={() => increaseCount('barn')} variant="primary" disabled={buttonsDisabled}>
+                    <Button onClick={() => increaseTicketCount('barn')} variant="primary" disabled={buttonsDisabled}>
                         +
                     </Button>
                 </Col>
@@ -306,18 +284,18 @@ const TheaterView = () => {
                     <span style={{ fontSize: '22px' }}>Pensionär</span>
                 </Col>
                 <Col className="col mt-3">
-                    <Button onClick={() => decreaseCount('pensionar')} variant="danger me-2" disabled={buttonsDisabled}>
+                    <Button onClick={() => decreaseTicketCount('pensionar')} variant="danger me-2" disabled={buttonsDisabled}>
                         –
                     </Button>
                     {tickets.pensioner}&nbsp;
-                    <Button onClick={() => increaseCount('pensionar')} variant="primary" disabled={buttonsDisabled}>
+                    <Button onClick={() => increaseTicketCount('pensionar')} variant="primary" disabled={buttonsDisabled}>
                         +
                     </Button>
                 </Col>
             </Row>
             <Row>
                 <Col className="d-flex justify-content-center mt-3">
-                    <span style={{ fontSize: '22px' }}>Summa: {summa} kr</span>
+                    <span style={{ fontSize: '22px' }}>Att betala: {summa} kr</span>
                 </Col>
             </Row>
             <Form validated={validatedEmail} onSubmit={handleSubmit}>
@@ -348,7 +326,7 @@ const TheaterView = () => {
                 }
                 <Row>
                     <Col className="d-flex justify-content-center mt-3">
-                        <Button variant="secondary"
+                        <Button variant="primary"
                             disabled={buttonsDisabled}
                             type="submit"
                             onClick={sendRequest}

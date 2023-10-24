@@ -17,6 +17,39 @@ namespace webapi.Controllers
         public BookingsController(FilmvisarnaContext context) : base(context)
         {
         }
+        [HttpGet("detailedList")]
+        public async Task<IActionResult> GetAllBookingsDetailed(int id)
+        {
+            var result = await _context.bookings         
+                .Select(b => new
+                {
+                    BookingNumber = b.BookingNumber,
+                    BookingTime = b.BookingDateTime,
+                    FirstName = b.User.FirstName,
+                    LastName = b.User.LastName,
+                    Email = b.User.EmailAdress,
+                    Movie = b.Screening.Movie.Name,
+                    Theater = b.Screening.Theater.Name,
+                    ScreeningTime = b.Screening.DateAndTime,
+
+                    Tickets = b.BookingXSeats.Select(bxs => new
+                    {
+                        Row = bxs.Seat.Row,
+                        Seat = bxs.Seat.seat,
+                        Type = bxs.PriceCategory.Name,
+                        Price = bxs.PriceCategory.Price,
+                        SeatId = bxs.Seat.Id
+                    })
+                })
+                .ToListAsync();
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
         [HttpGet("detailed/{id}")]
         public async Task<IActionResult> GetDetailedBookingById(int id)
         {
