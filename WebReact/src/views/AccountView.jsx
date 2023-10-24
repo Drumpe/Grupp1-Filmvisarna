@@ -81,7 +81,6 @@ export default function AccountView() {
                                 <th>Salong</th>
                                 <th>Tid för visning</th>
                                 <th>Bokningsnummer</th>
-                                <th>Åtgärder</th>
                             </tr>
                         </thead>
                     <tbody>
@@ -92,16 +91,28 @@ export default function AccountView() {
                         </Table>
                 </Col>
             </Row>
+            {bookings.past.length > 0 && (
             <Row className="mt-5">
                 <Col className="mx-auto text-center">
                     <h3 className="mb-4 text-primary d-inline-block">Tidigare bokningar</h3>
-                    {bookings.past.map((booking, index) => (
-                        <BookingItem key={index} booking={booking} deleteBooking={deleteBooking} />
-                    ))}
+                    <Table responsive striped borderless hover variant="dark">
+                        <thead>
+                            <tr>
+                                <th>Film</th>
+                                <th>Salong</th>
+                                <th>Tid för visning</th>
+                                <th>Bokningsnummer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {bookings.past.map((booking, index) => (
+                                <BookingItem key={index} booking={booking} deleteBooking={deleteBooking} />
+                            ))}
+                        </tbody>
+                    </Table>
                 </Col>
             </Row>
-
-          
+            )}
 
         </Container>
     );
