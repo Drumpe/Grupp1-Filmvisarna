@@ -3,7 +3,7 @@ import { Container, Nav, Navbar, Offcanvas } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { del } from '../utilsAndHooks/rest';
 
-export default function MainMenu({user, setUser}) {
+export default function MainMenu({ user, setUser }) {
   let navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false)
   const toggleMenu = () => {
@@ -30,7 +30,7 @@ export default function MainMenu({user, setUser}) {
           className="mb-3 navbar-dark"
         >
           <Container fluid>
-            <Navbar.Toggle aria-controls={`offcanvas Navbar-expand-${expand}`} onClick={toggleMenu}/>
+            <Navbar.Toggle aria-controls={`offcanvas Navbar-expand-${expand}`} onClick={toggleMenu} />
             <NavLink to="/StartView" className="nav-link">
               <div className="h6 text-secondary custom-text-logo text-center m-0">
                 <img src="/img/logo/filmvisarna-logo-icon.png" className="d-block custom-logo-navbar mx-auto"></img>
@@ -52,12 +52,17 @@ export default function MainMenu({user, setUser}) {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-center flex-grow-1 ">
-                  {(user.userRole === "member") ?
+                  {user.userRole === "member" ? (
                     <>
                       <NavLink to="/StartView/" className="nav-link" onClick={logout}>Logga ut</NavLink>
                       <NavLink to="/AccountView" className="nav-link" onClick={toggleMenu}>Mitt konto</NavLink>
                     </>
-                    :
+                    )  : user.userRole === "admin" ? (
+                    <>
+                      <NavLink to="/AdminView/" className="nav-link" onClick={toggleMenu}>Admin</NavLink>
+                      <NavLink to="/StartView/" className="nav-link" onClick={logout}>Logga ut</NavLink>
+                    </>
+                    ) :
                     <>
                       <NavLink to="/LoginView" className="nav-link" onClick={toggleMenu}>Logga in</NavLink>
                       <NavLink to="/RegisterView" className="nav-link" onClick={toggleMenu}>Bli medlem</NavLink>
