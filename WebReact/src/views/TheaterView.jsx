@@ -257,45 +257,53 @@ const TheaterView = () => {
 
             <ShowSeats {...{ seats, theater, seatClicked }} />
 
-            <Row>
-                <Col className="col-3 offset-4 mt-2">
-                    <span style={{ fontSize: '22px' }}>Vuxen</span>
+            <Row className="mt-4">
+                <Col className="col-3 offset-4">
+                    <span className="h5">Vuxen</span>
                 </Col>
-                <Col className="col-1 mt-2">
-                    <div className="text-center">&nbsp;&nbsp;&nbsp;{tickets.ordinary}</div>
-                </Col>
-            </Row>
-            <Row>
-                <Col className="col-3 offset-4 mt-2">
-                    <span style={{ fontSize: '22px' }}>Barn</span>
-                </Col>
-                <Col className="col mt-2">
-                    <Button className="ticket-button" onClick={() => decreaseTicketCount('barn')} variant="danger me-2" disabled={tickets.child === 0}>
-                        –
-                    </Button>
-                    {tickets.child}&nbsp;
-                    <Button className="ticket-button" onClick={() => increaseTicketCount('barn')} variant="primary" disabled={tickets.ordinary === 0}>
-                        +
-                    </Button>
+                <Col>
+                    <div className="d-flex justify-content-evenly w-25">
+                        <div></div>
+                        <div><h5>{tickets.ordinary}</h5></div>
+                        <div></div>
+                    </div>
                 </Col>
             </Row>
-            <Row>
-                <Col className="col-3 offset-4 mt-3">
-                    <span style={{ fontSize: '22px' }}>Pensionär</span>
+            <Row className="align-items-center mt-3">
+                <Col className="col-3 offset-4">
+                    <span className="h5">Barn</span>
                 </Col>
-                <Col className="col mt-3">
-                    <Button className="ticket-button" onClick={() => decreaseTicketCount('pensionar')} variant="danger me-2" disabled={tickets.pensioner === 0}>
-                        –
-                    </Button>
-                    {tickets.pensioner}&nbsp;
-                    <Button className="ticket-button" onClick={() => increaseTicketCount('pensionar')} variant="primary" disabled={tickets.ordinary === 0}>
-                        +
-                    </Button>
+                <Col>
+                    <div className="d-flex justify-content-evenly w-25">
+                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle" onClick={() => decreaseTicketCount('barn')} variant="dark" disabled={tickets.child === 0}>
+                            –
+                        </Button>
+                        <h5>{tickets.child}</h5>
+                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle" onClick={() => increaseTicketCount('barn')} variant="dark" disabled={tickets.ordinary === 0}>
+                            +
+                        </Button>
+                    </div>
+                </Col>
+            </Row>
+            <Row className="align-items-center mt-3">
+                <Col className="col-3 offset-4">
+                    <span className="h5">Pensionär</span>
+                </Col>
+                <Col>
+                    <div className="d-flex justify-content-evenly w-25">
+                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle" onClick={() => decreaseTicketCount('pensionar')} variant="dark" disabled={tickets.pensioner === 0}>
+                            –
+                        </Button>
+                        <h5>{tickets.pensioner}</h5>
+                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle" onClick={() => increaseTicketCount('pensionar')} variant="dark" disabled={tickets.ordinary === 0}>
+                            +
+                        </Button>
+                    </div>
                 </Col>
             </Row>
             <Row>
                 <Col className="d-flex justify-content-center mt-3">
-                    <span style={{ fontSize: '22px' }}>Att betala: {summa} kr</span>
+                    <span className="h4">Att betala: {summa} kr</span>
                 </Col>
             </Row>
             <Form validated={validatedEmail} onSubmit={handleSubmit}>
@@ -335,7 +343,7 @@ const TheaterView = () => {
                     </Col>
                 </Row>
             </Form>
-        </Container>
+        </Container >
     );
 };
 export default TheaterView;
