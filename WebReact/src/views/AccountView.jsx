@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Col, Container, Row } from 'react-bootstrap';
-import { useOutletContext } from "react-router-dom";
-import { get, del} from '../utilsAndHooks/rest';
-import BookingItem from '../components/BookingItem';
+import { useOutletContext, useNavigate } from "react-router-dom";
+import { get, del } from '../utilsAndHooks/rest';
+import {Table, Button} from 'react-bootstrap';
 
 export default function AccountView() {
     const [{ user }] = useOutletContext();
     const [bookings, setBookings] = useState({ upcoming: [], past: [] });
+    let navigate = useNavigate();
 
     useEffect(() => {
         if (user && user.email) {
@@ -33,14 +34,36 @@ export default function AccountView() {
 
 
         return (
-            <p key={index}>
-                "{booking.movie}" på {booking.theater},
-                Tid: {screeningTime},
-                Bokningsnummer: {booking.bookingNumber}
-                <button onClick={() => deleteBooking(booking.bookingNumber, user.email)}>
-                    Avboka
-                </button>
-            </p>
+
+            <Table responsive striped borderless hover variant="dark">
+                <thead>
+                    <tr>
+                        <th>Film</th>
+                        <th>Salong</th>
+                        <th>Tid för visning</th>
+                        <th>Bokningsnummer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr key={index}>
+
+                        <td>"{booking.movie}"</td>
+                        <td>{booking.theater}</td>
+                        <td>{screeningTime}</td>
+                        <td>{booking.bookingNumber}</td>
+                        <td>
+                            <Button variant="danger" size="sm" onClick={() => deleteBooking(booking.bookingNumber, user.email)}>
+                                Avboka
+                            </Button>
+
+                        
+                         
+                           
+                        </td>
+                    </tr>
+                </tbody>
+            </Table >
+          
         );
     }
 
@@ -50,14 +73,18 @@ export default function AccountView() {
         } catch (error) {
             console.log("Error i borttag av bokning: ", error);
         }
-        navigate("/");  
+        navigate("/");
     }
 
     return (
         <Container className="my-4">
+            <h1> Mitt konto</h1>
+            <hr />
+            
             <Row className="mt-5">
                 <Col className="mx-auto text-center">
-                    <h3>Kommande bokningar</h3>
+                    
+                    <h3 className="mb-4 text-primary d-inline-block">Kommande bokningar</h3>
                     {bookings.upcoming.map((booking, index) => (
                         <BookingItem key={index} booking={booking} deleteBooking={deleteBooking} />
                     ))}
