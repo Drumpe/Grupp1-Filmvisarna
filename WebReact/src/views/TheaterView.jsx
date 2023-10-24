@@ -32,7 +32,7 @@ const TheaterView = () => {
     const sendRequest = async () => {
         if ((!validatedEmail && user.userRole === "guest") || summa == 0) {
             if (validatedEmail) {
-                alert("Minst en biljett måste väljas för att boka.");
+                alert("Minst en biljett måste väljas för att bokning ska genomföras.");
             }
             return;
         }
