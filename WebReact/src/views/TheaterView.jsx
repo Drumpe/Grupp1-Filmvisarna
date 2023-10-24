@@ -256,43 +256,37 @@ const TheaterView = () => {
             </Row>
 
             <ShowSeats {...{ seats, theater, seatClicked }} />
-
-            <Row>
-                <Col className="col-3 offset-4 mt-2">
-                    <span style={{ fontSize: '22px' }}>Vuxen</span>
-                </Col>
-                <Col className="col-1 mt-2">
-                    <div className="text-center">&nbsp;&nbsp;&nbsp;{tickets.ordinary}</div>
-                </Col>
-            </Row>
-            <Row>
-                <Col className="col-3 offset-4 mt-2">
-                    <span style={{ fontSize: '22px' }}>Barn</span>
-                </Col>
-                <Col className="col mt-2">
-                    <Button onClick={() => decreaseTicketCount('barn')} variant="danger me-2" disabled={buttonsDisabled}>
-                        --
-                    </Button>
-                    {tickets.child}&nbsp;
-                    <Button onClick={() => increaseTicketCount('barn')} variant="primary" disabled={buttonsDisabled}>
-                        +
-                    </Button>
-                </Col>
-            </Row>
-            <Row>
-                <Col className="col-3 offset-4 mt-3">
-                    <span style={{ fontSize: '22px' }}>Pensionär</span>
-                </Col>
-                <Col className="col mt-3">
-                    <Button onClick={() => decreaseTicketCount('pensionar')} variant="danger me-2" disabled={buttonsDisabled}>
-                        –
-                    </Button>
-                    {tickets.pensioner}&nbsp;
-                    <Button onClick={() => increaseTicketCount('pensionar')} variant="primary" disabled={buttonsDisabled}>
-                        +
-                    </Button>
-                </Col>
-            </Row>
+            
+            <div className="d-flex justify-content-center">
+                <table>
+                    <colgroup>
+                        <col style={{ width: '120px' }} />
+                        <col style={{ width: '40px' }} />
+                        <col style={{ width: '30px' }} />
+                        <col style={{ width: '40px' }} />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td>Vuxen</td>
+                            <td className="d-flex justify-content-center"><Button style={{ display: 'none' }} disabled>–</Button></td>
+                            <td className="text-center">{tickets.ordinary}</td>
+                            <td className="d-flex justify-content-center"><Button style={{ display: 'none' }} disabled>+</Button></td>
+                        </tr>
+                        <tr>
+                            <td>Barn</td>
+                            <td className="d-flex justify-content-center"><Button onClick={() => decreaseTicketCount('barn')} variant="danger" disabled={buttonsDisabled}>–</Button></td>
+                            <td className="text-center">{tickets.child}</td>
+                            <td className="d-flex justify-content-center"><Button onClick={() => increaseTicketCount('barn')} variant="primary" disabled={buttonsDisabled}>+</Button></td>
+                        </tr>
+                        <tr>
+                            <td>Pensionär</td>
+                            <td className="d-flex justify-content-center"><Button onClick={() => decreaseTicketCount('pensionar')} variant="danger" disabled={buttonsDisabled}>–</Button></td>
+                            <td className="text-center">{tickets.pensioner}</td>
+                            <td className="d-flex justify-content-center"><Button onClick={() => increaseTicketCount('pensionar')} variant="primary" disabled={buttonsDisabled}>+</Button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <Row>
                 <Col className="d-flex justify-content-center mt-3">
                     <span style={{ fontSize: '22px' }}>Att betala: {summa} kr</span>
