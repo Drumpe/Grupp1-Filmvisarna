@@ -256,7 +256,8 @@ const TheaterView = () => {
             </Row>
 
             <ShowSeats {...{ seats, theater, seatClicked }} />
-            
+
+            {/*<ShowTicketType {...{tickets, buttonsDisabled, }} /> */}
             <div className="d-flex justify-content-center">
                 <table>
                     <colgroup>
