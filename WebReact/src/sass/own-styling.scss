@@ -1,32 +1,32 @@
 :root {
-	--custom-primary-font-sans: 'Latin Modern Sans', 'Futura', Helvetica, Arial, sans-serif;
-	--custom-primary-font-sans-bold: 'Latin Modern Sans Bold', 'Futura', Helvetica, Arial, sans-serif;
-	--custom-navbar-toggler-icon-bg: url("/img/ui/ui-hamburger.svg");
-	--custom-btn-close-bg: url("/img/ui/ui-close.svg");
+  --custom-primary-font-sans: 'Latin Modern Sans', 'Futura', Helvetica, Arial, sans-serif;
+  --custom-primary-font-sans-bold: 'Latin Modern Sans Bold', 'Futura', Helvetica, Arial, sans-serif;
+  --custom-navbar-toggler-icon-bg: url("/img/ui/ui-hamburger.svg");
+  --custom-btn-close-bg: url("/img/ui/ui-close.svg");
 }
 
 html {
-	font-size: 1.12rem;
+  font-size: 1.12rem;
 }
 
 body {
-	scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 li.details {
-	margin-left: 4rem;
+  margin-left: 4rem;
 }
 
 /* Hide scrollbar */
 // Chrome, Safari, Opera (WebKit based browsers)
 .scrollbar-hidden::webkit-scrollbar {
-	display: none;
+  display: none;
 }
 
 // IE, Edge, Firefox
 .scrollbar-hidden {
-	-ms-overflow-style: none;
-	scrollbar-width: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* End Hide scrollbar */
@@ -37,14 +37,14 @@ Usage:
 Logo size will adapt after text size; for example, use className="h4" in parent
 */
 .custom-logo-navbar {
-	height: 2.4em;
-	margin-bottom: .4em;
-	transform: translateX(-.1em); // IS LOGO REALLY CENTERED???
+  height: 2.4em;
+  margin-bottom: .4em;
+  transform: translateX(-.1em); // IS LOGO REALLY CENTERED???
 }
 
 .custom-text-logo {
-	font-family: 'Latin Modern Sans Demi Cond', 'Futura', Helvetica, Arial, sans-serif;
-	letter-spacing: .12em;
+  font-family: 'Latin Modern Sans Demi Cond', 'Futura', Helvetica, Arial, sans-serif;
+  letter-spacing: .12em;
 }
 
 /* End Logo */
@@ -52,22 +52,22 @@ Logo size will adapt after text size; for example, use className="h4" in parent
 /* Custom UI elements */
 
 .navbar-toggler-icon {
-	background-image: var(--custom-navbar-toggler-icon-bg);
+  background-image: var(--custom-navbar-toggler-icon-bg);
 }
 
 .btn-close {
-	background-image: var(--custom-btn-close-bg);
-	opacity: 1;
+  background-image: var(--custom-btn-close-bg);
+  opacity: 1;
 }
 
 .navbar-toggler-icon:hover,
 .btn-close:hover {
-	opacity: 0.75;
+  opacity: 0.75;
 }
 
 .nav-back::before {
-	content: url("/img/ui/ui-backarrow.svg");
-	padding-right: .5em;
+  content: url("/img/ui/ui-backarrow.svg");
+  padding-right: .5em;
 }
 
 /* End Custom UI elements */
@@ -76,61 +76,61 @@ Logo size will adapt after text size; for example, use className="h4" in parent
 
 // Fix för aspect ratio på bilderna i StartView
 .ratio-6x9 {
-	aspect-ratio: 6/9;
+  aspect-ratio: 6/9;
 }
 
 .mw-reading-len {
-	max-width: 65ch;
+  max-width: 65ch;
 }
 
 .mw-mh-lg {
-	max-width: 993px;
-	max-height: 558px;
+  max-width: 993px;
+  max-height: 558px;
 }
 
 /* End Display utility classes */
 
 /* Movie view specific */
 .screening-list-item {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .movie-details>h6 {
-	color: #8e918e;
+  color: #8e918e;
 }
 
 button.list-group-item {
-	background-color: #101210;
-	color: #c439ff;
-	border-color: #525452;
-	border-top: 0;
-	border-bottom: 0;
-	min-width: 23vw;
+  background-color: #101210;
+  color: #c439ff;
+  border-color: #525452;
+  border-top: 0;
+  border-bottom: 0;
+  min-width: 23vw;
 }
 
 button.list-group-item.active {
-	background-color: #efa304;
-	color: #101210;
-	border-color: #fbc552;
-	border-bottom: 0;
-	min-width: 23vw;
+  background-color: #efa304;
+  color: #101210;
+  border-color: #fbc552;
+  border-bottom: 0;
+  min-width: 23vw;
 }
 
 @media screen and (min-width: 640px) {
 
-	button.list-group-item,
-	button.list-group-item.active {
-		min-width: 15vw;
-	}
+  button.list-group-item,
+  button.list-group-item.active {
+    min-width: 15vw;
+  }
 
-	.listgroup-forward-arrow-content {
-		margin-right: 1.1rem;
-	}
+  .listgroup-forward-arrow-content {
+    margin-right: 1.1rem;
+  }
 }
 
 /// screening dates arrows
 .screening-dates {
-	position: relative;
+  position: relative;
 }
 
 /* End Movie view specific */
@@ -138,99 +138,99 @@ button.list-group-item.active {
 
 /* Arrow scroll navigation */
 .arrow-scroll {
-	min-height: 42%;
+  min-height: 42%;
 }
 
 .arrow-bg {
-	height: 100%;
-	min-width: max(70px, 4vw);
-	max-width: max(70px, 4vw);
-	z-index: 1000;
+  height: 100%;
+  min-width: max(70px, 4vw);
+  max-width: max(70px, 4vw);
+  z-index: 1000;
 }
 
 /// forward arrow
 .forward-arrow {
-	position: absolute;
-	right: 0;
-	top: 0;
-	background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #101210 40%, #101210);
-	margin-right: calc(var(--bs-gutter-x) * 0.5);
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #101210 40%, #101210);
+  margin-right: calc(var(--bs-gutter-x) * 0.5);
 }
 
 .forward-arrow-container {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .forward-arrow-content {
-	height: 100%;
-	margin-right: .5rem;
+  height: 100%;
+  margin-right: .5rem;
 }
 
 /// Back arrow
 .back-arrow {
-	position: absolute;
-	left: 0;
-	top: 0;
-	background-image: linear-gradient(to right, #101210, #101210 60%, rgba(0, 0, 0, 0));
-	margin-left: calc(var(--bs-gutter-x) * 0.5);
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-image: linear-gradient(to right, #101210, #101210 60%, rgba(0, 0, 0, 0));
+  margin-left: calc(var(--bs-gutter-x) * 0.5);
 }
 
 .back-arrow-container {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .back-arrow-content {
-	height: 100%;
-	margin-left: .5rem;
+  height: 100%;
+  margin-left: .5rem;
 }
 
 /* End Arrow scroll navigation */
 
 @media screen and (max-width: 500px) {
-	.movie-information-container {
-		display: block;
-	}
+  .movie-information-container {
+    display: block;
+  }
 
-	.chairImage {
-		width: 29px;
-		margin: 1px;
-	}
+  .chairImage {
+    width: 29px;
+    margin: 1px;
+  }
 }
 
 @media screen and (min-width: 501px) and (max-width: 640px) {
-	.chairImage {
-		width: 35px;
-		margin: 3px;
-	}
+  .chairImage {
+    width: 35px;
+    margin: 3px;
+  }
 }
 
 @media screen and (min-width: 640px) and (max-width: 992px) {
-	.chairImage {
-		width: 45px;
-		margin: 5px;
-	}
+  .chairImage {
+    width: 45px;
+    margin: 5px;
+  }
 }
 
 @media screen and (min-width: 992px) {
-	.movie-information-container {
-		display: inline-flex;
-	}
+  .movie-information-container {
+    display: inline-flex;
+  }
 
-	.chairImage {
-		width: 55px;
-		margin: 6px;
-	}
+  .chairImage {
+    width: 55px;
+    margin: 6px;
+  }
 }
 
 /* Sticky Footer */
 #root {
-	display: flex;
-	min-height: 100vh;
-	flex-direction: column;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
 main {
-	flex: 1;
+  flex: 1;
 }
 
 /* End Sticky footer */
