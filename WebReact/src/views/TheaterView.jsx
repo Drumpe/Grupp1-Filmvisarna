@@ -270,11 +270,11 @@ const TheaterView = () => {
                     <span style={{ fontSize: '22px' }}>Barn</span>
                 </Col>
                 <Col className="col mt-2">
-                    <Button onClick={() => decreaseTicketCount('barn')} variant="danger me-2" disabled={buttonsDisabled}>
-                        --
+                    <Button className="ticket-button" onClick={() => decreaseTicketCount('barn')} variant="danger me-2" disabled={tickets.child === 0}>
+                        –
                     </Button>
                     {tickets.child}&nbsp;
-                    <Button onClick={() => increaseTicketCount('barn')} variant="primary" disabled={buttonsDisabled}>
+                    <Button className="ticket-button" onClick={() => increaseTicketCount('barn')} variant="primary" disabled={tickets.ordinary === 0}>
                         +
                     </Button>
                 </Col>
@@ -284,11 +284,11 @@ const TheaterView = () => {
                     <span style={{ fontSize: '22px' }}>Pensionär</span>
                 </Col>
                 <Col className="col mt-3">
-                    <Button onClick={() => decreaseTicketCount('pensionar')} variant="danger me-2" disabled={buttonsDisabled}>
+                    <Button className="ticket-button" onClick={() => decreaseTicketCount('pensionar')} variant="danger me-2" disabled={tickets.pensioner === 0}>
                         –
                     </Button>
                     {tickets.pensioner}&nbsp;
-                    <Button onClick={() => increaseTicketCount('pensionar')} variant="primary" disabled={buttonsDisabled}>
+                    <Button className="ticket-button" onClick={() => increaseTicketCount('pensionar')} variant="primary" disabled={tickets.ordinary === 0}>
                         +
                     </Button>
                 </Col>
@@ -327,7 +327,7 @@ const TheaterView = () => {
                 <Row>
                     <Col className="d-flex justify-content-center mt-3">
                         <Button variant="primary"
-                            disabled={buttonsDisabled}
+                            disabled={tickets.ordinary + tickets.child + tickets.pensioner === 0}
                             type="submit"
                             onClick={sendRequest}
                         >Bekräfta bokning
