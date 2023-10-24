@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import Card from 'react-bootstrap/Card';
-import { Row, Col, DropdownButton, Dropdown, ListGroup, Button } from 'react-bootstrap';
+import { Row, Col, ListGroup } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
-import { get } from '../utilsAndHooks/rest';
 import { getLocaleDateString } from '../utilsAndHooks/formatter';
 
 export default function StartView() {
@@ -18,8 +17,7 @@ export default function StartView() {
 
 
     useEffect(() => {
-        const movieScreenings = movies.map(movie => movie.screening);
-        setScreenings(movieScreenings);
+        addScreenings();
         const filtered = movies.filter(movie => movie.ageLimit <= selectedAge);
         setFilteredMovies(filtered);
     }, [movies, selectedAge]);
@@ -28,13 +26,29 @@ export default function StartView() {
         setSelectedAge(Number(e.target.value));
     };
 
+    const addScreenings = () => {
+        const array = [];
+        for (let i = 0; i < movies.length; i++) {
+            const movie = movies[i]
+            array.push({ screening: movie.screening, id: movie.id })
+
+        }
+        return setScreenings(array)
+    }
+
+    const uniqueDays = [];
     const filteredScreenings = screenings.filter((x) => {
-        const uniqueDays = [];
-        const date = new Date(x);
+        const date = new Date(x.screening);
         const weekday = date.toLocaleDateString(date, { weekday: 'long' });
+
+        if (uniqueDays.includes(weekday)) {
+            return false;
+        }
         uniqueDays.push(weekday);
         return uniqueDays;
     });
+
+
 
     const scrollScreeningDatesForward = () => {
         const nextPos = screeningDatesScrollPosition + 250;
@@ -59,14 +73,17 @@ export default function StartView() {
                     onClick={() => setDate(null)}>
                     Visa alla
                 </ListGroup.Item>
-                {filteredScreenings.map((screening) => (
+                {filteredScreenings.map((s) => (
                     <ListGroup.Item
+                        key={s.id}
                         className="rounded-bottom-0  w-100 pb-3"
                         variant="primary"
                         action
-                        onClick={() => handleFilter(screening)}>
-                        {`${getLocaleDateString(screening, { month: 'numeric', day: 'numeric' })}
-                                - ${getLocaleDateString(screening, { weekday: 'long' })}`}</ListGroup.Item>
+                        onClick={() => handleFilter(s.screening)}
+                    >
+                        {`${getLocaleDateString(s.screening, { month: 'numeric', day: 'numeric' })}
+                - ${getLocaleDateString(s.screening, { weekday: 'long' })}`}
+                    </ListGroup.Item>
                 ))}
             </>
 
