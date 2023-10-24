@@ -257,93 +257,138 @@ const TheaterView = () => {
 
             <ShowSeats {...{ seats, theater, seatClicked }} />
 
-            <Row className="mt-4">
-                <Col className="col-3 offset-4">
-                    <span className="h5">Vuxen</span>
+            <Row className="align-items-center mt-3">
+                <Col>
+                    <p className="h5">Ordinarie</p>
                 </Col>
                 <Col>
-                    <div className="d-flex justify-content-evenly w-25">
+                    <div className="d-flex justify-content-evenly">
                         <div></div>
                         <div><h5>{tickets.ordinary}</h5></div>
                         <div></div>
                     </div>
                 </Col>
             </Row>
-            <Row className="align-items-center mt-3">
-                <Col className="col-3 offset-4">
-                    <span className="h5">Barn</span>
+
+            <Row className="align-items-center mt-2">
+                <Col>
+                    <p className="h5">Barn</p>
                 </Col>
                 <Col>
-                    <div className="d-flex justify-content-evenly w-25">
-                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle" onClick={() => decreaseTicketCount('barn')} variant="dark" disabled={tickets.child === 0}>
-                            –
+                    <div className="d-flex justify-content-evenly">
+                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle minus" onClick={() => decreaseTicketCount('barn')} variant="dark" disabled={tickets.child === 0}>
                         </Button>
                         <h5>{tickets.child}</h5>
-                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle" onClick={() => increaseTicketCount('barn')} variant="dark" disabled={tickets.ordinary === 0}>
-                            +
+                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle plus" onClick={() => increaseTicketCount('barn')} variant="dark" disabled={tickets.ordinary === 0}>
+
                         </Button>
                     </div>
                 </Col>
             </Row>
-            <Row className="align-items-center mt-3">
-                <Col className="col-3 offset-4">
-                    <span className="h5">Pensionär</span>
+
+            <Row className="align-items-center mt-2">
+                <Col>
+                    <p className="h5">Pensionär</p>
                 </Col>
                 <Col>
-                    <div className="d-flex justify-content-evenly w-25">
-                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle" onClick={() => decreaseTicketCount('pensionar')} variant="dark" disabled={tickets.pensioner === 0}>
-                            –
+                    <div className="d-flex justify-content-evenly">
+                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle minus" onClick={() => decreaseTicketCount('pensionar')} variant="dark" disabled={tickets.pensioner === 0}>
                         </Button>
                         <h5>{tickets.pensioner}</h5>
-                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle" onClick={() => increaseTicketCount('pensionar')} variant="dark" disabled={tickets.ordinary === 0}>
-                            +
+                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle plus" onClick={() => increaseTicketCount('pensionar')} variant="dark" disabled={tickets.ordinary === 0}>
                         </Button>
                     </div>
                 </Col>
             </Row>
+        </Container>
+
+        /* <Row className="justify-content-around align-items-center mt-3">
+            <Col className="">
+                <span className="h5">Vuxen</span>
+            </Col>
+            <Col className="d-flex justify-content-end me-5">
+                <div className="d-flex justify-content-evenly w-25">
+                    <div></div>
+                    <div><h5>{tickets.ordinary}</h5></div>
+                    <div></div>
+                </div>
+            </Col>
+        </Row >
+        <Row className="justify-content-around align-items-center mt-3">
+            <Col className="">
+                <span className="h5">Barn</span>
+            </Col>
+            <Col className="d-flex justify-content-end me-5">
+                <div className="d-flex justify-content-evenly w-25">
+                    <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle" onClick={() => decreaseTicketCount('barn')} variant="dark" disabled={tickets.child === 0}>
+                        –
+                    </Button>
+                    <h5>{tickets.child}</h5>
+                    <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle" onClick={() => increaseTicketCount('barn')} variant="dark" disabled={tickets.ordinary === 0}>
+                        +
+                    </Button>
+                </div>
+            </Col>
+        </Row>
+        <Row className="align-items-center mt-3">
+            <Col className="ms-0 col-4 offset-1">
+                <span className="h5">Pensionär</span>
+            </Col>
+            <Col>
+                <div className="d-flex justify-content-evenly w-25">
+                    <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle" onClick={() => decreaseTicketCount('pensionar')} variant="dark" disabled={tickets.pensioner === 0}>
+                        –
+                    </Button>
+                    <h5>{tickets.pensioner}</h5>
+                    <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle" onClick={() => increaseTicketCount('pensionar')} variant="dark" disabled={tickets.ordinary === 0}>
+                        +
+                    </Button>
+                </div>
+            </Col>
+        </Row>
+        <Row>
+            <Col className="d-flex justify-content-center mt-3">
+                <span className="h4">Att betala: {summa} kr</span>
+            </Col>
+        </Row>
+        <Form validated={validatedEmail} onSubmit={handleSubmit}>
+            {user.userRole === "guest" ?
+                <>
+                    <Row className="mb-3">
+                        <Col className="d-flex justify-content-center mt-3">
+                            <Form.Group>
+                                <Form.Label>E-postadress</Form.Label>
+                                <InputGroup>
+                                    <Form.Control
+                                        type="email"
+                                        name="email"
+                                        required
+                                        value={formData.email}
+                                        placeholder="namn@exempel.com"
+                                        onChange={handleInputChange} />
+                                    <Form.Control.Feedback type="invalid">
+                                        Ange din e-postadress.
+                                    </Form.Control.Feedback>
+                                </InputGroup>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                </>
+                :
+                <Row className="d-flex justify-content-center mt-3">Bokningen skickas till: {user.email}</Row>
+            }
             <Row>
                 <Col className="d-flex justify-content-center mt-3">
-                    <span className="h4">Att betala: {summa} kr</span>
+                    <Button variant="primary"
+                        disabled={tickets.ordinary + tickets.child + tickets.pensioner === 0 || formData.email.length === 0}
+                        type="submit"
+                        onClick={sendRequest}
+                    >Bekräfta bokning
+                    </Button>
                 </Col>
             </Row>
-            <Form validated={validatedEmail} onSubmit={handleSubmit}>
-                {user.userRole === "guest" ?
-                    <>
-                        <Row className="mb-3">
-                            <Col className="d-flex justify-content-center mt-3">
-                                <Form.Group>
-                                    <Form.Label>E-postadress</Form.Label>
-                                    <InputGroup>
-                                        <Form.Control
-                                            type="email"
-                                            name="email"
-                                            required
-                                            value={formData.email}
-                                            placeholder="namn@exempel.com"
-                                            onChange={handleInputChange} />
-                                        <Form.Control.Feedback type="invalid">
-                                            Ange din e-postadress.
-                                        </Form.Control.Feedback>
-                                    </InputGroup>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                    </>
-                    :
-                    <Row className="d-flex justify-content-center mt-3">Bokningen skickas till: {user.email}</Row>
-                }
-                <Row>
-                    <Col className="d-flex justify-content-center mt-3">
-                        <Button variant="primary"
-                            disabled={tickets.ordinary + tickets.child + tickets.pensioner === 0 || formData.email.length === 0}
-                            type="submit"
-                            onClick={sendRequest}
-                        >Bekräfta bokning
-                        </Button>
-                    </Col>
-                </Row>
-            </Form>
-        </Container >
+        </Form>
+    </Container > */
     );
 };
 export default TheaterView;
