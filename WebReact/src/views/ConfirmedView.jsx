@@ -53,8 +53,8 @@ export default function ConfirmedView() {
 					</Col>
 				</Row>
 
-				<Row className="">
-					<Col className="mt-4 p-2">
+				<Row>
+					<Col className="mt-4 p-2 pb-0">
 						<Card className="p-4 w-75">
 							<Card.Body>
 								<Card.Title><h3 className='text-decoration-underline mb-4'>{data.theater}</h3></Card.Title>
@@ -66,7 +66,7 @@ export default function ConfirmedView() {
 									<span className="d-block movie-details mb-1"><h6 className="d-inline">Platser: </h6> {seatfinder.map((x) =>
 										<li className="details" key={x.seatId}>Rad {x.row}, stol {x.seat}</li>)}
 									</span>
-									<p className="mt-4">Bokningsdetaljer har skickats med epost till <em>{data.email}</em>.</p>
+									<p className="mt-4">Alla bokningsdetaljer har skickats med epost till <em>{data.email}</em>.</p>
 								</Card.Text>
 							</Card.Body>
 						</Card>
