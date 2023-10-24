@@ -40,9 +40,9 @@ export default function ConfirmedView() {
 		<>
 			<Container>
 				<Row>
-					<Col>
+					<Col className="mb-2">
 						<h1 className="mb-3">Bokningsbekräftelse</h1>
-						<h4 className="mb-3">Tack för din bokning!</h4>
+						<h5>Tack för din bokning!</h5>
 					</Col>
 				</Row>
 
@@ -55,9 +55,11 @@ export default function ConfirmedView() {
 
 				<Row>
 					<Col className="mt-4 p-2 pb-0">
-						<Card className="p-4 w-75">
+						<Card className="p-4 w-100 bg-gray-dark-transparent">
 							<Card.Body>
-								<Card.Title><h3 className='text-decoration-underline mb-4'>{data.theater}</h3></Card.Title>
+								<Card.Title>
+									<h3 className='text-decoration-underline mb-4'>{data.theater}</h3>
+								</Card.Title>
 								<Card.Text>
 									<h5 className="mb-4">Film: <strong>{data.movie}</strong></h5>
 									<span className="d-block movie-details mb-2"><h6 className="d-inline">När: </h6> {formatedDate}</span>
@@ -73,9 +75,8 @@ export default function ConfirmedView() {
 					</Col>
 				</Row>
 				<Row>
-					<Col>
-						<hr />
-						<p>Vänligen uppge bokningsnummer i kassan vid betalning.</p>
+					<Col className="mt-4">
+						<p>Vänligen uppge bokningsnummer <em>{data.bookingNumber}</em> i kassan vid betalning.</p>
 						<p>Varmt välkommen till oss för att se din bokade film.</p>
 					</Col>
 				</Row>

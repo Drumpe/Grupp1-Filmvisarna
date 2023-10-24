@@ -17,6 +17,14 @@ li.details {
     margin-left: 4rem;
 }
 
+.bg-gray {
+    background-color: #8e918e;
+}
+
+.bg-gray-dark-transparent {
+    background-color: rgb(36, 37, 36, 25%);
+}
+
 /* Hide scrollbar */
 // Chrome, Safari, Opera (WebKit based browsers)
 .scrollbar-hidden::webkit-scrollbar {
