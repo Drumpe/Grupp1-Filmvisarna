@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from "react"
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
+import { Container, Nav, Navbar, Offcanvas } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
-import Navbar from 'react-bootstrap/Navbar';
-import Offcanvas from 'react-bootstrap/Offcanvas';
 import { del } from '../utilsAndHooks/rest';
 
-
-export default function MainMenu({ user, setUser }) {
+export default function MainMenu({user, setUser}) {
   let navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false)
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  }
+  const handleClose = () => setMenuOpen(false);
+
   async function logout() {
     try {
       await del('users/logout');
     } catch (error) {
       console.log("Error i logout: ", error);
     }
+    toggleMenu();
     setUser();
     navigate("/");
   }
@@ -26,9 +29,8 @@ export default function MainMenu({ user, setUser }) {
           key={expand} expand={expand}
           className="mb-3 navbar-dark"
         >
-
           <Container fluid>
-            <Navbar.Toggle aria-controls={`offcanvas Navbar-expand-${expand}`} />
+            <Navbar.Toggle aria-controls={`offcanvas Navbar-expand-${expand}`} onClick={toggleMenu}/>
             <NavLink to="/StartView" className="nav-link">
               <div className="h6 text-secondary custom-text-logo text-center m-0">
                 <img src="/img/logo/filmvisarna-logo-icon.png" className="d-block custom-logo-navbar mx-auto"></img>
@@ -41,6 +43,9 @@ export default function MainMenu({ user, setUser }) {
               aria-labelledby={`offcanvas NavbarLabel-expand-${expand}`}
               placement="start"
               className="bg-dark text-light"
+              restoreFocus={false}
+              show={menuOpen}
+              onHide={handleClose}
             >
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title id={`offcanvas NavbarLabel-expand-${expand}`}></Offcanvas.Title>
@@ -50,22 +55,17 @@ export default function MainMenu({ user, setUser }) {
                   {user.userRole === "member" ? (
                     <>
                       <NavLink to="/StartView/" className="nav-link" onClick={logout}>Logga ut</NavLink>
-                      <NavLink to="/AccountView" className="nav-link">Mitt konto</NavLink>
+                      <NavLink to="/AccountView" className="nav-link" onClick={toggleMenu}>Mitt konto</NavLink>
                     </>
                   ) : user.userRole === "admin" ? (
-                    <>
-                      <NavLink to="/AdminView" className="nav-link">Admin</NavLink>
-                      <NavLink to="/StartView/" className="nav-link" onClick={logout}>Logga ut</NavLink>
-                    </>
-                  ) : (
                     <>
                       <NavLink to="/LoginView" className="nav-link">Logga in</NavLink>
                       <NavLink to="/RegisterView" className="nav-link">Bli medlem</NavLink>
                     </>
-                  )}
-                  <NavLink to="/StartView" className="nav-link">Visas nu</NavLink>
-                  <NavLink to="/CancelView" className="nav-link">Avboka</NavLink>
-                  <NavLink to="/AboutView" className="nav-link">Om</NavLink>
+                  }
+                  <NavLink to="/StartView" className="nav-link" onClick={toggleMenu}>Visas nu</NavLink>
+                  <NavLink to="/CancelView" className="nav-link" onClick={toggleMenu}>Avboka</NavLink>
+                  <NavLink to="/AboutView" className="nav-link" onClick={toggleMenu}>Om</NavLink>
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
