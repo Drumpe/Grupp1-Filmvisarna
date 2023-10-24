@@ -21,19 +21,24 @@ export default function AdminView() {
     const filtered = bookings.bookings.filter((booking) => booking.bookingNumber === bookingNumber);
     setFilteredBooking(filtered);
   }
-  let ticketSum = 0; 
+  let ticketSum = 0;
 
   return (
     <>
-    <h2>Hämta bokningsdetaljer</h2>
-      <label>Bokningsnummer: </label>
+      <h1>Hämta bokningsdetaljer</h1>
+      <hr />
+      <br />
+      <label>Bokningsnummer </label>
+      <br />
       <input type='text' placeholder='xxxxxx' onChange={
-        (e) => filterBookings(e.target.value)}/>
+        (e) =>
+          filterBookings(e.target.value)} className='mt-3 mb-3 col-4 p-3' />
       {filteredBookings.map((booking, index) => (
         <div key={index}>
           {booking.firstName && booking.lastName ? (
             <p>Bokad av: {booking.firstName} {booking.lastName}</p>
           ) : null}
+          
           <p>E-postadress: {booking.email} </p>
           <p>Film: {booking.movie} </p>
           <p>Salong: {booking.theater} </p>
