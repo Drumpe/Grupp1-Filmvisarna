@@ -276,11 +276,12 @@ const TheaterView = () => {
                 </Col>
                 <Col>
                     <div className="d-flex justify-content-evenly">
-                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle minus" onClick={() => decreaseTicketCount('barn')} variant="dark" disabled={tickets.child === 0}>
+                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle" onClick={() => decreaseTicketCount('barn')} variant="dark" disabled={tickets.child === 0}>
+                            -
                         </Button>
                         <h5>{tickets.child}</h5>
-                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle plus" onClick={() => increaseTicketCount('barn')} variant="dark" disabled={tickets.ordinary === 0}>
-
+                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle" onClick={() => increaseTicketCount('barn')} variant="dark" disabled={tickets.ordinary === 0}>
+                            +
                         </Button>
                     </div>
                 </Col>
@@ -292,10 +293,12 @@ const TheaterView = () => {
                 </Col>
                 <Col>
                     <div className="d-flex justify-content-evenly">
-                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle minus" onClick={() => decreaseTicketCount('pensionar')} variant="dark" disabled={tickets.pensioner === 0}>
+                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle" onClick={() => decreaseTicketCount('pensionar')} variant="dark" disabled={tickets.pensioner === 0}>
+                            -
                         </Button>
                         <h5>{tickets.pensioner}</h5>
-                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle plus" onClick={() => increaseTicketCount('pensionar')} variant="dark" disabled={tickets.ordinary === 0}>
+                        <Button className="ticket-button bg-gray-dark-transparent border-1 border-light-subtle" onClick={() => increaseTicketCount('pensionar')} variant="dark" disabled={tickets.ordinary === 0}>
+                            +
                         </Button>
                     </div>
                 </Col>
