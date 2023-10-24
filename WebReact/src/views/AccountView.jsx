@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Col, Container, Row } from 'react-bootstrap';
 import { useOutletContext, useNavigate } from "react-router-dom";
 import { get, del } from '../utilsAndHooks/rest';
-import {Table, Button} from 'react-bootstrap';
+import {Table, Button, Modal} from 'react-bootstrap';
 
 export default function AccountView() {
     const [{ user }] = useOutletContext();
@@ -34,17 +34,7 @@ export default function AccountView() {
 
 
         return (
-
-            <Table responsive striped borderless hover variant="dark">
-                <thead>
-                    <tr>
-                        <th>Film</th>
-                        <th>Salong</th>
-                        <th>Tid för visning</th>
-                        <th>Bokningsnummer</th>
-                    </tr>
-                </thead>
-                <tbody>
+           
                     <tr key={index}>
 
                         <td>"{booking.movie}"</td>
@@ -54,18 +44,16 @@ export default function AccountView() {
                         <td>
                             <Button variant="danger" size="sm" onClick={() => deleteBooking(booking.bookingNumber, user.email)}>
                                 Avboka
-                            </Button>
-
-                        
-                         
-                           
+                            </Button>    
                         </td>
                     </tr>
-                </tbody>
-            </Table >
+             
+        
           
         );
     }
+
+    
 
     async function deleteBooking(bookingNumber, userEmail) {
         try {
@@ -76,28 +64,44 @@ export default function AccountView() {
         navigate("/");
     }
 
+ 
     return (
         <Container className="my-4">
             <h1> Mitt konto</h1>
             <hr />
-            
             <Row className="mt-5">
                 <Col className="mx-auto text-center">
                     
                     <h3 className="mb-4 text-primary d-inline-block">Kommande bokningar</h3>
+
+                    <Table responsive striped borderless hover variant="dark">
+                        <thead>
+                            <tr>
+                                <th>Film</th>
+                                <th>Salong</th>
+                                <th>Tid för visning</th>
+                                <th>Bokningsnummer</th>
+                                <th>Åtgärder</th>
+                            </tr>
+                        </thead>
+                    <tbody>
                     {bookings.upcoming.map((booking, index) => (
                         <BookingItem key={index} booking={booking} deleteBooking={deleteBooking} />
                     ))}
+                        </tbody>
+                        </Table>
                 </Col>
             </Row>
             <Row className="mt-5">
                 <Col className="mx-auto text-center">
-                    <h3>Tidigare bokningar</h3>
+                    <h3 className="mb-4 text-primary d-inline-block">Tidigare bokningar</h3>
                     {bookings.past.map((booking, index) => (
                         <BookingItem key={index} booking={booking} deleteBooking={deleteBooking} />
                     ))}
                 </Col>
             </Row>
+
+          
 
         </Container>
     );
