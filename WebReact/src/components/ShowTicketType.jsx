@@ -65,13 +65,13 @@ export default function ShowTicketType({ tickets, buttonsDisabled, setTickets })
         </tr>
         <tr>
           <td>Barn</td>
-          <td className="d-flex justify-content-center"><Button onClick={() => decreaseTicketCount('barn')} variant="danger" disabled={buttonsDisabled}>–</Button></td>
+          <td className="d-flex justify-content-center"><Button onClick={() => decreaseTicketCount('barn')} variant="secondary" disabled={buttonsDisabled}>–</Button></td>
           <td className="text-center">{tickets.child}</td>
           <td className="d-flex justify-content-center"><Button onClick={() => increaseTicketCount('barn')} variant="primary" disabled={buttonsDisabled}>+</Button></td>
         </tr>
         <tr>
           <td>Pensionär</td>
-          <td className="d-flex justify-content-center"><Button onClick={() => decreaseTicketCount('pensionar')} variant="danger" disabled={buttonsDisabled}>–</Button></td>
+          <td className="d-flex justify-content-center"><Button onClick={() => decreaseTicketCount('pensionar')} variant="secondary" disabled={buttonsDisabled}>–</Button></td>
           <td className="text-center">{tickets.pensioner}</td>
           <td className="d-flex justify-content-center"><Button onClick={() => increaseTicketCount('pensionar')} variant="primary" disabled={buttonsDisabled}>+</Button></td>
         </tr>
