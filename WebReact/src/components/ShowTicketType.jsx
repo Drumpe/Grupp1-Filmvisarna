@@ -65,15 +65,15 @@ export default function ShowTicketType({ tickets, buttonsDisabled, setTickets })
         </tr>
         <tr>
           <td>Barn</td>
-          <td className="d-flex justify-content-center"><Button onClick={() => decreaseTicketCount('barn')} variant="secondary" disabled={buttonsDisabled}>–</Button></td>
+            <td className="d-flex justify-content-center"><Button className="text-monospace bg-gray-light-transparent border-1 border-light-subtle" onClick={() => decreaseTicketCount('barn')} variant="dark" disabled={buttonsDisabled || tickets.child === 0}>–</Button></td>
           <td className="text-center">{tickets.child}</td>
-          <td className="d-flex justify-content-center"><Button onClick={() => increaseTicketCount('barn')} variant="primary" disabled={buttonsDisabled}>+</Button></td>
+            <td className="d-flex justify-content-center"><Button className="text-monospace bg-gray-light-transparent border-1 border-light-subtle" onClick={() => increaseTicketCount('barn')} variant="dark" disabled={buttonsDisabled || tickets.ordinary === 0}>+</Button></td>
         </tr>
         <tr>
           <td>Pensionär</td>
-          <td className="d-flex justify-content-center"><Button onClick={() => decreaseTicketCount('pensionar')} variant="secondary" disabled={buttonsDisabled}>–</Button></td>
+            <td className="d-flex justify-content-center"><Button className="text-monospace bg-gray-light-transparent border-1 border-light-subtle" onClick={() => decreaseTicketCount('pensionar')} variant="dark" disabled={buttonsDisabled || tickets.pensioner === 0}>–</Button></td>
           <td className="text-center">{tickets.pensioner}</td>
-          <td className="d-flex justify-content-center"><Button onClick={() => increaseTicketCount('pensionar')} variant="primary" disabled={buttonsDisabled}>+</Button></td>
+            <td className="d-flex justify-content-center"><Button className="text-monospace bg-gray-light-transparent border-1 border-light-subtle" onClick={() => increaseTicketCount('pensionar')} variant="dark" disabled={buttonsDisabled || tickets.ordinary === 0}>+</Button></td>
         </tr>
       </tbody>
     </table>

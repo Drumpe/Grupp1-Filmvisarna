@@ -9,6 +9,14 @@ body {
     scroll-behavior: smooth;
 }
 
+.text-monospace {
+    font-family: monospace;
+}
+
+.bg-gray-light-transparent {
+    background-color: rgba(121, 125, 121, 0.25);
+}
+
 /* Hide scrollbar */
 // Chrome, Safari, Opera (WebKit based browsers)
 .scrollbar-hidden::webkit-scrollbar {
