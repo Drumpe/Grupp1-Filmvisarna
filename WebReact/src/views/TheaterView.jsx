@@ -3,6 +3,7 @@ import { Container, Row, Col, Button, Form, InputGroup } from 'react-bootstrap';
 import { get, post } from '../utilsAndHooks/rest';
 import { Link, useParams, useOutletContext } from "react-router-dom";
 import ShowSeats from "../components/ShowSeats";
+import ShowTicketType from "../components/ShowTicketType";
 import { useNavigate } from 'react-router-dom';
 import createBookingJson from "../utilsAndHooks/createBookingJson";
 
@@ -211,6 +212,8 @@ const TheaterView = () => {
 
             <ShowSeats {...{ seats, theater, seatClicked }} />
 
+            <ShowTicketType {...{tickets, buttonsDisabled, setTickets}} /> 
+
             <Row>
                 <Col className="d-flex justify-content-center mt-3">
                     <span style={{ fontSize: '22px' }}>Att betala: {summa} kr</span>
@@ -245,7 +248,7 @@ const TheaterView = () => {
                 <Row>
                     <Col className="d-flex justify-content-center mt-3">
                         <Button variant="primary"
-                            disabled={buttonsDisabled || tickets.ordinary + tickets.child + tickets.pensioner === 0 || formData.email.length === 0}
+                            disabled={buttonsDisabled}
                             type="submit"
                             onClick={sendRequest}
                         >Bekräfta bokning
