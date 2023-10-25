@@ -3,7 +3,7 @@ import { Container, Nav, Navbar, Offcanvas } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { del } from '../utilsAndHooks/rest';
 
-export default function MainMenu({user, setUser}) {
+export default function MainMenu({ user, setUser }) {
   let navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false)
   const toggleMenu = () => {
@@ -30,7 +30,7 @@ export default function MainMenu({user, setUser}) {
           className="mb-3 navbar-dark"
         >
           <Container fluid>
-            <Navbar.Toggle aria-controls={`offcanvas Navbar-expand-${expand}`} onClick={toggleMenu}/>
+            <Navbar.Toggle aria-controls={`offcanvas Navbar-expand-${expand}`} onClick={toggleMenu} />
             <NavLink to="/StartView" className="nav-link">
               <div className="h6 text-secondary custom-text-logo text-center m-0">
                 <img src="/img/logo/filmvisarna-logo-icon.png" className="d-block custom-logo-navbar mx-auto"></img>
@@ -65,7 +65,7 @@ export default function MainMenu({user, setUser}) {
                   }
                   <NavLink to="/StartView" className="nav-link" onClick={toggleMenu}>Visas nu</NavLink>
                   <NavLink to="/CancelView" className="nav-link" onClick={toggleMenu}>Avboka</NavLink>
-                  <NavLink to="/AboutView" className="nav-link" onClick={toggleMenu}>Om</NavLink>
+                  <NavLink to="/AboutView" className="nav-link" onClick={toggleMenu}>Om oss</NavLink>
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
