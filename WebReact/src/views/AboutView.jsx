@@ -10,7 +10,7 @@ export default function AboutView() {
             </Row>
             <Row  className='justify-content-center'>
                 <Col style={{maxWidth: '621px'}}>
-                    <h1>Om oss</h1>
+                    <h1 className="mb-4 text-primary d-inline-block">Om oss</h1>
                     <p>
                         Välkommen till vår filmwebbplats! Vi brinner för film och vill dela vår kärlek till film med dig.
                     </p>
@@ -20,13 +20,16 @@ export default function AboutView() {
                     <p>
                         Vårt team består av: Ola, Yassein, Patrik, Arshia, Albin, Jimmie, Adis
                     </p>
+                    <br />
                 </Col>
             </Row>
             <Row className='justify-content-center'>
                 <Col style={{maxWidth: '621px'}}>
-                    <h5>Kontakt info</h5>
+                    <h5 className="mb-4 text-primary d-inline-block">Kontakt info</h5>
                     <div>
-                        Filmvisarna@mail.com <br /> 07000000
+                        <a href="mailto:Fvisarna@gmail.com">Fvisarna@gmail.com </a>
+                        <br /> 
+                        <a href="tel:+4670000000">+46 (0)700 00 00 00</a>
                     </div>
                 </Col>
             </Row>
