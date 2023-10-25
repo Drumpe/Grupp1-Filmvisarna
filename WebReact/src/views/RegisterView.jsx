@@ -9,22 +9,21 @@ import { isPasswordValid } from "../utilsAndHooks/Validate";
 import { isValidEmail } from "../utilsAndHooks/Validate";
 import { isNameValid } from "../utilsAndHooks/Validate";
 import { post } from "../utilsAndHooks/rest";
+import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
+
 //import '../sass/RegisterViewStyling.scss';
 
 
 export default function RegisterView() {
+    const [{ }, setUser] = useOutletContext();
+    const navigate = useNavigate();
     const [emailValid, setEmailValid] = useState(true);
 
     const [emailErrorMsg, setEmailErrorMsg] = useState('');
     const [passwordErrorMsg, setPasswordErrorMsg] = useState('');
 
-
-    const [firstNameValid, setFirstNameValid] = useState(true);
-
     const [firstNameErrorMsg, setFirstNameErrorMsg] = useState('');
     const [lastNameErrorMsg, setLastNameErrorMsg] = useState('');
-
-    const [lastNameValid, setLastNameValid] = useState(true);
 
     const [formData, setFormData] = useState({
         firstName: '',
@@ -53,7 +52,7 @@ export default function RegisterView() {
             setFormData({ ...formData, [name]: value });  // Update the formData for email regardless of validation status
         } else if (name === "firstName") {
 
-            setFirstNameValid(isNameValid(value));
+           
             if (!isNameValid(value)) {
                 setFirstNameErrorMsg("Vänligen använd endast bokstäver i Förnamn.");
             } else {
@@ -65,7 +64,7 @@ export default function RegisterView() {
             }
         } else if (name === "lastName") {
 
-            setLastNameValid(isNameValid(value));
+           
             if (!isNameValid(value)) {
                 setLastNameErrorMsg("Vänligen använd endast bokstäver i Efternamn.");
             } else {
@@ -119,15 +118,16 @@ export default function RegisterView() {
             if (result && result.error) {
                 // Handle specific error response from API
                 alert('Registreringen misslyckades: ' + result.error);
+                return;
             } else {
                 // Handle successful registration
-                alert('Registrering lyckad!');
                 setFormData({
                     firstName: '',
                     lastName: '',
                     email: '',
                     password: ''
                 });
+                sendLoginRequest();
 
             }
         } catch (error) {
@@ -137,6 +137,19 @@ export default function RegisterView() {
 
     };
 
+    const sendLoginRequest = async () => {
+        var login = {
+          emailAdress: formData.email,
+          password: formData.password
+        }
+        let result = await post('users/login', login);
+        if (result.error) {
+          alert("Felaktig e-postadress eller passord.");
+          return;
+        }
+        setUser();
+        navigate("/");
+      };
 
     const toggleShowPassword = () => {
         setShowPassword(prevState => !prevState);
@@ -192,7 +205,7 @@ export default function RegisterView() {
                 </Form.Group>
                 <Row className="justify-content-between">
                     <Col className="mx-auto text-center d-grid">
-                        <Button type="submit" variant="primary" size="lg" disabled={!emailValid || !passwordValid || !formData.firstName.trim() || !formData.lastName.trim()} onClick={handleSubmit}>
+                        <Button type="submit" variant="primary" size="lg" disabled={!emailValid || !passwordValid || !formData.firstName.trim() || !formData.lastName.trim()} onClick={handleSubmit} >
                             Bli medlem
                         </Button>
                     </Col>
