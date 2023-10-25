@@ -303,6 +303,49 @@ const TheaterView = () => {
                     </div>
                 </Col>
             </Row>
+
+            <Row>
+                <Col className="d-flex justify-content-center mt-3">
+                    <span className="h4">Att betala: {summa} kr</span>
+                </Col>
+            </Row>
+            <Form validated={validatedEmail} onSubmit={handleSubmit}>
+                {user.userRole === "guest" ?
+                    <>
+                        <Row className="mb-3">
+                            <Col className="d-flex justify-content-center mt-3">
+                                <Form.Group>
+                                    <Form.Label>E-postadress</Form.Label>
+                                    <InputGroup>
+                                        <Form.Control
+                                            type="email"
+                                            name="email"
+                                            required
+                                            value={formData.email}
+                                            placeholder="namn@exempel.com"
+                                            onChange={handleInputChange} />
+                                        <Form.Control.Feedback type="invalid">
+                                            Ange din e-postadress.
+                                        </Form.Control.Feedback>
+                                    </InputGroup>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                    </>
+                    :
+                    <Row className="d-flex justify-content-center mt-3">Bokningen skickas till: {user.email}</Row>
+                }
+                <Row>
+                    <Col className="d-flex justify-content-center mt-3">
+                        <Button variant="primary"
+                            disabled={tickets.ordinary + tickets.child + tickets.pensioner === 0 || formData.email.length === 0}
+                            type="submit"
+                            onClick={sendRequest}
+                        >Bekräfta bokning
+                        </Button>
+                    </Col>
+                </Row>
+            </Form>
         </Container>
 
         /* <Row className="justify-content-around align-items-center mt-3">
