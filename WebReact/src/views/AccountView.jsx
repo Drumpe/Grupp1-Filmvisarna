@@ -38,9 +38,11 @@ export default function AccountView() {
                 <td>{screeningTime}</td>
                 <td>{booking.bookingNumber}</td>
                 <td>
-                    <Button variant="danger" size="sm" onClick={() => deleteBooking(booking.bookingNumber, user.email)}>
-                        Avboka
-                    </Button>
+                    {deleteBooking && (
+                        <Button variant="danger" size="sm" onClick={() => deleteBooking(booking.bookingNumber, user.email)}>
+                            Avboka
+                        </Button>
+                    )}
                 </td>
             </tr>
         );
@@ -94,7 +96,7 @@ export default function AccountView() {
                             </thead>
                             <tbody>
                                 {bookings.past.map((booking, index) => (
-                                    <BookingItem key={index} booking={booking} deleteBooking={deleteBooking} />
+                                    <BookingItem key={index} booking={booking} />
                                 ))}
                             </tbody>
                         </Table>
