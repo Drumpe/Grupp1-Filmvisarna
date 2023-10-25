@@ -38,14 +38,15 @@ export default function StartView() {
 
     const uniqueDays = [];
     const filteredScreenings = screenings.filter((x) => {
+        const today = new Date();
         const date = new Date(x.screening);
         const weekday = date.toLocaleDateString(date, { weekday: 'long' });
 
-        if (uniqueDays.includes(weekday)) {
-            return false;
+        if (!uniqueDays.includes(weekday) && date >= today) {
+            uniqueDays.push(weekday);
+            return true;
         }
-        uniqueDays.push(weekday);
-        return uniqueDays;
+        return false;
     });
 
 
