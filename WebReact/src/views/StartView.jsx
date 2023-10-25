@@ -4,6 +4,7 @@ import { Row, Col, ListGroup } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
 import { getLocaleDateString } from '../utilsAndHooks/formatter';
+import { get } from '../utilsAndHooks/rest';
 
 export default function StartView() {
 
@@ -17,7 +18,7 @@ export default function StartView() {
 
 
     useEffect(() => {
-        addScreenings();
+        fetchData();
         const filtered = movies.filter(movie => movie.ageLimit <= selectedAge);
         setFilteredMovies(filtered);
     }, [movies, selectedAge]);
@@ -26,30 +27,21 @@ export default function StartView() {
         setSelectedAge(Number(e.target.value));
     };
 
-    const addScreenings = () => {
-        const array = [];
-        for (let i = 0; i < movies.length; i++) {
-            const movie = movies[i]
-            array.push({ screening: movie.screening, id: movie.id })
-
-        }
-        return setScreenings(array)
+    //Hämtar screenings
+    const fetchData = async () => {
+        var result = await get('Screenings')
+        setScreenings(result);
     }
 
-    const uniqueDays = [];
-    const filteredScreenings = screenings.filter((x) => {
-        const today = new Date();
-        const date = new Date(x.screening);
-        const weekday = date.toLocaleDateString(date, { weekday: 'long' });
+    // const addScreenings = () => {
+    //     const array = [];
+    //     for (let i = 0; i < movies.length; i++) {
+    //         const movie = movies[i]
+    //         array.push({ screening: movie.screening, id: movie.id })
 
-        if (!uniqueDays.includes(weekday) && date >= today) {
-            uniqueDays.push(weekday);
-            return true;
-        }
-        return false;
-    });
-
-
+    //     }
+    //     return setScreenings(array)
+    // }
 
     const scrollScreeningDatesForward = () => {
         const nextPos = screeningDatesScrollPosition + 250;
@@ -65,6 +57,21 @@ export default function StartView() {
     };
 
     const showScreenings = () => {
+        const uniqueDays = [];
+
+        const filteredScreenings = screenings.filter((x) => {
+            const today = new Date();
+            const date = new Date(x.dateAndTime);
+
+            const weekday = date.toLocaleDateString(date, { weekday: 'long' });
+
+            //Kollar om veckodagen redan finns i UniqueDays array samt kollar om den dagen har passerat
+            if (!uniqueDays.includes(weekday) && date >= today) {
+                uniqueDays.push(weekday);
+                return true;
+            }
+            return false;
+        });
         return (
             <>
                 <ListGroup.Item
@@ -80,10 +87,10 @@ export default function StartView() {
                         className="rounded-bottom-0  w-100 pb-3"
                         variant="primary"
                         action
-                        onClick={() => handleFilter(s.screening)}
+                        onClick={() => handleFilter(s.dateAndTime)}
                     >
-                        {`${getLocaleDateString(s.screening, { month: 'numeric', day: 'numeric' })}
-                - ${getLocaleDateString(s.screening, { weekday: 'long' })}`}
+                        {`${getLocaleDateString(s.dateAndTime, { month: 'numeric', day: 'numeric' })}
+                - ${getLocaleDateString(s.dateAndTime, { weekday: 'long' })}`}
                     </ListGroup.Item>
                 ))}
             </>
@@ -91,17 +98,16 @@ export default function StartView() {
         );
     }
 
-    const handleFilter = (dateAndTime) => {
-        var date = new Date(dateAndTime)
-        return setDate(date.toLocaleDateString("sv-SV"))
-    }
+    const handleFilter = (dateAndTime) => setDate(dateAndTime);
 
-    const sortedFilteredMovies = filteredMovies.filter(({ movie, screening }) => {
+    const sortedFilteredMovies = filteredMovies.filter((movie) => {
         if (date == null) {
             return movie
         }
-        return screening == date
+        return movie.screening === date
     });
+
+
 
     return (
         <>
