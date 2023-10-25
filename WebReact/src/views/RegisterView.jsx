@@ -152,19 +152,19 @@ export default function RegisterView() {
             <Form className="mx-auto" onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formGroupFirstName">
                     <Form.Label>Förnamn</Form.Label>
-                    <Form.Control type="text" name="firstName" required="true" style={{ display: 'block' }} placeholder="Förnamn" onChange={handleInputChange} />
+                    <Form.Control type="text" name="firstName" required={true} style={{ display: 'block' }} placeholder="Förnamn" onChange={handleInputChange} />
                     {firstNameErrorMsg && <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{firstNameErrorMsg}</div>}
 
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formGroupLastName">
                     <Form.Label>Efternamn</Form.Label>
-                    <Form.Control type="text" name="lastName" required="true" placeholder="Efternamn" onChange={handleInputChange} />
+                    <Form.Control type="text" name="lastName" required={true} placeholder="Efternamn" onChange={handleInputChange} />
                     {lastNameErrorMsg && <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{lastNameErrorMsg}</div>}
 
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formGroupEmail">
                     <Form.Label>E-postadress</Form.Label>
-                    <Form.Control type="email" name="email" placeholder="dinemail@mail.se" onChange={handleInputChange} />
+                    <Form.Control type="email" name="email" placeholder="namn@epost.se" onChange={handleInputChange} />
                     {emailErrorMsg && <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{emailErrorMsg}</div>}
 
                 </Form.Group>
