@@ -49,7 +49,7 @@ export default function LoginView() {
       </div>
       <p className='text-center'>Inte medlem ännu? <NavLink to="/RegisterView">Bli medlem</NavLink></p>
       <div className='d-flex justify-content-center my-5 mb-2'>
-        <Button variant="secondary" size="lg" onClick={sendLoginRequest}>
+        <Button variant="primary" size="lg" onClick={sendLoginRequest}>
           Logga in
         </Button>
       </div>
