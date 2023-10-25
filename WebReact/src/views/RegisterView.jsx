@@ -147,7 +147,7 @@ export default function RegisterView() {
             <Col className="mx-auto text-center">
                 <Image src="/img/logo/filmvisarna-logo-icon.png" roundedCircle style={{ width: '100px', height: '100px' }} />
             </Col>
-            <h1 className="text-center">Bli Medlem</h1>
+            <h1 className="text-center">Bli medlem</h1>
             <p className="text-center">Fyll i alla uppgifter nedan för att bli medlem.</p>
             <Form className="mx-auto" onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formGroupFirstName">
