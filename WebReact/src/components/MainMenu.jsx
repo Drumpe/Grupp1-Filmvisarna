@@ -52,12 +52,17 @@ export default function MainMenu({ user, setUser }) {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-center flex-grow-1 ">
-                  {(user.userRole === "member") ?
+                  {user.userRole === "member" ? (
                     <>
                       <NavLink to="/StartView/" className="nav-link" onClick={logout}>Logga ut</NavLink>
                       <NavLink to="/AccountView" className="nav-link" onClick={toggleMenu}>Mitt konto</NavLink>
                     </>
-                    :
+                    )  : user.userRole === "admin" ? (
+                    <>
+                      <NavLink to="/AdminView/" className="nav-link" onClick={toggleMenu}>Admin</NavLink>
+                      <NavLink to="/StartView/" className="nav-link" onClick={logout}>Logga ut</NavLink>
+                    </>
+                    ) :
                     <>
                       <NavLink to="/LoginView" className="nav-link" onClick={toggleMenu}>Logga in</NavLink>
                       <NavLink to="/RegisterView" className="nav-link" onClick={toggleMenu}>Bli medlem</NavLink>
