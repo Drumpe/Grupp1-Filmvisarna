@@ -143,7 +143,7 @@ export default function RegisterView() {
     };
 
     return (
-        <Container className="border border-light py-3 rounded-5 bg-info p-5 ">
+        <Container className="border border-light py-3 rounded-5 bg-info p-5 col-lg-8 ">
             <Col className="mx-auto text-center d-none d-lg-block ">
                 <Image src="/img/logo/filmvisarna-logo-icon.png"  roundedCircle style={{ width: '100px', height: '100px'} } />
             </Col>
