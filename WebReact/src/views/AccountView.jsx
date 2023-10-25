@@ -85,7 +85,7 @@ export default function AccountView() {
                 <Row className="mt-5">
                     <Col className="mx-auto text-center">
                         <h3 className="mb-4 text-primary d-inline-block">Tidigare bokningar</h3>
-                        <Table responsive striped borderless hover variant="dark">
+                        <Table striped borderless hover variant="dark">
                             <thead>
                                 <tr>
                                     <th>Film</th>
