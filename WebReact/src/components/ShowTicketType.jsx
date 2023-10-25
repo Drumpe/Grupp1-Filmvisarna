@@ -58,10 +58,10 @@ export default function ShowTicketType({ tickets, buttonsDisabled, setTickets })
       </colgroup>
       <tbody>
         <tr>
-          <td>Vuxen</td>
-          <td className="d-flex justify-content-center"><Button style={{ display: 'none' }} disabled>–</Button></td>
+          <td style={{ height: '39.6px' }}>Vuxen</td>
+          <td></td>
           <td className="text-center">{tickets.ordinary}</td>
-          <td className="d-flex justify-content-center"><Button style={{ display: 'none' }} disabled>+</Button></td>
+          <td></td>
         </tr>
         <tr>
           <td>Barn</td>
