@@ -9,10 +9,13 @@ import { isPasswordValid } from "../utilsAndHooks/Validate";
 import { isValidEmail } from "../utilsAndHooks/Validate";
 import { isNameValid } from "../utilsAndHooks/Validate";
 import { post } from "../utilsAndHooks/rest";
+import { useNavigate } from 'react-router-dom';
+
 //import '../sass/RegisterViewStyling.scss';
 
 
 export default function RegisterView() {
+    const navigate = useNavigate();
     const [emailValid, setEmailValid] = useState(true);
 
     const [emailErrorMsg, setEmailErrorMsg] = useState('');
@@ -128,6 +131,7 @@ export default function RegisterView() {
                     email: '',
                     password: ''
                 });
+                navigate('/LoginView');
 
             }
         } catch (error) {
@@ -192,7 +196,7 @@ export default function RegisterView() {
                 </Form.Group>
                 <Row className="justify-content-between">
                     <Col className="mx-auto text-center d-grid">
-                        <Button type="submit" variant="primary" size="lg" disabled={!emailValid || !passwordValid || !formData.firstName.trim() || !formData.lastName.trim()} onClick={handleSubmit}>
+                        <Button type="submit" variant="primary" size="lg" disabled={!emailValid || !passwordValid || !formData.firstName.trim() || !formData.lastName.trim()} onClick={handleSubmit} >
                             Bli medlem
                         </Button>
                     </Col>
