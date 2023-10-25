@@ -270,7 +270,10 @@ const TheaterView = () => {
         <Container className="mt-1">
             <Row>
                 <Col className='d-flex justify-content-start'>
-                    <Link className="nav-back text-info" to={`/MovieView/${movieId}`}>Tillbaka</Link>
+                    <Link className=" text-info" to={`/MovieView/${movieId}`}>
+                        <Button className="nav-back"variant="info link" href="/StartView" ></Button>
+                    </Link>
+                    
                     <div></div>
                     <div></div>
                     <div></div>
