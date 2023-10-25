@@ -3,7 +3,6 @@ import { Container, Row, Col, Button, Form, InputGroup } from 'react-bootstrap';
 import { get, post } from '../utilsAndHooks/rest';
 import { Link, useParams, useOutletContext } from "react-router-dom";
 import ShowSeats from "../components/ShowSeats";
-import ShowTicketType from "../components/ShowTicketType";
 import { useNavigate } from 'react-router-dom';
 import createBookingJson from "../utilsAndHooks/createBookingJson";
 
@@ -211,8 +210,6 @@ const TheaterView = () => {
             </Row>
 
             <ShowSeats {...{ seats, theater, seatClicked }} />
-
-            <ShowTicketType {...{ tickets, buttonsDisabled, setTickets }} />
 
             <Row>
                 <Col className="d-flex justify-content-center mt-3">
