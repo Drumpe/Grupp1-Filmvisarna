@@ -8,6 +8,7 @@ export default function AboutView() {
                     <Image src="/img/Aboutposter/Aboutpic.jpg" thumbnail />
                 </Col>
             </Row>
+            <br />
             <Row  className='justify-content-center'>
                 <Col style={{maxWidth: '621px'}}>
                     <h1 className="mb-4 text-primary d-inline-block">Om oss</h1>
@@ -25,7 +26,7 @@ export default function AboutView() {
             </Row>
             <Row className='justify-content-center'>
                 <Col style={{maxWidth: '621px'}}>
-                    <h5 className="mb-4 text-primary d-inline-block">Kontakt info</h5>
+                    <h5 className="mb-4 text-primary d-inline-block">Kontaktinfo</h5>
                     <div>
                         <a href="mailto:Fvisarna@gmail.com">Fvisarna@gmail.com </a>
                         <br /> 
