@@ -24,10 +24,10 @@ export default function MainMenu({user, setUser}) {
       {["lg"].map((expand) => (
         <Navbar
           key={expand} expand={expand}
-          className="navbar-dark fixed-top bg-info"
+          className="navbar-dark bg-info"
         >
 
-          <Container fluid>
+          <Container> 
             <Navbar.Toggle aria-controls={`offcanvas Navbar-expand-${expand}`} />
             <NavLink to="/StartView" className="nav-link">
               <div className="h6 text-secondary custom-text-logo text-center m-0">
