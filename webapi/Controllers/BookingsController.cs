@@ -234,7 +234,8 @@ namespace webapi.Controllers
 
             var response = new
             {
-                BookingId = booking.Id
+                BookingId = booking.Id,
+                BookingNumber = booking.BookingNumber
             };
 
 
