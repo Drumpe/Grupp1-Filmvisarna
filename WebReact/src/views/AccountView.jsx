@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Col, Container, Row } from 'react-bootstrap';
-import { useOutletContext } from "react-router-dom";
-import { get } from '../utilsAndHooks/rest';
-import BookingItem from '../components/BookingItem';
+import { useOutletContext, useNavigate } from "react-router-dom";
+import { get, del } from '../utilsAndHooks/rest';
+import { Table, Button, Modal } from 'react-bootstrap';
 
 export default function AccountView() {
     const [{ user }] = useOutletContext();
     const [bookings, setBookings] = useState({ upcoming: [], past: [] });
+    let navigate = useNavigate();
 
     useEffect(() => {
         if (user && user.email) {
@@ -28,29 +29,81 @@ export default function AccountView() {
         }
     }, [user]);
 
+    function BookingItem({ booking, index, deleteBooking }) {
+        const screeningTime = booking.screeningTime.replace('T', ' ').slice(0, -3);
+        return (
+            <tr key={index}>
+                <td>"{booking.movie}"</td>
+                <td>{booking.theater}</td>
+                <td>{screeningTime}</td>
+                <td>{booking.bookingNumber}</td>
+                <td>
+                    {deleteBooking && (
+                        <Button variant="dark" className="text-light border-1 border-warning" size="sm" onClick={() => deleteBooking(booking.bookingNumber, user.email)}>
+                            Avboka
+                        </Button>
+                    )}
+                </td>
+            </tr>
+        );
+    }
+
+    async function deleteBooking(bookingNumber, userEmail) {
+        try {
+            await del(`Bookings/RemoveBooking/${bookingNumber}/${userEmail}`);
+        } catch (error) {
+            console.log("Error i borttag av bokning: ", error);
+        }
+        navigate("/");
+    }
+
     return (
         <Container className="my-4">
-            <Row>
-                <Col className="mx-auto text-center">
-                    <h1>{user.name}</h1>
-                </Col>
-            </Row>
+            <h1> Mitt konto</h1>
+            <hr />
             <Row className="mt-5">
                 <Col className="mx-auto text-center">
-                    <h3>Kommande bokningar</h3>
-                    {bookings.upcoming.map((booking, index) => (
-                        <BookingItem key={index} booking={booking} />
-                    ))}
+                    <h3 className="mb-4 text-primary d-inline-block">Kommande bokningar</h3>
+                    <Table striped borderless hover variant="dark">
+                        <thead>
+                            <tr>
+                                <th>Film</th>
+                                <th>Salong</th>
+                                <th>Tid för visning</th>
+                                <th>Bokningsnummer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {bookings.upcoming.map((booking, index) => (
+                                <BookingItem key={index} booking={booking} deleteBooking={deleteBooking} />
+                            ))}
+                        </tbody>
+                    </Table>
                 </Col>
             </Row>
-            <Row className="mt-5">
-                <Col className="mx-auto text-center">
-                    <h3>Tidigare bokningar</h3>
-                    {bookings.past.map((booking, index) => (
-                        <BookingItem key={index} booking={booking} />
-                    ))}
-                </Col>
-            </Row>
+            {bookings.past.length > 0 && (
+                <Row className="mt-5">
+                    <Col className="mx-auto text-center">
+                        <h3 className="mb-4 text-primary d-inline-block">Tidigare bokningar</h3>
+                        <Table striped borderless hover variant="dark">
+                            <thead>
+                                <tr>
+                                    <th>Film</th>
+                                    <th>Salong</th>
+                                    <th>Tid för visning</th>
+                                    <th>Bokningsnummer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {bookings.past.map((booking, index) => (
+                                    <BookingItem key={index} booking={booking} />
+                                ))}
+                            </tbody>
+                        </Table>
+                    </Col>
+                </Row>
+            )}
+
         </Container>
     );
 }
