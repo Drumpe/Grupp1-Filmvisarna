@@ -3,7 +3,7 @@ import { get } from '../utilsAndHooks/rest';
 import { getLocaleDateString } from '../utilsAndHooks/formatter';
 import { useOutletContext } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { Row, Col, ListGroup } from 'react-bootstrap';
+import { Row, Col, ListGroup, Button } from 'react-bootstrap';
 
 
 
@@ -14,6 +14,7 @@ export default function ViewDateItem() {
   const [FoundScreening, setFoundScreening] = useState([])
   const ref = useRef(null);
   const [screeningDatesScrollPosition, setScreeningDatesScrollPosition] = useState(0);
+  const [showMore, setShowMore] = useState(5);
 
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export default function ViewDateItem() {
 
   //Hämtar screenings
   const fetchData = async () => {
-    var result = await get('Screenings')
+    var result = await get('Screenings/asc')
     setScreenings(result);
   }
   function getScreeningsByDate(screenings, givenDateAndTime) {
@@ -60,7 +61,7 @@ export default function ViewDateItem() {
     return (
 
       <ListGroup className="border-bottom-0" variant="flush">
-        {FoundScreening.map(fs => {
+        {FoundScreening.slice(0, showMore).map(fs => {
           const today = new Date();
           const selectedDay = new Date(fs.dateAndTime);
           const getHours = new Date(fs.dateAndTime).getHours();

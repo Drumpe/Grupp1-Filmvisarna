@@ -12,9 +12,15 @@ namespace webapi.Controllers
         public ScreeningsController(FilmvisarnaContext context) : base(context)
         {
         }
-        //Get every screening available for one specific movie
-        // 
-        //          Theater Join is not optimized !!
+
+        [Route("asc")]
+        [HttpGet()]
+        public async Task<IActionResult> GetAllAsc()
+        {
+            var result = await _context.screenings.OrderBy(s => s.DateAndTime).ToListAsync();
+            return Ok(result);
+        }
+
         [HttpGet("movie/{movieId}/")]
         public async Task<IActionResult> GetMovieScreenings(int movieId)
         {

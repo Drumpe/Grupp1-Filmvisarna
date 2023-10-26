@@ -23,9 +23,6 @@ export default function StartView() {
     return (
         <>
             <Row>
-                <Col className='mb-4'>
-                    <ViewDateItem />
-                </Col>
                 <Col>
                     <h1 className="mb-4 d-inline-block">Visas nu</h1>
                     <select
@@ -51,6 +48,9 @@ export default function StartView() {
                         </NavLink>
                     </Col>)}
             </Row>
+            <Col className='mt-4 mb-4'>
+                <ViewDateItem />
+            </Col>
         </>
     );
 }
