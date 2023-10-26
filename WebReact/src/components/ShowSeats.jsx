@@ -1,7 +1,7 @@
 import React from "react"
 import { Row, Col, Image } from 'react-bootstrap';
 
-export default function ShowSeats({ seats, theater, seatClicked }) {
+export default function ShowSeats({ seats, seatClicked }) {
 
     const rowElements = () => {
         // Organisera seats by rows
@@ -29,8 +29,6 @@ export default function ShowSeats({ seats, theater, seatClicked }) {
 
     return <>
         <div>
-            <h3 className="text-center">{theater.name}</h3>
-            <hr />
             {rowElements()}
         </div>
     </>;

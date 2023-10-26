@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react"
 import { Container, Row, Col, Button, Form, InputGroup } from 'react-bootstrap';
 import { get, post } from '../utilsAndHooks/rest';
-import { Link, useParams, useOutletContext } from "react-router-dom";
+import { Link, useParams, useOutletContext, useNavigate } from "react-router-dom";
 import ShowSeats from "../components/ShowSeats";
 import ShowTicketType from "../components/ShowTicketType";
-import { useNavigate, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import createBookingJson from "../utilsAndHooks/createBookingJson";
+import { displayScreeningDate, getLocaleDateString } from "../utilsAndHooks/formatter";
 
 const BARN_PRIS = 80;
 const PENSIONARS_PRIS = 120;
 const VUXEN_PRIS = 140;
 
 const TheaterView = () => {
-    const [{ user }] = useOutletContext();
+    const [{ user, movies }] = useOutletContext();
     const { screeningId } = useParams();
     const [formData, setFormData] = useState({ email: '' });
     const [theater, setTheater] = useState({ id: 0, name: "" });
@@ -23,6 +24,8 @@ const TheaterView = () => {
         pensioner: 0
     });
     const [movieId, setMovieId] = useState("");
+    const [movie, setMovie] = useState(null);
+    const [screening, setScreening] = useState(null);
     const [validatedEmail, setValidatedEmail] = useState(false);
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
     const summa = (tickets.child * BARN_PRIS) + (tickets.pensioner * PENSIONARS_PRIS) + (tickets.ordinary * VUXEN_PRIS);
@@ -63,6 +66,9 @@ const TheaterView = () => {
                     id: screeningSeats.theaterId,
                     name: screeningSeats.theater
                 };
+                let tmpMovie = movies.find(movie => movie.id === +screeningSeats.movieId);
+                setScreening(screeningSeats);
+                setMovie(tmpMovie);
                 setTheater(theater);
                 setSeats(seats);
             } catch (err) {
@@ -198,21 +204,54 @@ const TheaterView = () => {
         let isStatusSent = seatStatusFeed.book();
         return isStatusSent;
     }
-
-    return !seats ? null : (
+    if (!seats || !movie || !screening) {
+        return (
+            <Container className="mt-1">
+                <div>Loading...</div>
+            </Container>
+        );
+    }
+    return (
         <Container className="mt-1">
-            <Row>
+            <Row className="mb-3">
                 <Col className='d-flex justify-content-start'>
-                    <Link className=" text-info " to={`/MovieView/${movieId}`}>
-                        <Button className="nav-back custom-btn text-secondary text-decoration-none"variant="info link" href="/StartView" >Tillbaka</Button>
-                    </Link>
-                    <div></div>
-                    <div></div>
-                    <div></div>
+                    <NavLink to={`/MovieView/${movieId}`}>
+                        <Button className="nav-back custom-btn text-secondary text-decoration-none" variant="info link" >Tillbaka</Button>
+                    </NavLink>
                 </Col>
             </Row>
 
-            <ShowSeats {...{ seats, theater, seatClicked }} />
+            <Row className="d-block d-xxl-none">
+                <Col className="text-center">
+                    <p className="fst-italic text-gray">{movie.movie}, {getLocaleDateString(screening.screeningTime, { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}</p>
+                </Col>
+            </Row>
+
+            <div className="bg-gray-dark-transparent p-4 pb-5 rounded-3 custom-info d-none d-xxl-block">
+                <div className="d-flex justify-content-between">
+                    <div className="pe-3">
+                        <h5 className="text-decoration-underline">{movie.movie}</h5>
+                        <p className="fst-italic">{theater.name}</p>
+                        <p>{getLocaleDateString(screening.screeningTime, { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}</p>
+                    </div>
+                    <div className="ms-5"><img src={`/img/poster/${movie.images[0]}`} width="100" alt="Film" /></div>
+                </div>
+            </div>
+
+
+            {/* <Row className="d-none d-lg-flex ">
+                <Col className="col-4 offset-sm-2 offset-lg-4 col-sm-5 col-lg-3">
+
+                    <p>{movie.movie}</p>
+                    <p>{theater.name}</p>
+                    <p>{getLocaleDateString(screening.screeningTime, { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}</p>
+                </Col>
+                <Col className="col-6 col-sm-5 col-lg-4">
+                    <img src={`/img/poster/${movie.images[0]}`} width="100" alt="Film" />
+                </Col>
+            </Row> */}
+
+            <ShowSeats {...{ seats, seatClicked }} />
 
             <ShowTicketType {...{ tickets, buttonsDisabled, setTickets }} />
 
