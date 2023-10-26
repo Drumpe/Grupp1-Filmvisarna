@@ -221,7 +221,7 @@ const TheaterView = () => {
                 <Col className="col-6 offset-sm-2 offset-lg-3 col-sm-5 col-lg-4">
                     <p>{movie.movie}</p>
                     <p>{theater.name}</p>
-                    <p>{`${getLocaleDateString(screening.screeningTime,  { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })} `}</p>
+                    <p>{getLocaleDateString(screening.screeningTime, { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}</p>
                 </Col>
                 <Col className="col-6 col-sm-5 col-lg-4">
                     <img src={`/img/poster/${movie.images[0]}`} width="100" alt="Film" />
