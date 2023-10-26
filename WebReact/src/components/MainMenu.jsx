@@ -72,7 +72,7 @@ export default function MainMenu({ user, setUser }) {
                   }
                   <NavLink to="/StartView" className="nav-link" onClick={toggleMenu}>Visas nu</NavLink>
                   <NavLink to="/CancelView" className="nav-link" onClick={toggleMenu}>Avboka</NavLink>
-                  <NavLink to="/AboutView" className="nav-link" onClick={toggleMenu}>Om</NavLink>
+                  <NavLink to="/AboutView" className="nav-link" onClick={toggleMenu}>Om oss</NavLink>
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
