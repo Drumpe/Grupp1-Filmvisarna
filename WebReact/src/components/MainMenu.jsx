@@ -5,9 +5,11 @@ import { del } from '../utilsAndHooks/rest';
 
 export default function MainMenu({ user, setUser }) {
   let navigate = useNavigate();
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+    if (window.innerWidth < 992) {
+      setMenuOpen(!menuOpen);
+    }
   }
   const handleClose = () => setMenuOpen(false);
 
@@ -70,7 +72,7 @@ export default function MainMenu({ user, setUser }) {
                   }
                   <NavLink to="/StartView" className="nav-link" onClick={toggleMenu}>Visas nu</NavLink>
                   <NavLink to="/CancelView" className="nav-link" onClick={toggleMenu}>Avboka</NavLink>
-                  <NavLink to="/AboutView" className="nav-link" onClick={toggleMenu}>Om</NavLink>
+                  <NavLink to="/AboutView" className="nav-link" onClick={toggleMenu}>Om oss</NavLink>
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
