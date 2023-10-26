@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Button, Row } from 'react-bootstrap';
 import { useOutletContext } from "react-router-dom";
 import { get } from '../utilsAndHooks/rest';
 import BookingItem from '../components/BookingItem';
@@ -29,7 +29,8 @@ export default function AccountView() {
     }, [user]);
 
     return (
-        <Container className="my-4 border border-light py-3 rounded-5 bg-info col-lg-8">
+        <Container className="text-center">
+            <div className="my-4 border border-light py-3 rounded-5 bg-info col-lg-8 mx-auto text-center">
             <Row>
                 <Col className="mx-auto text-center">
                     <h1>{user.name}</h1>
@@ -51,6 +52,11 @@ export default function AccountView() {
                     ))}
                 </Col>
             </Row>
+            </div>
+            <div>
+            <Button href="/CancelView" variant="primary" size="lg" >Avboka</Button>
+            </div>
+
         </Container>
     );
 }
