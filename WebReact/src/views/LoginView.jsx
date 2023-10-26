@@ -32,7 +32,7 @@ export default function LoginView() {
   }
 
   return (
-<Container className='row mx-auto d-flex justify-content-center mt-4'>
+<Container className='row mx-auto d-flex justify-content-center '>
       <div className=' py-3 rounded-3 bg-info col-lg-8 mt-5 bg-opacity-75'>
       <Col className="mx-auto text-center d-none d-lg-block">
         <Image src="/img/logo/filmvisarna-logo-icon.png" roundedCircle style={{ width: '100px', height: '100px' }} />

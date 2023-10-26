@@ -156,7 +156,7 @@ export default function RegisterView() {
     };
 
     return (
-        <Container className="py-3 rounded-5 bg-info p-5 col-lg-8 bg-opacity-75 mt-5">
+        <Container className="py-3 rounded-3 bg-info p-5 col-lg-8 bg-opacity-75 mt-5">
             <Col className="mx-auto text-center d-none d-lg-block">
                 <Image src="/img/logo/filmvisarna-logo-icon.png" roundedCircle style={{ width: '100px', height: '100px' }} />
             </Col>
@@ -203,17 +203,19 @@ export default function RegisterView() {
                     </div>
                     {passwordErrorMsg && <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{passwordErrorMsg}</div>}
                 </Form.Group>
-                <Row className="justify-content-between">
-                    <Col className="mx-auto text-center d-grid">
+                <Row className=" justify-content-between">
+                    <div className="d-flex mx-auto text-center">
+                        <Col>
                         <Button type="submit" variant="primary" size="lg" disabled={!emailValid || !passwordValid || !formData.firstName.trim() || !formData.lastName.trim()} onClick={handleSubmit} >
-                            Bli medlem
+                            Registrera
                         </Button>
-                    </Col>
-                    <Col className="mx-auto text-center d-grid">
+                        </Col>
+                        <Col>
                         <Button variant="secondary link" href="/StartView" size="lg">
                             Avbryt
                         </Button>
-                    </Col>
+                        </Col>
+                    </div>
                 </Row>
             </Form>
         </Container>

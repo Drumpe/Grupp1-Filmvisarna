@@ -85,7 +85,7 @@ export default function CancelView() {
                   </Form.Group>
                 </Form>
               </div>
-              <div className="d-flex justify-content-center my-5 mb-2">
+              <div className="d-flex justify-content-center my-3 mb-2">
                 <Button
                   variant="primary"
                   size="lg"
@@ -129,7 +129,7 @@ export default function CancelView() {
     }
 
     return (
-        <Container className='py-3 rounded-5 bg-info col-lg-8 bg-opacity-75 mt-5'>
+        <Container className='py-3 rounded-3 bg-info col-lg-8 bg-opacity-75 mt-5'>
             <form className='row g-3 my-3 mx-3 '>
                 {form()}
                 <Modal show={show} onHide={handleClose} animation={false}>
