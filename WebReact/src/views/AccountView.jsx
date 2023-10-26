@@ -29,7 +29,7 @@ export default function AccountView() {
     }, [user]);
 
     return (
-        <Container className="my-4">
+        <Container className="my-4 border border-light py-3 rounded-5 bg-info col-lg-8">
             <Row>
                 <Col className="mx-auto text-center">
                     <h1>{user.name}</h1>
