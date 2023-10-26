@@ -224,13 +224,20 @@ const TheaterView = () => {
                 </Col>
             </Row>
 
-            <div className="bg-gray-dark-transparent p-4 rounded-3 custom-info d-none d-lg-block">
+            <Row className="d-block d-xxl-none">
+                <Col className="text-center">
+                    <p className="fst-italic text-gray">{movie.movie}, {getLocaleDateString(screening.screeningTime, { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}</p>
+                </Col>
+            </Row>
+
+            <div className="bg-gray-dark-transparent p-4 pb-5 rounded-3 custom-info d-none d-xxl-block">
                 <div className="d-flex justify-content-between">
-                    <div>
+                    <div className="pe-3">
                         <h5 className="text-decoration-underline">{movie.movie}</h5>
                         <p className="fst-italic">{theater.name}</p>
+                        <p>{getLocaleDateString(screening.screeningTime, { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}</p>
                     </div>
-                    <div><img src={`/img/poster/${movie.images[0]}`} width="100" alt="Film" /></div>
+                    <div className="ms-5"><img src={`/img/poster/${movie.images[0]}`} width="100" alt="Film" /></div>
                 </div>
             </div>
 
