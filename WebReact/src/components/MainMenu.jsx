@@ -5,9 +5,11 @@ import { del } from '../utilsAndHooks/rest';
 
 export default function MainMenu({ user, setUser }) {
   let navigate = useNavigate();
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+    if (window.innerWidth < 992) {
+      setMenuOpen(!menuOpen);
+    }
   }
   const handleClose = () => setMenuOpen(false);
 
