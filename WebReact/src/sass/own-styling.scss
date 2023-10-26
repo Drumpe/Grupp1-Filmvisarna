@@ -29,10 +29,21 @@ Usage:
 Logo size will adapt after text size; for example, use className="h4" in parent
 */
 
+.lg-logo {
+    transform: translateX(-28px);
+}
+
+@media screen and (min-width: 992px) {
+    .lg-logo {
+        transform: translateX(0);
+    }
+}
+
 .custom-logo-navbar {
     height: 2.4em;
     margin-bottom: .4em;
-    transform: translateX(-.1em); // IS LOGO REALLY CENTERED???
+    transform: translateX(-.1em);
+    // IS LOGO REALLY CENTERED???
 }
 
 .custom-text-logo {
@@ -119,6 +130,10 @@ button.list-group-item.active {
     .listgroup-forward-arrow-content {
         margin-right: 1.1rem;
     }
+}
+
+.navbar-bg {
+    background-color: #242524;
 }
 
 /// screening dates arrows
@@ -226,7 +241,6 @@ main {
     flex: 1;
 }
 
-.bg-hello{
+.bg-hello {
     background-color: var(--hello);
 }
-
