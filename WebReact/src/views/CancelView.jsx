@@ -40,30 +40,32 @@ export default function CancelView() {
     //Form for filling booking.nr and email
     function form() {
         return <>
-            <FormGroup className="form-floating mb-3">
-                <Form.Control type='text' className='rounded-3' placeholder='Bokningsnummer' onChange={
-                    (x) =>
-                        setSend({
+            <div className="mx-auto">
+                <FormGroup className="form-floating mb-3">
+                    <Form.Control type='text' className='rounded-3' placeholder='Bokningsnummer' onChange={
+                        (x) =>
+                            setSend({
+                                ...send,
+                                bookingNumber: x.target.value
+                            })}>
+                    </Form.Control>
+                    <Form.Label>Bokningsnummer</Form.Label>
+                </FormGroup>
+                <FormGroup className="form-floating mb-3">
+                    <Form.Control type='text' placeholder='E-postadress' onChange={
+                        (x) => setSend({
                             ...send,
-                            bookingNumber: x.target.value
-                        })}>
-                </Form.Control>
-                <Form.Label>Bokningsnummer</Form.Label>
-            </FormGroup>
-            <FormGroup className="form-floating mb-3">
-                <Form.Control type='text' placeholder='Epostadress' onChange={
-                    (x) => setSend({
-                        ...send,
-                        emailAdress: x.target.value
-                    })}></Form.Control>
-                <Form.Label>E-postadress</Form.Label>
-            </FormGroup>
-            <p id="message">{message}</p>
-            <Button variant="primary" size="lg"
-                onClick={verifyData}
-                disabled={!(send.bookingNumber && send.emailAdress)}>
-                Avboka
-            </Button >
+                            emailAdress: x.target.value
+                        })}></Form.Control>
+                    <Form.Label>E-postadress</Form.Label>
+                </FormGroup>
+                <p id="message">{message}</p>
+                <Button variant="primary" size="lg"
+                    onClick={verifyData}
+                    disabled={!(send.bookingNumber && send.emailAdress)}>
+                    Avboka
+                </Button >
+            </div>
         </>
     }
 
