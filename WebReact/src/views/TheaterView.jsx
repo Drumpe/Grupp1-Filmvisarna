@@ -44,7 +44,7 @@ const TheaterView = () => {
         if (isStatusSent) {
             seatStatusFeed.close();
         }
-        navigate('/ConfirmedView/' + result.bookingId);
+        navigate('/ConfirmedView/' + result.bookingNumber);
     };
 
     //Init

@@ -4,7 +4,9 @@ import { get } from '../utilsAndHooks/rest';
 import { getLocaleDateString } from '../utilsAndHooks/formatter';
 import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 
+
 export default function CancelView() {
+    const [ globals, {}] = useOutletContext();
     const [show, setShow] = useState(false);
     const [data, setData] = useState({});
     const [message, setMessage] = useState("");
@@ -80,6 +82,7 @@ export default function CancelView() {
                         ...send,
                         emailAdress: x.target.value
                     })}
+
                     />
                     <Form.Label>E-postadress</Form.Label>
                   </Form.Group>
@@ -98,10 +101,8 @@ export default function CancelView() {
               <p id="message">{message}</p>
             </Container>
           );
+
     }
-
-
-
 
     //Show and hide pop up handler
     const handleClose = () => setShow(false);
