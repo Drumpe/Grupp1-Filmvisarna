@@ -78,7 +78,7 @@ export default function ViewDateItem() {
     const filteredScreenings = screenings.filter((x) => {
       const today = new Date();
       const date = new Date(x.dateAndTime);
-      const weekday = date.toLocaleDateString(date, { weekday: 'long' });
+      const weekday = date.toLocaleDateString(date, { month: 'numeric', day: 'numeric' });
 
       if (!uniqueDays.includes(weekday) && date >= today) {
         uniqueDays.push(weekday);
