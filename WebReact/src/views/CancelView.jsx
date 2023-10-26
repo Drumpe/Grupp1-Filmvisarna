@@ -75,7 +75,7 @@ export default function CancelView() {
                     <Form.Control
                       type="email"
                       name="emailAdress"
-                      value={send.emailAdress}
+                      value={globals.user.userRole === 'guest' ? send.emailAdress : globals.user.email}
                       className="rounded-3"
                       placeholder="E-postadress"
                       onChange={(x) => setSend({
