@@ -61,9 +61,14 @@ export default function ViewDateItem() {
 
       <ListGroup className="border-bottom-0" variant="flush">
         {FoundScreening.map(fs => {
+          const today = new Date();
+          const selectedDay = new Date(fs.dateAndTime);
           const getHours = new Date(fs.dateAndTime).getHours();
           const getMinutes = new Date(fs.dateAndTime).getMinutes();
           const movieName = movies.find(m => m.id === fs.movieId)
+          if (today > selectedDay) {
+            return false;
+          }
           return (
             <ListGroup.Item key={fs.id} variant="secondary" className="rounded-bottom-0  w-100" action href={`/MovieView/${fs.movieId}`}>
               {`${getHours}:${getMinutes} ${movieName.movie}`}
