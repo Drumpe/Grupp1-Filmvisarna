@@ -1,5 +1,5 @@
 import React from "react"
-import { Row, Col, ButtonToolbar, ButtonGroup, Button, Image } from 'react-bootstrap';
+import { Row, Col, Image } from 'react-bootstrap';
 
 export default function ShowSeats({ seats, theater, seatClicked }) {
 

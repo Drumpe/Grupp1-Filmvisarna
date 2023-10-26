@@ -248,7 +248,7 @@ const TheaterView = () => {
                 <Row>
                     <Col className="d-flex justify-content-center mt-3">
                         <Button variant="primary"
-                            disabled={buttonsDisabled}
+                            disabled={buttonsDisabled || summa === 0 ||(formData.email.length === 0 && user.userRole === "guest")}
                             type="submit"
                             onClick={sendRequest}
                         >Bekräfta bokning

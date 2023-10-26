@@ -13,6 +13,14 @@ body {
     scroll-behavior: smooth;
 }
 
+.text-monospace {
+    font-family: monospace;
+}
+
+.bg-gray-light-transparent {
+    background-color: rgba(121, 125, 121, 0.25);
+}
+
 li.details {
     margin-left: 4rem;
 }
