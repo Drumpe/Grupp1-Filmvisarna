@@ -213,7 +213,7 @@ const TheaterView = () => {
     }
     return (
         <Container className="mt-1">
-            <Row>
+            <Row className="mb-3">
                 <Col className='d-flex justify-content-start'>
                     <NavLink to={`/MovieView/${movieId}`}>
                         <Button className="nav-back custom-btn text-secondary text-decoration-none" variant="info link" >Tillbaka</Button>
@@ -223,8 +223,21 @@ const TheaterView = () => {
                     <div></div>
                 </Col>
             </Row>
-            <Row>
-                <Col className="col-6 offset-sm-2 offset-lg-3 col-sm-5 col-lg-4">
+
+            <div className="bg-gray-dark-transparent p-4 rounded-3 custom-info d-none d-lg-block">
+                <div className="d-flex justify-content-between">
+                    <div>
+                        <h5 className="text-decoration-underline">{movie.movie}</h5>
+                        <p className="fst-italic">{theater.name}</p>
+                    </div>
+                    <div><img src={`/img/poster/${movie.images[0]}`} width="100" alt="Film" /></div>
+                </div>
+            </div>
+
+
+            {/* <Row className="d-none d-lg-flex ">
+                <Col className="col-4 offset-sm-2 offset-lg-4 col-sm-5 col-lg-3">
+
                     <p>{movie.movie}</p>
                     <p>{theater.name}</p>
                     <p>{getLocaleDateString(screening.screeningTime, { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}</p>
@@ -232,7 +245,7 @@ const TheaterView = () => {
                 <Col className="col-6 col-sm-5 col-lg-4">
                     <img src={`/img/poster/${movie.images[0]}`} width="100" alt="Film" />
                 </Col>
-            </Row>
+            </Row> */}
 
             <ShowSeats {...{ seats, seatClicked }} />
 

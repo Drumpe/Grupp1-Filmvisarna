@@ -139,6 +139,12 @@ Logo size will adapt after text size; for example, use className="h4" in parent
     max-width: 65ch;
 }
 
+.custom-info {
+    position: fixed;
+    right: 2vw;
+    width: 22vw;
+}
+
 .mw-mh-lg {
     max-width: 993px;
     max-height: 558px;
