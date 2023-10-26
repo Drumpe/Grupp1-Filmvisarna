@@ -1,9 +1,9 @@
 import React from "react";
 import { get } from '../utilsAndHooks/rest';
-import { getLocaleDateString } from '../utilsAndHooks/formatter';
-import { useOutletContext } from 'react-router-dom';
+import { getLocaleDateString, getLocaleTimeString, displayScreeningDate } from '../utilsAndHooks/formatter';
+import { useOutletContext, NavLink } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { Row, Col, ListGroup, Button } from 'react-bootstrap';
+import { Row, Col, ListGroup } from 'react-bootstrap';
 
 
 
@@ -14,12 +14,9 @@ export default function ViewDateItem() {
   const [FoundScreening, setFoundScreening] = useState([])
   const ref = useRef(null);
   const [screeningDatesScrollPosition, setScreeningDatesScrollPosition] = useState(0);
-  const [showMore, setShowMore] = useState(5);
-
 
   useEffect(() => {
     fetchData();
-
   }, [])
 
 
@@ -56,27 +53,26 @@ export default function ViewDateItem() {
     const items = getScreeningsByDate(screenings, screening.dateAndTime)
     return setFoundScreening(items)
   }
-
   const displayFoundScreenings = () => {
     return (
 
-      <ListGroup className="border-bottom-0" variant="flush">
-        {FoundScreening.slice(0, showMore).map(fs => {
-          const today = new Date();
-          const selectedDay = new Date(fs.dateAndTime);
-          const getHours = new Date(fs.dateAndTime).getHours();
-          const getMinutes = new Date(fs.dateAndTime).getMinutes();
+      <ListGroup className="border-bottom-0" variant="flush" >
+        {FoundScreening.map(fs => {
           const movieName = movies.find(m => m.id === fs.movieId)
-          if (today > selectedDay) {
-            return false;
+          if (!FoundScreening.includes(fs.dateAndTime)) {
+            return (
+              <NavLink style={{ textDecoration: 'none' }} to={`/MovieView/${fs.movieId}`}>
+                <ListGroup.Item key={fs.id} variant="secondary" className="rounded-bottom-0  w-100">
+                  {`${getLocaleTimeString(fs.dateAndTime, { hour: '2-digit', minute: '2-digit' })} ${movieName.movie}`}
+                </ListGroup.Item>
+              </NavLink>
+            )
           }
-          return (
-            <ListGroup.Item key={fs.id} variant="secondary" className="rounded-bottom-0  w-100" action href={`/MovieView/${fs.movieId}`}>
-              {`${getHours}:${getMinutes} ${movieName.movie}`}
-            </ListGroup.Item>
-          )
-        })}
-      </ListGroup>
+          return false;
+
+        })
+        }
+      </ListGroup >
     )
   }
 
@@ -105,8 +101,7 @@ export default function ViewDateItem() {
               action
               onClick={() => handleClick(s)}
             >
-              {`${getLocaleDateString(s.dateAndTime, { month: 'numeric', day: 'numeric' })}
-                - ${getLocaleDateString(s.dateAndTime, { weekday: 'long' })}`}
+              {`${displayScreeningDate(s.dateAndTime)}`}
             </ListGroup.Item >
           )
         })}
