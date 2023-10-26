@@ -61,6 +61,7 @@ namespace webapi.Controllers
             MovieId = s.MovieId,
             TheaterId = s.Theater.Id,
             Theater = s.Theater.Name,
+            ScreeningTime = s.DateAndTime,
             Seats = s.Theater.Seats
             .Select(sts => new 
             {

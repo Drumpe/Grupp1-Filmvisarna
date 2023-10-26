@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react"
 import { Container, Row, Col, Button, Form, InputGroup } from 'react-bootstrap';
 import { get, post } from '../utilsAndHooks/rest';
-import { Link, useParams, useOutletContext } from "react-router-dom";
+import { Link, useParams, useOutletContext, useNavigate } from "react-router-dom";
 import ShowSeats from "../components/ShowSeats";
 import ShowTicketType from "../components/ShowTicketType";
-import { useNavigate } from 'react-router-dom';
 import createBookingJson from "../utilsAndHooks/createBookingJson";
+import {displayScreeningDate} from "../utilsAndHooks/formatter";
 
 const BARN_PRIS = 80;
 const PENSIONARS_PRIS = 120;
 const VUXEN_PRIS = 140;
 
 const TheaterView = () => {
-    const [{ user }] = useOutletContext();
+    const [{ user, movies }] = useOutletContext();
     const { screeningId } = useParams();
     const [formData, setFormData] = useState({ email: '' });
     const [theater, setTheater] = useState({ id: 0, name: "" });
@@ -23,6 +23,8 @@ const TheaterView = () => {
         pensioner: 0
     });
     const [movieId, setMovieId] = useState("");
+    const [movie, setMovie] = useState(null);
+    const [screening, setScreening] = useState(null);
     const [validatedEmail, setValidatedEmail] = useState(false);
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
     const summa = (tickets.child * BARN_PRIS) + (tickets.pensioner * PENSIONARS_PRIS) + (tickets.ordinary * VUXEN_PRIS);
@@ -63,6 +65,10 @@ const TheaterView = () => {
                     id: screeningSeats.theaterId,
                     name: screeningSeats.theater
                 };
+                let tmpMovie = movies.find(movie => movie.id === +screeningSeats.movieId);
+                console.log("screening", screeningSeats)
+                setScreening(screeningSeats);
+                setMovie(tmpMovie);
                 setTheater(theater);
                 setSeats(seats);
             } catch (err) {
@@ -198,21 +204,34 @@ const TheaterView = () => {
         let isStatusSent = seatStatusFeed.book();
         return isStatusSent;
     }
-
-    return !seats ? null : (
+    if (!seats || !movie || !screening) {
+        return (
+            <Container className="mt-1">
+                <div>Loading...</div>
+            </Container>
+        );
+    }
+    return (
         <Container className="mt-1">
             <Row>
                 <Col className='d-flex justify-content-start'>
                     <Link className="nav-back text-info" to={`/MovieView/${movieId}`}>Tillbaka</Link>
-                    <div></div>
-                    <div></div>
-                    <div></div>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="offset-4 col-2">
+                    <p>{movie.movie}</p>
+                    <p>{theater.name}</p>
+                    <p>{displayScreeningDate(screening.screeningTime)}</p>
+                </Col>
+                <Col className="col-2">
+                    <img src={`/img/poster/${movie.images[0]}`} width="100" alt="Film" />
                 </Col>
             </Row>
 
-            <ShowSeats {...{ seats, theater, seatClicked }} />
+            <ShowSeats {...{ seats, seatClicked }} />
 
-            <ShowTicketType {...{tickets, buttonsDisabled, setTickets}} /> 
+            <ShowTicketType {...{ tickets, buttonsDisabled, setTickets }} />
 
             <Row>
                 <Col className="d-flex justify-content-center mt-3">
@@ -248,7 +267,7 @@ const TheaterView = () => {
                 <Row>
                     <Col className="d-flex justify-content-center mt-3">
                         <Button variant="primary"
-                            disabled={buttonsDisabled || summa === 0 ||(formData.email.length === 0 && user.userRole === "guest")}
+                            disabled={buttonsDisabled || summa === 0 || (formData.email.length === 0 && user.userRole === "guest")}
                             type="submit"
                             onClick={sendRequest}
                         >Bekräfta bokning
