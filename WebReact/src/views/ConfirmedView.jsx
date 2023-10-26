@@ -14,7 +14,6 @@ export default function ConfirmedView() {
         
         async function fetchData() {
                var response = await get('bookings/detailed/' + bookingNumber);
-               console.log("res: ", response)
                setData(response);
                setSeatFinder(response.tickets)      
         }
