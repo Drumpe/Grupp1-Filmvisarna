@@ -6,7 +6,7 @@ import { useOutletContext } from 'react-router-dom';
 
 export default function StartView() {
 
-    const [{movies}] = useOutletContext();
+    const [{ movies }] = useOutletContext();
     const [selectedAge, setSelectedAge] = useState(18);  // Default age
     const [filteredMovies, setFilteredMovies] = useState([]);
 
@@ -23,7 +23,7 @@ export default function StartView() {
         <>
             <Row>
                 <Col>
-                    <h1 className="mb-4 text-primary d-inline-block">Visas nu</h1>
+                    <h1 className="mb-4 d-inline-block">Visas nu</h1>
                     <select
                         className="form-select text-secondary me-2 w-auto d-inline-block float-end"
                         onChange={handleAgeChange}

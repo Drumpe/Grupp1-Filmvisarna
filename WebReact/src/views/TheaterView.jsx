@@ -4,6 +4,7 @@ import { get, post } from '../utilsAndHooks/rest';
 import { Link, useParams, useOutletContext, useNavigate } from "react-router-dom";
 import ShowSeats from "../components/ShowSeats";
 import ShowTicketType from "../components/ShowTicketType";
+import { NavLink } from 'react-router-dom';
 import createBookingJson from "../utilsAndHooks/createBookingJson";
 import { displayScreeningDate, getLocaleDateString } from "../utilsAndHooks/formatter";
 
@@ -214,7 +215,12 @@ const TheaterView = () => {
         <Container className="mt-1">
             <Row>
                 <Col className='d-flex justify-content-start'>
-                    <Link className="nav-back text-info" to={`/MovieView/${movieId}`}>Tillbaka</Link>
+                    <NavLink to={`/MovieView/${movieId}`}>
+                        <Button className="nav-back custom-btn text-secondary text-decoration-none" variant="info link" >Tillbaka</Button>
+                    </NavLink>
+                    <div></div>
+                    <div></div>
+                    <div></div>
                 </Col>
             </Row>
             <Row>
