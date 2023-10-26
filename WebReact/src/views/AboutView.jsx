@@ -16,6 +16,7 @@ const AboutView = () => {
             <Row className="mt-3">
                 <Col>
                     <h1>Om oss</h1>
+
                     <p>
                         Välkommen till Filmvisarna! Vi brinner för film och vill dela vår kärlek till film med dig.
                     </p>
@@ -27,7 +28,7 @@ const AboutView = () => {
             <Row>
                 <Col >
                     <div className="d-flex flex-column">
-                        <h5>Kontakt</h5>
+                        <h5 className="text-primary">Kontakt</h5>
                         <div>
                             filmvisarna@gmail.com
                         </div>
