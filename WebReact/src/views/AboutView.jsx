@@ -30,9 +30,7 @@ const AboutView = () => {
                 <Col >
                     <div className="d-flex flex-column">
                         <h5 className="text-primary">Kontakt</h5>
-                        <div>
-                            filmvisarna@gmail.com
-                        </div>
+                        <p>Behöver du komma i kontakt med oss? Skriv till oss på: <a href="mailto:fvisarna@gmail.com">fvisarna@gmail.com</a></p>
                     </div>
                 </Col>
             </Row>
