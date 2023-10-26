@@ -52,7 +52,7 @@ export default function RegisterView() {
             setFormData({ ...formData, [name]: value });  // Update the formData for email regardless of validation status
         } else if (name === "firstName") {
 
-           
+
             if (!isNameValid(value)) {
                 setFirstNameErrorMsg("Vänligen använd endast bokstäver i Förnamn.");
             } else {
@@ -64,7 +64,7 @@ export default function RegisterView() {
             }
         } else if (name === "lastName") {
 
-           
+
             if (!isNameValid(value)) {
                 setLastNameErrorMsg("Vänligen använd endast bokstäver i Efternamn.");
             } else {
@@ -139,51 +139,49 @@ export default function RegisterView() {
 
     const sendLoginRequest = async () => {
         var login = {
-          emailAdress: formData.email,
-          password: formData.password
+            emailAdress: formData.email,
+            password: formData.password
         }
         let result = await post('users/login', login);
         if (result.error) {
-          alert("Felaktig e-postadress eller passord.");
-          return;
+            alert("Felaktig e-postadress eller passord.");
+            return;
         }
         setUser();
         navigate("/");
-      };
+    };
 
     const toggleShowPassword = () => {
         setShowPassword(prevState => !prevState);
     };
 
     return (
-        <Container>
-            <Col className="mx-auto text-center">
+        <Container className="py-3 rounded-3 bg-info p-5 col-lg-8 bg-opacity-75 mt-5">
+            <Col className="mx-auto text-center d-none d-lg-block">
                 <Image src="/img/logo/filmvisarna-logo-icon.png" roundedCircle style={{ width: '100px', height: '100px' }} />
             </Col>
             <h1 className="text-center">Bli medlem</h1>
-            <p className="text-center">Fyll i alla uppgifter nedan för att bli medlem.</p>
+            <p className="text-center mb-4">Fyll i alla uppgifter nedan för att bli medlem.</p>
             <Form className="mx-auto" onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="formGroupFirstName">
-                    <Form.Label>Förnamn</Form.Label>
+                <Form.Group className="form-floating mb-3" controlId="formGroupFirstName">
                     <Form.Control type="text" name="firstName" required={true} style={{ display: 'block' }} placeholder="Förnamn" onChange={handleInputChange} />
+                    <Form.Label>Förnamn</Form.Label>
                     {firstNameErrorMsg && <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{firstNameErrorMsg}</div>}
-
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formGroupLastName">
-                    <Form.Label>Efternamn</Form.Label>
+                <Form.Group className="form-floating mb-3" controlId="formGroupLastName">
                     <Form.Control type="text" name="lastName" required={true} placeholder="Efternamn" onChange={handleInputChange} />
+                    <Form.Label>Efternamn</Form.Label>
                     {lastNameErrorMsg && <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{lastNameErrorMsg}</div>}
 
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formGroupEmail">
-                    <Form.Label>E-postadress</Form.Label>
+                <Form.Group className="form-floating mb-3" controlId="formGroupEmail">
                     <Form.Control type="email" name="email" placeholder="namn@epost.se" onChange={handleInputChange} />
+                    <Form.Label>E-postadress</Form.Label>
                     {emailErrorMsg && <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{emailErrorMsg}</div>}
 
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formGroupPassword">
-                    <Form.Label>Lösenord</Form.Label>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div className="d-flex align-items-center form-floating">
                         <Form.Control
                             style={{ flex: '1' }}  // This will make the input take up all available space
                             type={showPassword ? 'text' : 'password'}
@@ -193,27 +191,31 @@ export default function RegisterView() {
                             isInvalid={!passwordValid && passwordTouched}
                             onChange={handleInputChange}
                         />
+                        <Form.Label>Lösenord</Form.Label>
                         <Button
                             variant="outline-secondary"
                             onClick={toggleShowPassword}
-                            style={{ marginLeft: '10px' }}  // Add a little spacing between input and button
+                            size="lg"
+                            className="ms-3"
                         >
                             {showPassword ? 'Göm' : 'Visa'}
                         </Button>
                     </div>
                     {passwordErrorMsg && <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{passwordErrorMsg}</div>}
                 </Form.Group>
-                <Row className="justify-content-between">
-                    <Col className="mx-auto text-center d-grid">
+                <Row className=" justify-content-between">
+                    <div className="d-flex mx-auto text-center">
+                        <Col>
                         <Button type="submit" variant="primary" size="lg" disabled={!emailValid || !passwordValid || !formData.firstName.trim() || !formData.lastName.trim()} onClick={handleSubmit} >
-                            Bli medlem
+                            Registrera
                         </Button>
-                    </Col>
-                    <Col className="mx-auto text-center d-grid">
+                        </Col>
+                        <Col>
                         <Button variant="secondary link" href="/StartView" size="lg">
                             Avbryt
                         </Button>
-                    </Col>
+                        </Col>
+                    </div>
                 </Row>
             </Form>
         </Container>

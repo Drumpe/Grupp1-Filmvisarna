@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Container, Button, Modal, Alert } from 'react-bootstrap';
+import { Container, Button, Col, Form,Image, Modal, Alert } from 'react-bootstrap';
 import { get } from '../utilsAndHooks/rest';
 import { getLocaleDateString } from '../utilsAndHooks/formatter';
-import { useOutletContext } from 'react-router-dom';
+import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
+
+
 export default function CancelView() {
     const [ globals, {}] = useOutletContext();
     const [show, setShow] = useState(false);
@@ -40,30 +42,66 @@ export default function CancelView() {
 
     //Form for filling booking.nr and email
     function form() {
-        return <>
-            <label>Bokningsnummer</label>
-            <input type='text' placeholder='xxxxxx' onChange={
-                (x) =>
-                    setSend({
+        return (
+            <Container>
+              <Col className="mx-auto text-center d-none d-lg-block">
+                <Image
+                  src="/img/logo/filmvisarna-logo-icon.png"
+                  roundedCircle
+                  style={{ width: '100px', height: '100px' }}
+                />
+              </Col>
+              <div className="d-flex justify-content-around">
+                <h1 className="text-center">Avbokning</h1>
+              </div>
+              <div className="my-3 mx-3">
+                <Form>
+                  <Form.Group className="form-floating">
+                    <Form.Control
+                      type="text"
+                      name="bookingNumber"
+                      value={send.bookingNumber}
+                      className="rounded-3"
+                      placeholder="Bokningsnummer"
+                      onChange={  (x) =>
+                        setSend({
+                            ...send,
+                            bookingNumber: x.target.value
+                        })}
+                    />
+                    <Form.Label>Bokningsnummer</Form.Label>
+                  </Form.Group>
+                  <Form.Group className="form-floating my-4 ">
+                    <Form.Control
+                      type="email"
+                      name="emailAdress"
+                      value={send.emailAdress}
+                      className="rounded-3"
+                      placeholder="E-postadress"
+                      onChange={(x) => setSend({
                         ...send,
-                        bookingNumber: x.target.value
+                        emailAdress: x.target.value
                     })}
-                className='col-7  p-3' />
-            <label>E-postadress</label>
-            <input type='email' placeholder='exempel@gmail.com' onChange={
-                (x) => setSend({
-                    ...send,
-                    emailAdress: x.target.value
-                })}
-                value={globals.user.userRole === 'guest' ? send.emailAdress : globals.user.email}
-                className='col-7  p-3' />
-            <p id="message">{message}</p>
-            <Button variant=" btn-primary col-7"
-                onClick={verifyData}
-                disabled={!(send.bookingNumber && send.emailAdress)}>
-                Avboka
-            </Button >
-        </>
+
+                    />
+                    <Form.Label>E-postadress</Form.Label>
+                  </Form.Group>
+                </Form>
+              </div>
+              <div className="d-flex justify-content-center my-3 mb-2">
+                <Button
+                  variant="primary"
+                  size="lg"
+                  onClick={verifyData}
+                  disabled={!(send.bookingNumber && send.emailAdress)}
+                >
+                  Avboka
+                </Button>
+              </div>
+              <p id="message">{message}</p>
+            </Container>
+          );
+
     }
 
     //Show and hide pop up handler
@@ -92,11 +130,8 @@ export default function CancelView() {
     }
 
     return (
-        <Container>
-            <h1>Avbokning</h1>
-            <hr />
-            <br />
-            <form className='row g-3 '>
+        <Container className='py-3 rounded-3 bg-info col-lg-8 bg-opacity-75 mt-5'>
+            <form className='row g-3 my-3 mx-3 '>
                 {form()}
                 <Modal show={show} onHide={handleClose} animation={false}>
                     <Modal.Header closeButton>
@@ -108,10 +143,10 @@ export default function CancelView() {
                         {data.theater}, {formatedDate}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
+                        <Button variant="primary" onClick={handleClose}>
                             Behåll bokning
                         </Button>
-                        <Button variant="primary" onClick={confirmDelete}>
+                        <Button variant="secondary" onClick={confirmDelete}>
                             Avboka bokning
                         </Button>
                     </Modal.Footer>
