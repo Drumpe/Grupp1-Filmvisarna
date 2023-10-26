@@ -49,6 +49,8 @@ export default function ViewDateItem() {
     });
   }
 
+
+  //sets single screening that is clicked
   const handleClick = (screening) => {
     const items = getScreeningsByDate(screenings, screening.dateAndTime)
     return setFoundScreening(items)
