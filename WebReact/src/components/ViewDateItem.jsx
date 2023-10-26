@@ -57,13 +57,13 @@ export default function ViewDateItem() {
   const displayFoundScreenings = () => {
     return (
 
-      <ListGroup className="border-bottom-0" horizontal>
+      <ListGroup className="border-bottom-0" variant="flush">
         {FoundScreening.map(fs => {
           const getHours = new Date(fs.dateAndTime).getHours();
           const getMinutes = new Date(fs.dateAndTime).getMinutes();
           const movieName = movies.find(m => m.id === fs.movieId)
           return (
-            <ListGroup.Item key={fs.id} variant="secondary" className="screening-list-item" action href={`/MovieView/${fs.movieId}`}>
+            <ListGroup.Item key={fs.id} variant="secondary" className="rounded-bottom-0  w-100" action href={`/MovieView/${fs.movieId}`}>
               {`${getHours}:${getMinutes} ${movieName.movie}`}
             </ListGroup.Item>
           )
@@ -71,7 +71,6 @@ export default function ViewDateItem() {
       </ListGroup>
     )
   }
-
 
   const showScreenings = () => {
     const uniqueDays = [];
@@ -132,17 +131,21 @@ export default function ViewDateItem() {
               </div>
             </div>
           }
+
           <ListGroup className="border-bottom-0" horizontal>
             {showScreenings()}
           </ListGroup>
         </div>
       </Col>
-      <Col className='width-auto justify-content-center'>
-        <div>
-          {displayFoundScreenings()}
-        </div>
-      </Col>
     </Row>
+    <Row>
+
+    </Row>
+    <Col>
+      <div>
+        {displayFoundScreenings()}
+      </div>
+    </Col>
   </>
 
 }

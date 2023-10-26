@@ -26,9 +26,11 @@ export default function StartView() {
     return (
         <>
             <Row>
+                <Col className='mb-4'>
+                    <ViewDateItem />
+                </Col>
                 <Col>
                     <h1 className="mb-4 text-primary d-inline-block">Visas nu</h1>
-                    <ViewDateItem />
                     <br />
                     <select
                         className="form-select text-secondary me-2 w-auto d-inline-block float-end"
