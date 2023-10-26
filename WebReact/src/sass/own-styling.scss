@@ -5,8 +5,40 @@
     --custom-btn-close-bg: url("/img/ui/ui-close.svg");
 }
 
+html {
+    font-size: 1.12rem;
+}
+
 body {
     scroll-behavior: smooth;
+}
+
+li.details {
+    margin-left: 4rem;
+}
+
+.bg-gray-transparent {
+    background-color: rgb(142, 145, 142, 45%);
+}
+
+.bg-gray-dark-transparent {
+    background-color: rgb(36, 37, 36, 25%);
+}
+
+.ticket-button {
+    padding: .3rem .6rem;
+}
+
+.minus {
+    background-image: url("/img/ui/ui-minus.svg");
+    width: 1rem;
+    height: 1rem;
+}
+
+.plus {
+    background-image: url("/img/ui/ui-plus.svg");
+    width: 1rem;
+    height: 1rem;
 }
 
 /* Hide scrollbar */
@@ -88,6 +120,10 @@ Logo size will adapt after text size; for example, use className="h4" in parent
 }
 
 .movie-details>h6 {
+    color: #8e918e;
+}
+
+.text-gray {
     color: #8e918e;
 }
 

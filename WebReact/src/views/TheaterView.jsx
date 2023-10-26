@@ -3,6 +3,7 @@ import { Container, Row, Col, Button, Form, InputGroup } from 'react-bootstrap';
 import { get, post } from '../utilsAndHooks/rest';
 import { Link, useParams, useOutletContext } from "react-router-dom";
 import ShowSeats from "../components/ShowSeats";
+import ShowTicketType from "../components/ShowTicketType";
 import { useNavigate } from 'react-router-dom';
 import createBookingJson from "../utilsAndHooks/createBookingJson";
 
@@ -148,52 +149,6 @@ const TheaterView = () => {
         seatStatusFeed.connect();
     }
 
-    const increaseTicketCount = (category) => {
-        setTickets((prevTickets) => {
-            const updatedTickets = { ...prevTickets };
-            switch (category) {
-                case 'barn':
-                    if (updatedTickets.ordinary > 0) {
-                        updatedTickets.ordinary -= 1;
-                        updatedTickets.child += 1;
-                    }
-                    break;
-                case 'pensionar':
-                    if (updatedTickets.ordinary > 0) {
-                        updatedTickets.ordinary -= 1;
-                        updatedTickets.pensioner += 1;
-                    }
-                    break;
-                default:
-                    break;
-            }
-            return updatedTickets;
-        });
-    };
-
-    const decreaseTicketCount = (category) => {
-        setTickets((prevTickets) => {
-            const updatedTickets = { ...prevTickets };
-            switch (category) {
-                case 'barn':
-                    if (updatedTickets.child > 0) {
-                        updatedTickets.ordinary += 1;
-                        updatedTickets.child -= 1;
-                    }
-                    break;
-                case 'pensionar':
-                    if (updatedTickets.pensioner > 0) {
-                        updatedTickets.ordinary += 1;
-                        updatedTickets.pensioner -= 1;
-                    }
-                    break;
-                default:
-                    break;
-            }
-            return updatedTickets;
-        });
-    };
-
     //När man klickar på ett säte 
     const seatClicked = (seatId) => {
         const updatedSeats = [...seats];
@@ -257,42 +212,8 @@ const TheaterView = () => {
 
             <ShowSeats {...{ seats, theater, seatClicked }} />
 
-            <Row>
-                <Col className="col-3 offset-4 mt-2">
-                    <span style={{ fontSize: '22px' }}>Vuxen</span>
-                </Col>
-                <Col className="col-1 mt-2">
-                    <div className="text-center">&nbsp;&nbsp;&nbsp;{tickets.ordinary}</div>
-                </Col>
-            </Row>
-            <Row>
-                <Col className="col-3 offset-4 mt-2">
-                    <span style={{ fontSize: '22px' }}>Barn</span>
-                </Col>
-                <Col className="col mt-2">
-                    <Button onClick={() => decreaseTicketCount('barn')} variant="danger me-2" disabled={buttonsDisabled}>
-                        --
-                    </Button>
-                    {tickets.child}&nbsp;
-                    <Button onClick={() => increaseTicketCount('barn')} variant="primary" disabled={buttonsDisabled}>
-                        +
-                    </Button>
-                </Col>
-            </Row>
-            <Row>
-                <Col className="col-3 offset-4 mt-3">
-                    <span style={{ fontSize: '22px' }}>Pensionär</span>
-                </Col>
-                <Col className="col mt-3">
-                    <Button onClick={() => decreaseTicketCount('pensionar')} variant="danger me-2" disabled={buttonsDisabled}>
-                        –
-                    </Button>
-                    {tickets.pensioner}&nbsp;
-                    <Button onClick={() => increaseTicketCount('pensionar')} variant="primary" disabled={buttonsDisabled}>
-                        +
-                    </Button>
-                </Col>
-            </Row>
+            <ShowTicketType {...{tickets, buttonsDisabled, setTickets}} /> 
+
             <Row>
                 <Col className="d-flex justify-content-center mt-3">
                     <span style={{ fontSize: '22px' }}>Att betala: {summa} kr</span>
