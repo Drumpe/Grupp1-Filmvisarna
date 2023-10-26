@@ -9,7 +9,8 @@ const AboutView = () => {
         <Container >
             <Row>
                 <Col className="w-100 mx-auto text-center">
-                    <img src="/img/hero/hero-1.png" className="w-100" />
+                    <img src="/img/hero/hero-1.png" className="w-100 d-lg-none" />
+                    <img src="/img/hero/hero-2.png" className="w-100 d-none d-lg-block" />
                 </Col>
             </Row>
 
