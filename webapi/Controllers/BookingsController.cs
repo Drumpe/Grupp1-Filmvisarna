@@ -50,11 +50,11 @@ namespace webapi.Controllers
 
             return Ok(result);
         }
-        [HttpGet("detailed/{id}")]
-        public async Task<IActionResult> GetDetailedBookingById(int id)
+        [HttpGet("detailed/{bookingNumber}")]
+        public async Task<IActionResult> GetDetailedBookingByBookingNumber(string bookingNumber)
         {
             var result = await _context.bookings
-                .Where(b => b.Id == id)
+                .Where(b => b.BookingNumber == bookingNumber)
                 .Select(b => new
                 {
                     BookingNumber = b.BookingNumber,
