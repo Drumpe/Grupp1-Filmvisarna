@@ -50,15 +50,15 @@ export default function ConfirmedView() {
 			<Container>
 				<Row>
 					<Col className="mb-2">
-						<h1 className="mb-3 text-primary">Bokningsbekräftelse</h1>
+						<h1 className="mb-3">Bokningsbekräftelse</h1>
 						<h5>Tack för din bokning!</h5>
 					</Col>
 				</Row>
 
 				<Row>
-					<Col className="mt-4">
-						<p className="mb-2">Bokningsnummer:</p>
-						<h1 className="">{data.bookingNumber}</h1>
+					<Col className="mt-3">
+						<p className="mb-1">Bokningsnummer:</p>
+						<p style={{ fontSize: '2.2rem' }}>{data.bookingNumber}</p>
 					</Col>
 				</Row>
 
@@ -71,7 +71,7 @@ export default function ConfirmedView() {
 								<h5 className="mb-4">Film: <strong>{data.movie}</strong></h5>
 								<span className="d-block movie-details mb-2"><h6 className="d-inline">När: </h6> {formatedDate}</span>
 								<span className="d-block movie-details mb-2"><h6 className="d-inline">Salong: </h6> {data.theater}</span>
-								<p className='movie-details mb-2'><h6>Antal biljetter:</h6> {ticketAmount}</p>
+								<span className='movie-details mb-2'><h6>Antal biljetter:</h6> {ticketAmount}</span>
 								<span className="d-block movie-details mb-4"><h6 className="d-inline">Platser: </h6> {seatfinder.map((x) =>
 									<li className="details" key={x.seatId}>Rad {x.row}, stol {x.seat}</li>)}
 								</span>
