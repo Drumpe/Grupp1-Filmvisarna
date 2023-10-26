@@ -219,12 +219,12 @@ const TheaterView = () => {
                 </Col>
             </Row>
             <Row>
-                <Col className="offset-4 col-2">
+                <Col className="col-6 offset-sm-2 offset-lg-3 col-sm-5 col-lg-4">
                     <p>{movie.movie}</p>
                     <p>{theater.name}</p>
                     <p>{displayScreeningDate(screening.screeningTime)}</p>
                 </Col>
-                <Col className="col-2">
+                <Col className="col-6 col-sm-5 col-lg-4">
                     <img src={`/img/poster/${movie.images[0]}`} width="100" alt="Film" />
                 </Col>
             </Row>
