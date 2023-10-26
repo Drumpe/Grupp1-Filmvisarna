@@ -43,7 +43,7 @@ export default function App() {
     <main className="container mt-1">
       <Outlet context={[globals, setUser]} />
     </main>
-    <footer className="container-fluid ps-5">
+    <footer className="mt-3">
       <Footer />
     </footer>
   </>;
