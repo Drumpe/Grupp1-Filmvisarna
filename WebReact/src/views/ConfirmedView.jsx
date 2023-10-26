@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { getLocaleDateString } from '../utilsAndHooks/formatter';
 
 export default function ConfirmedView() {
-	let { bookingId } = useParams()
+	let { bookingNumber } = useParams()
 	const [data, setData] = useState({});
 	const [seatfinder, setSeatFinder] = useState([]);
 	const [formatedDate, setFormatedDate] = useState('');
@@ -13,7 +13,7 @@ export default function ConfirmedView() {
 
 
 	async function fetchData() {
-		var response = await get('/bookings/detailed/' + bookingId);
+		var response = await get('bookings/detailed/' + bookingNumber);
 		setData(response);
 		setSeatFinder(response.tickets)
 	}

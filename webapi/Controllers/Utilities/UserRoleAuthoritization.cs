@@ -21,6 +21,7 @@ namespace webapi.Controllers.Utilities
             string prefix = "/api/Bookings/confirm";
             string prefix2 = "/api/Bookings/RemoveBooking";
             string prefix3 = "/api/bookings/getbyemail";
+            string prefix4 = "/api/bookings/detailed";
 
             if (endpoint.StartsWith(prefix))
             {
@@ -33,6 +34,10 @@ namespace webapi.Controllers.Utilities
             else if (endpoint.StartsWith(prefix3))
             {
                 endpoint = endpoint.Remove(prefix3.Length);
+            }
+            else if (endpoint.StartsWith(prefix4))
+            {
+                endpoint = endpoint.Remove(prefix4.Length);
             }
 
             try
