@@ -8,7 +8,7 @@ namespace webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-     [AuthorizeUserRole]
+    [AuthorizeUserRole]
     public class GenericController<T> : ControllerBase where T : class, IEntity
     {
         public readonly FilmvisarnaContext _context;

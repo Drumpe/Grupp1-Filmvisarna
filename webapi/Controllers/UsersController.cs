@@ -8,6 +8,7 @@ namespace webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AuthorizeUserRole]
     public class UsersController : ControllerBase
     {
         public readonly FilmvisarnaContext _context;
