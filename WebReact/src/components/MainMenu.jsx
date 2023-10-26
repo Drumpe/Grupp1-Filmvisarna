@@ -31,7 +31,7 @@ export default function MainMenu({ user, setUser }) {
           key={expand} expand={expand}
           className="navbar-dark navbar-bg"
         >
-          <Container fluid>
+          <Container>
             <Navbar.Toggle aria-controls={`offcanvas Navbar-expand-${expand}`} onClick={toggleMenu} />
             <NavLink to="/StartView" className="nav-link">
               <div className="lg-logo">
@@ -55,7 +55,7 @@ export default function MainMenu({ user, setUser }) {
                 <Offcanvas.Title id={`offcanvas NavbarLabel-expand-${expand}`}></Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
-                <Nav className="justify-content-center flex-grow-1 ">
+                <Nav className="justify-content-end flex-grow-1 fs-5">
                   {user.userRole === "member" ? (
                     <>
                       <NavLink to="/StartView/" className="nav-link" onClick={logout}>Logga ut</NavLink>
