@@ -92,10 +92,10 @@ export default function ViewDateItem() {
     });
     return (
       <>
-        {filteredScreenings.map((s) => {
+        {filteredScreenings.map((s,i) => {
           return (
             <ListGroup.Item
-              key={s.id}
+              key={i}
               className="rounded-bottom-0  w-100 pb-3"
               variant="primary"
               action
