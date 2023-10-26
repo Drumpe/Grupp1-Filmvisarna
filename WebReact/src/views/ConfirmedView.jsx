@@ -11,12 +11,12 @@ export default function ConfirmedView() {
 	const [formatedDate, setFormatedDate] = useState('');
 	const [sum, setSum] = useState(0);
 
-        
-        async function fetchData() {
-               var response = await get('bookings/detailed/' + bookingNumber);
-               setData(response);
-               setSeatFinder(response.tickets)      
-        }
+
+	async function fetchData() {
+		var response = await get('bookings/detailed/' + bookingNumber);
+		setData(response);
+		setSeatFinder(response.tickets)
+	}
 
 	function countTicketTypes(tickets) {
 		const counts = {};
