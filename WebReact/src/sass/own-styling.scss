@@ -97,6 +97,7 @@ button.list-group-item {
     border-color: #525452;
     border-top: 0;
     border-bottom: 0;
+
     min-width: 23vw;
 }
 
@@ -124,6 +125,8 @@ button.list-group-item.active {
 .screening-dates {
     position: relative;
 }
+
+.screening-item {}
 
 /* End Movie view specific */
 
