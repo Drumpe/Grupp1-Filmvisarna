@@ -22,7 +22,7 @@ namespace webapi.Controllers
         {
             try
             {
-                var entities = await _context.Set<T>().ToListAsync();
+                var entities = await _context.Set<T>().OrderBy(d => d).ToListAsync();
                 if (entities == null || !entities.Any())
                 {
                     return NotFound();

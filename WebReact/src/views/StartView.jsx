@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card';
 import { Row, Col } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
+import ViewDateItem from '../components/ViewDateItem';
 
 export default function StartView() {
 
@@ -47,6 +48,9 @@ export default function StartView() {
                         </NavLink>
                     </Col>)}
             </Row>
+            <Col className='mt-4 mb-4'>
+                <ViewDateItem />
+            </Col>
         </>
     );
 }
