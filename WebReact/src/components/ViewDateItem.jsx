@@ -137,7 +137,7 @@ export default function ViewDateItem() {
           </ListGroup>
         </div>
       </Col>
-      <Col style={he} className='width-auto justify-content-center'>
+      <Col className='width-auto justify-content-center'>
         <div>
           {displayFoundScreenings()}
         </div>
