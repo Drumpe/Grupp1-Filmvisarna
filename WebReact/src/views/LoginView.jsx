@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Col, Image} from 'react-bootstrap';
+import { Button, Form, Col, Image } from 'react-bootstrap';
 import { post } from '../utilsAndHooks/rest';
 import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 
@@ -41,10 +41,15 @@ export default function LoginView() {
       </div>
       <div className="my-3 mx-3">
         <Form>
-          <Form.Label>E-postadress</Form.Label>
-          <Form.Control type="email" name="email" value={formData.email} className='rounded-0' onChange={handleInputChange} />
-          <Form.Label>Lösenord</Form.Label>
-          <Form.Control type="password" name="password" value={formData.password} className='rounded-0' onChange={handleInputChange} />
+          <div className="form-floating mb-3">
+            <Form.Control type="email" name="email" value={formData.email} className='rounded-3' placeholder="E-postadress" onChange={handleInputChange} />
+            <Form.Label>E-postadress</Form.Label>
+          </div>
+
+          <div className="form-floating mb-3">
+            <Form.Control type="password" name="password" value={formData.password} className='rounded-3' placeholder="Lösenord" onChange={handleInputChange} />
+            <Form.Label>Lösenord</Form.Label>
+          </div>
         </Form>
       </div>
       <p className='text-center'>Inte medlem ännu? <NavLink to="/RegisterView">Bli medlem</NavLink></p>

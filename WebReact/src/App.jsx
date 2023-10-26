@@ -37,13 +37,13 @@ export default function App() {
 
   // this is: ViewHolder translated into new return
   return <>
-    <header>
-      <MainMenu  {...{ user: globals.user, setUser}} />
+    <header className="sticky-top mb-3">
+      <MainMenu  {...{ user: globals.user, setUser }} />
     </header>
     <main className="container mt-1">
       <Outlet context={[globals, setUser]} />
     </main>
-    <footer className="container-fluid">
+    <footer className="container-fluid ps-5">
       <Footer />
     </footer>
   </>;

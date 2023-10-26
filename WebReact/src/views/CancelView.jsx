@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Container, Button, Modal, Alert } from 'react-bootstrap';
+import { Container, Button, Modal, Form, FormGroup } from 'react-bootstrap';
 import { get } from '../utilsAndHooks/rest';
 import { getLocaleDateString } from '../utilsAndHooks/formatter';
 
@@ -40,23 +40,26 @@ export default function CancelView() {
     //Form for filling booking.nr and email
     function form() {
         return <>
-            <label>Bokningsnummer</label>
-            <input type='text' placeholder='xxxxxx' onChange={
-                (x) =>
-                    setSend({
+            <FormGroup className="form-floating mb-3">
+                <Form.Control type='text' className='rounded-3' placeholder='Bokningsnummer' onChange={
+                    (x) =>
+                        setSend({
+                            ...send,
+                            bookingNumber: x.target.value
+                        })}>
+                </Form.Control>
+                <Form.Label>Bokningsnummer</Form.Label>
+            </FormGroup>
+            <FormGroup className="form-floating mb-3">
+                <Form.Control type='text' placeholder='Epostadress' onChange={
+                    (x) => setSend({
                         ...send,
-                        bookingNumber: x.target.value
-                    })}
-                className='col-7  p-3' />
-            <label>E-postadress</label>
-            <input type='text' placeholder='exempel@gmail.com' onChange={
-                (x) => setSend({
-                    ...send,
-                    emailAdress: x.target.value
-                })}
-                className='col-7  p-3' />
+                        emailAdress: x.target.value
+                    })}></Form.Control>
+                <Form.Label>E-postadress</Form.Label>
+            </FormGroup>
             <p id="message">{message}</p>
-            <Button variant=" btn-primary col-7"
+            <Button variant="primary" size="lg"
                 onClick={verifyData}
                 disabled={!(send.bookingNumber && send.emailAdress)}>
                 Avboka
@@ -93,10 +96,10 @@ export default function CancelView() {
     }
 
     return (
-        <Container>
-            <h1>Avbokning</h1>
-            <hr />
-            <br />
+        <Container className="mx-auto text-center">
+            <h1 className="mb-4">Avboka</h1>
+
+
             <form className='row g-3 '>
                 {form()}
                 <Modal show={show} onHide={handleClose} animation={false}>
