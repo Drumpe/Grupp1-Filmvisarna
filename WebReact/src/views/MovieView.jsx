@@ -44,15 +44,19 @@ function MovieView() {
     }, [screenings, screeningDate])
 
     const scrollScreeningDatesForward = () => {
-        const nextPos = screeningDatesScrollPosition + 250;
+        const nextPos = screeningDatesScrollPosition + 400;
         ref.current?.scroll({ top: 0, left: nextPos, behavior: "smooth" });
         setScreeningDatesScrollPosition(nextPos);
     };
 
     const scrollScreeningDatesBackward = () => {
-        const nextPos = screeningDatesScrollPosition - 250;
-        nextPos < 250 ? 0 : nextPos;
-        ref.current?.scroll({ top: 0, left: nextPos, behavior: "smooth" });
+        const nextPos = screeningDatesScrollPosition - 400;
+        nextPos < 350 ? 0 : nextPos;
+        if (nextPos === 0) {
+            ref.current?.scroll({ top: 0, left: nextPos });
+        } else {
+            ref.current?.scroll({ top: 0, left: nextPos, behavior: "smooth" });
+        }
         setScreeningDatesScrollPosition(nextPos);
     };
 
@@ -100,7 +104,7 @@ function MovieView() {
 
         return (
             <>
-                {filteredDays.map(({ i, dateAndTime }) =>
+                {filteredDays.map(({ dateAndTime, i }) =>
                     <ListGroup.Item key={i} className="rounded-bottom-0" variant="primary" active={compareScreeningDate(dateAndTime) === screeningDate} action onClick={() => {
                         if (compareScreeningDate(dateAndTime) !== screeningDate) {
                             setSelectedScreening('');
@@ -115,32 +119,6 @@ function MovieView() {
                 }
             </>
         );
-
-        /* SELECT VERSION
-            const ScreeningDateItems = () => {
-            const uniqueDays = [];
-    
-            const filteredDays = screenings.filter((screening) => {
-                const today = new Date();
-                const date = new Date(screening.dateAndTime);
-                const day = date.toDateString();
-    
-                if (!uniqueDays.includes(day) && date > today) {
-                    uniqueDays.push(day);
-                    return true;
-                }
-                return false;
-            });
-    
-            return (
-                <>
-                    {filteredDays.map(({ id, dateAndTime }) =>
-                        <option key={id} value={getLocaleDateString(dateAndTime, { day: `numeric`, month: `numeric` })}>
-                            {`${capitalize(getLocaleDateString(dateAndTime, { weekday: `short` }))}, ${getLocaleDateString(dateAndTime, { day: `numeric`, month: `long` })}`}
-                        </option>
-                    )}
-                </>
-            ); */
     }
 
     const SelectedScreeningItems = () => {
@@ -203,7 +181,7 @@ function MovieView() {
                 <Col className="screening-dates d-flex justify-content-center">
                     <div ref={ref} className="w-100 overflow-x-scroll scrollbar-hidden">
                         {
-                            screeningDatesScrollPosition > 25 &&
+                            screeningDatesScrollPosition > 0 &&
                             <div className="arrow-bg back-arrow" onClick={scrollScreeningDatesBackward}>
                                 <div className="back-arrow-container d-flex justify-content-start align-items-center h-100">
                                     <div className="back-arrow-content d-inline-flex justify-content-start align-items-center">

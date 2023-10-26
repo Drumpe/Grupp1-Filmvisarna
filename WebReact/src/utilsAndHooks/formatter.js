@@ -33,7 +33,7 @@ export function displayScreeningDate(dateAndTime) {
   let date = compareScreeningDate(new Date(dateAndTime));
   let today = new Date();
   let compareToday = compareScreeningDate(today);
-  let compareTomorrow = compareScreeningDate(new Date().setDate(1));
+  let compareTomorrow = compareScreeningDate(new Date().setDate(today.getDate() + 1));
   if (date === compareToday) {
     return `Idag`;
   } else if (date === compareTomorrow) {
