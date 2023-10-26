@@ -39,7 +39,7 @@ export default function AccountView() {
                 <td>{booking.bookingNumber}</td>
                 <td>
                     {deleteBooking && (
-                        <Button variant="danger" size="sm" onClick={() => deleteBooking(booking.bookingNumber, user.email)}>
+                        <Button variant="dark" className="text-light border-1 border-warning" size="sm" onClick={() => deleteBooking(booking.bookingNumber, user.email)}>
                             Avboka
                         </Button>
                     )}
