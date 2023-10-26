@@ -78,11 +78,6 @@ function MovieView() {
         return actors;
     }
 
-    /* SELECT VERSION
-        const handleSetScreeningDate = (e) => {
-        setScreeningDate(e.target.value);
-    } */
-
     const ScreeningDateItems = () => {
         const uniqueDays = [];
 
@@ -139,8 +134,9 @@ function MovieView() {
     return !screenings ? null : (
         <Container >
             <Col className='d-flex justify-content-start'>
-                <Button className="nav-back custom-btn text-secondary" variant="info link" href="/StartView"> Tillbaka
-                </Button>
+                <NavLink to="/StartView">
+                    <Button className="nav-back custom-btn text-secondary" variant="info link">Tillbaka</Button>
+                </NavLink>
             </Col>
             <Row>
                 <Col className='d-flex justify-content-center mt-3'>
