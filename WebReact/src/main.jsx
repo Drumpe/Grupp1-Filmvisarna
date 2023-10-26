@@ -14,6 +14,7 @@ import LoginView from "./views/LoginView"
 import MovieView from './views/MovieView'
 import RegisterView from "./views/RegisterView";
 import TheaterView from "./views/TheaterView";
+import AdminView from "./views/AdminView";
 
 /// Is commonly referred to as 'pages' -- should we rename?
 /// paths are not following naming convention either!
@@ -31,6 +32,7 @@ export const views = [
   {path: '/MovieView/:movieId', label: 'Filmbeskrivning', element: <MovieView />},
   {path: '/RegisterView', label: 'Bli medlem', element: <RegisterView /> },
   {path: '/TheaterView/:screeningId', label: 'Skapa bokning', element: <TheaterView />},
+  {path: '/AdminView', label: 'Admin', element: <AdminView /> },
 ];
 
 const router = createBrowserRouter([
