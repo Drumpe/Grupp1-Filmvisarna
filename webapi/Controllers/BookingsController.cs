@@ -262,9 +262,9 @@ namespace webapi.Controllers
                                         <p>Tack för din bokning hos Filmvisarna.</p>
                                         <p>Bokningsnummer: {bookingNumber}</p>
                                         <p>Film: {movieName}</p>
-                                        <p>Datum och tid: {booking.BookingDateTime.ToString("yyyy-MM-dd")} kl {booking.BookingDateTime.ToString("HH:mm")}</p>
+                                        <p>Datum och tid: {screening.DateAndTime.ToString("yyyy-MM-dd")} kl {screening.DateAndTime.ToString("HH:mm")}</p>
                                         <p>Antal biljetter: {numberOfTickets}</p>
-                                        <p>Om du har några frågor eller behöver ändra din bokning, vänligen kontakta oss på Filmvisarna@mail.com eller 07000000.</p>
+                                        <p>Om du har några frågor eller behöver ändra din bokning, vänligen kontakta oss på Fvisaren@gmail.com eller 0700-000000.</p>
                                     </body>
                                     </html>";
 
