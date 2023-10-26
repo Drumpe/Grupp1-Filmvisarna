@@ -161,8 +161,7 @@ function MovieView() {
     return !screenings ? null : (
         <Container >
             <Col className='d-flex justify-content-start'>
-                <Button className="custom-btn" variant="dark">
-                    <NavLink className="nav-back text-secondary text-decoration-none" to="/StartView">Tillbaka</NavLink>
+                <Button className="nav-back custom-btn text-secondary" variant="info link" href="/StartView"> Tillbaka
                 </Button>
             </Col>
             <Row>
