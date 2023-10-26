@@ -74,11 +74,6 @@ function MovieView() {
         return actors;
     }
 
-    /* SELECT VERSION
-        const handleSetScreeningDate = (e) => {
-        setScreeningDate(e.target.value);
-    } */
-
     const ScreeningDateItems = () => {
         const uniqueDays = [];
 
@@ -115,32 +110,6 @@ function MovieView() {
                 }
             </>
         );
-
-        /* SELECT VERSION
-            const ScreeningDateItems = () => {
-            const uniqueDays = [];
-    
-            const filteredDays = screenings.filter((screening) => {
-                const today = new Date();
-                const date = new Date(screening.dateAndTime);
-                const day = date.toDateString();
-    
-                if (!uniqueDays.includes(day) && date > today) {
-                    uniqueDays.push(day);
-                    return true;
-                }
-                return false;
-            });
-    
-            return (
-                <>
-                    {filteredDays.map(({ id, dateAndTime }) =>
-                        <option key={id} value={getLocaleDateString(dateAndTime, { day: `numeric`, month: `numeric` })}>
-                            {`${capitalize(getLocaleDateString(dateAndTime, { weekday: `short` }))}, ${getLocaleDateString(dateAndTime, { day: `numeric`, month: `long` })}`}
-                        </option>
-                    )}
-                </>
-            ); */
     }
 
     const SelectedScreeningItems = () => {
