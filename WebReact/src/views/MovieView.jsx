@@ -104,7 +104,7 @@ function MovieView() {
 
         return (
             <>
-                {filteredDays.map(({ i, dateAndTime }) =>
+                {filteredDays.map(({ dateAndTime, i }) =>
                     <ListGroup.Item key={i} className="rounded-bottom-0" variant="primary" active={compareScreeningDate(dateAndTime) === screeningDate} action onClick={() => {
                         if (compareScreeningDate(dateAndTime) !== screeningDate) {
                             setSelectedScreening('');
