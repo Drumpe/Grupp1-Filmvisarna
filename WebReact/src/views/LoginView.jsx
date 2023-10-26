@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Col, Image } from 'react-bootstrap';
+import { Button, Form, Col, Image, Container } from 'react-bootstrap';
 import { post } from '../utilsAndHooks/rest';
 import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 
@@ -32,7 +32,7 @@ export default function LoginView() {
   }
 
   return (
-    <>
+    <Container className=' py-3 rounded-5 navbar-bg col-lg-8'>
       <Col className="mx-auto text-center">
         <Image src="/img/logo/filmvisarna-logo-icon.png" roundedCircle style={{ width: '100px', height: '100px' }} />
       </Col>
@@ -58,6 +58,6 @@ export default function LoginView() {
           Logga in
         </Button>
       </div>
-    </>
+    </Container>
   );
 }
