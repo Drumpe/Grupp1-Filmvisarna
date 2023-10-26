@@ -7,31 +7,29 @@ const AboutView = () => {
     return (
 
         <Container >
-            <Row> 
-                <Col className='mx-auto text-center'>
-                    <Image src="/img/Aboutposter/Aboutpic.jpg" thumbnail />
+            <Row>
+                <Col className="w-100 mx-auto text-center">
+                    <img src="/img/hero/hero-1.png" className="w-100" />
                 </Col>
             </Row>
-            <Row>
+
+            <Row className="mt-3">
                 <Col>
                     <h1>Om oss</h1>
                     <p>
-                        Välkommen till vår filmwebbplats! Vi brinner för film och vill dela vår kärlek till film med dig.
+                        Välkommen till Filmvisarna! Vi brinner för film och vill dela vår kärlek till film med dig.
                     </p>
                     <p>
-                        Vårt uppdrag är att förse dig med den senaste filmen och information om kommande släpp. Vi hoppas kunna hjälpa dig att upptäcka nya filmer.
-                    </p>
-                    <p>
-                        Vårt team består av: Ola, Yassein, Patrik, Arshia, Albin, Jimmie, Adis
+                        Vårt team består av: Ola, Yassein, Patrik, Arshia, Albin, Jimmie, Adis.
                     </p>
                 </Col>
             </Row>
             <Row>
                 <Col >
                     <div className="d-flex flex-column">
-                        <h5>Kontakt info</h5>
+                        <h5>Kontakt</h5>
                         <div>
-                            Filmvisarna@mail.com <br /> 07000000
+                            filmvisarna@gmail.com
                         </div>
                     </div>
                 </Col>
