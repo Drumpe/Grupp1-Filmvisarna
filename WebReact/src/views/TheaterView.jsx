@@ -4,7 +4,7 @@ import { get, post } from '../utilsAndHooks/rest';
 import { Link, useParams, useOutletContext } from "react-router-dom";
 import ShowSeats from "../components/ShowSeats";
 import ShowTicketType from "../components/ShowTicketType";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import createBookingJson from "../utilsAndHooks/createBookingJson";
 
 const BARN_PRIS = 80;
@@ -203,7 +203,9 @@ const TheaterView = () => {
         <Container className="mt-1">
             <Row>
                 <Col className='d-flex justify-content-start'>
-                    <Link className="nav-back text-info" to={`/MovieView/${movieId}`}>Tillbaka</Link>
+                    <Link className=" text-info " to={`/MovieView/${movieId}`}>
+                        <Button className="nav-back custom-btn text-secondary text-decoration-none"variant="info link" href="/StartView" >Tillbaka</Button>
+                    </Link>
                     <div></div>
                     <div></div>
                     <div></div>
@@ -212,7 +214,7 @@ const TheaterView = () => {
 
             <ShowSeats {...{ seats, theater, seatClicked }} />
 
-            <ShowTicketType {...{tickets, buttonsDisabled, setTickets}} /> 
+            <ShowTicketType {...{ tickets, buttonsDisabled, setTickets }} />
 
             <Row>
                 <Col className="d-flex justify-content-center mt-3">
@@ -248,7 +250,7 @@ const TheaterView = () => {
                 <Row>
                     <Col className="d-flex justify-content-center mt-3">
                         <Button variant="primary"
-                            disabled={buttonsDisabled || summa === 0 ||(formData.email.length === 0 && user.userRole === "guest")}
+                            disabled={buttonsDisabled || summa === 0 || (formData.email.length === 0 && user.userRole === "guest")}
                             type="submit"
                             onClick={sendRequest}
                         >Bekräfta bokning

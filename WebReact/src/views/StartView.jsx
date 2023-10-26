@@ -27,7 +27,7 @@ export default function StartView() {
                     <ViewDateItem />
                 </Col>
                 <Col>
-                    <h1 className="mb-4 text-primary d-inline-block">Visas nu</h1>
+                    <h1 className="mb-4 d-inline-block">Visas nu</h1>
                     <select
                         className="form-select text-secondary me-2 w-auto d-inline-block float-end"
                         onChange={handleAgeChange}
@@ -47,7 +47,7 @@ export default function StartView() {
                     <Col className="col-6 col-lg-3 mb-4" key={id}>
                         <NavLink to={`/MovieView/${id}`} className="link-light link-underline-opacity-25 link-underline-opacity-75-hover">
                             <Card.Img className="top rounded ratio-6x9" alt={`${movie}`} src={`/img/poster/${images[0]}`} />
-                            <Card.Title className="text-center">{movie}</Card.Title>
+                            <Card.Title className="text-center mt-2">{movie}</Card.Title>
                         </NavLink>
                     </Col>)}
             </Row>

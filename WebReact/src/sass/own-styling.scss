@@ -26,15 +26,29 @@ li.details {
 }
 
 .bg-gray-transparent {
-    background-color: rgb(142, 145, 142, 45%);
+    background-color: rgba(142, 145, 142, 45%);
 }
 
 .bg-gray-dark-transparent {
-    background-color: rgb(36, 37, 36, 25%);
+    background-color: rgba(36, 37, 36, 25%);
+}
+
+.navbar-bg {
+    background-color: #131413;
 }
 
 .ticket-button {
     padding: .3rem .6rem;
+}
+
+.custom-btn {
+    background-color: rgba(36, 37, 36, 25%);
+    border: solid 1px #c439ff;
+}
+
+.custom-btn:hover {
+    background-color: rgba(98, 102, 98, 0.25);
+    border: solid 1px #c439ff;
 }
 
 .minus {
@@ -77,6 +91,16 @@ Logo size will adapt after text size; for example, use className="h4" in parent
 .custom-text-logo {
     font-family: 'Latin Modern Sans Demi Cond', 'Futura', Helvetica, Arial, sans-serif;
     letter-spacing: .12em;
+}
+
+.lg-logo {
+    transform: translateX(-28px);
+}
+
+@media screen and (min-width: 992px) {
+    .lg-logo {
+        transform: translateX(0);
+    }
 }
 
 /* End Logo */
