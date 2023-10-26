@@ -52,7 +52,7 @@ export default function CancelView() {
           />
         </Col>
         <div className="d-flex justify-content-around">
-          <h1 className="text-center">Avbokning</h1>
+          <h1 className="text-center">Avboka</h1>
         </div>
         <div className="my-3 mx-3">
           <Form.Group className="form-floating">
