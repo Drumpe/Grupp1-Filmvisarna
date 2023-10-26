@@ -218,9 +218,6 @@ const TheaterView = () => {
                     <NavLink to={`/MovieView/${movieId}`}>
                         <Button className="nav-back custom-btn text-secondary text-decoration-none" variant="info link" >Tillbaka</Button>
                     </NavLink>
-                    <div></div>
-                    <div></div>
-                    <div></div>
                 </Col>
             </Row>
 
