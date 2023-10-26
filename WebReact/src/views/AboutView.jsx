@@ -8,7 +8,6 @@ export default function AboutView() {
                     <img src="/img/hero/hero-1.png" className="w-100" />
                 </Col>
             </Row>
-
             <Row className="mt-3">
                 <Col>
                     <h1>Om oss</h1>
@@ -18,15 +17,12 @@ export default function AboutView() {
                     <p>
                         Vårt team består av: Ola, Yassein, Patrik, Arshia, Albin, Jimmie, Adis.
                     </p>
-                    <p>
-                        Vårt team består av: Ola, Yassein, Patrik, Arshia, Albin, Jimmie, Adis
-                    </p>
                     <br />
                 </Col>
             </Row>
             <Row className='justify-content-center'>
-                <Col style={{maxWidth: '621px'}}>
-                    <h5 className="mb-4 text-primary d-inline-block">Kontaktinfo</h5>
+                <Col className='w-100'>
+                    <h5 className="mb-4 d-inline-block">Kontaktinfo</h5>
                     <div>
                         <a href="mailto:Fvisarna@gmail.com">Fvisarna@gmail.com </a>
                         <br /> 
