@@ -142,6 +142,7 @@ Logo size will adapt after text size; for example, use className="h4" in parent
 .custom-info {
     position: fixed;
     right: 2.2vw;
+    max-width: 24vw;
 }
 
 .text-gray {
