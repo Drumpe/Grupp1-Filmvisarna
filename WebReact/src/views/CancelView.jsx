@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react'
 import { Container, Button, Modal, Alert } from 'react-bootstrap';
 import { get } from '../utilsAndHooks/rest';
 import { getLocaleDateString } from '../utilsAndHooks/formatter';
-
+import { useOutletContext } from 'react-router-dom';
 export default function CancelView() {
+    const [ globals, {}] = useOutletContext();
     const [show, setShow] = useState(false);
     const [data, setData] = useState({});
     const [message, setMessage] = useState("");
@@ -49,11 +50,12 @@ export default function CancelView() {
                     })}
                 className='col-7  p-3' />
             <label>E-postadress</label>
-            <input type='text' placeholder='exempel@gmail.com' onChange={
+            <input type='email' placeholder='exempel@gmail.com' onChange={
                 (x) => setSend({
                     ...send,
                     emailAdress: x.target.value
                 })}
+                value={globals.user.userRole === 'guest' ? send.emailAdress : globals.user.email}
                 className='col-7  p-3' />
             <p id="message">{message}</p>
             <Button variant=" btn-primary col-7"
@@ -63,9 +65,6 @@ export default function CancelView() {
             </Button >
         </>
     }
-
-
-
 
     //Show and hide pop up handler
     const handleClose = () => setShow(false);
