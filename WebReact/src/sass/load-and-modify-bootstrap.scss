@@ -16,7 +16,7 @@ $black: #090a09;
 
 $primary: $orange;
 $secondary: $purple;
-$success: $green; 
+$success: $green;
 $danger: $red;
 $warning: $red;
 $info: $gray-dark;
@@ -25,7 +25,15 @@ $dark: $black;
 
 $font-family-base: var(--custom-primary-font-sans);
 
-h1, h2, h3, h4, h5 {
+h1 {
+  font-family: var(--custom-secondary-font-sans);
+  font-weight: bold;
+}
+
+h2,
+h3,
+h4,
+h5 {
   font-family: var(--custom-primary-font-sans-bold);
   font-weight: bold;
 }
