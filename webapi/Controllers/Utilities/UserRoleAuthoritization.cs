@@ -46,7 +46,7 @@ namespace webapi.Controllers.Utilities
 
             catch (Exception e)
             {
-                System.Console.WriteLine("Unauthorized");
+                System.Console.WriteLine($"Unauthorized, {e}");
                 context.Result = new UnauthorizedResult();
                 return;
             }
