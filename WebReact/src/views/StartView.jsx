@@ -3,10 +3,11 @@ import Card from 'react-bootstrap/Card';
 import { Row, Col } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
+import ViewDateItem from '../components/ViewDateItem';
 
 export default function StartView() {
 
-    const [{movies}] = useOutletContext();
+    const [{ movies }] = useOutletContext();
     const [selectedAge, setSelectedAge] = useState(18);  // Default age
     const [filteredMovies, setFilteredMovies] = useState([]);
 
@@ -22,6 +23,9 @@ export default function StartView() {
     return (
         <>
             <Row>
+                <Col className='mb-4'>
+                    <ViewDateItem />
+                </Col>
                 <Col>
                     <h1 className="mb-4 text-primary d-inline-block">Visas nu</h1>
                     <select
