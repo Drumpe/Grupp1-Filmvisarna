@@ -14,7 +14,9 @@ export default function AccountView() {
             (async () => {
                 const userBookings = await get(`bookings/getbyemail/${user.email}`);
                 const currentTime = new Date();
-
+                if (userBookings.error) {
+                    return;
+                }
                 const upcomingBookings = userBookings.filter((booking) => {
                     const screeningTime = new Date(booking.screeningTime);
                     return screeningTime > currentTime;
