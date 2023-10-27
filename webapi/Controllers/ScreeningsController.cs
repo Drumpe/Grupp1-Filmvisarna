@@ -17,7 +17,14 @@ namespace webapi.Controllers
         [HttpGet()]
         public async Task<IActionResult> GetAllAsc()
         {
-            var result = await _context.screenings.OrderBy(s => s.DateAndTime).ToListAsync();
+            var result = await _context.screenings.Select(s => new
+            {
+                id = s.Id,
+                DateAndTime = s.DateAndTime,
+                movieId = s.MovieId,
+                movie = s.Movie
+
+            }).OrderBy(s => s.DateAndTime).ToListAsync();
             return Ok(result);
         }
 

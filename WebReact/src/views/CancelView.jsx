@@ -55,9 +55,9 @@ export default function CancelView() {
             style={{ width: '100px', height: '100px' }}
           />
         </Col>
-        <div className="d-flex justify-content-around">
-          <h1 className="text-center">Avboka</h1>
-        </div>
+
+        <h1 className="text-center mb-2 mt-1">Avboka</h1>
+        <p className="text-center mb-4">Ange samma e-postadress som du uppgav vid bokningen.</p>
         <div className="my-3 mx-3">
           <Form.Group className="form-floating">
             <Form.Control

@@ -160,7 +160,7 @@ export default function RegisterView() {
             <Col className="mx-auto text-center d-none d-lg-block">
                 <Image src="/img/logo/filmvisarna-logo-icon.png" roundedCircle style={{ width: '100px', height: '100px' }} />
             </Col>
-            <h1 className="text-center">Bli medlem</h1>
+            <h1 className="text-center mt-1 mb-2">Bli medlem</h1>
             <p className="text-center mb-4">Fyll i alla uppgifter nedan för att bli medlem.</p>
             <Form className="mx-auto" onSubmit={handleSubmit}>
                 <Form.Group className="form-floating mb-3" controlId="formGroupFirstName">
@@ -206,14 +206,14 @@ export default function RegisterView() {
                 <Row className=" justify-content-between">
                     <div className="d-flex mx-auto text-center">
                         <Col>
-                        <Button type="submit" variant="primary" size="lg" disabled={!emailValid || !passwordValid || !formData.firstName.trim() || !formData.lastName.trim()} onClick={handleSubmit} >
-                            Registrera
-                        </Button>
+                            <Button type="submit" variant="primary" size="lg" disabled={!emailValid || !passwordValid || !formData.firstName.trim() || !formData.lastName.trim()} onClick={handleSubmit} >
+                                Registrera
+                            </Button>
                         </Col>
                         <Col>
-                        <Button variant="secondary link" href="/StartView" size="lg">
-                            Avbryt
-                        </Button>
+                            <Button variant="secondary link" href="/StartView" size="lg">
+                                Avbryt
+                            </Button>
                         </Col>
                     </div>
                 </Row>

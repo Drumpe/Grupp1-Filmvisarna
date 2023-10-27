@@ -7,19 +7,17 @@ import { Row, Col, ListGroup } from 'react-bootstrap';
 
 
 
-export default function ViewDateItem() {
+export default function ViewDateItem({ age }) {
 
   const [{ movies }] = useOutletContext();
   const [screenings, setScreenings] = useState([]);
-  const [FoundScreening, setFoundScreening] = useState([])
+  const [selectedScreening, setSelectedScreening] = useState([])
   const ref = useRef(null);
   const [screeningDatesScrollPosition, setScreeningDatesScrollPosition] = useState(0);
 
   useEffect(() => {
     fetchData();
-  }, [])
-
-
+  }, []);
 
   const scrollScreeningDatesForward = () => {
     const nextPos = screeningDatesScrollPosition + 250;
@@ -51,15 +49,15 @@ export default function ViewDateItem() {
   //sets single screening that is clicked
   const handleClick = (screening) => {
     const items = getScreeningsByDate(screenings, screening.dateAndTime)
-    return setFoundScreening(items)
+    return setSelectedScreening(items)
   }
   const displayFoundScreenings = () => {
     return (
 
       <ListGroup className="border-bottom-0" variant="flush" >
-        {FoundScreening.map((fs, i) => {
+        {selectedScreening.filter(screening => screening.movie.ageLimit <= age).map((fs, i) => {
           const movieName = movies.find(m => m.id === fs.movieId)
-          if (!FoundScreening.includes(fs.dateAndTime)) {
+          if (!selectedScreening.includes(fs.dateAndTime)) {
             return (
               <NavLink key={i} style={{ textDecoration: 'none' }} to={`/TheaterView/${fs.id}`}>
                 <ListGroup.Item variant="secondary" className="rounded-bottom-0  w-100">
@@ -89,7 +87,8 @@ export default function ViewDateItem() {
         return true;
       }
       return false;
-    });
+    }).filter(screening => screening.movie.ageLimit <= age);
+
     return (
       <>
         {filteredScreenings.map((s, i) => {
