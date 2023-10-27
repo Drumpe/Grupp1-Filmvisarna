@@ -78,7 +78,7 @@ function MovieView() {
         return actors;
     }
 
-    const ScreeningDateItems = () => {
+    const screeningDateItems = () => {
         const uniqueDays = [];
 
         const filteredDays = screenings.filter((screening) => {
@@ -99,8 +99,8 @@ function MovieView() {
 
         return (
             <>
-                {filteredDays.map(({ dateAndTime, i }) =>
-                    <ListGroup.Item key={i} className="rounded-bottom-0" variant="primary" active={compareScreeningDate(dateAndTime) === screeningDate} action onClick={() => {
+                {filteredDays.map(({ dateAndTime, id }) =>
+                    <ListGroup.Item key={id} className="rounded-bottom-0" variant="primary" active={compareScreeningDate(dateAndTime) === screeningDate} action onClick={() => {
                         if (compareScreeningDate(dateAndTime) !== screeningDate) {
                             setSelectedScreening('');
                             setScreeningDate(compareScreeningDate(dateAndTime));
@@ -153,7 +153,7 @@ function MovieView() {
                 </Col>
             </Row>
             <Row className="mb-3">
-                <Col className="movie-information-container mt-4">
+                <Col className="movie-information-container mt-3">
                     <div className="w-100 p-2">
 
                         <Description />
@@ -167,7 +167,7 @@ function MovieView() {
                 </Col>
             </Row>
 
-            <Row className="mb-2">
+            <Row className="mb-3">
                 <Col>
                     <h5 className="pb-2 mb-0 fw-bold">Välj visning</h5>
                 </Col>
@@ -198,7 +198,7 @@ function MovieView() {
                         }
 
                         <ListGroup className="border-bottom-0" horizontal>
-                            <ScreeningDateItems />
+                            {screeningDateItems()}
                         </ListGroup>
                     </div>
                 </Col>
