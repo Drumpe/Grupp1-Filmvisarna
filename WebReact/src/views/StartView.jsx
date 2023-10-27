@@ -49,7 +49,7 @@ export default function StartView() {
                     </Col>)}
             </Row>
             <Col className='mt-4 mb-4'>
-                <ViewDateItem />
+                <ViewDateItem age={selectedAge} />
             </Col>
         </>
     );
