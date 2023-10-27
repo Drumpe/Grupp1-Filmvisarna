@@ -61,7 +61,7 @@ export default function ViewDateItem() {
           const movieName = movies.find(m => m.id === fs.movieId)
           if (!FoundScreening.includes(fs.dateAndTime)) {
             return (
-              <NavLink style={{ textDecoration: 'none' }} to={`/MovieView/${fs.movieId}`}>
+              <NavLink style={{ textDecoration: 'none' }} to={`/TheaterView/${fs.id}`}>
                 <ListGroup.Item key={fs.id} variant="secondary" className="rounded-bottom-0  w-100">
                   {`${getLocaleTimeString(fs.dateAndTime, { hour: '2-digit', minute: '2-digit' })} ${movieName.movie}`}
                 </ListGroup.Item>
@@ -92,7 +92,7 @@ export default function ViewDateItem() {
     });
     return (
       <>
-        {filteredScreenings.map((s,i) => {
+        {filteredScreenings.map((s, i) => {
           return (
             <ListGroup.Item
               key={i}
