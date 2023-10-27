@@ -1,0 +1,59 @@
+// Variable overrides changing the look of Bootstrap
+// "theming Bootstrap"
+
+$blue: #0032d7;
+$purple: #c439ff;
+$indigo: #5519fd;
+$green: #00c548;
+$red: #ff0400;
+$orange: #efa304;
+$pink: #c679db;
+$white: #fcf3ff;
+$gray: #8e918e;
+$gray-dark: #131413;
+$black: #090a09;
+
+
+$primary: $orange;
+$secondary: $purple;
+$success: $green;
+$danger: $red;
+$warning: $red;
+$info: $gray-dark;
+$light: $white;
+$dark: $black;
+
+$font-family-base: var(--custom-primary-font-sans);
+
+h1 {
+  font-family: var(--custom-secondary-font-sans);
+  font-weight: bold;
+  margin-bottom: 4rem;
+}
+
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--custom-primary-font-sans-bold);
+  font-weight: bold;
+}
+
+body {
+  background-image: url("/img/bg/bg-1.jpg");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+@media screen and (min-width: 992px) {
+  body {
+    background-position: center;
+    background-size: cover;
+  }
+}
+
+$body-bg: $dark;
+$body-color: $light;
+
+// Import Bootstrap
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";

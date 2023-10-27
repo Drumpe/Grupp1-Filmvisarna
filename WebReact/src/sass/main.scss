@@ -1,0 +1,9 @@
+// Import 'Latin Modern Sans', 'Latin Modern Sans Demi'
+@import url('https://cdn.jsdelivr.net/gh/sugina-dev/latin-modern-web@1.0.1/style/latinmodern-sans.css');
+@import url('https://cdn.jsdelivr.net/gh/sugina-dev/latin-modern-web@1.0.1/style/latinmodern-sans-demi.css');
+
+// Import Bootstrap and variable modifications
+@import './load-and-modify-bootstrap';
+
+// Import our own styling (one or several files)
+@import './own-styling.scss';
