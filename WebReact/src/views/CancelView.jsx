@@ -14,7 +14,11 @@ export default function CancelView() {
   const [send, setSend] = useState({
     bookingNumber: "",
     emailAdress: ""
-  })
+  });
+  useEffect( () => {
+    setSend({...send, emailAdress: globals.user?.email || ""});
+  },[globals]); 
+ 
 
   //DeleteFetch
   async function SendDelete() {
@@ -74,7 +78,7 @@ export default function CancelView() {
             <Form.Control
               type="email"
               name="emailAdress"
-              value={globals.user.userRole === 'guest' ? send.emailAdress : globals.user.email}
+              value= {send.emailAdress}
               className="rounded-3"
               placeholder="E-postadress"
               onChange={(x) => setSend({
