@@ -153,7 +153,7 @@ function MovieView() {
                 </Col>
             </Row>
             <Row className="mb-3">
-                <Col className="movie-information-container mt-4">
+                <Col className="movie-information-container mt-3">
                     <div className="w-100 p-2">
 
                         <Description />
@@ -167,7 +167,7 @@ function MovieView() {
                 </Col>
             </Row>
 
-            <Row className="mb-2">
+            <Row className="mb-3">
                 <Col>
                     <h5 className="pb-2 mb-0 fw-bold">Välj visning</h5>
                 </Col>
