@@ -51,7 +51,7 @@ export default function StartView() {
             <Row className="mt-4">
                 <Col>
                     <h5 className="fw-bold mb-3">Kommande visningar</h5>
-                    <ViewDateItem />
+                    <ViewDateItem age={selectedAge} />
                 </Col>
             </Row>
         </>
