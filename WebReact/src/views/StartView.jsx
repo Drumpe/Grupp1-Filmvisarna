@@ -22,7 +22,7 @@ export default function StartView() {
 
     return (
         <>
-            <Row>
+            <Row className="mt-2 mb-3">
                 <Col>
                     <h1 className="mb-4 d-inline-block">Visas nu</h1>
                     <select
@@ -48,9 +48,12 @@ export default function StartView() {
                         </NavLink>
                     </Col>)}
             </Row>
-            <Col className='mt-4 mb-4'>
-                <ViewDateItem />
-            </Col>
+            <Row className="mt-4">
+                <Col>
+                    <h5 className="fw-bold mb-3">Kommande visningar</h5>
+                    <ViewDateItem />
+                </Col>
+            </Row>
         </>
     );
 }
