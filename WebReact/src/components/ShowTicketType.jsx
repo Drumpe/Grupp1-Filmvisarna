@@ -48,7 +48,7 @@ export default function ShowTicketType({ tickets, buttonsDisabled, setTickets })
     });
   };
   return <>
-  <div className="d-flex justify-content-center">
+  <div className="d-flex justify-content-center mt-3">
     <table>
       <colgroup>
         <col style={{ width: '120px' }} />
@@ -58,7 +58,7 @@ export default function ShowTicketType({ tickets, buttonsDisabled, setTickets })
       </colgroup>
       <tbody>
         <tr>
-          <td style={{ height: '39.6px' }}>Vuxen</td>
+          <td style={{ height: '39.6px' }}>Ordinarie</td>
           <td></td>
           <td className="text-center">{tickets.ordinary}</td>
           <td></td>
