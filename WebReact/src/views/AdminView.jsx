@@ -63,7 +63,7 @@ export default function AdminView() {
                 ticketSum += ticket.price; // Update ticketSum with the ticket price
                 return (
                   <li key={ticketIndex}>
-                    {ticket.type}biljett, {ticket.price}kr
+                    {ticket.type}biljett, {ticket.price} kr
                     <p>rad: {ticket.row}, stol {ticket.seat}</p>
                   </li>
                 );
